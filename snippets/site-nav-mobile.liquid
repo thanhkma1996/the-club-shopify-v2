@@ -1,0 +1,301 @@
+{%- assign nav = site-nav | default: section.settings.primary_linklist -%}
+{%- assign type = type | default: 'default' -%}{% comment %}default, swipe{% endcomment %}
+{%- assign dropdown = dropdown | default: 'simple' -%}{% comment %}simple, mega{% endcomment %}
+{%- assign show_arrows = show_arrows | default: true -%}
+{%- unless dropdown -%}
+  {%- assign show_arrows = false -%}
+{%- endunless -%}
+{%- assign menu_id = id | default: 'SiteNav' -%}
+
+{%- assign depth_limit = depth_limit | default: 999 -%}
+
+<ul itemscope itemtype="http://schema.org/SiteNavigationElement" 
+  class="site-nav site-nav--{{ type }}
+  {%- if dropdown %} site-nav--{{ dropdown }} {% endif -%}
+  {%- unless inline == false %} list--inline {% endunless -%}
+  {%- if type == 'swipe' %} swipeable {% endif -%}
+  {% if flex %} site-nav--flex{% endif %}"
+  id="{{ menu_id }}"
+  {%- if accordion %} data-simple-accordion="{{ accordion }}" {% endif -%}
+  {% if type == 'mobile-nav' %} rv-data-active-depth="data.depth" {% endif -%}
+  data-list-handle="{{ nav }}"
+  data-depth="0">
+
+  {%- for link in linklists[nav].links -%}
+    {%- assign three_level_nav = false -%}
+    {%- assign four_level_nav = false -%}
+
+    {%- assign child_list_handle = link.handle -%}
+    {%- assign child_linklist = linklists[child_list_handle] -%}
+
+    {%- if child_linklist.handle == blank -%}
+      {%- assign child_list_handle = child_list_handle | append: "" -%}
+      {%- assign child_linklist = linklists[child_list_handle] -%}
+    {%- endif -%}
+
+    {%- if depth_limit > 1 -%}
+
+      {%- if child_linklist.links != blank -%}
+
+        {%- if depth_limit > 2 -%}
+        {%- for childlink in child_linklist.links -%}
+
+          {%- if three_level_nav and four_level_nav -%}
+            {%- break -%}
+          {%- endif -%}
+
+          {%- assign grand_child_list_handle = childlink.handle -%}
+          {%- assign grand_child_linklist = linklists[grand_child_list_handle] -%}
+
+          {%- if grand_child_linklist.handle == blank -%}
+            {%- assign grand_child_list_handle = grand_child_list_handle | append: "" -%}
+            {%- assign grand_child_linklist = linklists[grand_child_list_handle] -%}
+          {%- endif -%}
+
+          {%- if depth_limit > 3 -%}
+
+            {%- for grandchildlink in grand_child_linklist.links -%}
+
+              {%- if four_level_nav -%}
+                {%- break -%}
+              {%- endif -%}
+
+              {%- assign great_grand_child_list_handle = grandchildlink.handle -%}
+              {%- assign great_grand_child_linklist = linklists[great_grand_child_list_handle] -%}
+
+              {%- if great_grand_child_linklist.handle == blank -%}
+                {%- assign great_grand_child_list_handle = great_grand_child_list_handle | append: "" -%}
+                {%- assign great_grand_child_linklist = linklists[great_grand_child_list_handle] -%}
+              {%- endif -%}
+
+              {%- if great_grand_child_linklist.links.size > 0 -%}
+                {%- assign four_level_nav = true -%}
+                {%- break -%}
+              {%- endif -%}
+
+            {%- endfor -%}
+
+          {%- endif -%}
+
+          {%- if grand_child_linklist.links.size > 0 -%}
+            {%- assign three_level_nav = true -%}
+          {%- endif -%}
+
+        {%- endfor -%}
+
+        {%- endif -%}
+
+        {%- capture dropdown_handler %}
+          rv-on-mouseenter="methods.setActiveMenuItemMouseover"
+          rv-on-click="methods.setActiveMenuItemClick"
+          rv-on-mouseleave="methods.clearActiveMenuItem"
+          rv-class-site-nav__item--active-dropdown="data.activeMenuItem | eq '{{ link.handle }}'"
+        {% endcapture -%}
+
+        <li itemprop="name"
+          {% if four_level_nav and type == 'default' %}data-simple-accordion{% endif %}
+          class="site-nav__item site-nav__item--has-children
+          {%- if dropdown %} site-nav__item--has-dropdown {% endif -%}
+          {%- if link.active %} site-nav__item--active {% endif -%}
+          {%- if link.title contains '*' %} featured {% endif -%}"
+          data-link-handle="{{ link.handle }}"
+          {% if dropdown -%}
+            {{ dropdown_handler }}
+            aria-has-popup="true"
+            aria-controls="SiteNavLabel-{{ child_list_handle }}"
+          {%- endif -%}
+          >
+
+          {%- assign site_nav_link_class = '' -%}
+
+          {%- if type == 'default' -%}
+            {%- assign site_nav_link_class = 'site-nav__link--main' -%}
+          {%- endif -%}
+
+          {% if accordion %}
+            {%- assign site_nav_link_class = site_nav_link_class | append: ' ' | append: 'simple-accordion__title' -%}
+          {%- endif -%}
+
+          {%- include 'site-nav-parts' with 'link', nav_link: link, class: site_nav_link_class, arrows: show_arrows -%}
+
+          {%- if dropdown -%}
+            <div class="site-nav__dropdown"
+              data-link-handle="{{ link.handle }}"
+              id="SiteNavLabel-{{ child_list_handle }}"
+              rv-aria-expanded="data.activeMenuItem | eq '{{ link.handle }}'"
+              >
+          {%- endif -%}
+
+          {%- if three_level_nav -%}
+            <div class="site-nav__childlist"
+              data-list-handle="{{ link.handle }}"
+              data-depth="1"
+              {% if type == 'mobile-nav' -%}
+                rv-class-active="data.activeLists | map 'handle' | includes '{{ link.handle }}'"
+              {%- endif -%}>
+
+              {%- if type == 'mobile-nav' -%}
+                {%- include 'site-nav-parts' with 'mobile-header', nav_link_parent: linklists[nav], nav_link: link, title: link.title -%}
+              {%- endif -%}
+
+              <div class="site-nav__childlist-grid" data-list-length="{{ child_linklist.links.size }}">
+
+                {%- for childlink in child_linklist.links -%}
+                  {%- assign column_order = childlink.title | split: '-' | first -%}
+                  {%- assign grand_child_list_handle = childlink.handle -%}
+                  {%- assign grand_child_linklist = linklists[grand_child_list_handle] -%}
+
+                  {%- if grand_child_linklist.handle == blank -%}
+                    {%- assign grand_child_list_handle = grand_child_list_handle | append: "" -%}
+                    {%- assign grand_child_linklist = linklists[grand_child_list_handle] -%}
+                  {%- endif -%}
+                  <div class="site-nav__childlist-item site-nav__item site-nav__childlist-navlist
+                  {%- if grand_child_linklist.links.size > 0 %} site-nav__item--has-children{% endif %} site-nav__order-{{ column_order }}" data-column-order="{{ column_order }}">
+                    {%- include 'site-nav-parts' with 'link', nav_link: childlink, class: 'site-nav__child-link site-nav__child-link--parent' -%}
+
+                    {%- if grand_child_linklist.links.size > 0 -%}
+                      <ul class="site-nav__grandchildlist"
+                        data-list-handle="{{ childlink.handle }}"
+                        data-depth="2"
+                        {% if type == 'mobile-nav' -%}
+                          rv-class-active="data.activeLists | map 'handle' | includes '{{ childlink.handle }}'"
+                        {%- endif -%}>
+
+                        {%- if type == 'mobile-nav' -%}
+                          <li itemprop="name">
+                            {%- include 'site-nav-parts' with 'mobile-header', nav_link_parent: link, nav_link: childlink, title: childlink.title -%}
+                          </li>
+                        {%- endif -%}
+
+                        {%- for grandchildlink in grand_child_linklist.links -%}
+
+                          {%- assign great_grand_child_list_handle = grandchildlink.handle -%}
+                          {%- assign great_grand_child_linklist = linklists[great_grand_child_list_handle] -%}
+
+                          {%- if great_grand_child_linklist.handle == blank -%}
+                            {%- assign great_grand_child_list_handle = great_grand_child_list_handle | append: "" -%}
+                            {%- assign great_grand_child_linklist = linklists[great_grand_child_list_handle] -%}
+                          {%- endif -%}
+
+                          <li itemprop="name" class="site-nav__grand-childlist-item site-nav__item
+                            {%- if great_grand_child_linklist.links.size > 0 %} site-nav__item--has-children{% endif %}">
+
+                            {%- assign link_class = 'site-nav__grandchild-link' -%}
+                            {%- if great_grand_child_linklist.links.size > 0 and dropdown -%}
+                              {%- assign link_class = link_class | append: ' ' | append: 'simple-accordion__title' -%}
+                            {%- endif -%}
+
+                            {%- include 'site-nav-parts' with 'link', nav_link: grandchildlink, class: link_class -%}
+
+                            {%- if great_grand_child_linklist.links.size > 0 -%}
+                              <ul class="site-nav__greatgrandchildlist"
+                                data-list-handle="{{ grandchildlink.handle }}"
+                                data-depth="3"
+                                {% if type == 'mobile-nav' -%}
+                                  rv-class-active="data.activeLists | map 'handle' | includes '{{ grandchildlink.handle }}'"
+                                {%- endif -%}>
+
+                                {%- if type == 'mobile-nav' -%}
+                                  <li itemprop="name">
+                                    {%- include 'site-nav-parts' with 'mobile-header', nav_link_parent: childlink, nav_link: grandchildlink, title: grandchildlink.title -%}
+                                  </li>
+                                {%- endif -%}
+
+                                {%- for greatgrandchildlink in great_grand_child_linklist.links -%}
+
+                                  <li itemprop="name" class="site-nav__great-grand-childlist-item
+                                    site-nav__item">
+                                      {%- include 'site-nav-parts' with 'link', nav_link: greatgrandchildlink, class: 'site-nav__greatgrandchild-link' -%}
+                                  </li>
+                                {%- endfor -%}
+
+                                {%- if type == 'mobile-nav' -%}
+                                  <li itemprop="name">
+                                    {%- include 'site-nav-parts' with 'mobile-footer', nav_link: grandchildlink -%}
+                                  </li>
+                                {%- endif -%}
+
+                              </ul>
+                            {%- endif -%}
+
+                          </li>
+                        {%- endfor -%}
+
+                        {%- if type == 'mobile-nav' -%}
+                          <li itemprop="name">
+                            {%- include 'site-nav-parts' with 'mobile-footer', nav_link: childlink -%}
+                          </li>
+                        {%- endif -%}
+                      </ul>
+                    {%- endif -%}
+                  </div>
+                {%- endfor -%}
+                
+              </div>
+
+              {%- if type == 'mobile-nav' -%}
+                {%- include 'site-nav-parts' with 'mobile-footer', nav_link: link -%}
+              {%- endif -%}
+
+            </div>
+          {%- else -%}
+            <ul>
+              {%- for childlink in child_linklist.links %}
+                <li itemprop="name" {% if childlink.active %} class="site-nav__item--active"{% endif %}>
+                  
+                  {%- assign link_class = 'site-nav__child-link' -%}
+                  {%- if forloop.last -%}
+                    {%- assign link_class = link_class | append: ' site-nav__link--last' -%}
+                  {%- endif -%}
+
+                  {%- include 'site-nav-parts' with 'link', nav_link: childlink, class: link_class -%}
+
+                </li>
+              {% endfor -%}
+            </ul>
+          {%- endif -%}
+
+          {%- if dropdown -%}
+            {%- if link.type == 'collection_link' and show_shop_all_link -%}
+              {%- capture nav_link_title -%}
+                {{ 'collections.general.shop_all_html' | t: title: link.title }}
+                {%- render 'icon' with 'arrow-right' -%}
+              {%- endcapture -%}
+            
+              {%- include 'site-nav-parts' with 'link', nav_link: link, nav_link_title: nav_link_title class: 'site-nav__dropdown-footer' -%}
+            {%- endif -%}
+
+            </div> <!-- /site-nav__dropdown -->
+          {%- endif -%}
+        </li>
+      {%- else -%}
+
+        <li itemprop="name" class="site-nav__item
+          {%- if link.title contains '*' %} featured {% endif -%}
+          {%- if link.active %} site-nav__item--active {% endif -%}"
+          {%- if type == 'default' %} rv-on-mouseenter="methods.clearActiveMenuItem" {% endif -%}>
+
+          {%- assign site_nav_link_class = '' -%}
+          {%- if type == 'default' -%}
+            {%- assign site_nav_link_class = 'site-nav__link--main' -%}
+          {%- endif -%}
+          
+          {%- include 'site-nav-parts' with 'link', nav_link: link, class: site_nav_link_class -%}
+
+          {%- if child_list_handle contains 'social' -%}
+            {%- include 'globals' with 'social_icons' -%}
+          {%- elsif child_list_handle contains 'payment' -%}
+            {%- include 'globals' with 'payment_icons', style: 'visually-match' -%}
+          {%- endif -%}
+        </li>
+      {%- endif -%}
+
+    {%- endif -%}
+  {%- endfor -%}
+</ul>
+
+{%- assign nav = null -%}
+{%- assign type = null -%}
+{%- assign dropdown = null -%}
+{%- assign show_arrows = null -%}
+{%- assign menu_id = null -%}

@@ -1,0 +1,532 @@
+{% assign form_type = form_type | default: '' %}
+{% assign form_class = form_class | default: '' %}
+{% assign form_prefix = form_prefix | default: ''%}
+{% assign submit_text = submit_text | default: '' %}
+{%- assign has_button = false -%}
+
+
+  <div class="{{ form_class | handle }}-form-wrapper form-wrapper">
+
+      {% if section.blocks.size >= 1 %}
+
+      {% form form_type, class: 'form-row' %}
+
+        {%- if section.settings.heading != blank or section.settings.description != blank %}
+          <div class="col-xs-12 text-{{ section.settings.position }} form-description">
+            {%- if section.settings.heading != blank %}
+              <h1 class="{{ form_class | handle }}__title">{{ section.settings.heading }}</h1>
+            {%- endif -%}
+            <div class="{{ form_class | handle }}__description rte">
+              {%- if section.settings.description != blank -%}
+                {{ section.settings.description }}
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+
+          {%- if section.settings.redirect_url != blank -%}
+            <input type="hidden" name="return_to" value="{{ section.settings.redirect_url }}" />
+          {%- endif -%}
+
+          {%- if form.posted_successfully? -%}
+            {% capture success_popup %}
+
+            {% endcapture %}
+            {% assign success_message = 'contact.form.post_success' | t %}
+
+            {% if section.settings.success_message != blank %}
+              {% assign success_message = section.settings.success_message %}
+            {% endif %}
+              <div class="hidden">
+                <div class="contact-popup" id="thank-popup">
+                  <h4>{{ 'contact.form.post_success_title' | t }}</h4>
+                  <p>{{ 'contact.form.post_success' | t }}</p>
+                  <a href="{{ 'contact.form.post_success_link_url' | t }}" class="btn">{{ 'contact.form.post_success_link_title' | t }}</a>
+                </div>
+              </div>
+          {%- endif -%}
+
+          <div class="col-xs-12 col-md-12">
+          {{ form.errors | default_errors }}
+          </div>
+
+          {%- for block in section.blocks -%}
+            {%- comment -%} form-builder-input-settings {%- endcomment -%}
+            {%- assign label  = block.settings.title | default: '' -%}
+            {%- assign label = label | strip -%}
+
+            {%- assign field_id  = block.settings.title | default: '' -%}
+            {%- if block.settings.id != blank -%}
+              {%- assign field_id  = block.settings.id | default: '' -%}
+            {%- endif -%}
+
+            {%- if field_id == blank -%}
+              {%- continue -%}
+            {%- endif -%}
+
+            {%- assign label_position  = block.settings.position | default: 'none' -%}
+
+            {%- assign hide_label = true -%}
+            {%- if label_position != 'none' -%}
+              {%- assign hide_label = false -%}
+            {%- endif -%}
+
+            {%- assign is_required = block.settings.is_required -%}
+            {%- if block.type == 'text_accepts_marketing' -%}
+              {%- assign is_required = false -%}
+            {%- endif -%}
+
+            {%- assign block_id = block.id | default: 0-%}
+
+            {%- assign id = field_id | downcase | strip -%}
+            {%- assign name = form_type | append: '[' | append: id | append: ']' -%}
+
+            {%- assign width = block.settings.width | default: '12' -%}
+
+
+            {%- if block.type == 'text_multipleradiobuttons' -%}
+              {%- assign radiobuttons = block.settings.options | default: '' -%}
+              {%- assign radio_list = radiobuttons | split: ',' -%}
+
+              {%- assign show_input = block.settings.show_input | default: '' -%}
+
+            {%- elsif block.type == 'text_singlecheckbox'  -%}
+              {%- assign is_required = block.settings.is_required | default: false -%}
+
+            {%- elsif block.type == 'text_multiplecheckboxes' -%}
+
+              {%- assign checkboxes = block.settings.options | default: '' -%}
+              {%- assign checkbox_list = checkboxes | split: ',' -%}
+
+            {%- elsif block.type == 'text_dropdown' -%}
+
+              {%- assign options = block.settings.options | default: '' -%}
+              {%- assign option_list = options | split: ',' -%}
+
+            {%- endif -%}
+
+            {%- capture required -%}
+              {%- if is_required -%}required{%- else -%}{%- endif -%}
+            {%- endcapture -%}
+
+            {%- assign label_append = null  -%}
+            {% if section.settings.show_atrix and is_required == true -%}
+              {%- assign label_append = '*'  -%}
+            {%- endif -%}
+
+            {%- if section.settings.show_optional and is_required == false -%}
+              {%- assign label_append = ' (Optional)'  -%}
+            {%- endif -%}
+            {% if label_append == blank %}
+              {%- assign label_append = ''  -%}
+            {% endif %}
+
+            {%- assign label =  label | append: label_append  -%}
+
+            {%- assign grid_style = '' -%}
+            {%- if label_position == 'top' or label_position == 'bottom' -%}
+              {%- assign grid_style = 'input-wrapper-col' -%}
+            {%- endif -%}
+
+            {%- assign item_style = '' -%}
+            {%- if label_position == 'bottom' or label_position == 'right' -%}
+              {%- assign item_style = 'last-xs' -%}
+            {%- endif -%}
+
+            {%- if hide_label -%}
+              {%- assign item_style = 'label-hidden' -%}
+            {%- endif -%}
+
+            {%- assign account_tags = block.settings.tags | split: ','  -%}
+
+            {%- capture placeholder -%}
+              {%- if hide_label -%}placeholder="{{ label }}"{%- endif -%}
+            {%- endcapture -%}
+
+            {%- capture placeholder_custom -%}
+
+            {%- endcapture -%}
+            {%- comment -%} end-form-builder-input-settings {%- endcomment -%}
+
+
+            {%- if block.type == 'text_input' -%}
+              {%- capture placeholder -%}
+                {%- if block.settings.text_placeholder -%}
+                  placeholder="{{ block.settings.text_placeholder }}"
+                {%- elsif hide_label -%}placeholder="{{ label }}"{%- endif -%}
+              {%- endcapture -%}
+
+                <div class="input-wrapper {{ label | handle }}-field col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                  <label for="{{ id }}" class="label-base {{ item_style }}">{{ label }}</label>
+
+                  <input class="input-base"
+                    type="text"
+                    id="{{ id }}"
+                    name="{{ name }}"
+                    value="{% if form[id] %}{{ form[id] }}{% endif %}"
+                    {{ placeholder }}
+                    {{ required }}>
+
+                </div>
+
+
+            {%- elsif block.type == 'upload_file' -%}
+              {% assign text = block.settings.text_footer %}
+              <div class="upload-wrapper col-xs-12 col-md-{{ width }} {{ grid_style }}">
+                {% if label %}
+                  <span class="upload-wrapper__label">{{ label }}</span>
+                {% endif %}
+                <div class="upload-wrapper__content">
+                  <input type="file" name="file[{{id}}]" id="FileUpload" {{ required }}
+                         class="js-input-file upload-wrapper__input"
+                         data-multiple-caption="{count} FILES SELECTED" multiple />
+                  <label for="FileUpload" class="upload-wrapper__label" data-init-text="SELECT FILES">
+                    <span class="upload-wrapper__btn">SELECT FILES</span>
+                  </label>
+                  <button type="button" class="btn btn-primary-o clear-upload" id="clearUpload" data-clear="FileUpload">
+                    <span class="upload-wrapper__btn">Clear</span>
+                  </button>
+                </div>
+                {% if text %}
+                  <span class="upload-wrapper__footer">{{text}}</span>
+                {% endif %}
+              </div>
+
+            {%- elsif block.type == 'text_section' -%}
+              <div class="form-text-section col-xs-12 col-md-{{ width }} {{ grid_style }}">
+                {{ label }}
+              </div>
+
+            {%- elsif block.type == 'text_day_mask' -%}
+              {%- if block.settings.mask_day -%}
+                {%- assign mask_class = 'js-masked-day' -%}
+              {%- endif -%}
+
+              <div class="input-wrapper {{ label | handle }}-field col-xs-12 col-md-{{ width }} {{ grid_style }}">
+                <label for="{{ id }}" class="label-base {{ item_style }}">{{ label }}</label>
+                <input class="input-base {{mask_class}}"
+                       type="text"
+                       id="{{ id }}"
+                       name="{{ name }}"
+                       value="{% if form[id] %}{{ form[id] }}{% endif %}"
+                    {{ placeholder }}
+                    {{ required }}>
+              </div>
+
+            {%- elsif block.type == 'text_textarea' -%}
+
+              <div class="textarea-wrapper col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                  <label for="{{ id }}" class="label-base {{ item_style }}">{{ label }}</label>
+
+                  <textarea class="textarea-base"
+                    type="text"
+                    id="{{ id }}"
+                    name="{{ name }}"
+                    value="{% if form[id] %}{{ form[id] }}{% endif %}"
+                    {{ placeholder }}
+                    {{ required }}>
+                  </textarea>
+
+              </div>
+
+
+            {%- elsif block.type == 'text_dropdown' -%}
+              <div class="select-wrapper col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                  <label for="{{ id }}" class="label-base {{ item_style }}">{{ label }}</label>
+
+                  <select class="select-base"
+                    id="{{ id }}"
+                    name="{{ name }}"
+                    {{ required }}>
+
+                    {%- if hide_label -%}
+                      <option value="" class="select-label">{{ label }}</option>
+                    {%- endif -%}
+
+                  {%- for option in option_list -%}
+                    <option value="{{ option }}" class="select-label">{{ option }}</option>
+                  {%- endfor -%}
+
+                  </select>
+              </div>
+
+            {%- elsif block.type == 'text_country_dropdown' -%}
+              <div class="select-wrapper col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                  <label for="{{ id }}" class="label-base {{ item_style }}">{{ label }}</label>
+
+                  <select class="select-base"
+                    id="{{ id }}"
+                    name="{{ name }}"
+                    {{ required }}>
+
+                    {%- if hide_label -%}
+                      <option value="" class="select-label">{{ label }}</option>
+                    {%- endif -%}
+
+                    {{ country_option_tags }}
+
+                  </select>
+              </div>
+
+            {%- elsif block.type == 'text_singlecheckbox' -%}
+              {% if block.settings.checked %}
+                {% assign checked = 'checked' %}
+              {% endif %}
+              <div class="input-cbx {{ label | handle }}-field checkbox-wrapper col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                  <input class="input-cbx__input"
+                    type="checkbox"
+                    id="{{ id }}"
+                    name="{{ name }}"
+                   {{ checked }}
+                    value="{{ label }}"
+                    {{ required }}>
+
+                  <label for="{{ id }}" class="input-cbx__label {{ item_style }}">{{ label }}</label>
+              </div>
+
+            {%- elsif block.type == 'text_multiplecheckboxes' -%}
+
+              <div class="checkbox-wrapper checkbox-wrapper--multiple col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                <label for="{{ id }}" class="label-base {{ item_style }}">{{ label }}</label>
+
+                {% for checkbox in checkbox_list %}
+                  {% assign checkbox_id = label | handle | append: forloop.index %}
+                <div class="checkbox-wrapper input-cbx">
+                  <input class="input-cbx__input"
+                    type="checkbox"
+                    id="{{ checkbox_id }}"
+                    name="{{ name }}"
+                    value="{{ checkbox }}">
+
+                  <label for="{{ checkbox_id }}" class="input-cbx__label">{{ checkbox }}</label>
+                </div>
+
+                {% endfor %}
+
+              </div>
+
+            {% elsif block.type == 'text_multipleradiobuttons' %}
+
+              <div class="radio-wrapper col-xs-12 col-md-{{ width }}">
+
+                  <label for="{{ id }}" class="label-base ">
+                   {{ label }}
+                  </label>
+
+                  {% for radio in radio_list %}
+                    {% assign radio_id = label | handle | append: forloop.index %}
+                    {% assign radio = radio | strip %}
+
+                    {% if show_input and block.settings.extra_field != blank and forloop.last %}
+                      <div class="js-radio-input">
+                        <input class="radio-base"
+                          type="radio"
+                          id="{{ radio_id }}"
+                          name="{{ name }}"
+                          value="{{ radio }}"
+                          {{ required }}>
+
+                          <label for="{{ radio_id }}" class="label-base ">
+                         {{ radio }}
+                        </label>
+                      </div>
+                    {%- else -%}
+
+                      <input class="radio-base"
+                        type="radio"
+                        id="{{ radio_id }}"
+                        name="{{ name }}"
+                        value="{{ radio }}"
+                        {{ required }}>
+
+                        <label for="{{ radio_id }}" class="label-base ">
+                       {{ radio }}
+                      </label>
+
+                    {% endif %}
+
+                  {% endfor %}
+
+                  {%- if show_input and block.settings.extra_field != blank -%}
+                    {%- assign extra_field = block.settings.extra_field | default: '' -%}
+                    <label for="{{ id }}" class="label-base {% unless hide_label %}label-hidden{% endunless %}">
+                        {%- if hide_label -%}{{ label }}{%- endif -%}
+                    </label>
+                    {%- assign input_placeholder = extra_field -%}
+                    {%- assign form_prefix = page.title | handle -%}
+
+                    {%- assign extra_field_id = field_id | camelcase | strip | append: block_id -%}
+                    {%- assign extra_field_name = form_prefix | append: '[' | append: input_id | append: '-input' | append: ']' -%}
+
+                      <input class="input-base"
+                        type="text"
+                        id="{{ extra_field_id }}"
+                        name="{{ extra_field_name }}"
+                        value="{% if form[extra_field_id] %}{{ form[extra_field_id] }}{% endif %}"
+                        {{ input_placeholder }}>
+
+                  {%- endif -%}
+
+              </div>
+
+            {%- elsif block.type == 'link_buttons' -%}
+              <div class="input-wrapper {{ label | handle }}-field col-xs-12 col-md-{{ width }}">
+                <a href="{{ block.settings.btn_link }}" class="btn btn-link">{{ block.settings.title }}</a>
+              </div>
+            {%- elsif block.type == 'text_password_input' -%}
+
+              <div class="input-wrapper {{ label | handle }}-field col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                <label for="CreatePassword" class="label-base {{ item_style }}">{{ label }}</label>
+
+                <input class="input-base {% if form.errors contains 'password' %} input--error{% endif %}"
+                  type="password"
+                  id="CreatePassword"
+                  name="customer[password]"
+                  value="{% if form[id] %}{{ form[id] }}{% endif %}"
+                  {{ placeholder }}
+                  {{ required }}>
+                {% comment %}<span class="form-vertical__password-toggle js forgot-position--{{ block.settings.forgot_password }}">
+                  {% include 'icon-eye' %}
+                </span>{% endcomment %}
+
+                <a href="#recover" id="RecoverPassword" class="forgot-position--{{ block.settings.forgot_password }}">
+                ?</a>{% comment %}Forgot your password?{% endcomment %}
+              </div>
+
+
+            {%- elsif block.type == 'text_create_password' -%}
+                <div class="input-wrapper {{ label | handle }}-field col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                  <label for="CreatePassword" class="label-base {{ item_style }}">{{ label }}</label>
+
+                  <input class="input-base {% if form.errors contains 'password' %} input--error{% endif %}"
+                    type="password"
+                    id="CreatePassword"
+                    name="customer[password]"
+                    value="{% if form[id] %}{{ form[id] }}{% endif %}"
+                    {{ placeholder }}
+                    {{ required }}>
+                </div>
+
+            {%- elsif block.type == 'text_date_input' -%}
+
+              <div class="dropdown-wrapper">
+                <select class="date-dropdown select-base select-base-group" id="CustomerDateOfBirthDay" name="customer[birthday_day]">
+                  <option value="">DD</option>
+                    {% for i in (01..31) %}
+                      <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+                <select class="date-dropdown select-base select-base-group" id="CustomerDateOfBirthMonth" name="customer[birthday_month]">
+                  <option value="">MM</option>
+                    {% for i in (01..12) %}
+                      <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+                <label class="h5 date-dropdown-label" for="CustomerDateOfBirthDay">Your Birthday (Optional)</label>
+              </div>
+
+            {%- elsif block.type == 'text_name_input' -%}
+
+              <div class="input-wrapper {{ label | handle }}-field col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                  <label for="FirstName" class="label-base {{ item_style }}">{{ label }}</label>
+
+                  <input class="input-base"
+                    type="text"
+                    id="FirstName"
+                    name="customer[first_name]"
+                    value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.first_name }}{% endif %}"
+                    {{ placeholder }}
+                    {{ required }}>
+
+                </div>
+
+            {%- elsif block.type == 'text_email_input' -%}
+              <div class="input-wrapper {{ label | handle }}-field col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                  <label for="Email" class="label-base {{ item_style }}">{{ label }}</label>
+
+                  <input class="input-base {% if form.errors contains 'email' %} input--error{% endif %}"
+                    type="email"
+                    id="Email"
+                    name="customer[email]"
+                    value="{% if form.email %}{{ form.email }}{% endif %}"
+                    autocorrect="off" autocapitalize="off"
+                    {{ placeholder }}
+                    {{ required }}>
+
+                </div>
+
+            {%- elsif block.type == 'text_submit_button' -%}
+
+              {%- if block.settings.title != blank -%}
+              <div class="submit-wrapper col-xs-12 col-md-{{ width }} {{ grid_style }}">
+                {%- assign has_button = true -%}
+                <button type="submit" class="btn btn-primary form-submit-btn">{{ block.settings.title }}</button>
+              </div>
+              {%- endif -%}
+
+            {%- elsif block.type == 'text_account_tag' -%}
+
+              {% for item in account_tags %}
+                <input type="hidden" name="customer[account_type]" data-autotag="true" value="{{ item }}">
+              {% endfor %}
+
+            {%- elsif block.type == 'text_phone' -%}
+              {% if block.settings.mask_number %}
+                {% assign mask_class = 'js-masked-phone'  %}
+              {% endif %}
+              <div class="input-wrapper {{ label | handle }}-field col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                <label for="Phone" class="label-base {{ item_style }}">{{ label }}</label>
+
+                <input class="input-base {{ mask_class }} {% if form.errors contains 'phone' %} input--error{% endif %}"
+                  type="text"
+                  id="Phone"
+                  name="customer[phone]"
+                  value="{% if form[phone] %}{{ form[phone] }}{% endif %}"
+                  {{ placeholder }}
+                  {{ required }}>
+
+              </div>
+
+            {%- elsif block.type == 'text_accepts_marketing' -%}
+
+              <div class="input-wrapper {{ label | handle }}-field accepts-marketing-wrapper col-xs-12 col-md-{{ width }} {{ grid_style }}">
+
+                  <label for="CustomerAcceptsMarketing" class="label-base {{ item_style }}">{{ label }}</label>
+
+                  <input class="checkbox-base"
+                    type="checkbox"
+                    id="AcceptsMarketing"
+                    name="customer[accepts_marketing]"
+                    value="{{ label }}">
+
+              </div>
+            {%- endif -%}
+
+          {%- endfor -%}
+
+          {%- unless has_button -%}
+            <div class="form-vertical__actions col-xs-12">
+              <input type="submit" class="btn btn--large btn--wide form-submit-btn" value="{{ submit_text }}">
+            </div>
+          {%- endunless -%}
+
+        {%- endform -%}
+
+      {%- endif -%}
+
+  </div>
+
+{%- if form_prefix contains 'login' -%}
+  {%- include 'recover-password' -%}
+{%- endif -%}

@@ -1,0 +1,80 @@
+{
+  "sections": {
+    "main": {
+      "type": "template-article-sponsored-rider",
+      "blocks": {
+        "e34619f0-7249-4836-9b03-38b19caa4254": {
+          "type": "banner-image",
+          "settings": {
+            "enable_breadcrumbs": true,
+            "breadcrumb_position": "overlay",
+            "width": 12,
+            "position": "body"
+          }
+        },
+        "63c6bbd5-a853-428c-9cf5-566633919d92": {
+          "type": "body",
+          "settings": {
+            "width": 12,
+            "position": "body"
+          }
+        },
+        "63b7a203-7a80-4fec-a3f3-f4dcbe88d008": {
+          "type": "navigation",
+          "settings": {
+            "width": 12,
+            "position": "body"
+          }
+        },
+        "e71d63b0-62df-445e-be58-130d0d0d0ed5": {
+          "type": "related-articles",
+          "settings": {
+            "title": "",
+            "enable_slider": true,
+            "related_type": "metafields",
+            "show_desktop": 3,
+            "show_tablet": 2,
+            "show_mobile": 1,
+            "width": 12,
+            "position": "body"
+          }
+        }
+      },
+      "block_order": [
+        "e34619f0-7249-4836-9b03-38b19caa4254",
+        "63c6bbd5-a853-428c-9cf5-566633919d92",
+        "63b7a203-7a80-4fec-a3f3-f4dcbe88d008",
+        "e71d63b0-62df-445e-be58-130d0d0d0ed5"
+      ],
+      "settings": {
+        "related_title": "Related products"
+      }
+    },
+    "16367041412eca08d0": {
+      "type": "featured-collections",
+      "disabled": true,
+      "blocks": {
+        "534fc854-63ea-4a25-9ac8-0ba814e7858c": {
+          "type": "collection",
+          "settings": {
+            "title": "Test related section everywhere",
+            "collection": "our-range",
+            "limit": 6
+          }
+        }
+      },
+      "block_order": [
+        "534fc854-63ea-4a25-9ac8-0ba814e7858c"
+      ],
+      "settings": {
+        "title": "Featured collection",
+        "autoplay": "mobile",
+        "autoplay_speed": "7000"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "16367041412eca08d0"
+  ]
+}

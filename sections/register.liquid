@@ -1,0 +1,124 @@
+{%- assign form_label_class = 'label-hidden' -%}
+
+{%- capture customer_register_form %}
+  <div class="form-vertical auth-form">
+    {% form 'create_customer' %}
+
+    <h1 class="h3">{{ 'customer.register.title' | t }}</h1>
+
+    {{ form.errors | default_errors }}
+    <div class="input-wrapper">
+    <label for="FirstName" class="{{ form_label_class }}">
+      {{ 'customer.register.first_name' | t }}
+    </label>
+    <input
+      type="text"
+      class="input-base"
+      name="customer[first_name]"
+      id="FirstName"
+      placeholder="{{ 'customer.register.first_name' | t }}"
+      {% if form.first_name %}value="{{ form.first_name }}"{% endif %}
+      autofocus
+      required
+      >
+    </div>
+      <div class="input-wrapper">
+        <label for="LastName" class="{{ form_label_class }}">
+          {{ 'customer.register.last_name' | t }}
+        </label>
+        <input
+            type="text"
+            class="input-base"
+            name="customer[last_name]"
+            id="LastName"
+            placeholder="{{ 'customer.register.last_name' | t }}"
+            {% if form.last_name %}value="{{ form.last_name }}"{% endif %}
+            required
+        >
+      </div>
+    <div class="input-wrapper">
+    <label for="Email" class="{{ form_label_class }}">
+      {{ 'customer.register.email' | t }}
+    </label>
+    <input
+      type="email"
+      name="customer[email]"
+      id="Email"
+      placeholder="{{ 'customer.register.email' | t }}"
+      class="input-base {% if form.errors contains 'email' %} input--error{% endif %}"
+      {% if form.email %} value="{{ form.email }}"{% endif %}
+      autocorrect="off"
+      autocapitalize="off"
+      required
+      >
+    </div>
+    <div class="input-wrapper">
+    <label for="CreatePassword"  class="{{ form_label_class }}">
+      {{ 'customer.register.password' | t }}
+    </label>
+    <input type="password" name="customer[password]" id="CreatePassword"
+      placeholder="{{ 'customer.register.password' | t }}"
+      class="input-base {% if form.errors contains 'password' %} input--error{% endif %}"
+      required >
+    </div>
+
+      <div class="input-cbx auth-form__cbx">
+        <input type="hidden" name="customer[accepts_marketing]" value="">
+        <input type="checkbox" name="customer[accepts_marketing]" id="AcceptsMarketing"
+               data-autotag class="input-cbx__input" checked="checked">
+        <label for="AcceptsMarketing" class="input-cbx__label">{{ 'customer.register.accepts_marketing' | t }}</label>
+      </div>
+
+      <div class="form-vertical__actions ">
+        <input type="submit" class="btn" value="{{ 'customer.register.submit' | t }}">
+      </div>
+
+      <p class="auth-form__footer text-center">
+        {{ 'customer.register.account_already_exists' | t }}
+        <a class="" href="/account/login">{{ 'layout.customer.log_in' | t }}</a>
+      </p>
+
+    {% endform %}
+  </div>
+{% endcapture -%}
+
+
+<div class="account-entry">
+
+  <div class="account-entry__column container narrow">
+
+    <div class="account-entry__column-content">
+      {{ customer_register_form }}
+    </div>
+
+  </div>
+
+  {%- if section.settings.image != blank -%}
+    <div class="account-entry__column container narrow account-entry__column--image hidden-xs hidden-sm">
+
+      <div class="account-entry__column-content">
+
+        <div class="account-entry__media">
+          {%- include 'img' with section.settings.image -%}
+        </div>
+
+      </div>
+
+    </div>
+  {%- endif -%}
+
+</div>
+
+{%- schema %}
+  {
+    "name": "Register",
+    "class": "register-section shopify-section--full-height",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      }
+    ]
+  }
+{% endschema -%}

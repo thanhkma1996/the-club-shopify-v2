@@ -1,0 +1,361 @@
+{%- capture header %}
+  <div class="cart-drawer__header" rv-class-cart-drawer__empty="cart.item_count | eq 0">
+    {%- capture cart_title_number %}{ cart.item_count_display }{% endcapture -%}
+    {%- capture cart_title_items %}{ cart.item_count_display | pluralize 'item' 'items' }{% endcapture -%}
+
+      {% if settings.cart_empty_title != blank %}
+      <h2 rv-if="cart.item_count | eq 0" class="cart-drawer__title">
+        {{ settings.cart_empty_title }}
+      </h2>
+      {% endif %}
+
+      {% if settings.cart_empty_button_url != blank %}
+        <a  rv-if="cart.item_count | eq 0" href="{{ settings.cart_empty_button_url }}" class="btn btn-primary btn--full">{{ settings.cart_empty_button_text }}</a>
+     {% endif %}
+
+    <h2 rv-if="cart.item_count | eq 0 | not" class="cart-drawer__title">
+      {{ 'cart.general.title' | t: number: cart_title_number, items: cart_title_items }}
+    </h2>
+
+
+    <button type="button" class="btn cart-drawer__close js-drawer-close">
+      {%- if cart_close_button == 'icon' -%}
+        {% render 'icon' with 'close' %}
+        <span class="icon-fallback-text">{{ 'cart.drawer.close' | t }}</span>
+      {%- else -%}
+        <span>{{ 'cart.drawer.close' | t }}</span>
+      {%- endif -%}
+    </button>
+
+  </div>
+{% endcapture -%}
+
+{%- capture cart_note %}
+  <form action="/cart" method="post" novalidate="">
+  </form>
+   <div class="cart-drawer__note">
+    <div class="cart-note simple-accordion" data-simple-accordion="">
+      <p class="cart-note-title simple-accordion__title">Set delivery date</p>
+      <div class="cart-note-content">
+        <div class="cart-note-content-inner">
+          <div class="cart-note-input-wrapper">
+            <div class="input-wrapper"> <label for="date--1" class="cart-note__label label-base ">Select Delivery Date</label> <input class="input-base cart-note__input" type="date" id="date--1" name="date" value="" placeholder="" required="">
+              <div class="cart-note__icon">
+                <script type="text/javascript">
+                  console.error('SVG Icon missing: date')
+                </script>
+              </div>
+            </div>
+            <div class="rte cart-note__information">
+              <p>Please ensure your order is placed by 5am the day prior to your requested delivery date.</p>
+            </div>
+          </div>
+          <div class="cart-note-input-wrapper">
+            <div class="textarea-wrapper"> <label for="textarea--2" class="cart-note__label label-base ">Delivery Instructions / Butcher Notes / Message on Card:</label> <textarea class="textarea-base" type="text" id="textarea--2" name="textarea" value="" placeholder=""></textarea></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endcapture -%}
+
+{%- capture search %}
+  <div class="cart-drawer__search">
+    {%- include 'search-bar' -%}
+  </div>
+{% endcapture -%}
+
+{%- capture cart_message %}
+<div class="cart-drawer__message">
+  <p>{{ 'cart.general.promo_instructions' | t }}</p>
+</div>
+{% endcapture -%}
+
+{%- capture shipping %}
+  {%- assign free_shipping_threshold = settings.free_shipping_threshold -%}
+  {%- unless free_shipping_threshold == blank -%}
+    {{ free_shipping_threshold }}
+    <div class="cart-drawer__shipping js-cart-shipping">
+
+      <div class="cart-drawer-shipping__message" rv-if="cart.total_price | gt 0">
+
+        <div rv-if="cart.total_price | eq 0 | not" class="cart-drawer__total-title">
+          {{ 'cart.general.cart_total' | t }}
+          <span rv-text="cart.total_price | money "></span>
+        </div>
+
+        <div rv-if="cart.total_price | eq 0" class="cart-drawer__shipping-title">You are {{ free_shipping_threshold | money }} away from receiving FREE bacon</div>
+
+        <div class="cart-drawer__shipping-title" rv-if="cart.total_price | eq 0 | not">
+          <p rv-if="cart.total_price | addTax | minus {{ free_shipping_threshold }} | lt 0">
+            {{ 'cart.general.shipping_threshold_message_start' | t }}
+            <span>{ cart.total_price | minus {{ free_shipping_threshold }} | times -1 | money | replace '.00' ''}</span>
+            {{ 'cart.general.shipping_threshold_message_end' | t }}
+            <span>{{ 'cart.general.shipping_threshold_prize_title' | t }}</span>
+          </p>
+
+          <p rv-if="cart.total_price | addTax | minus {{ free_shipping_threshold }} | gt 0">{{ 'cart.general.shipping_reached_message' | t }}</p>
+        </div>
+
+    </div>
+    </div>
+  {%- endunless -%}
+  
+{% endcapture -%}
+
+{%- capture products %}
+
+  <div class="cart-drawer__content">
+    {%- assign cart_product_layout = 'image|product|remove' | split: '|' -%}
+    {%- include 'cart-line-item' with 
+      product_layout: cart_product_layout,
+      iteration: true,
+      layout: 'mobile' -%}
+  </div>
+{% endcapture -%}
+
+{%- capture summary %}
+  <div class="cart-drawer__footer" rv-if="cart.item_count | eq 0 | not">
+    <form action="/cart" method="post" novalidate="" class="cart-drawer__footer-form">
+ <div class="cart-drawer-container">
+
+   <div class="cart-drawer__total-shipping">
+        <h4 class="cart-drawer__total-shipping--title">
+          {{ 'cart.general.shipping' | t }}:
+        </h4>
+     <div class="cart-drawer__footer-price" rv-if="cart.total_price | gte {{settings.free_shipping_threshold | times: 100 }}">{{ 'cart.general.shipping_free_message' | t }}</div>
+     <div class="cart-drawer__footer-price" rv-if="cart.total_price | gte {{settings.free_shipping_threshold | times: 100 }} | not" rv-html="{{settings.shipping_cost | times: 100}} | money shop.currency"></div>
+   </div>
+
+      <div class="cart-drawer__total">
+        <h4 class="cart-drawer__total-title">
+          {{ 'cart.general.cart_total' | t }}:
+        </h4>
+        <div class="cart-drawer__footer-price" rv-if="cart.total_price | gte {{settings.free_shipping_threshold | times: 100}}" rv-html="cart.total_price | money shop.currency "> </div>
+        <div class="cart-drawer__footer-price" rv-if="cart.total_price | gte {{settings.free_shipping_threshold | times: 100}} | not" rv-html="{{ settings.shipping_cost }} | times 100 | plus cart.total_price | money shop.currency" ></div>
+      </div>
+
+ </div>
+      <div class="cart-drawer__actions">
+        <button class="btn btn--wide btn-primary cart-drawer__submit" type="submit" name="checkout" rv-enabled="cart.item_count_display | gt 0">
+          {%- if settings.cart_show_padlock_icon -%}
+            {%- render 'icon' with 'padlock' -%}
+          {%- endif -%}
+          <span>{{ 'cart.general.checkout' | t }}</span>
+        </button>
+      </div>
+    </form>
+    
+  </div>  
+{% endcapture -%}
+
+{%- capture notes %}  
+  <div class="cart-drawer__note" data-simple-accordion>
+
+    <p class="cart-drawer__note-title">{{ 'cart.general.note' | t }}</p>
+    <div class="cart-drawer__note-input">
+      <label for="cart-drawer-note" class="label-hidden">{{ 'cart.general.note' | t }}</label>
+      <textarea id="cart-drawer-note" name="note">{{ cart.note }}</textarea>
+    </div>
+
+  </div>
+{% endcapture -%}
+
+{%- capture payment_icons %}  
+  <div class="cart-drawer__payment-methods">
+    {%- include 'globals' with output: 'payment_icons', color: true -%}
+  </div>
+{% endcapture -%}
+
+  {% capture upsell %}
+  {%- section 'cart-upsell-products' -%}
+  {% endcapture %}
+
+
+{%- capture related_products %}
+
+  {%- assign related_product = all_products[settings.related_product] -%}
+
+  {% capture product_form_variant_selector %}
+    <select name="id" id="ProductSelect-{{ related_product.id }}" class="product-form__variants no-js" data-product-select>
+      {%- for variant in related_product.variants -%}
+        {%- if variant.available -%}
+          <option {% if variant == related_product.selected_or_first_available_variant %} selected="selected" {% endif %} valucart-item-quantitye="{{ variant.id }}">
+            {{ variant.title }}
+          </option>
+        {%- else -%}
+          <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+        {%- endif -%}
+      {%- endfor -%}
+    </select>
+  {% endcapture %}
+
+  <div class="cart-drawer-related-products">
+
+    <div class="cart-item" >
+      <div class="cart-item--mobile">
+
+        <div class="cart-item__row cart-item__row--image">
+          <div class="cart-item-image">
+            <a class="cart-item-image__inner" href="{{ related_product.url }}">
+              {%- include 'img' with related_product.featured_image, class: 'cart-item-image__image' -%}
+            </a>
+          </div>
+        </div>
+
+        <div class="cart-item__row cart-item__row--title">
+          <span class="cart-item-title">Add a {{ related_product.title }}</span>
+        </div>
+
+        <div class="cart-item__row cart-item__row--add">
+          <div class="cart-item-price">
+            <div class="cart-item-price__content">
+
+              <div class="cart-item-price__price">{%- include 'price' with related_product -%}</div>
+            </div>
+          </div>
+        </div>
+        {% form 'product', related_product, class: 'product-form', data-cart-submit: '' %}
+     
+            
+           <div class="hidden">
+              {%- for option in related_product.options_with_values -%}
+                                
+                <div class="selector-wrapper js product-form__item">
+                  <div class="product-form__item-inner">
+                    <label {% if option.name == 'default' or option.name == 'Title' %}class="visually-hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                      {{ option.name }}
+                    </label>
+
+                      <select class="{% if option.values.size == 1 %} no-arrow{% endif %} single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-single-option-selector data-index="option{{ forloop.index }}">
+                      {% for value in option.values %}
+                        <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+
+                        {% endfor %}
+                      </select>
+                    
+                  </div>
+                </div>
+
+              {%- endfor -%}
+
+              {%- assign current_variant = related_product.selected_or_first_available_variant -%}
+
+              <div class="product-form__actions">
+                <div class="product-form__item-inner">
+                  <select data-product-quantity class="product-form__input product-form__quantity" id="Quantity" name="quantity">
+                  {% for i in (1..6) %}
+                    <option value="{{ i }}">{{ i }}</option>
+                  {% endfor %}
+                  </select>
+                </div>
+
+                
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              name="add"
+              data-add-to-cart
+              data-progress-element
+              data-opens-cart-drawer
+              id="AddToCart-{{ section.id }}"
+              class="btn btn-link related-product__btn"
+              {% unless current_variant.available %}disabled="disabled"{% endunless %}>
+                {% comment %}{% include 'icon-zd_cart' %}{% endcomment %}
+                <span data-add-to-cart-text>
+                  Add to cart
+                </span>
+            </button>
+
+            {{ product_form_variant_selector }}
+
+        {% endform %}
+      </div>
+    </div>
+  </div>
+{% endcapture -%}
+
+{%- capture action_links %}
+
+{%- assign has_content = false -%}
+{%- capture action_links_content %}
+  <div class="cart-drawer__action-links">
+    {%- for i in (1..3) -%}
+    {%- assign text_field_key = 'cart_link_text_' | append: i -%}
+    {%- assign url_field_key = 'cart_link_' | append: i -%}
+    {%- assign close_field_key = 'cart_close_' | append: i -%}
+    {%- assign item_text = settings[text_field_key] -%}
+    {%- assign item_link = settings[url_field_key] -%}
+    {%- assign item_close = settings[close_field_key] -%}
+
+    {%- if item_text != blank -%}
+      {%- assign has_content = true -%}
+      <a class="text-link cart-action__link {% if item_close %} js-drawer-close {% endif %}" href="{{ item_link }}">
+        {% if item_close %}{%- render 'icon' with 'arrow-left' -%}{% endif %}
+        {{ item_text }}
+      </a>
+    {%- endif -%}
+   
+    {%- endfor -%}
+  </div>
+  {% endcapture -%}
+
+  {%- if has_content -%}
+    {{ action_links_content }}
+  {%- endif -%}
+{% endcapture -%}
+
+
+{%- capture payment_icons %}
+  <div class="cart-drawer__payment-methods">
+    {%- include 'globals' with output: 'payment_icons', color: icon_color, style: 'visually-match' -%}
+  </div>
+{% endcapture -%}
+
+{%- capture cart_drawer_total %}
+  <div class="cart-drawer__total">
+    <div class="cart-drawer__total-title">
+      {{ 'cart.general.subtotal' | t }}
+
+      <span class="cart-drawer__total-gst-notice">
+        {%- if shop.taxes_included != true -%}
+          {{ 'products.product.tax_excluded' | t }}
+        {%- else -%}
+          {{ 'products.product.tax_included' | t }}
+        {%- endif -%}
+      </span>
+
+    </div>
+    <div class="cart-drawer__total-price" rv-html="cart.total_price | money shop.currency"></div>
+  </div>
+{% endcapture -%}
+
+{%- capture cart_search %}
+<div class="cart-drawer__search">
+  {%- include 'search-bar' -%}
+</div>
+{% endcapture -%}
+
+{% comment %}
+options:
+header
+shipping
+products
+summary
+value_props
+related_products
+cart_message
+payment_icons
+cart_note
+cart_drawer_total
+upsell
+{% endcomment %}
+
+{{ header }}
+{{ products }}
+{{ summary }}
+{{ upsell }}
+

@@ -1,0 +1,55 @@
+<p class="h1">{{ 'products.testimonial.title' | t }}</p>
+<div class="testimonials-desktop">
+	<div class="row">
+		{% for element in product.metafields.testimonial.testimonial_image %}
+			{%- assign testimonial_image = product.metafields.testimonial.testimonial_image[forloop.index0] -%}
+			{%- assign testimonial_title = product.metafields.testimonial.testimonial_title[forloop.index0] -%}
+			{%- assign testimonial_description = product.metafields.testimonial.testimonial_description[forloop.index0] -%}
+			{%- assign testimonial_name = product.metafields.testimonial.testimonial_name[forloop.index0] -%}
+			{%- if forloop.length > 2 -%}
+				{%- assign testimonial_hidden = true -%}
+			{%- else -%}
+				{%- assign testimonial_hidden = false -%}
+			{%- endif -%}
+			{% include 'testimonial' %}
+			{% if testimonial_hidden and forloop.last %}
+				<div class="col-xs-12 text-center">
+					<button type="button" class="btn btn btn-primary-o js-show-testimonials">
+						<span>{{ 'products.testimonial.show_more' | t }}</span>
+						<span>{{ 'products.testimonial.show_less' | t }}</span>
+					</button>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>
+<div class="testimonials-mobile">
+	<div class="row"
+		 id="Slideshow-testimonials" 
+		 data-autoplay="false" 
+		 data-arrows="false" 
+		 data-dots-mobile="true" 
+		 data-dots-tablet="true" 
+		 data-slides-show="3" 
+		 data-slides-scroll="3" 
+		 data-slides-show-tablet="2" 
+		 data-slides-scroll-tablet="2" 
+		 data-slides-show-mobile="1" 
+		 data-slides-scroll-mobile="1" 
+		 data-center-mode-mobile="true"
+		 data-center-padding-mobile="30px"
+		 data-dots="true">
+		{% for element in product.metafields.testimonial.testimonial_image %}
+			{%- assign testimonial_image = product.metafields.testimonial.testimonial_image[forloop.index0] -%}
+			{%- assign testimonial_title = product.metafields.testimonial.testimonial_title[forloop.index0] -%}
+			{%- assign testimonial_description = product.metafields.testimonial.testimonial_description[forloop.index0] -%}
+			{%- assign testimonial_name = product.metafields.testimonial.testimonial_name[forloop.index0] -%}
+			{%- if forloop.length > 2 -%}
+				{%- assign testimonial_hidden = true -%}
+			{%- else -%}
+				{%- assign testimonial_hidden = false -%}
+			{%- endif -%}
+			{% include 'testimonial' test_type: 'mobile'%}
+		{% endfor %}
+	</div>
+</div>

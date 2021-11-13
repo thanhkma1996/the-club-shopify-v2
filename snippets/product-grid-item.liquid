@@ -1,0 +1,338 @@
+{%- comment %} This template also serves as a template for use in JS. Take care when editing. {% endcomment -%}
+{%- assign product_variant = product.selected_or_first_available_variant -%}
+
+{%- assign no_js = no_js | default: false -%}
+
+{%- assign binder_prefix = 'product-grid-item-view-' -%}
+
+{%- assign product_url = product.url | default: 'product.url' -%}
+{%- assign product_url = product.url | default: 'product | get_url' -%}
+{%- assign show_wishlist_button = true -%}
+{%- assign product_title = product.title | default: 'product.title' -%}
+{%- assign product_type = product.type | default: '' -%}
+{%- assign collection_product_type = product.type | default: 'product | get_type' -%}
+{%- assign product_type_alternative = product.metafields.alternative.type -%}
+{%- assign product_id = product.id | default: 'product.id' -%}
+{%- assign product_vendor = product.vendor -%}
+{%- assign product_sku = product_variant.sku -%}
+{%- assign product_description = product.description | strip_html |  truncate: 200 -%}
+{%- assign product_description_alternative = product.metafields.alternative.description.html | strip_html |  truncate: 200 -%}
+{%- assign product_first_variant_id = product_variant.id -%}
+{%- assign product_element_id = 'product-grid-item-' | append: product.id -%}
+{%- if id_suffix != blank -%}
+  {%- assign id_suffix = '-' | append: id_suffix -%}
+  {%- assign product_element_id = product_element_id | append: id_suffix -%}
+{%- endif -%}
+{%- assign product_meta_image = product.featured_image | img_url: '600x600' | prepend: 'https:' | default: '' -%}
+{%- assign attribute_prefix = '' -%}
+
+{%- unless product -%}
+  {%- assign product_vendor = 'product.vendor' -%}
+  {%- assign product_sku = 'product.selected_or_first_available_variant.sku' -%}
+  {%- assign product_description = 'product | get_description | stripHtml | truncate 200' -%}
+  {%- assign product_element_id = "'product-grid-item-' | append product.id" -%}
+  {%- assign product_first_variant_id = 'product.variants.0.id' -%}
+  {%- if id_suffix != blank -%}
+    {%- assign product_element_id = product_element_id | append: " | append '-" | append: id_suffix | append: "'" -%}
+  {%- endif -%}
+  {%- assign product_meta_image = "product.featured_image.src | or product.featured_image.src | productImageSize '600x600' | prepend 'https:' | or ''" -%}
+  {%- assign attribute_prefix = binder_prefix -%}
+{%- endunless -%}
+
+{%- assign show_sku = section.settings.show_sku | default: false -%}
+{%- assign show_product_description = section.settings.product_description | default: true -%}
+{%- assign badge_position = section.settings.badge_position | default: 'top-left' -%}
+{%- assign show_sku_text = section.settings.show_sku_text | default: false -%}
+{%- assign show_vendor = section.settings.show_vendor | default: false -%}
+
+{%- assign style = style | default: 'default' -%}
+{% assign product_created_at = product.created_at | date: '%s' %}
+{% assign days_after_publish = 'now' | date: '%s' | minus: product_created_at | divided_by: 86400 %}
+{% if days_after_publish < 14 %}
+    {% assign new_badges_days = true %}
+{% endif %}
+{%- assign is_new_item = false -%}
+{%- assign is_preorder_item = false -%}
+{%- for tag in product.tags -%}
+  {%- if tag == 'new' -%}
+    {%- assign is_new_item = true -%}
+  {%- elsif tag == 'preorder' -%}
+    {%- assign is_preorder_item = true -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign display_quantity_selector = false -%}
+{%- assign display_see_more_button = true -%}
+
+{%- capture quantity_selector %}
+  {%- if display_quantity_selector -%}
+    <span class="product-grid-item__action product-grid-item__action--quantity js">
+      <label {{ attribute_prefix }}for="{% if product %}Quantity-{{ product.id }}{% else %}'Quantity-' | append product.id{% endif %}" class="visually-hidden">{{ 'products.product.quantity' | t }}:</label>
+      <input
+        class="product-grid-item__input product-grid-item__quantity-selector quantity-input"
+        type="hidden"
+        {{ attribute_prefix }}id="{% if product %}Quantity-{{ product.id }}{% else %}'Quantity-' | append product.id{% endif %}"
+        name="quantity"
+        value="1"
+        min="0"
+        pattern="[0-9]*"
+        data-display="buttons"
+        {% if product %}
+          {% if product_variant.inventory_policy == 'deny' %}
+            max="{{ product_variant.inventory_quantity }}"
+          {% endif %}
+        {% else %}
+          {{ attribute_prefix }}max="variant.inventory_quantity"
+        {% endif %}
+      >
+    </span>
+  {% else %}
+    <input
+      type="hidden"
+      name="quantity"
+      value="1"
+      data-display="hidden"
+      {{ attribute_prefix }}id="{% if product %}Quantity-{{ product.id }}{% else %}'Quantity-' | append product.id{% endif %}"
+      >
+  {%- endif -%}
+{% endcapture -%}
+
+{%- assign display_actions_on_hover = false -%}
+{%- capture actions -%}
+  <span class="product-grid-item__actions js">
+
+    {{ quantity_selector }}
+
+
+      <span class="product-grid-item__action js">
+             {%- if product.variants.size == 1 or product == blank -%}
+                 {% if product.available or product.variants[0].price > 0 or product == blank %}
+                     <div {% unless product %}{{ attribute_prefix }}if="product.variants | size | eq 1 | and product.available"{% endunless %}>
+                     <button {% unless product %}{{ attribute_prefix }}if="product.variants.0.price | eq 0 | not"{% endunless %}
+                class="btn btn-primary-o btn--small product-grid-item__action-button"
+                             {{ attribute_prefix }}data-cart-add="{{ product_first_variant_id }}"
+                             data-opens-cart-drawer
+                             {{ attribute_prefix }}data-progress-element="{{ product_action_progress_element }}" data-loads>
+          {{ 'products.product.quick_add_to_cart' | t }}
+        </button>
+                         </div>
+                 {%- endif -%}
+             {%- endif -%}
+          {%- if display_see_more_button -%}
+              {% if product.variants.size != 1 or product.price == 0 or product.available == false or product == blank %}
+                   <div {% unless product %}{{ attribute_prefix }}if="product.variants.0.price | eq 0 | or product.variants | size | eq 1 | not"{% endunless %}>
+                  <a {{ attribute_prefix }}href="{{ product_url }}"
+                     class="btn btn-primary-o btn--small product-grid-item__action-button">
+          {{ 'products.product.more_info' | t }}
+        </a>
+                   </div>
+              {% endif %}
+          {% endif %}
+      </span>
+ {% comment %}
+    <span class="product-grid-item__action" {{ attribute_prefix }}if="product.variants | size | gt 1 | not | or product.available">
+ {%- if display_see_more_button -%}
+     <a  {{ attribute_prefix }}href="{{ product_url }}" class="btn btn-primary-o btn--small">
+          {{ 'products.product.more_info' | t }}
+        </a>
+ {%- endif -%}
+    </span>
+      {% endcomment %}
+
+  </span>
+{%- endcapture -%}
+
+{%- capture current_price -%}
+  {%- render 'price', product: product, from_text: true, binder_prefix: attribute_prefix  -%}
+{%- endcapture -%}
+
+{%- if product and no_js == false -%}
+  <div
+    {% if index %}{{ attribute_prefix }}data-index="{{ index }}"{% endif %}
+    data-animate-in="{{ animate_in }}"
+    {{ attribute_prefix }}product-grid-item>
+{%- endif -%}
+
+  <div {{ attribute_prefix }}itemscope itemtype="http://schema.org/Product"
+    {% if related %} itemprop="isRelatedTo"{% endif %} 
+    class="product-grid-item product-grid-item--{{ style }}{% unless product != blank and product.available %} product-grid-item--sold-out{% endunless %}" 
+    {{ attribute_prefix }}id="{{ product_element_id }}"
+    {% unless product %} 
+      data-loaded="false" 
+      {{ attribute_prefix }}data-loaded="true" 
+      {{ attribute_prefix }}class-product-grid-item--sold-out="product.available | not"
+    {% endunless %}>
+
+    <meta itemprop="image" {{ attribute_prefix }}content="{{ product_meta_image }}">
+    <meta itemprop="description" content="{{ product.description | strip_html | escape | default: '' }}">
+    <meta itemprop="mainEntityOfPage" {{ attribute_prefix }}content="{{ product_url }}">
+    <meta itemprop="mpn" {{ attribute_prefix }}content="{{ product_sku }}">
+
+    <div class="product-grid-item__container">
+
+      {%- if show_wishlist_button -%}
+        <div class="product-grid-item__wishlist">
+          <button class="product-grid-item__wishlist-button btn btn--link add-to-wishlist" {{ attribute_prefix }}data-product-id="{{ product_id }}">
+            {%- render 'icon' with 'star-o' -%}
+            {%- render 'icon' with 'star' -%}
+            <span class="visually-hidden">{{ 'products.product.add_to_wishlist' | t }}</span>
+          </button>
+        </div>
+      {%- endif -%}
+
+      <a {{ attribute_prefix }}href="{{ product_url }}" class="product-grid-item__image">
+
+        {% if product.images[1] != blank %}
+         {% assign opacityoff = 'opacity-off' %}
+         {% else %}
+           {% assign opacityoff = 'one-image' %}
+        {% endif %}
+        {%- if product -%}
+          {%- render 'img' with product.featured_image, fade: false, img_class:opacityoff -%}
+          {%- if product.images[1] != blank -%}
+            {%- render 'img' with product.images[1], fade: false -%}
+          {%- endif -%}
+        {%- else -%}
+          <img
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            data-sizes="auto"
+            {{ attribute_prefix }}src="product.featured_image.src | productImageSize '60x'"
+            {{ attribute_prefix }}data-src="product.featured_image.src | productImageSize '{width}x'"
+            {{ attribute_prefix }}class-lazyload="product.featured_image"
+            {{ attribute_prefix }}class-opacity-off="product.images | array_element '1' | array_element 'src'"
+            {{ attribute_prefix }}alt="product.title" class="blur-up fade-in"
+            {{ attribute_prefix }}if="product.featured_image.src"
+            />
+          <img
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            data-sizes="auto"
+            {{ attribute_prefix }}if="product.images | array_element '1' | array_element 'src'"
+            {{ attribute_prefix }}data-src="product.images | array_element '1' | array_element 'src' | productImageSize '{width}x'"
+            {{ attribute_prefix }}class-lazyload="product.images | array_element '1' | array_element 'src'"
+            {{ attribute_prefix }}alt="product.title"/>
+        {%- endif -%}
+
+        <span class="product-grid-item__badges product-grid-item__badges--{{ badge_position }}">
+          {%- if settings.product_grid_item_show_sale_text and product.compare_at_price > product.price or product == blank -%}
+            <span {% unless product %}{{ attribute_prefix }}if="product.compare_at_price | gt product.price" {% endunless %}class="product-grid-item__badge product-grid-item__badge--sale">
+              <span>{{ 'products.product.sale_badge' | t | newline_to_br }}</span>
+            </span>
+          {%- endif -%}
+
+          {%- if settings.product_grid_item_show_new_text -%}
+            {%- if is_new_item or new_badges_days == true or product == blank -%}
+              <span {% unless product %}{{ attribute_prefix }}if="product.tags | includes 'new' | or product.created_at | compare_data" {% endunless %}class="product-grid-item__badge product-grid-item__badge--new">
+                <span>{{ 'products.product.new_badge' | t | newline_to_br }}</span>
+              </span>
+            {%- endif -%}
+          {%- endif -%}
+
+{% comment %}
+          {%- if section.settings.show_sold_out_label -%}
+            {%- unless product.available and product != blank -%}
+              <span {% unless product %}{{ attribute_prefix }}if="product.available | not" {% endunless %}class="product-grid-item__badge product-grid-item__badge--sold-out">
+                <span>{{ 'products.product.sold_out_badge' | t | newline_to_br }}</span>
+              </span>
+            {%- endunless -%}
+          {%- endif -%}
+
+
+          {%- if section.settings.show_preorder_label -%}
+            {%- if is_preorder_item or product == blank -%}
+              <span {% unless product %}{{ attribute_prefix }}if="product.tags | includes 'preorder'" {% endunless %}class="product-grid-item__badge product-grid-item__badge--preorder">
+                <span>{{ 'products.product.preorder_badge' | t | newline_to_br }}</span>
+              </span>
+            {%- endif -%}
+          {%- endif -%}
+{% endcomment %}
+
+            {%- if settings.product_grid_item_show_sold_out_text and product.available == false or product == blank -%}
+                <span {% unless product %}{{ attribute_prefix }}if="product.available | not" {% endunless %} class=" product-grid-item__badge product-grid-item__unavailable-text">
+                  {{ 'products.product.sold_out' | t }}
+                </span>
+            {%- endif -%}
+
+        </span>
+
+        {%- if display_actions_on_hover == true -%}
+          {{ actions }}
+        {%- endif -%}
+
+      </a>
+
+      <span>
+
+        <span class="product-grid-item__details">
+        
+          <span {% unless product %}{{ attribute_prefix }}text="{{ collection_product_type }}" {% endunless %}{{ attribute_prefix }}itemprop="name" class="product-grid-item__type">      
+            {%- if product -%}
+              {% if product_type_alternative != blank %}
+                {{ product_type_alternative  }}
+              {% else %}
+                    {{ product_type }}
+              {%- endif -%}
+            {%- endif -%}
+          </span>
+          
+          <span {% unless product %}{{ attribute_prefix }}text="{{ product_title }}" {% endunless %}{{ attribute_prefix }}itemprop="name" class="product-grid-item__title">
+            {%- if product -%}{{ product_title }}{%- endif -%}
+          </span>
+
+          <span {% unless product %}{{ attribute_prefix }}text="{{ product_vendor }}" {% endunless %}{{ attribute_prefix }}itemprop="brand" class="product-grid-item__vendor{% unless show_vendor %} visually-hidden{% endunless %}">
+            {%- if product -%}{{ product_vendor }}{%- endif -%}
+          </span>
+          
+          <span {% unless product %}{{ attribute_prefix }}text="{{ product_sku }}" {% endunless %}{{ attribute_prefix }}itemprop="sku" class="product-grid-item__sku{% unless show_sku_text %} visually-hidden{% endunless %}">
+            {%- if product -%}{{ product_sku }}{%- endif -%}
+          </span>
+
+          <span {% unless product %}{{ attribute_prefix }}html="{{ product_description }}" {% endunless %}{{ attribute_prefix }}itemprop="description" class="product-grid-item__description{% unless show_product_description %} visually-hidden{% endunless %}">
+            {%- if product -%}
+              {% if product_description_alternative != blank %}
+              {{ product_description_alternative  }}
+                {% else %}
+                {{ product_description }}
+             {%- endif -%}
+            {%- endif -%}
+          </span>
+
+            <span class="product-grid-item__description-border"></span>
+          
+          {%- if section.settings.show_price or template.name.handle != 'collection' -%}
+            <span class="product-grid-item__price">
+
+              {{ current_price }}
+
+            </span>
+          {%- endif -%}
+
+
+
+          {%- if product.metafields.stamped.badge -%}
+            <span class="product-grid-item__ratings">
+              {{ product.metafields.stamped.badge }}
+            </span>
+          {%- endif -%}
+
+        </span>
+
+         {%- if display_actions_on_hover == false and template == "cart" -%}
+           {{ actions }}
+         {%- endif -%}
+      </span>
+    </div>
+
+    {%- if product -%}
+
+      <script type="application/json" data-product-grid-item-json>
+        {%- render 'product-json' with product -%}
+      </script>
+    {%- endif -%}
+  </div>
+
+{%- if product and no_js == false-%}
+  </div>
+{%- endif -%}
+
+
+{%- assign id_suffix = null -%}

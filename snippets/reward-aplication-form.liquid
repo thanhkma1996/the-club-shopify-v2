@@ -1,0 +1,42 @@
+{%- assign b_set = block.settings -%}
+
+{%- assign image = b_set.aplication_image -%}
+
+{%- assign title = b_set.title -%}
+{%- assign sub_title = b_set.sub_title -%}
+{%- assign link_title_1 = b_set.link_title_1 -%}
+{%- assign link_url_1 = b_set.link_url_1 -%}
+{%- assign link_title_2 = b_set.link_title_2 -%}
+{%- assign link_url_2 = b_set.link_url_2 -%}
+{%- assign text = b_set.text -%}
+
+<div class="reward-aplication-form">
+	<div class="aplication-form-text">
+		{%- if title != blank -%}
+			<h2>{{ title }}</h2>
+		{%- endif -%}
+
+		{%- if sub_title != blank -%}
+			<p class="sub_title">{{ sub_title }}</p>
+		{%- endif -%}
+
+		{%- if link_title_1 != blank and link_url_1 != blank -%}
+			<a href="{{ link_url_1 }}" class="btn" target="_blank">{{ link_title_1 }}</a>
+		{%- endif -%}
+
+		{%- if link_title_2 != blank and link_url_2 != blank -%}
+			<a href="{{ link_url_2 }}" class="btn" target="_blank">{{ link_title_2 }}</a>
+		{%- endif -%}
+
+		{%- if text != blank -%}
+			<div class="rte">
+				{{ text | newline_to_br }}
+			</div>
+		{%- endif -%}
+	</div>
+	{% if image != blank %}
+		<div class="aplication-form-image">
+			{%- include 'img' with image -%}
+		</div>
+	{% endif %}
+</div>

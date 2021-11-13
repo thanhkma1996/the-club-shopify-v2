@@ -1,0 +1,11 @@
+{% assign test_type = test_type | default: 'desktop' %}
+<div class="col-xs-12 col-md-4 col-lg-4 {% if forloop.index0 > 2 and test_type == 'desktop' %}testimonial-to-hide{% endif %}">
+	<div class="testimonial">
+		<div class="testimonial__avatar">
+			<img class="lazyload" data-sizes="auto" data-srcset="{{ testimonial_image }}"/>
+		</div>
+		<h2 class="testimonial__title">{{ testimonial_title }}</h2>
+		<p class="testimonial__description">{{ testimonial_description }}</p>
+		<h3 class="testimonial__name">{{ testimonial_name }}</h3>
+	</div>
+</div>

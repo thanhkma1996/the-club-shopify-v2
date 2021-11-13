@@ -1,0 +1,1135 @@
+<article role="article" itemscope itemtype="http://schema.org/Article" class="article--{{ blog.title }}">
+  <div class="article__content">
+{%- capture blog_comments %}
+    {% comment %}
+    When a comment is submitted, the browser is redirected to a page that includes
+    the new comment id in its URL.
+    #comments is a required ID and is used as an anchor link by Shopify.
+    {% endcomment %}
+    {%- assign number_of_comments = article.comments_count -%}
+    {% comment %}
+    If a comment was just submitted but requires moderation, we have an extra comment to count.
+    {% endcomment %}
+    {%- if comment and comment.status != 'published' -%}
+    {%- assign number_of_comments = article.comments_count | plus: 1 -%}
+    {%- endif -%}
+    {%- if blog.comments_enabled? -%}
+    <h3>{{ 'blogs.comments.with_count' | t: count: number_of_comments }}</h3>
+    {% paginate article.comments by 5 %}
+    <div id="comments">
+      {%- if comment and comment.status and paginate.current_page == 1 -%}
+      <p class="form-success">
+        {%- if blog.moderated? and comment.status != 'published' -%}
+        {{ 'blogs.comments.success_moderated' | t }}
+        {%- else -%}
+        {{ 'blogs.comments.success' | t }}
+        {%- endif -%}
+      </p>
+      {%- endif -%}
+      {%- if number_of_comments > 0 -%}
+      <ul>
+        {% comment %}
+        Display comment from URL parameters if it is waiting moderation
+        {% endcomment %}
+        {%- if comment and comment.status != 'published' -%}
+        <li id="{{ comment.id }}">
+          <div class="rte">
+            {{ comment.content }}
+          </div>
+          {%- capture date -%}{{ comment.created_at | time_tag: format: 'month_day_year' }}{%- endcapture -%}
+          <p>{{ 'blogs.article.comment_meta_html' | t: author: comment.author, date: date }}</p>
+        </li>
+        {%- endif -%}
+        {%- for comment in article.comments -%}
+        <li id="{{ comment.id }}">
+          <div class="rte">
+            {{ comment.content }}
+          </div>
+          {%- capture date -%}{{ comment.created_at | time_tag: format: 'month_day_year' }}{%- endcapture -%}
+          <p>{{ 'blogs.article.comment_meta_html' | t: author: comment.author, date: date }}</p>
+        </li>
+        {%- endfor -%}
+      </ul>
+      {%- if paginate.pages > 1 -%}
+      {%- include 'pagination' -%}
+      {%- endif -%}
+      {%- endif -%}
+    </div>
+    {% endpaginate %}
+    {% form 'new_comment', article %}
+      <h3>{{ 'blogs.comments.title' | t }}</h3>
+
+      {{ form.errors | default_errors }}
+
+      <label for="CommentAuthor" class="label-hidden">
+        {{ 'blogs.comments.name' | t }}
+      </label>
+      <input type="text"
+             name="comment[author]"
+             id="CommentAuthor"
+             class="{% if form.errors contains 'author' %}input-error{% endif %}"
+             placeholder="{{ 'blogs.comments.name' | t }}"
+             value="{{ form.author }}"
+             autocapitalize="words">
+
+      <label for="CommentEmail" class="label-hidden">
+        {{ 'blogs.comments.email' | t }}
+      </label>
+      <input type="email"
+             name="comment[email]"
+             id="CommentEmail"
+             class="{% if form.errors contains 'email' %}input-error{% endif %}"
+             placeholder="{{ 'blogs.comments.email' | t }}"
+             value="{{ form.email }}"
+             spellcheck="false"
+             autocapitalize="off">
+
+      <label for="CommentBody" class="label-hidden">
+        {{ 'blogs.comments.message' | t }}
+      </label>
+      <textarea
+        name="comment[body]"
+        id="CommentBody"
+        class="{% if form.errors contains 'body' %}input-error{% endif %}"
+        placeholder="{{ 'blogs.comments.message' | t }}">
+        {{ form.body }}
+      </textarea>
+    {%- if blog.moderated? -%}
+    <p>{{ 'blogs.comments.moderated' | t }}</p>
+    {%- endif -%}
+    <input type="submit" class="btn" value="{{ 'blogs.comments.post' | t }}">
+    {% endform %}
+    {%- endif -%}
+    {% endcapture -%}
+
+    {%- assign feature_image_position = article.metafields.accentuate.image_position -%}
+    {%- assign feature_image_1 = article.metafields.accentuate.featured_image_1 -%}
+    {%- assign feature_image_2 = article.metafields.accentuate.featured_image_2 -%}
+
+    {%- capture feature_image_layout -%}
+
+    {%- if feature_image_1 != blank or feature_image_2 != blank-%}
+    </div>
+    {% comment %}backwards on purpose{% endcomment %}
+    <div class="article-feature article-section">
+    <div class="article-feature__image">
+        <img class="lazyload" data-sizes="auto" data-srcset="//images.accentuate.io?options=w{% raw %}{width}{% endraw %}&shop={{ shop.permanent_domain }}&image={{ feature_image_1 }}"/>
+    </div>
+    <div class="article-feature__image">
+        <img class="lazyload" data-sizes="auto" data-srcset="//images.accentuate.io?options=w{% raw %}{width}{% endraw %}&shop={{ shop.permanent_domain }}&image={{ feature_image_2 }}"/>
+    </div>
+    </div>
+    {% comment %}backwards on purpose{% endcomment %}
+    <div class="rte article__body">
+    {%- endif -%}
+
+    {%- endcapture -%}
+
+
+    {%- capture article_breadcrumbs %}
+        {%- include 'breadcrumbs' -%}
+    {% endcapture -%}
+
+
+    {%- capture article_image %}
+    {%- assign article_image = article.metafields.details.image -%}
+
+        {%- if article_image -%}
+            <div id="{{ header_image_id }}" class="article__image">
+                <img class="lazyload" data-sizes="auto" data-srcset="//images.accentuate.io?options=w{% raw %}{width}{% endraw %}&shop={{ shop.permanent_domain }}&image={{ article_image }}"/>
+        </div>
+        {% elsif article.image  %}
+        <div id="{{ header_image_id }}" class="article__image">
+            {%- include 'img' with article.image -%}
+        </div>
+    {%- endif -%}
+{% endcapture -%}
+
+{%- capture freemium_signup %}
+  {%- assign freemium_signup_title = article.metafields.freemium_signup.title -%}
+  {%- assign freemium_signup_form_embed_code = article.metafields.freemium_signup.embed_code -%}
+  {%- if freemium_signup_title and freemium_signup_form_embed_code -%}
+    <div class="freemium-signup">
+      <div class="freemium-signup__titles" data-toggle=".freemium-signup">
+        <div class="freemium-signup__icon-wrapper">
+          <div class="freemium-signup__icon">&uarr;</div>
+        </div>
+        <div class="freemium-signup__title">
+          <h3>{{ freemium_signup_title }}</h3>
+        </div>
+      </div>
+      <div class="freemium-signup__singup-container">
+        <div class="freemium-signup__singup-content">
+          {{ freemium_signup_form_embed_code }}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+{% endcapture -%}
+
+{% capture line_separator %}
+    <div class="line_separator">
+        <hr>
+    </div>
+{% endcapture %}
+
+{%- capture article_body %}
+  {% for tag in article.tags %}
+    {% if tag contains 'main:' %}
+      {% assign main_tag = tag | split: 'main:' %}
+    {% endif %}
+  {% endfor %}
+    <div class="rte article__body" itemprop="articleBody">
+
+        {%- assign article_content = article.content
+            | replace: '[featured-images]', feature_image_layout
+            | replace: '[freemium signup]', freemium_signup
+            | replace: '[line_separator]', line_separator
+            -%}
+
+        <h1>{{ article.title }}</h1>
+        <!--<p class="article-info">{{ article.author }} | {{ article.created_at | date: "%d.%m.%y" }} {% if main_tag != blank %}| {{ main_tag[1] }}{% endif %}</p>-->
+        {%- include 'text' with article_content -%}
+
+    </div>
+{% endcapture -%}
+
+{%- capture article_footer %}
+<div class="article__footer">
+  {%- assign number_of_recommendations = 3 -%}
+  {%- assign heading = section.settings.title -%}
+  {% assign selected_handles = article.metafields.products.related_products | split: '|' %}
+
+
+
+
+  {%- if selected_handles != blank -%}
+
+    {% assign class = 'product-recommendations-metafields' %}
+
+    <div class="container">
+      <div class="row product-recommendations__row" id="Slideshow-{{ section.id }}">
+          <div class="col-xs-12">
+            {% if section.settings.related_title != blank %}
+              <h2>{{ section.settings.related_title }}</h2>
+            {% endif %}
+          </div>
+          {% for selected_handle in selected_handles limit: number_of_recommendations %}
+              {% if all_products[selected_handle].id %}
+                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    {%- render 'product-grid-item', product: all_products[selected_handle] -%}
+                </div>
+              {% endif %}
+          {% endfor %}
+      </div>
+    </div>
+
+    {% comment %}{{output}}{% endcomment %}
+  {% endif %}
+  {% comment %}article.metafields.products.related_products{% endcomment %}
+
+    {{ line_separator }}
+    <div class="article-nav">
+      <p>
+        <a href="{{ blog.previous_article }}" class="article-navigation article-navigation--prev">
+          {% render 'icon' with 'arrow-left' %} 
+          <span>Previous Rider</span>
+        </a>
+      </p>
+      <p>
+        <a href="{{ blog.next_article }}" class="article-navigation article-navigation--next">
+          <span>Next Rider</span>
+          {% render 'icon' with 'arrow-right' %}
+        </a>
+      </p>
+    </div>
+    {% comment %}{% if settings.social_sharing_blog %}
+      <div class="article-social-sharing text-{{ block.settings.text_alignment }}">
+          {% include 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image, layout: 'icon' %}
+      </div>
+    {% endif %}{% endcomment %}
+  </div>
+{% endcapture -%}
+
+
+<div data-section-id="{{ section.id }}" data-section-type="article">
+
+    <div class="{% if section_layout == 'center-content' %} center-xs {% endif %} {{ accordion_icon_class }}">
+
+        {% comment %}<div class="article-header__background">
+            <div class="article-header__image">
+                {%- include 'img' with article.image -%}
+            </div>
+        </div>{% endcomment %}
+
+        {%- for block in section.blocks -%}
+            {% assign width = block.settings.width | default: '12' %}
+
+            <div class="article-block--{{ block.type }}">
+
+        {%- if block.type == 'body' %}
+                    <div class="container">
+                      {{ article_body }}
+
+                      {%- elsif block.type == 'header' %}
+                      <header role="banner">
+                          <div class="article-header__inner text-{{ block.settings.text_alignment }}">
+                              {%- if block.settings.enable_subtitle -%}
+                                  <h4 class="article__subtitle">{{ article.metafields.details.category }}</h4>
+                              {%- endif -%}
+                              {%- if block.settings.enable_title -%}
+                                  <h1 class="article__title h1">{{ article.title }}</h1>
+                              {%- endif -%}
+                              {%- if block.settings.enable_excerpt -%}
+                                  <h5 class="article__subtitle">{{ article.excerpt }}</h5>
+                              {%- endif -%}
+                              {%- if block.settings.enable_date -%}
+                                  <h5 class="article_date">{{ article.published_at | time_tag: format: 'month_day_year' }}</h5>
+                              {%- endif -%}
+                              {%- if block.settings.enable_author -%}
+                                  <h5 class="article__subtitle">{{ article.author }}</h5>
+                              {%- endif -%}
+                          </div>
+                      </header>
+                    </div>
+
+
+        {%- elsif block.type == 'banner-image' %}
+                    {{ article_image }}
+
+                    {%- if block.settings.enable_breadcrumbs -%}
+                        <div class="article-breadcrumb article-breadcrumb--{{ block.settings.breadcrumb_position }}">
+                            {{ article_breadcrumbs }}
+                        </div>
+                    {%- endif -%}
+
+        {%- elsif block.type == 'breadcrumbs' %}
+                    <div class="article-breadcrumb article-breadcrumb--{{ block.settings.breadcrumb_position }}">
+                        {{ article_breadcrumbs }}
+                    </div>
+
+        {%- elsif block.type == 'tags' %}
+
+                    <div class="article-tags article-tags--{{ block.settings.style }}">
+                        {%- if block.settings.title != blank -%}
+                            <h4 class="article-tags__title">{{ block.settings.title }}</h4>
+                        {%- endif -%}
+
+                        {%- if block.settings.style == 'list' -%}
+                            {%- assign list_enabled = true -%}
+                        {%- endif -%}
+                        {%- assign exemptions = 'cook=,serves=,difficulty=,prep=' | split: ',' -%}
+
+                        {% if article.tags.size > 0 %}
+                            <ul class="article-tags__list">
+                                {% for tag in article.tags %}
+                                    {%- unless tag contains '='-%}
+                                        <li class="article-tags__item">
+                                            <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="article-tags__link">{{ tag | capitalize }}
+                                                {% if list_enabled and forloop.last != true %}{{ ', '}}{% endif %}</a>
+                                        </li>
+                                    {%- endunless -%}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                    </div>
+
+         {%- elsif block.type == 'socials' %}
+            {% comment %}
+            {% if settings.social_sharing_blog %}
+                <div class="text-{{ block.settings.text_alignment }}">
+                    {% include 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image, layout: 'icon' %}
+                </div>
+            {% endif %}
+            {% endcomment %}
+          {%- elsif block.type == 'navigation' %}
+
+            {{ article_footer }}
+
+          {%- elsif block.type == 'related-articles' %}
+
+            {%- if block.settings.related_type == 'metafields'-%}
+                {%- assign related_items = article.metafields.related.articles | split: '|'-%}
+            {% elsif block.settings.related_type == 'tag' %}
+              {% comment %}  {%- assign related_items = blog.articles | where: "tag", "category" -%}{% endcomment %}
+            {%- endif -%}
+
+            {%- capture slides %}
+              {%- for item in related_items -%}
+                  {%- assign related_article_handle =  item | split: '/' | last -%}
+                  {%- assign related_article_item = articles[related_article_handle] -%}
+                  {%- unless related_article_item == blank -%}
+                    <div class="slide">
+                        {%- include 'article-grid-item' with article: related_article_item, layout: 'detailed' -%}
+                    </div>
+                  {%- endunless -%}
+              {%- endfor -%}
+            {% endcapture -%}
+
+            {%- unless related_items == blank or slides == blank -%}
+              <div class="full-width related-articles-wrapper">
+                <div class="container--flush content-gutter--left">
+                {%- assign show_count = block.settings.show_desktop | append: '|'| append: block.settings.show_tablet | append: '|'| append: block.settings.show_mobile -%}
+
+                {%- assign related_title = block.settings.title -%}
+                {%- unless slides == blank -%}
+                  <div class="related-items__header text-center content-width">
+                      <h3 class="related-items__title">{{ related_title }}</h3>
+                  </div>
+                  {%- include 'slider' with slides: slides,
+                      slide_sizes: '3.5 | 2 | 1.25',
+                      infinite: false,
+                      arrows: true,
+                      progress_bar: true,
+                      arrow_icon: 'arrow',
+                      slider_id: 'article-articles' -%}
+                {%- endunless -%}
+              </div>
+            </div>
+            {%- endunless -%}
+              
+        {%- elsif block.type == 'related-products' %}
+
+          {%- if block.settings.related_type == 'metafields'-%}
+              {%- assign related_items = article.metafields.related.products | split: '|' -%}
+              {% elsif block.settings.related_type == 'tag' %}
+              {%- assign related_items = blog.articles | where: "tag", "category" -%}
+          {%- endif -%}
+
+          {%- assign related_title = block.settings.title  -%}
+          {%- if related_title contains '#' -%}
+              {%- assign team_member_name =  article.title | split: ' ' | first -%}
+              {%- assign related_title = block.settings.title | replace: '#', team_member_name -%}
+          {%- endif -%}
+
+          {%- assign show_count = block.settings.show_desktop | append: '|'| append: block.settings.show_tablet | append: '|'| append: block.settings.show_mobile -%}
+
+          {%- capture slides %}
+              {%- for item in related_items -%}
+                  {%- assign related_product_item = all_products[item] -%}
+                  {%- unless related_product_item == blank -%}
+                    <div class="slide">
+                        {%- render 'product-grid-item', product: related_product_item -%}
+                    </div>
+                  {%- endunless -%}
+                  
+              {%- endfor -%}
+          {% endcapture -%}
+
+          {%- unless related_items.size == 0 or slides == blank -%}
+            <div class="related-items__header text-center">
+              <h3 class="related-items__title">{{ related_title }}</h3>
+            </div>
+      
+            {%- include 'slider' with slides: slides,
+                slide_sizes: '3.5 | 2 | 1.25',
+                infinite: false,
+                arrows: true,
+                arrow_icon: 'arrow',
+                progress_bar: true,
+                slider_id: 'article-products' -%}
+           
+          {%- endunless -%}
+                    
+
+          {% elsif block.type == 'spacer' %}
+            <div class="grid__spacer {% if block.settings.display_on_mobile %} visible-xs {% else %} hidden-xs{% endif %}"></div>
+
+          {%- endif -%}
+            </div>
+        {%- endfor -%}
+    </div>
+</div>
+      
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Article Page",
+  "class": "article-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "related_title",
+      "label": "Title for related products",
+      "default": "Related products"
+    }
+  ],
+  "blocks": [{
+      "name": "Header",
+      "type": "header",
+      "settings": [{
+          "type": "checkbox",
+          "id": "enable_subtitle",
+          "default": true,
+          "label": "Enable SubTitle"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_title",
+          "default": true,
+          "label": "Enable Title"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_excerpt",
+          "default": true,
+          "label": "Enable Excerpt"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_date",
+          "default": false,
+          "label": "Enable Date"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_author",
+          "default": false,
+          "label": "Enable Author"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text Alignment",
+          "options": [{
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "unit": "col",
+          "label": "Width on page",
+          "default": 12
+        },
+        {
+          "type": "radio",
+          "id": "position",
+          "label": "Page Position",
+          "options": [{
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "sidebar",
+              "label": "Sidebar"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ],
+          "default": "body",
+          "info": "set where the block appears"
+        }
+      ]
+    },
+    {
+      "name": "Banner Image",
+      "type": "banner-image",
+      "settings": [{
+          "type": "checkbox",
+          "id": "enable_breadcrumbs",
+          "default": true,
+          "label": "Enable Banner Breadcrumbs"
+        },
+        {
+          "type": "select",
+          "id": "breadcrumb_position",
+          "label": "Breadcrumb Position",
+          "options": [{
+              "value": "overlay",
+              "label": "Overlay"
+            },
+            {
+              "value": "relative",
+              "label": "Relative"
+            }
+          ],
+          "default": "overlay"
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "unit": "col",
+          "label": "Width on page",
+          "default": 12
+        },
+        {
+          "type": "radio",
+          "id": "position",
+          "label": "Page Position",
+          "options": [{
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "sidebar",
+              "label": "Sidebar"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ],
+          "default": "body",
+          "info": "set where the block appears"
+        }
+      ]
+    },
+    {
+      "name": "Breadcrumbs",
+      "type": "breadcrumbs",
+      "settings": [{
+          "type": "range",
+          "id": "width",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "unit": "col",
+          "label": "Width on page",
+          "default": 12
+        },
+        {
+          "type": "radio",
+          "id": "position",
+          "label": "Page Position",
+          "options": [{
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "sidebar",
+              "label": "Sidebar"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ],
+          "default": "body",
+          "info": "set where the block appears"
+        }
+      ]
+    },
+    {
+      "name": "Tags",
+      "type": "tags",
+      "settings": [{
+          "type": "text",
+          "id": "title",
+          "label": "Tag Label"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Tags display type",
+          "options": [{
+              "value": "tiles",
+              "label": "Tiles"
+            },
+            {
+              "value": "text",
+              "label": "Text"
+            },
+            {
+              "value": "list",
+              "label": "List"
+            }
+          ],
+          "default": "text"
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "unit": "col",
+          "label": "Width on page",
+          "default": 12
+        },
+        {
+          "type": "radio",
+          "id": "position",
+          "label": "Page Position",
+          "options": [{
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "sidebar",
+              "label": "Sidebar"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ],
+          "default": "body",
+          "info": "set where the block appears"
+        }
+      ]
+    },
+    {
+      "name": "Article Body",
+      "type": "body",
+      "settings": [{
+          "type": "range",
+          "id": "width",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "unit": "col",
+          "label": "Width on page",
+          "default": 12
+        },
+        {
+          "type": "radio",
+          "id": "position",
+          "label": "Page Position",
+          "options": [{
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "sidebar",
+              "label": "Sidebar"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ],
+          "default": "body",
+          "info": "set where the block appears"
+        }
+      ]
+    },
+    {
+      "name": "Socials",
+      "type": "socials",
+      "settings": [{
+          "type": "paragraph",
+          "content": "Click theme actions > edit languages to set the [share title]()"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text Alignment",
+          "options": [{
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "unit": "col",
+          "label": "Width on page",
+          "default": 12
+        },
+        {
+          "type": "radio",
+          "id": "position",
+          "label": "Page Position",
+          "options": [{
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "sidebar",
+              "label": "Sidebar"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ],
+          "default": "body",
+          "info": "set where the block appears"
+        }
+      ]
+    },
+    {
+      "name": "Navigation",
+      "type": "navigation",
+      "settings": [{
+          "type": "range",
+          "id": "width",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "unit": "col",
+          "label": "Width on page",
+          "default": 12
+        },
+        {
+          "type": "radio",
+          "id": "position",
+          "label": "Page Position",
+          "options": [{
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "sidebar",
+              "label": "Sidebar"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ],
+          "default": "body",
+          "info": "set where the block appears"
+        }
+      ]
+    },
+    {
+      "name": "Related Articles",
+      "type": "related-articles",
+      "settings": [{
+          "type": "text",
+          "id": "title",
+          "label": "Related Articles Title"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_slider",
+          "default": true,
+          "label": "Enable Slider"
+        },
+        {
+          "type": "select",
+          "id": "related_type",
+          "label": "Set related items by:",
+          "options": [{
+              "value": "metafields",
+              "label": "Metafields"
+            },
+            {
+              "value": "Tag",
+              "label": "tag"
+            },
+            {
+              "value": "blog-type",
+              "label": "Blog Type"
+            }
+          ],
+          "default": "metafields"
+        },
+        {
+          "type": "header",
+          "content": "Slider Options"
+        },
+        {
+          "type": "range",
+          "id": "show_desktop",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "unit": "col",
+          "label": "Number of Slides to show",
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "show_tablet",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "unit": "col",
+          "label": "Number of Slides to show",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "show_mobile",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "unit": "col",
+          "label": "Number of Slides to show",
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "unit": "col",
+          "label": "Width on page",
+          "default": 12
+        },
+        {
+          "type": "radio",
+          "id": "position",
+          "label": "Page Position",
+          "options": [{
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "sidebar",
+              "label": "Sidebar"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ],
+          "default": "body",
+          "info": "set where the block appears"
+        }
+      ]
+    },
+    {
+      "name": "Related Products",
+      "type": "related-products",
+      "settings": [{
+          "type": "text",
+          "id": "title",
+          "label": "Related Products Title"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_slider",
+          "default": true,
+          "label": "Enable Slider"
+        },
+        {
+          "type": "header",
+          "content": "Slider Options"
+        },
+        {
+          "type": "range",
+          "id": "show_desktop",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "unit": "col",
+          "label": "Number of Slides to show",
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "show_tablet",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "unit": "col",
+          "label": "Number of Slides to show",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "show_mobile",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "unit": "col",
+          "label": "Number of Slides to show",
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "unit": "col",
+          "label": "Width on page",
+          "default": 12
+        },
+        {
+          "type": "select",
+          "id": "related_type",
+          "label": "Set related items by:",
+          "options": [{
+              "value": "metafields",
+              "label": "Metafields"
+            },
+            {
+              "value": "Tag",
+              "label": "tag"
+            },
+            {
+              "value": "collection",
+              "label": "Collection"
+            }
+          ],
+          "default": "metafields"
+        },
+        {
+          "type": "radio",
+          "id": "position",
+          "label": "Page Position",
+          "options": [{
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "sidebar",
+              "label": "Sidebar"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ],
+          "default": "body",
+          "info": "set where the block appears"
+        }
+      ]
+    },
+    {
+      "name": "Spacer",
+      "type": "spacer",
+      "settings": [{
+          "type": "checkbox",
+          "id": "display_on_mobile",
+          "default": false,
+          "label": "Display on Mobile"
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "unit": "col",
+          "label": "Width on page",
+          "default": 12
+        },
+        {
+          "type": "radio",
+          "id": "position",
+          "label": "Page Position",
+          "options": [{
+              "value": "header",
+              "label": "Header"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "sidebar",
+              "label": "Sidebar"
+            },
+            {
+              "value": "footer",
+              "label": "Footer"
+            }
+          ],
+          "default": "body",
+          "info": "set where the block appears"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "settings": {},
+    "blocks": [{
+        "type": "banner-image",
+        "settings": {
+          "width": 12,
+          "position": "body"
+        }
+      },
+      {
+        "type": "body",
+        "settings": {
+          "width": 12,
+          "position": "body"
+        }
+      },
+      {
+        "type": "navigation",
+        "settings": {
+          "width": 12,
+          "position": "body"
+        }
+      },
+      {
+        "type": "related-articles",
+        "settings": {
+          "width": 12,
+          "position": "body"
+        }
+      }
+    ]
+  }
+}
+{% endschema %}

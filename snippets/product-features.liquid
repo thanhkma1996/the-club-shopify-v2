@@ -1,0 +1,46 @@
+<div class="product-feature-wrap">
+	<div class="product-feature-list">
+		{% for element in product.metafields.feature.article %}
+			{%- assign loop_article = product.metafields.feature.article[forloop.index0] -%}
+			{%- assign loop_article_img = product.metafields.feature.image[forloop.index0] -%}
+			{%- assign acf_article = articles[loop_article] -%}
+			{%- assign loop_length = forloop.length -%}
+			{%- assign loop_index = forloop.index0 -%}
+			{%- assign divi = forloop.length | modulo:3 -%}
+			<div class="product-feature-article {% if loop_length > 5 and loop_index > 5 %}to-hide{% endif %} {% if loop_length > 2 and loop_index > 2 %}to-hide-mobile{% endif %}">
+				<div class="product-feature__img">
+					{% if loop_article_img != blank %}
+						<img class="lazyload" data-sizes="auto" data-srcset="{{ loop_article_img }}"/>
+					{% else %}
+						{% include 'img' with acf_article.image, class: '' %}
+					{% endif %}
+				</div>
+				<div class="product-feature__description">
+					<h5>{{ acf_article.title }}</h5>
+					<div class="product-feature__text">
+						{{ acf_article.content }}
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		{% if divi != 0 %}
+			{%- assign divi = divi | plus:1 | modulo:3 -%}
+			<div class="product-feature-article product-feature-article--empty {% if loop_length > 5 and loop_index > 5 %}to-hide{% endif %} {% if loop_length > 2 and loop_index > 2 %}to-hide-mobile{% endif %}"></div>
+			{% if divi != 0 %}
+				{%- assign divi = divi | plus:1 | modulo:3 -%}
+				<div class="product-feature-article product-feature-article--empty {% if loop_length > 5 and loop_index > 5 %}to-hide{% endif %} {% if loop_length > 2 and loop_index > 2 %}to-hide-mobile{% endif %}"></div>
+			{% endif %}
+		{% endif %}
+		{% if loop_length > 2 %}
+			<div class="feature-list__gradient {% unless loop_index > 5 %}only-mobile{% endunless %}"></div>
+		{% endif %}
+	</div>
+	{% if loop_length > 2 %}
+		<div class="text-center">
+			<button type="button" class="btn btn-primary-o js-show-fetures {% unless loop_index > 5 %}only-mobile{% endunless %}">
+				<span>{{ 'products.product.show_features' | t }}</span>
+				<span>{{ 'products.product.hide_features' | t }}</span>
+			</button>
+		</div>
+	{% endif %}
+</div>

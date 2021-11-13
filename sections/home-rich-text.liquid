@@ -1,0 +1,105 @@
+{% assign s_sett = section.settings %}
+  <div class="container" data-section-id="{{ section.id }}">
+    <article class="rich-text">
+      {% if s_sett.img != blank %}
+        <picture class="rich-text__img">
+          {% include 'img' with s_sett.img, max_width: 720 class: '' %}
+        </picture>
+      {% endif %}
+      
+      
+      {% if s_sett.title != blank and s_sett.text != blank %}
+        <section class="rich-text__section">
+          {% if s_sett.subtitle != blank %}
+            <span class="rich-text__subtitle">{{ s_sett.subtitle }}</span>
+          {% endif %}
+          {% if s_sett.title != blank %}
+            <h2 class="rich-text__title h1">{{ s_sett.title }}</h2>
+          {% endif %}
+          {% if s_sett.img != blank %}
+            <picture class="rich-text__img rich-text__img--mob">
+              {% include 'img' with s_sett.img, max_width: 720 class: '' %}
+            </picture>
+          {% endif %}
+          {% if s_sett.text != blank %}
+            <p class="rich-text__desc">{{ s_sett.textarea }}</p>
+          {% endif %}
+          
+          {% if section.blocks.size > 0 %}
+            <ul class="rich-text__list">
+              {%- for block in section.blocks -%}
+                <li><span>{%- include 'icon' with 'list-tick' -%}</span>{{- block.settings.title -}}</li>
+              {%- endfor -%}
+            </ul>
+          {% endif %}
+          {% if s_sett.link_url != blank %}
+            <div class="rich-text__btn-wrap">
+              <a class="btn btn-primary-o rich-text__btn" href="{{ s_sett.link_url }}">{{- s_sett.link_text -}}</a>
+            </div>
+          {% endif %}
+        </section>
+      {% endif %}
+      
+      
+    </article>
+  </div>
+{% if s_sett.img != blank or s_sett.title != blank and s_sett.text != blank %}
+
+{% endif %}
+{% schema %}
+  {
+   "name":"Rich text",
+   "settings": [
+      {
+        "type": "image_picker",
+        "id": "img",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub Title"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type":"textarea",
+        "id": "text",
+        "label": "Text"
+      },
+      {
+        "type": "text",
+        "id": "link_text",
+        "label": "Link Text",
+        "default": "Learn more"
+      },
+      {
+        "type": "url",
+        "id": "link_url",
+        "label": "Link Url"
+      }
+   ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "List",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+   "presets": [
+     {
+      "name": "Rich Text",
+      "category": "Text"
+     }
+   ]
+  }
+{% endschema %}

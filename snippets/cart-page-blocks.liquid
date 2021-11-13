@@ -1,0 +1,477 @@
+{% if block.type == 'breadcrumbs' %}  
+
+  <div class="cart-breadcrumbs {% if block.settings.enable_overlay %} cart-breadcrumbs-overlay {% endif %} theme--{{ block.settings.theme }}">
+   {% include 'breadcrumbs' %}
+  </div>
+
+
+{% elsif block.type == 'cart-footer' %}
+
+{% comment %}this is output outside of data-cart-view, see template-cart.liquid {% endcomment %}
+
+{% elsif block.type == 'side-bar' %}
+
+  {%- assign summary_rows = block.settings.sidebar_rows | newline_to_br -%}
+  {%- assign rows = summary_rows | split: '<br />' -%}
+
+  <div class="cart-actions" rv-hide="cart.item_count_display | not" {% if block.settings.enable_sticky_element %} js-faq-sticky__element {% endif %} {% if block.settings.sticky_offset != blank %}data-offset-desktop="{{ block.settings.sticky_offset }}"{% endif %}>
+    {%- if block.settings.title != blank -%}
+      <h5 class="cart-actions__title">{{ block.settings.title }}</h5>
+    {%- endif -%}
+    <div class="cart-summary">
+      
+      {%- for row in rows -%}
+
+        {%- if row contains '|' -%}
+          {%- assign row_title = row | split: '|' | first | strip -%}
+          {%- assign row_value = row | split: '|' | last | strip -%}
+          <div class="cart-summary__item cart-summary__item--{{ row_title | handle }}">
+            <div class="cart-summary__title">
+              {{ row_title }}
+              {%- if row_title contains 'Grand Total:' -%}
+                <span class="cart-summary__subtext">{{ 'customer.order.including_tax' | t }}</span>
+              {%- endif -%}
+            </div>
+            <div class="cart-summary__value">
+              {%- if row_value contains 'subtotal' or row_value contains 'total' -%}
+                <div class="cart__subtotal cart-summary__value-text" rv-html="cart.total_price | money shop.currency"></div>
+              {% elsif row_value contains 'shipping' %}
+                <div class="cart__shipping cart-summary__value-text">
+                   <div class="cart-drawer__total-price">
+                    <div rv-if="cart.total_price | gte {{settings.free_shipping_threshold | times: 100 }}" class="cart-drawer__shipping-title">
+                        {{ 'cart.general.shipping_free_message' | t }}
+                </div>
+                    <div rv-if="cart.total_price | gte {{settings.free_shipping_threshold | times: 100 }} | not" rv-html="{{settings.shipping_cost | times: 100}} | money shop.currency" class="cart-drawer__shipping-message">
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+          {%- else -%}
+          <div class="cart-summary__item cart-summary__item--{{ row | handle }}">
+            <div class="cart-summary__title">{{ row }}</div>
+            <div class="cart-summary__value">
+              {%- if row contains 'subtotal' or row contains 'total' -%}
+                <div class="cart__subtotal cart-summary__value-text" rv-html="cart.total_price | money shop.currency"></div>
+              {% elsif row contains 'shipping' %}
+                <div class="cart__shipping cart-summary__value-text"></div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+          
+      {%- endfor -%}
+      
+    </div>
+    
+    
+  </div>
+
+  
+{% elsif block.type == 'cart-submit' %}
+  <div class="cart-actions" rv-hide="cart.item_count_display | not">
+     <form action="/cart" method="post" novalidate="" class="cart-drawer__footer-form"> 
+
+      {%- capture button_text %}
+        {%- if block.settings.cart_show_padlock_icon -%}
+          {%- render 'icon' with 'padlock' -%}
+        {%- endif -%}
+        {%- if block.settings.btn_text != blank -%}
+          <span>{{ block.settings.btn_text }}</span>
+        {%- else -%}
+          <span>{{ 'cart.general.checkout' | t }}</span>
+        {%- endif -%}
+      {% endcapture -%}
+      <button class="btn btn--wide btn-primary cart-drawer__submit" 
+        type="submit" 
+        name="checkout" 
+        rv-enabled="cart.item_count_display">
+          {%- if button_text != blank -%}
+            
+            {{ button_text }}
+
+            {%- else -%}
+
+            {%- if settings.cart_show_padlock_icon -%}
+              {%- render 'icon' with 'padlock' -%}
+            {%- endif -%}
+            <span>{{ 'cart.general.checkout' | t }}</span>
+
+          {%- endif -%}
+
+        </button>
+    </form>
+  </div>
+
+{% elsif block.type == 'value-props' %}
+ 
+    
+      {%- if block.settings.enable_global_message -%}
+        <div class="cart-drawer__section cart-drawer__message" rv-hide="cart.item_count_display | not">
+          <small>
+            {{ settings.ajax_cart_message }}
+          </small>
+        </div>
+      {%- else -%}
+
+      <div class="cart-values">
+      {%- for i in (1..3) -%}
+
+        {%- assign field_icon = 'icon_' | append: i -%}
+        {%- assign field_text = 'title_' | append: i -%}
+
+        <div class="cart-values__item">
+          {%- assign value_icon = value_props.settings[field_icon] -%}
+          {%- assign value_text = value_props.settings[field_text] -%}
+          <span class="cart-values__icon">
+            {%- if value_icon contains 'tick' -%}
+              <span class="icon icon-tick"></span>
+            {%- else -%}
+              {%- render 'icon' with value_icon -%}
+            {%- endif -%}
+            
+          </span>
+          <span class="cart-values__text">
+            {{ value_text }}
+          </span>
+        </div>
+
+      {%- endfor -%}
+      </div>
+    {%- endif -%}
+    
+  
+{% elsif block.type == 'text-block' %}    
+
+  {%- unless block.settings.title == blank -%}
+    <div class="cart-drawer-text text-{{ block.settings.text_alignment }}">
+      {%- if block.settings.text_style == 'paragraph'-%}
+        <p>{{ block.settings.title }}</p>
+      {% elsif block.settings.text_style == 'button' %}
+        <a href="{{ block.settings.link }}" class="">{{ block.settings.title }}</a>
+      {% elsif block.settings.text_style == 'heading' %}
+        <h4>{{ block.settings.title }}</h4>
+      {% elsif block.settings.text_style == 'subheading' %}
+        <h5>{{ block.settings.title }}</h5>
+      {%- endif -%}
+    </div>
+  {%- endunless -%}   
+
+{% elsif block.type == 'cart-attributes' %}
+  <div class="cart-actions">
+    <div class="cart-note js-cart-notes">
+      {%- assign date_key = 'cart.delivery.date_name' | t -%}
+  {%- assign date_id = date_key | handle  -%}
+  {%- assign date_label = 'cart.delivery.date_label' | t -%}
+  {%- assign date_description = 'cart.delivery.date_description' | t -%}
+
+  {%- assign message_key = 'cart.delivery.message_name' | t -%}
+  {%- assign message_id = message_key | handle -%}
+  {%- assign message_label = 'cart.delivery.message_label' | t -%}
+
+  <div class="cart-note-content">
+    <div class="cart-note-content-inner">
+      <div class="cart-note-input-wrapper">
+        <div class="input-wrapper"> 
+          <label for="date--1" class="cart-note__label label-base ">{{ date_label }}</label> 
+          <div class="date-input-wrapper">
+            <input class="input-base cart-note__input js-cart-note" 
+            type="date" 
+            id="{{ date_id }}" 
+            name="date"
+            data-key="{{ date_key }}"
+            data-date-picker=""
+            data-date-picker-key="{{ date_key }}"
+            rv-on-change="methods.setCartAtrribute"
+            required="true">
+
+            <div class="date-placeholder" 
+            rv-if="cart.attributes | array_element '{{ date_key }}'" 
+            rv-data-placeholder="cart.attributes | array_element '{{ date_key }}' | flipDate '/'"></div>
+
+            <div class="cart-note__icon">
+              {%- render 'icon' with 'date' -%}
+            </div>
+
+          </div>
+        </div>
+        <div class="rte cart-note__information">
+          <p>{{ date_description }}</p>
+        </div>
+      </div>
+      <div class="cart-note-input-wrapper">
+        <div class="textarea-wrapper"> 
+          <label for="textarea--2" class="cart-note__label label-base ">{{ message_label }}</label> 
+          <textarea class="textarea-base js-cart-note" 
+          id="{{ message_id }}" 
+          name="textarea" 
+          placeholder="" 
+          data-key="{{ message_key }}"
+          data-date-picker-key="{{ date_key }}"
+          rv-text="cart.attributes | array_element '{{ message_key }}'"
+          rv-on-change="methods.setCartAtrribute" 
+          required="true"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+{% elsif block.type == 'cart-notes' %}
+
+  <div class="cart-actions">
+    <div class="cart-note" {% if block.settings.accordion_notes %} data-simple-accordion {% endif %}>
+      {%- if block.settings.title != blank -%}
+        <p class="cart-note-title">{{ block.settings.title }}</p>
+      {%- endif -%}
+      
+      {%- if block.settings.hide_label -%}
+        {%- assign item_style = 'label-hidden' -%}
+      {%- endif -%}
+
+      <div class="cart-note-content">
+        <div class="cart-note-content-inner">
+          {%- for i in (1..4)  -%}
+            {%- assign label_field_key = 'label_' | append: i -%}
+            {%- assign input_field_key = 'input_' | append: i -%}
+            {%- assign info_field_key = 'message_' | append: i -%}
+            {%- assign required_field_key = 'required_' | append: i -%}
+            {%- assign placeholder_field_key = 'placeholder_' | append: i  -%}
+
+            {%- assign label = block.settings[label_field_key] -%}
+            {%- assign input = block.settings[input_field_key] -%}
+            {%- assign info = block.settings[info_field_key] -%}
+            {%- assign placeholder = block.settings[placeholder_field_key] -%}
+            {%- assign id = label | append: '-' | append: i -%}
+
+            {%- assign required = '' -%}
+            {%- if block.settings[required_field_key] -%}
+              {%- assign required = 'required' -%}
+            {%- endif -%}
+            
+            {%- if input == 'disable' -%}
+              {%- continue -%}
+            {%- else -%}
+              <div class="cart-note-input-wrapper">
+                
+                {% if input contains 'textarea' %}
+                  <div class="textarea-wrapper">
+
+                    <label for="{{ id }}" class="cart-note__label label-base {{ item_style }}">{{ label }}</label>
+
+                    <textarea class="textarea-base" 
+                      type="text" 
+                      id="{{ id | handle }}" 
+                      name="{{ input }}" 
+                      placeholder="{% if block.settings.hide_label %}{{ label }}{% else %}{{ placeholder }}{% endif %}"
+                      {{ required }}>
+                    </textarea>
+
+                  </div>
+                {%- else -%}
+       
+                <div class="input-wrapper">
+                
+                  <label for="{{ id }}" class="cart-note__label label-base {{ item_style }}">{{ label }}</label>
+
+                  <input class="input-base cart-note__input" 
+                  type="{{ input }}" 
+                  id="{{ id }}" 
+                  name="{{ input }}" 
+                  placeholder="{% if block.settings.hide_label %}{{ label }}{% else %}{{ placeholder }}{% endif %}"
+                  {{ required }}>
+                </div>
+                {%- endif -%}
+
+                {%- if info != blank -%}
+                <div class="rte cart-note__information">
+                  {{ info }}
+                </div>
+                {%- endif -%}
+                
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+       </div>
+      </div>
+
+    </div>
+  </div>
+
+{% elsif block.type == 'shipping' %}
+
+  <div class="cart-page-shipping">
+    {%- include 'cart-shipping' -%}
+  </div>
+
+{% elsif block.type == 'cart-products' %}
+
+  <div class="cart-page">
+
+      <div rv-class-cart-drawer--loaded="cart" class="cart-page__inner">
+        <div class="cart-page__content" rv-hide="cart.item_count_display | not">
+
+          <div class="cart-table-header {% unless block.settings.show_header_mobile %} cart-table-header--desktop-only{% endunless %}" >
+            {%- assign table_columns = block.settings.table_columns | newline_to_br -%}
+            {%- assign columns = table_columns | split: '<br />' -%}
+            {%- for column in columns -%}
+
+              {%- if column contains '|' -%}
+                {%- assign coloumn_value = column | split: '|' | first | strip  -%}
+              {%- else -%}
+               {%- assign coloumn_value = column -%}
+              {%- endif -%}
+
+              <div class="cart-table-header__column  cart-table-header__column--{{ coloumn_value | handle }}">{{ coloumn_value | capitalize }}</div>
+            {%- endfor -%}
+          </div>
+
+          {%- assign product_details = block.settings.product_properties | newline_to_br -%}
+          {%- assign product_details = block.settings.product_properties | split: '<br>' -%}
+          {%- capture product_grid_item_template %}
+          <div class="cart-table-item">
+            {%- include 'cart-line-item' with 
+            product_details: product_details, 
+            iteration: true,
+            layout: 'both' -%}
+          </div>
+          {% endcapture -%}
+
+          <div class="cart-table-body">
+            {{ product_grid_item_template }}
+
+            <div rv-hide="cart.item_count_display" class="cart-header text-{{ section.settings.text_alignment }}" >
+              <div class="cart-header__inner">
+                 {%- if section.settings.empty_cart_text != blank -%}
+                <div class="cart-header__description cart-header__description--empty rte">
+                  {{ section.settings.empty_cart_text }}
+                </div>
+                {%- else -%}
+                  <div class="supports-cookies">
+                    <p>{{ 'cart.general.empty' | t }}</p>
+                    <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+  </div>
+
+{% elsif block.type == 'related-products' %}
+
+
+{% elsif block.type == 'recently-viewed-products' %}
+
+{% comment %}this is output outside of data-cart-view, see template-cart.liquid {% endcomment %}
+
+{% elsif block.type == 'spacer' %}
+  <div class="cart__spacer {% if block.settings.display_on_mobile %} visible-xs {% else %} hidden-xs{% endif %}"></div>
+
+{% elsif block.type == 'payment-icons' %}
+    {%- assign icon_color = block.settings.icon_colour -%}
+
+    <div class="cart__payment-methods" rv-hide="cart.item_count_display | not">
+      {%- include 'globals' with output: 'payment_icons', color: icon_color -%}
+    </div>
+{% elsif block.type == 'delayed-payments' %}
+
+<div class="cart__delayed-payments" rv-hide="cart.item_count_display | not">
+  {%- if block.settings.title != blank -%}
+    <p class="cart-delayed-payments__title">{{ block.settings.title }}</p>
+  {%- endif -%}
+  <div class="row">
+
+    <div class="col-xs-4 payments-item">
+      <div class="payments--afterpay payments-item__inner">
+        <a href="https://www.afterpay.com/en-AU/terms-of-service" class="payments-item__link">{%- render 'icon' with 'afterpay--small', color: true -%}</a>
+        <span>4 x
+          <span data-afterpay-amount rv-html="cart.total_price | divided_by 4 | money shop.currency"></span>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-xs-4 payments-item">
+      <div class="payments--laybuy payments-item__inner">
+        <a href="https://www.laybuy.com/au/how-it-works" class="payments-item__link">{%- render 'icon' with 'laybuy--small', color: true-%}</a>
+        <span>6 x
+          <span data-zip-amount rv-html="cart.total_price | divided_by 6 | money shop.currency"></span>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-xs-4 payments-item">
+      <div class="payments--zip payments-item__inner">
+        <a href="https://zip.co/terms" class="payments-item__link">{%- render 'icon' with 'zippay--small', color: true -%}</a>
+        <span>4 x
+          <span data-afterpay-amount rv-html="cart.total_price | divided_by 4 | money shop.currency"></span>
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% elsif block.type == 'return-button' %}
+
+  {%- if block.settings.title != blank  -%}
+    <a class="cart__continue-btn btn btn-primary" href="{% if block.settings.link == blank %}{{ '/' }}{% else %}{{ block.settings.link }}{% endif %}">{{ block.settings.title }}</a>
+  {%- endif -%}
+
+{% elsif block.type == 'cart-header' %}
+  <div class="cart-header" rv-hide="cart.item_count_display | not">
+    <h1 rv-hide="cart.item_count_display | not" class="cart-header__title">
+      {%- if block.settings.title -%}
+        <span>{{ block.settings.title }}</span>
+      {%- else -%}
+        {%- if block.settings.include_cart_count -%}
+          <span rv-hide="cart.item_count_display">
+            {{ 'cart.general.title_no_items' | t }}
+          </span>
+          <span rv-show="cart.item_count_display" class="">
+            {{ 'cart.general.title' | t: number: cart_title_number, items: cart_title_items }}
+          </span>
+        {%- endif -%}
+      {%- endif -%}
+    </h1>
+    <div rv-hide="cart.item_count_display | not" class="cart-header__description">
+      {%- if block.settings.text -%}
+        <span class="">{{ block.settings.text }}</span>
+      {%- endif -%}
+    </div>
+    <div rv-hide="cart.item_count_display" class="cart-header__actions">
+      <a href="/collections/all" class="btn btn-primary-o">Continue Shopping</a>
+    </div>
+  </div>
+
+{% elsif block.type == 'shipping-modal' %}
+
+    
+    {%- assign shipping_page = pages[block.settings.page] -%}
+
+    {%- unless shipping_page.title == blank -%}
+       <template class="js-template" data-template-for="shipping-modal" tabindex="-1" aria-hidden="true">
+          <div class="shipping-modal-wrapper">
+            <div class="row">
+              <div class="col-xs-12 col-md-8">
+                <div class="shipping-modal-content rte">
+                  {{ shipping_page.content }}
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-4">
+              {%- if block.settings.enable_assistance_bar -%}
+                {%- include 'assistance-sidebar' -%}
+              {%- endif -%}
+              </div>
+            </div>
+          </div>
+      </template>
+    {%- endunless -%}
+   
+
+{%- endif -%}
+

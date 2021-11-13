@@ -1,0 +1,134 @@
+{
+  "sections": {
+    "main": {
+      "type": "template-cart",
+      "blocks": {
+        "bf25a5f6-af07-400f-84eb-19c827eb6743": {
+          "type": "cart-header",
+          "settings": {
+            "title": "My Cart1",
+            "text": "",
+            "text_alignment": "left",
+            "width": 12,
+            "position": "header"
+          }
+        },
+        "0176c279-ad2e-4f84-86ba-d94ad7ab0234": {
+          "type": "cart-submit",
+          "disabled": true,
+          "settings": {
+            "btn_text": "PROCEED TO CHECKOUT",
+            "width": 12,
+            "position": "sidebar"
+          }
+        },
+        "bc7bc9a8-f3c6-47df-9339-2f91c3d0923d": {
+          "type": "cart-products",
+          "settings": {
+            "table_columns": "Product | product \nQuantity | quantity \nSubtotal | subtotal \nRemove | remove",
+            "table_columns_mobile": "Image \nProduct \nRemove \nSubtotal",
+            "show_header_mobile": false,
+            "product_properties": "'title  \nprice \nproperties \nquantity \nremove'",
+            "quantity_picker_type": "dropdown",
+            "remove_icon": "basket",
+            "width": 12,
+            "position": "body"
+          }
+        },
+        "1c3749a8-c322-479c-9aff-1ca4588d053b": {
+          "type": "side-bar",
+          "settings": {
+            "title": "",
+            "sidebar_rows": "Shipping: | shipping \nOrder Total: | subtotal",
+            "apply_free_shipping_threshold": true,
+            "enable_sticky_element": true,
+            "sticky_offset": "100",
+            "cart_show_padlock_icon": false,
+            "width": 12,
+            "position": "sidebar"
+          }
+        },
+        "5137c1df-bbcf-4697-b928-4063f3606764": {
+          "type": "related-products",
+          "settings": {
+            "enable_slider": true,
+            "title": "We also recommend…",
+            "collection": "product-fabric",
+            "width": 12,
+            "show_desktop": 5,
+            "show_tablet": 3,
+            "show_mobile": 1.5,
+            "position": "footer"
+          }
+        },
+        "678082f4-a909-4d56-93ce-59a1b6a3791a": {
+          "type": "recently-viewed-products",
+          "settings": {
+            "enable_slider": true,
+            "title": "",
+            "width": 12,
+            "show_desktop": 4,
+            "show_tablet": 3,
+            "show_mobile": 1,
+            "position": "subfooter"
+          }
+        },
+        "6544a6e8-fc1b-4544-9a83-c770b38cf5dd": {
+          "type": "cart-submit",
+          "settings": {
+            "btn_text": "Proceed to Checkout",
+            "width": 12,
+            "position": "sidebar"
+          }
+        }
+      },
+      "block_order": [
+        "bf25a5f6-af07-400f-84eb-19c827eb6743",
+        "0176c279-ad2e-4f84-86ba-d94ad7ab0234",
+        "bc7bc9a8-f3c6-47df-9339-2f91c3d0923d",
+        "1c3749a8-c322-479c-9aff-1ca4588d053b",
+        "5137c1df-bbcf-4697-b928-4063f3606764",
+        "678082f4-a909-4d56-93ce-59a1b6a3791a",
+        "6544a6e8-fc1b-4544-9a83-c770b38cf5dd"
+      ],
+      "settings": {
+        "section_layout": "default",
+        "empty_cart_text": "<p>your cart is empty<\/p>",
+        "empty_cart_desc": "<p>There are no items in your shopping cart at present<\/p>",
+        "include_cart_count": false
+      }
+    },
+    "template-cart-bottoom": {
+      "type": "template-bottom-cart",
+      "settings": {
+      }
+    },
+    "163670253680c884aa": {
+      "type": "featured-collections",
+      "disabled": true,
+      "blocks": {
+        "a1407448-5f06-4959-814e-9cfa0b382370": {
+          "type": "collection",
+          "settings": {
+            "title": "Tesst feature product",
+            "collection": "listing-product",
+            "limit": 6
+          }
+        }
+      },
+      "block_order": [
+        "a1407448-5f06-4959-814e-9cfa0b382370"
+      ],
+      "settings": {
+        "title": "Featured collection",
+        "autoplay": "mobile",
+        "autoplay_speed": "7000"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "template-cart-bottoom",
+    "163670253680c884aa"
+  ]
+}

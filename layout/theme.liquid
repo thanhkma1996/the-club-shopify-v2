@@ -1,0 +1,330 @@
+{%- capture output_content -%}
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js supports-no-cookies" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js supports-no-cookies localhost" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+
+  {%- capture content_for_header_output %}{{ content_for_header }}{% endcapture -%}
+
+  {%- assign page_title_handle = page_title | handle -%}
+  {%- assign current_view_type = template.name -%}
+  {%- case current_view_type -%}
+    {%- when 'product' -%}
+      {%- assign current_view_id = product.id -%}
+      {%- assign current_view_object = product -%}
+      {%- assign current_view_handle = product.handle -%}
+    {%- when 'page' -%}
+      {%- assign current_view_id = page.id -%}
+      {%- assign current_view_object = page -%}
+      {%- assign current_view_handle = page.handle -%}
+    {%- when 'collection' -%}
+      {%- assign current_view_id = collection.id -%}
+      {%- assign current_view_object = collection -%}
+      {%- assign current_view_handle = collection.handle -%}
+    {%- when 'article' -%}
+      {%- assign current_view_id = article.id -%}
+      {%- assign current_view_object = article -%}
+      {%- assign current_view_handle = article.handle -%}
+    {%- when 'blog' -%}
+      {%- assign current_view_id = blog.id -%}
+      {%- assign current_view_object = blog -%}
+      {%- assign current_view_handle = blog.handle -%}
+    {%- else -%}
+      {%- assign current_view_type = 'unassigned' -%}
+      {%- assign current_view_id = 'unassigned' -%}
+      {%- assign current_view_object = 'unassigned' -%}
+  {%- endcase -%}
+
+  {%- assign bc_filter_enabled = false -%}
+  {%- if shop.metafields.bc-sf-filter.settings != blank -%}
+    {%- assign bc_filter_enabled = true -%}
+  {%- endif -%}
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+  <meta name="msapplication-navbutton-color" content="{{ settings.color_primary }}">
+  <meta name="facebook-domain-verification" content="ad15wljqjstud1d292upbg9xgy9v0m" />
+
+  <link rel="preconnect" href="//cdn.shopify.com">
+  <link rel="preconnect" href="//cdn.shopifycloud.com">
+  {%- if settings.show_dynamic_checkout_buttons and template.name == 'product' -%}
+    <link rel="preconnect" href="//pay.shopify.com">
+  {%- endif -%}
+    {%- if product.metafields.stamped.badge != blank -%}
+      <link rel="preconnect" href="//stamped.io">
+      <link rel="preconnect" href="//cdn-stamped-io.azureedge.net">
+      <link rel="preconnect" href="//fonts.googleapis.com">
+    {%- endif -%}
+    {%- if bc_filter_enabled -%}
+      <link rel="preconnect" href="//services.mybcapps.com">
+    {%- endif -%}
+  {%- if template.name == 'product' or template.name == 'collection' -%}
+  {%- endif -%}
+  {%- if content_for_header_output contains 'Google Analytics' -%}
+    <link rel="preconnect" href="//www.google-analytics.com">
+  {%- endif -%}
+  {%- if content_for_header_output contains 'Facebook Pixel' -%}
+    <link rel="preconnect" href="//connect.facebook.net">
+  {%- endif -%}
+
+  {%- if current_view_object.metafields.seo.hidden == 1 or canonical_url contains 'myshopify.com' or canonical_url contains '{' -%}
+    <meta name="robots" content="noindex">
+  {%- endif -%}
+
+  {%- assign url_tag_string = '' -%}
+  {%- if current_tags -%}
+    {%- assign url_tag_string = current_tags | join: '+' | prepend: '/' -%}
+  {%- endif -%}
+  <link rel="canonical" href="{{ canonical_url | remove: url_tag_string }}">
+
+  {%- render 'meta-favicon' -%}
+
+  {%- render 'meta-tags' -%}
+
+  {%- capture close_icon %}{%- render 'icon' with 'close' -%}{% endcapture -%}
+  {%- capture success_icon %}{%- render 'icon' with 'success' -%}{% endcapture -%}
+
+  <script type="text/javascript" id="theme-js">
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+
+    window.theme = {
+      strings: {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        addToCartPrice: {{ 'products.product.add_to_cart_price' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        quantityUnavailable: {{ 'products.product.quantity_unavailable' | t | json }},
+        recoverPasswordEmailSent:  {{ 'customer.recover_password.success' | t | json }},
+        invalidEmail:  {{ 'general.newsletter.invalid_email' | t | json }},
+        itemAddedToCart:  {{ 'cart.general.success' | t | json }},
+      },
+      current: {
+        type: {{ current_view_type | json }},
+        template: {
+          directory: {{ template.directory | json }},
+          name: {{ template.name | json }},
+          suffix: {{ template.suffix | json }},
+        },
+        id: {{ current_view_id | json }},
+        vendor: {{ product.vendor | default: 'none' | json }},
+        collection: {
+          title: {{ collection.title | json }},
+          products: [],
+        },
+        product: {{ product | json }},
+        search: {},
+      },
+      icons: {
+        success: {{ success_icon | json }},
+        close: {{ close_icon | json }},
+      },
+      colors: {
+        notification: {{ settings.color_notification_badge | json }},
+      },
+      settings: {
+        cookiePolicyPopup: {
+          enable: {{ settings.cookie_policy_popup_enable | json }},
+          backgroundColor: {{ settings.cookie_policy_popup_background_color | json }},
+          message: {{ settings.cookie_policy_popup_message | json }},
+          dismissText: {{ settings.cookie_policy_popup_dismiss_text | json }},
+          policyLinkText: {{ settings.cookie_policy_popup_policy_link_text | json }},
+          policyLink: {{ settings.cookie_policy_popup_policy_link | json }}
+        },
+        mediaQuery: {
+          small: 'screen and (max-width: 599px)',
+          mediumDown: 'screen and (max-width: 899px)',
+          medium: 'screen and (min-width: 600px) and (max-width: 899px)',
+          mediumUp: 'screen and (min-width: 600px)',
+          largeUp: 'screen and (min-width: 900px)',
+        },
+        search: {
+          provider: {{ settings.search_provider | json }}
+        }
+      }
+    };
+
+    window.shop = {
+      permanantDomain: {{ shop.permanent_domain | json }},
+      moneyFormat: {{ shop.money_format | json }},
+      moneyWithCurrencyFormat: {{ shop.money_with_currency_format | json }},
+      currencyFormat: {{ settings.currency_format | default: 'money_with_currency_format' | json }},
+      defaultCurrency: {{ settings.default_currency | default: shop.currency | json }},
+      currency: {{ shop.currency | json }},
+      cart: {{ cart | json }},
+      customer: {
+        addresses_count: "{{ customer.addresses_count | escape }}",
+        is_logged_in: {% if customer %}true{% else %}false{% endif %},
+      },
+      keys: {
+        googleMaps: {{ shop.metafields.stores.google_maps_api_key | json }}
+      }
+    };
+
+    {%- unless current_view_type == 'unassigned' -%}
+      sessionStorage.setItem('lastViewed{{ current_view_type | camelcase }}', '{{ current_view_handle }}');
+    {%- endunless -%}
+
+  </script>
+
+  {%- include 'css-variables' -%}
+
+  {{ 'vendor.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+  {% comment %}{{ 'custom.scss.css' | asset_url | stylesheet_tag }}{% endcomment %}
+
+  {%- include 'snippet' with 'bc-sf-filter-style' -%}
+
+  <link rel="preload" href="{{ 'bc-sf-filter.scss.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ 'bc-sf-filter.scss.css' | asset_url }}"></noscript>
+  <script>
+
+  /*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+  !function(n){"use strict";n.loadCSS||(n.loadCSS=function(){});var o=loadCSS.relpreload={};if(o.support=function(){var e;try{e=n.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),o.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},o.poly=function(){if(!o.support())for(var t=n.document.getElementsByTagName("link"),e=0;e<t.length;e++){var a=t[e];"preload"!==a.rel||"style"!==a.getAttribute("as")||a.getAttribute("data-loadcss")||(a.setAttribute("data-loadcss",!0),o.bindMediaToggle(a))}},!o.support()){o.poly();var t=n.setInterval(o.poly,500);n.addEventListener?n.addEventListener("load",function(){o.poly(),n.clearInterval(t)}):n.attachEvent&&n.attachEvent("onload",function(){o.poly(),n.clearInterval(t)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:n.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+
+    /* NodeList forEach polyfill for IE11 - https://gist.github.com/bob-lee/e7520bfcdac266e5490f40c2759cc955 */
+    "NodeList"in window&&!NodeList.prototype.forEach&&(NodeList.prototype.forEach=function(o,t){t=t||window;for(var i=0;i<this.length;i++)o.call(t,this[i],i,this)});
+
+  </script>
+
+  {{ content_for_header_output }}
+
+  {%- if settings.search_provider == 'algolia' -%}
+    {% comment %} If you have installed Algolia onto this theme move all related files into this condition and remove the script tag below. {% endcomment %}
+    <script type="text/javascript">
+      console.error(new Error('Algolia search is not installed.'));
+    </script>
+  {%- endif -%}
+
+  {% if settings.app_wk_enabled %}
+    {% include 'appmate-wishlist-king' %}
+  {% endif %}
+  
+  <meta name="google-site-verification" content="fro5_eViOuSKk0S4roe9bb96ve2cRM0xIe1eqrFzaho" />
+  
+  {% include "loyaltylion" %}
+  
+ <!-- Global site tag (gtag.js) - Google Ads: 445927808 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-445927808"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-445927808');
+</script>
+   {%- if template == 'index' -%}
+<!--     boostrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--   carousel -->
+    <!-- testimonial -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  {%- endif -%}
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+{%- assign template_name_handle = template.name | handle | default: 'unassigned' -%}
+{%- if canonical_url contains '/a/storelocator' -%}
+  {%- assign template_name_handle = 'storelocator' -%}
+{%- endif -%}
+
+<body id="{{ page_title_handle }}" class="template-{{ template_name_handle }}{% if template.suffix != blank %} template-{{ template_name_handle }}-{{ template.suffix | handle }}{% endif %}" itemscope itemtype="http://schema.org/WebPage">
+
+  <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+  <div id="PageContainer">
+
+    <div id="PageContent">
+
+      {%- comment %}{% section 'brand-values' %}{% endcomment -%}
+
+      {%- section 'header' -%}
+
+      {%- section 'instant-search' -%}
+
+
+      <main role="main" id="MainContent">
+
+        {%- if false -%}
+          {% comment %} We must have {{ content_for_layout }} in theme.liquid {% endcomment %}
+          {{ content_for_layout }}
+        {%- endif -%}
+
+        {%- include 'account-routing' -%}
+
+      </main>
+
+      {% if template contains 'cart' %}
+        {% section 'footer-cart' %}
+      {% else %}
+        {% section 'footer' %}
+      {% endif %}
+
+    </div>
+
+    {%- include 'cart-drawer' -%}
+
+    {%- include 'mobile-nav-drawer' -%}
+
+    {%- include 'js-templates' -%}
+
+
+  </div>
+
+  {%- section 'product-colors' -%}
+
+  {%- section 'product-grid-item-badges' -%}
+
+  {%- include 'back-to-top' -%}
+
+  {%- include 'newsletter-popup' -%}
+
+  <script>
+    window.isMSIE = !!window.navigator.userAgent.match(/MSIE|Trident/);
+    if (!isMSIE) {
+      var script = document.createElement("script");
+      script.src = "{{ 'watch.js' | asset_url }}";
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  </script>
+
+  {%- if bc_filter_enabled -%}
+    {%- include 'snippet' with 'bc-sf-filter' -%}
+  {%- endif -%}
+
+  {%- if template.directory == 'customers' -%}
+    <!--[if (gt IE 9)|!(IE)]><!--> <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script> <!--<![endif]-->
+    <!--[if lte IE 9]> <script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script> <![endif]-->
+  {%- endif -%}
+
+  <!--[if (gt IE 9)|!(IE)]><!--> <script src="/services/javascripts/currencies.js" defer="defer"></script> <!--<![endif]-->
+  <!--[if lte IE 9]> <script src="/services/javascripts/currencies.js"></script> <![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--> <script src="{{ 'option_selection.js' | shopify_asset_url }}" defer="defer"></script> <!--<![endif]-->
+  <!--[if lte IE 9]> <script src="{{ 'option_selection.js' | shopify_asset_url }}"></script> <![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--> <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script> <!--<![endif]-->
+  <!--[if lte IE 9]> <script src="{{ 'vendor.js' | asset_url }}"></script> <![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--> <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script> <!--<![endif]-->
+  <!--[if lte IE 9]> <script src="{{ 'theme.js' | asset_url }}"></script> <![endif]-->
+
+</body>
+</html>
+{%- endcapture -%}
+{%- assign output_content = output_content | replace_first: '<!doctype', '!doctype' | split: ' <' -%}
+{%- for html in output_content -%}
+  {%- assign html_part = html | strip | prepend: ' <' -%}
+  {{- html_part | replace: ' </', '</' -}}
+{%- endfor -%}
+
+{% include 'wisepops-generated' %}

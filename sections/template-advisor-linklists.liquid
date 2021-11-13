@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="row inner__content">
+        <div class="col-xs-12">
+          {% if section.settings.section_title != blank %}
+              <h1 class="section__title" >{{ section.settings.section_title }}</h1>
+          {% endif %}
+          <div class="inner__content--wrap">
+              <div class="inner__content--block images--block">
+                  {%- if section.settings.single_image != blank -%}
+                      <div class="feature-row__image-wrapper single--image">
+                          {%- include 'img' with section.settings.single_image, id: img_id, img_class: 'feature-row__image' -%}
+                      </div>
+                  {%- else -%}
+                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg top--image' }}
+                  {%- endif -%}
+              </div>
+
+              <div class="inner__content--block linklists--block">
+                  <div class="linklists__inner--block">
+                      {%- for block in section.blocks -%}
+                          {%- if block.settings.navlist != blank -%}
+                              <div class="linklist--item">
+                              {%- include 'site-nav' with block.settings.navlist,
+                                  id: navigation_id,
+                                  dropdown: false
+                              -%}
+                              </div>
+                          {%- endif -%}
+                      {%- endfor -%}
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "Advisor linklists",
+  "class": "page-section-avdisor-linklists",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section title"
+    },
+    {
+      "type": "image_picker",
+      "id": "single_image",
+      "label": "Top block image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "block",
+      "name": "Question block",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "navlist",
+          "label": "Navigation list"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

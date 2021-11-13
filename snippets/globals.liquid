@@ -1,0 +1,121 @@
+{%- assign output = globals | downcase | replace: ' ', '_' -%}
+{%- case output -%}
+
+  {%- when 'phone' or 'telephone' -%}
+
+    {%- assign phone_number = 'general.contact.phone_number' | t -%}
+    {%- assign phone_title = 'general.contact.phone_display' | default: 'general.contact.phone_number' -%}
+    {%- if phone_number != blank -%}
+      <a class="link--phone" href="tel:{{ phone_number }}"{% if style == 'tooltip' %} data-tippy="{{ phone_title | t | escape }}" data-tippy-placement="left" data-tippy-arrow="true"{% endif %}>
+        {%- if icon == true -%}{%- render 'icon' with 'phone' -%}{%- endif -%}
+        <span{% if style == 'tooltip' %} class="visually-hidden"{% endif %}>{{ phone_title | t }}</span>
+      </a>
+    {%- endif -%}
+    {%- assign phone_number = null -%}
+    {%- assign phone_title = null -%}
+
+  {%- when 'social' or 'social_icons' -%}
+
+    {% assign style = style | default: 'default' %}
+    {%- assign social_platforms = 'Facebook, Twitter, Pinterest, Instagram, LinkedIn, Snapchat, Tumblr, YouTube, Vimeo,' | split: ', ' -%}
+    {%- assign circled_icons = circled | default: false -%}
+    {%- assign active_social_links = 0 -%}
+    {%- assign last_active_social_link = 0 -%}
+    {%- capture social_links -%}
+      {%- for platform in social_platforms -%}
+        {%- assign social_title = platform -%}
+        {%- assign social_handle = platform | handleize -%}
+        {%- capture social_link %}social_link_{{ social_handle }}{% endcapture -%}
+
+        {%- if settings[social_link] != blank -%}
+          {%- assign active_social_links = active_social_links | plus: 1 -%}
+          {%- assign last_active_social_link = social_title -%}
+          <li>
+            <a href="{{ settings[social_link] }}" class="social-link{% if circled_icons %} social-link--circled{% endif %}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: platform }}" target="_blank" rel="noopener noreferrer">
+              {% render 'icon' with social_handle %}
+              <span class="icon-fallback-text">{{ platform }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- if active_social_links > 0 -%}
+      <ul class="social-links social-links--{{ style }}">
+        {%- if active_social_links == 1 and last_active_social_link == 'Facebook' %}
+          <h5>
+            <a href="{{ settings[social_facebook_link] }}" class="social-link" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: last_active_social_link }}" target="_blank" rel="noopener noreferrer">
+              <span>Find us on </span> {% include 'logo' with last_active_social_link %}
+              <span class="icon-fallback-text">{{ last_active_social_link }}</span>
+            </a>
+          </h5>
+        {%- else -%}
+          {{ social_links }}
+        {% endif -%}
+      </ul>
+    {%- endif -%}
+
+  {%- when 'payment' or 'payment_icons' -%}
+    {%- assign placeholder_payment_types = 'visa,master,paypal' | split: ',' -%}
+    {%- assign enabled_payment_types = shop.enabled_payment_types | default: placeholder_payment_types -%}
+    
+    {%- unless enabled_payment_types == empty -%}
+      {%- assign style = style | default: 'default' -%}
+      {%- assign payment_icons_available = 'afterpay,amazon_payments,american_express,apple_pay,bitcoin,cirrus,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,jcb,litecoin,maestro,master,visa,paypal' | split: ',' -%}
+      
+      <ul class="payment-icons payment-icons--{{ style }}">
+        
+        {%- for type in enabled_payment_types -%}
+          {%- capture translation_string %}general.payment_types.{{ type }}{% endcapture -%}
+          {%- assign payment_type = translation_string | t -%}
+          
+          {%- if payment_type contains translation_string -%}
+            {%- assign payment_type = type | capitalize | replace: '_', ' ' -%}
+          {%- endif -%}
+          
+          {%- if payment_icons_available contains type -%}
+            <li>
+              {%- if style == 'card' -%}
+                <img src="{{ type | payment_type_img_url }}" class="payment-card payment-card--{{ type }}" />
+              {%- else -%}
+                {%- render 'icon' with type, color: color -%}
+              {%- endif -%}
+              <span class="visually-hidden">{{ payment_type }}</span>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if settings.payment_enable_afterpay -%}
+          <li>
+            {%- if style == 'card' -%}
+              {%- render 'icon' with 'afterpay-mark', color: color -%}
+            {%- else -%}
+              {%- render 'icon' with 'afterpay', color: color -%}
+            {%- endif -%}
+            <span class="visually-hidden">Afterpay</span>
+          </li>
+        {%- endif -%}
+
+        {%- if settings.payment_enable_zipmoney -%}
+          <li>
+            {%- if style == 'card' -%}
+              {%- render 'icon' with 'zipmoney-mark', color: color -%}
+            {%- else -%}
+              {%- render 'icon' with 'zipmoney', color: color -%}
+            {%- endif -%}
+            <span class="visually-hidden">ZipMoney</span>
+          </li>
+        {%- endif -%}
+
+      </ul>
+
+      {%- if shop.enabled_payment_types == blank -%}
+        <small>* Payment icons may differ on live site</small>
+      {%- endif -%}
+
+    {%- endunless -%}
+
+{%- endcase -%}
+
+{%- assign style = null -%}
+{%- assign output = null -%}

@@ -1,0 +1,2484 @@
+{
+  "current": {
+    "color_primary": "#1e4396",
+    "color_secondary": "#f5f8fb",
+    "color_tertiary": "#fbf7f4",
+    "color_primary_accent_text": "#ffffff",
+    "color_secondary_accent_text": "#ffffff",
+    "color_tertiary_accent_text": "#ffffff",
+    "color_body_text": "#52525b",
+    "color_heading_text": "#1e4396",
+    "color_body_text_inverse": "#fff",
+    "color_heading_text_inverse": "#fff",
+    "color_link_text": "#1e4396",
+    "color_header_text": "#1e4ab2",
+    "color_header_text_inverse": "#ffffff",
+    "color_footer_text": "#222",
+    "color_footer_text_inverse": "#fff",
+    "color_sale_text": "#52525b",
+    "color_borders": "#dcdcdc",
+    "color_notification_badge": "#0cbdc9",
+    "color_input_bg": "#dddddd",
+    "color_input_text": "#8d8d8d",
+    "color_input_text_inverse": "#fff",
+    "color_body_bg": "#fff",
+    "color_body_bg_inverse": "#303030",
+    "color_header_bg": "#1e4396",
+    "color_footer_bg": "#1e4396",
+    "font_heading": "montserrat_n6",
+    "font_body": "montserrat_n5",
+    "font_alternate": "montserrat_n6",
+    "font_body_weight_medium": "500",
+    "font_body_weight_bold": "600",
+    "font_body_weight_extra_bold": "800",
+    "page_header_text_align": "center",
+    "fallback_placeholder_image": "shopify:\/\/shop_images\/lulu-swivel-glider-pearl-grey-2-94788.1602737925-7.jpg",
+    "product_grid_item_show_badges": true,
+    "product_grid_item_badge_position": "top-right",
+    "product_grid_item_show_sold_out_text": true,
+    "product_grid_item_show_sale_text": true,
+    "product_grid_item_show_new_text": true,
+    "assistance_title": "Need Assistance?",
+    "assistance_text": "<p>We are here to help. For personalised assistance contact us.<\/p>",
+    "assistance_icon_1": "phone",
+    "assistance_title_1": "+1-805-552-4016",
+    "assistance_link_1": "tel:+1-805-552-4016",
+    "assistance_icon_2": "email",
+    "assistance_title_2": "nutrition@hygainfeeds.com",
+    "assistance_link_2": "mailto:nutrition@hygainfeeds.com",
+    "assistance_icon_3": "none",
+    "assistance_title_3": "",
+    "assistance_link_3": "",
+    "assistance_icon_4": "none",
+    "assistance_title_4": "",
+    "assistance_link_4": "",
+    "primary_linklist_desktop": "main-menu",
+    "secondary_linklist_desktop": "",
+    "primary_linklist_mobile": "main-menu",
+    "secondary_linklist_mobile": "",
+    "account_linklist": "account-navigation",
+    "enable_back_to_top_button": true,
+    "default_page_contact": "",
+    "default_page_account": "",
+    "newsletter_popup_enable": false,
+    "newsletter_popup_title": "JOIN US AND RECEIVE 10% DISCOUNT OFF YOUR FIRST ONLINE PURCHASE",
+    "newsletter_popup_subheading": "Subscribe to Hygain by entering your email address below.  Be the first to get the news & special offers!",
+    "newsletter_popup_image": "shopify:\/\/shop_images\/Hygain_Email_Popup.jpg",
+    "newsletter_popup_delay": 4,
+    "newsletter_popup_expiry": 2,
+    "newsletter_popup_position_x": "center",
+    "newsletter_popup_position_y": "center",
+    "newsletter_popup_redirect_url": "",
+    "newsletter_popup_developer_mode": false,
+    "social_sharing_blog": true,
+    "share_facebook": true,
+    "share_twitter": true,
+    "share_pinterest": true,
+    "social_link_twitter": "",
+    "social_link_facebook": "https:\/\/www.facebook.com\/HygainFeedsUS",
+    "social_link_pinterest": "",
+    "social_link_instagram": "https:\/\/www.instagram.com\/hygainfeeds_usa\/",
+    "social_link_snapchat": "",
+    "social_link_linkedin": "",
+    "social_link_tumblr": "",
+    "social_link_youtube": "https:\/\/www.youtube.com\/channel\/UCQOCcmVKEKsV6KUqzpI0ztQ",
+    "social_link_vimeo": "",
+    "search_provider": "boost",
+    "cart_notes_enable": true,
+    "cart_show_padlock_icon": false,
+    "cart_show_payment_icons": false,
+    "cart_empty_title": "YOU CART IS EMPTY",
+    "cart_empty_button_url": "shopify:\/\/collections\/shop",
+    "cart_empty_button_text": "Continue shopping",
+    "free_shipping_threshold": "100",
+    "shipping_cost": "12",
+    "payment_enable_afterpay": false,
+    "payment_enable_zipmoney": false,
+    "show_dynamic_checkout_buttons": false,
+    "show_multiple_currencies": true,
+    "currency_format": "money_with_currency_format",
+    "supported_currencies": "AUD USD CAD GBP EUR JPY",
+    "default_currency": "AUD",
+    "favicon": "shopify:\/\/shop_images\/group-3_3x_2fd5331b-17a5-43c5-8961-3633d8cf1452.png",
+    "favicon_large": "",
+    "default_product_meta_title": "Buy [title] by [vendor] online - [store]",
+    "default_product_meta_description": "",
+    "video_auto_play": true,
+    "video_auto_play_muted": true,
+    "video_auto_play_loop": true,
+    "cookie_policy_popup_enable": false,
+    "cookie_policy_popup_background_color": "#dfdfdf",
+    "cookie_policy_popup_message": "This site uses cookies and other tracking technologies to assist with navigation and your ability to provide feedback, analyse your use of our products and services, assist with our promotional and marketing efforts, and provide content from third parties.",
+    "cookie_policy_popup_dismiss_text": "Accept",
+    "cookie_policy_popup_policy_link_text": "Read our Cookie Policy here.",
+    "cookie_policy_popup_policy_link": "",
+    "app_wk_enabled": true,
+    "app_wk_login_required": false,
+    "app_wk_icon": "star",
+    "app_wk_col_bg_shape": "square",
+    "app_wk_share_position": "top",
+    "app_wk_products_per_row": "4",
+    "checkout_header_image": "",
+    "checkout_logo_image": "shopify:\/\/shop_images\/Hygain_Logo_horizontal_No_Tagline_BLUE_SM_-_Peter_Reale.png",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "medium",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#fff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "Lato",
+    "checkout_body_font": "Lato",
+    "checkout_accent_color": "#1e4396",
+    "checkout_button_color": "#1e4396",
+    "checkout_error_color": "#ed7c7c",
+    "collections_hierarchy_link_list": "",
+    "newsletter_modal_enable": true,
+    "newsletter_modal_image": "",
+    "newsletter_modal_delay": 12,
+    "newsletter_modal_expiry": 2,
+    "newsletter_modal_redirect_url": "",
+    "newsletter_modal_developer_mode": false,
+    "color_link_text_hover": "#000000",
+    "heading_font": "montserrat_n8",
+    "body_font": "montserrat_n5",
+    "alternate_font": "montserrat_n6",
+    "product_grid_item_quick_shop": false,
+    "newsletter_title": "Subscribe to our newsletter",
+    "newsletter_subheading": "A short sentence describing what someone will receive by subscribing",
+    "social_twitter_link": "",
+    "social_facebook_link": "",
+    "social_pinterest_link": "",
+    "social_instagram_link": "",
+    "social_snapchat_link": "",
+    "social_linkedin_link": "",
+    "social_tumblr_link": "",
+    "social_youtube_link": "",
+    "social_vimeo_link": "",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "contact_page": "",
+          "contact_link_title": "Contact",
+          "contact_link_icon": true,
+          "notice_bar_text": "FREE Shipping When You Order $99 or More of Feed. Use Discount Code SUMMER21",
+          "notice_bar_text_color": "#ffffff",
+          "notice_bar_bg_color": "#1e4396"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "1595879478408": {
+            "type": "newsletter",
+            "settings": {
+              "show_social": true,
+              "width_small": 100,
+              "width_large": 30,
+              "order_small": 0,
+              "order_large": 2
+            }
+          },
+          "1596633057944": {
+            "type": "navigation",
+            "settings": {
+              "navlist": "footer",
+              "display_inline": true,
+              "width_small": 100,
+              "width_large": 50,
+              "order_small": 0,
+              "order_large": 0
+            }
+          },
+          "498e4b2d-ce9b-4713-8ff6-b55d8c5831bb": {
+            "type": "separator",
+            "settings": {
+              "style": "inivisible",
+              "width_small": 15,
+              "width_large": 15,
+              "order_small": 0,
+              "order_large": 0
+            }
+          }
+        },
+        "block_order": [
+          "1595879478408",
+          "1596633057944",
+          "498e4b2d-ce9b-4713-8ff6-b55d8c5831bb"
+        ],
+        "settings": {
+          "show_payment_icons": true
+        }
+      },
+      "slideshow": {
+        "type": "slideshow",
+        "blocks": {
+          "1564981541662": {
+            "type": "image",
+            "settings": {
+              "image": "",
+              "image_small": "",
+              "alignment": "top",
+              "preheading": "Preheading",
+              "title": "A main heading\nCan be multiple lines",
+              "subheading": "Subheading",
+              "button_text": "Button Text",
+              "terms": "Some terms & conditions can apply",
+              "enable_overlay": true,
+              "text_alignment": "left",
+              "link": "#"
+            }
+          },
+          "1564981541669": {
+            "type": "image",
+            "settings": {
+              "image": "",
+              "image_small": "",
+              "alignment": "top",
+              "preheading": "Preheading",
+              "title": "A main heading\nCan be multiple lines",
+              "subheading": "Subheading",
+              "button_text": "Button Text",
+              "terms": "Some terms & conditions can apply",
+              "enable_overlay": true,
+              "text_alignment": "center",
+              "link": "#"
+            }
+          },
+          "1564981541675": {
+            "type": "image",
+            "settings": {
+              "image": "",
+              "image_small": "",
+              "alignment": "top",
+              "preheading": "Preheading",
+              "title": "A main heading\nCan be multiple lines",
+              "subheading": "Subheading",
+              "button_text": "Button Text",
+              "terms": "Some terms & conditions can apply",
+              "enable_overlay": true,
+              "text_alignment": "right",
+              "link": "#"
+            }
+          }
+        },
+        "block_order": [
+          "1564981541662",
+          "1564981541669",
+          "1564981541675"
+        ],
+        "settings": {
+          "autoplay": true,
+          "autoplay_speed": "7000",
+          "slideshow_height": "small",
+          "text_size": "medium",
+          "transition": "fade",
+          "dots": true,
+          "arrows": true
+        }
+      },
+      "hero": {
+        "type": "hero",
+        "settings": {
+          "image": "",
+          "alignment": "center",
+          "title": "Image with text overlay",
+          "text": "<p>Use overlay text to give your customers insight into your brand. Select imagery and text that relates to your style and story.<\/p>",
+          "text_align": "center",
+          "hero_size": "medium",
+          "text_size": "medium",
+          "button_label": "",
+          "button_link": "",
+          "enable_overlay": true,
+          "page_width": true,
+          "theme": "light"
+        }
+      },
+      "feature-row": {
+        "type": "feature-row",
+        "settings": {
+          "image": "",
+          "layout": "left",
+          "layout_mobile": "above",
+          "title": "Image with text",
+          "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+          "button_label": "",
+          "button_link": "",
+          "title_color": "default",
+          "btn_style": "primary",
+          "style": "light",
+          "page_width": true
+        }
+      },
+      "call-to-action": {
+        "type": "call-to-action",
+        "settings": {
+          "title": "Section Heading",
+          "text": "This section can contain a call to action, and link to a product or page with the button below. All elements are optional.",
+          "btn_text": "View More",
+          "btn_url": ""
+        }
+      },
+      "featured-collection": {
+        "type": "featured-collection",
+        "settings": {
+          "title": "Featured collection",
+          "collection": "",
+          "limit": 6,
+          "autoplay": "mobile",
+          "autoplay_speed": "7000",
+          "show_button": false,
+          "button_text": "More Products"
+        }
+      },
+      "collection-list": {
+        "type": "collection-list",
+        "settings": {
+          "title": "Featured Collections"
+        }
+      },
+      "featured-product": {
+        "type": "featured-product",
+        "settings": {
+          "product": "",
+          "show_share_buttons": false
+        }
+      },
+      "featured-products": {
+        "type": "featured-products",
+        "settings": {
+          "title": "Featured products",
+          "layout": "default",
+          "autoplay": "mobile",
+          "autoplay_speed": "7000",
+          "show_vendor": true,
+          "button_text": "View Product"
+        }
+      },
+      "latest-blog-posts": {
+        "type": "latest-blog-posts",
+        "settings": {
+          "title": "Related articles",
+          "blog": "news",
+          "items_to_show": 3,
+          "button_show_more_enabled": true,
+          "button_show_more_text": "view all articles",
+          "layout": "default"
+        }
+      },
+      "account-dashboard-dynamic-welcome": {
+        "type": "account-dashboard-dynamic-welcome",
+        "settings": {
+          "morning": "Good morning",
+          "afternoon": "Good afternoon",
+          "evening": "Good evening",
+          "night": "Good night",
+          "early_morning": "Go to bed"
+        }
+      },
+      "instant-search": {
+        "type": "instant-search",
+        "settings": {
+        }
+      },
+      "product-colors": {
+        "type": "product-colors",
+        "settings": {
+        }
+      },
+      "product-grid-item-badges": {
+        "type": "product-grid-item-badges",
+        "settings": {
+        }
+      },
+      "collection": {
+        "type": "collection",
+        "settings": {
+          "show_sku": false,
+          "show_sku_text": false,
+          "products_per_page": 24,
+          "show_vendor": false,
+          "show_price": true,
+          "show_sale_label": true,
+          "show_sold_out_label": true,
+          "show_new_label": true,
+          "show_preorder_label": true,
+          "show_sorting": true,
+          "soldout_label": "Sold out",
+          "sale_label": "Sale",
+          "from": "from",
+          "advice_title": "BOOK A NUTRITION CONSULTATION",
+          "advice_text": "Book a personalised consultation with our Nutrition Advisor.",
+          "advice_link": "https:\/\/my.timetrade.com\/book\/Q8KS1",
+          "advice_link_text": "Book a time to talk"
+        }
+      },
+      "product": {
+        "type": "product",
+        "settings": {
+          "show_quantity_selector": true,
+          "quantity_selector_length": 10,
+          "show_variant_labels": true,
+          "product_selector": "select",
+          "show_vendor": false,
+          "show_sku": false,
+          "show_sku_text": false,
+          "show_share_buttons": false,
+          "show_related_products": false,
+          "show_related_products_view_more": false,
+          "related_view_more_button_text": "More Products",
+          "show_recently_viewed_products": false,
+          "related_title": "Related products",
+          "consultation_text": "",
+          "consultation_link_text": "Book a PHONE consultation",
+          "loyalty_text_thin": "Join Hygain Champions Club members and",
+          "loyalty_text": "earn [points] point with this purchase!",
+          "loyalty_link_text": "JOIN HERE",
+          "loyalty_url": "shopify:\/\/pages\/contact-us",
+          "loyalty_img": "shopify:\/\/shop_images\/logo_2x_2e3ba21d-d8d0-40bd-a6b5-dc89355e3899.png",
+          "temp_gauge_1": "COOL Feed",
+          "temp_gauge_2": "HOT Feed"
+        }
+      },
+      "form-builder--contact": {
+        "type": "form-builder--contact",
+        "blocks": {
+          "form-builder--contact-0": {
+            "type": "text_input",
+            "settings": {
+              "title": "Full Name",
+              "id": "name",
+              "position": "none",
+              "is_required": true,
+              "width": 12
+            }
+          },
+          "form-builder--contact-2": {
+            "type": "text_input",
+            "settings": {
+              "title": "Email Address",
+              "id": "email",
+              "position": "none",
+              "is_required": true,
+              "width": 12
+            }
+          },
+          "1596124651551": {
+            "type": "text_dropdown",
+            "settings": {
+              "title": "Please select enquiry",
+              "id": "enquiry",
+              "options": "Online Shopping Enquiry,Deliveries & Order Tracking,General Enquiry,Website Feedback",
+              "position": "none",
+              "is_required": true,
+              "width": 12
+            }
+          },
+          "form-builder--contact-3": {
+            "type": "text_textarea",
+            "settings": {
+              "title": "Message",
+              "id": "message",
+              "position": "none",
+              "is_required": true,
+              "width": 12
+            }
+          },
+          "form-builder--contact-4": {
+            "type": "text_submit_button",
+            "settings": {
+              "title": "Send",
+              "width": 4
+            }
+          }
+        },
+        "block_order": [
+          "form-builder--contact-0",
+          "form-builder--contact-2",
+          "1596124651551",
+          "form-builder--contact-3",
+          "form-builder--contact-4"
+        ],
+        "settings": {
+          "title": "Contact",
+          "redirect_url": "",
+          "hide_form": true,
+          "show_atrix": false,
+          "show_optional": false,
+          "heading": "Contact Us",
+          "description": "<p>If you have any queries in relation to our products, or a question relating to horse nutrition get in contact! Complete the Contact Us form below and we will respond to your query soon.<\/p>",
+          "position": "left"
+        }
+      },
+      "template-contact": {
+        "type": "template-contact",
+        "settings": {
+          "page_menu": "pages-menu",
+          "enable_assistance_bar": true
+        }
+      },
+      "product-recommendations": {
+        "type": "product-recommendations",
+        "settings": {
+          "title": "You May Also Like"
+        }
+      },
+      "template-faq": {
+        "type": "template-faq",
+        "settings": {
+          "page_menu": "pages-menu",
+          "enable_assistance_bar": true
+        }
+      },
+      "header-image": {
+        "type": "header-image",
+        "blocks": {
+          "1598393221501": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/pages\/about-us",
+              "enable_breadcrumbs": false,
+              "title": "Our Story",
+              "subtitle": "Test",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": false,
+              "hide_content_title": false,
+              "image": "shopify:\/\/shop_images\/vietnam_flag_by_think0_d475ejz-pre.jpg",
+              "alignment": "center",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1598661261661": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/pages\/reward",
+              "enable_breadcrumbs": true,
+              "title": "MY CHAMPIONS CLUB",
+              "subtitle": "Enjoy the many benefits of being a member of My Champions Club",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "image": "shopify:\/\/shop_images\/vietnam_flag_by_think0_d475ejz-pre.jpg",
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1598866055858": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/pages\/health-nutrition",
+              "enable_breadcrumbs": false,
+              "title": "NUTRITION CENTER",
+              "subtitle": "",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "image": "shopify:\/\/shop_images\/HOMEPAGE-BKGROUND-BLD.jpg",
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1599177236746": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/pages\/advisor-page",
+              "enable_breadcrumbs": false,
+              "title": "QUICK FEED ADVISOR",
+              "subtitle": "",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "image": "shopify:\/\/shop_images\/HOMEPAGE-BKGROUND-BLD.jpg",
+              "alignment": "center",
+              "size": "medium",
+              "navigation": ""
+            }
+          },
+          "1599511722372": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/pages\/weight-calculator",
+              "enable_breadcrumbs": true,
+              "title": "Horse Weight Calculator",
+              "subtitle": "",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "image": "shopify:\/\/shop_images\/HOMEPAGE-MOBILE-BKGROUND1.jpg",
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1599648063464": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/pages\/sponsorship",
+              "enable_breadcrumbs": false,
+              "title": "CLUB AND EVENT SPONSORSHIP",
+              "subtitle": "",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "image": "shopify:\/\/shop_images\/vietnam_flag_by_think0_d475ejz-pre.jpg",
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1598478307670": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/collections\/feeds",
+              "enable_breadcrumbs": false,
+              "title": "FEEDS",
+              "subtitle": "When it comes to high quality horse feed, we've raised the bar.",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1596566868333": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/collections\/supplements",
+              "enable_breadcrumbs": false,
+              "title": "SUPPLEMENTS",
+              "subtitle": "For the highest standard in nutrition and performance",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1602043918182": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/collections\/racing",
+              "enable_breadcrumbs": false,
+              "title": "Racing",
+              "subtitle": "",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1602044047942": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/collections\/breeding-growing",
+              "enable_breadcrumbs": false,
+              "title": "Breeding & Growing",
+              "subtitle": "",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1602044133229": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/collections\/senior",
+              "enable_breadcrumbs": false,
+              "title": "Senior Horses",
+              "subtitle": "Provide the best nutrition to help them live their best life.",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1602044325439": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/collections\/minis-ponies",
+              "enable_breadcrumbs": false,
+              "title": "Minis & Ponies",
+              "subtitle": "Nutrition to meet the specific requirements of smaller equines",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1602044630944": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/collections\/equestrian-leisure",
+              "enable_breadcrumbs": false,
+              "title": "Equestrian & Leisure",
+              "subtitle": "",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1602044870565": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/collections\/high-performance",
+              "enable_breadcrumbs": false,
+              "title": "High Performance",
+              "subtitle": "",
+              "text_alignment": "left",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          },
+          "1602122770213": {
+            "type": "image",
+            "settings": {
+              "page": "",
+              "enable_breadcrumbs": false,
+              "title": "",
+              "subtitle": "",
+              "text_alignment": "center",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "alignment": "top",
+              "size": "large",
+              "navigation": ""
+            }
+          }
+        },
+        "block_order": [
+          "1598393221501",
+          "1598661261661",
+          "1598866055858",
+          "1599177236746",
+          "1599511722372",
+          "1599648063464",
+          "1598478307670",
+          "1596566868333",
+          "1602043918182",
+          "1602044047942",
+          "1602044133229",
+          "1602044325439",
+          "1602044630944",
+          "1602044870565",
+          "1602122770213"
+        ],
+        "settings": {
+          "limit_to_content_width": false,
+          "subtitle_position": "after"
+        }
+      },
+      "store-locator": {
+        "type": "store-locator",
+        "settings": {
+          "enable_filters": false,
+          "show_search_icon": false,
+          "show_stores_list": false,
+          "show_search_button": false,
+          "title": "Store Locator",
+          "subtitle": "Please add your suburb or postcode to find a store.",
+          "filter_title": "",
+          "search_title": "",
+          "search_placeholder": "",
+          "group_title": "",
+          "find_me_title": "USE CURRENT LOCATION",
+          "contact_title": "",
+          "hours_title": "",
+          "no_stores_found_text": "No stores found matching your selected filters.",
+          "no_stores_in_view_text": "No stores found here. Zoom out to see more stores.",
+          "no_stores_zoom_in_text": "Zoom in to see store details.",
+          "marker_icon_title": "location-pin",
+          "cluster_icon_title": "location-pin",
+          "user_icon_title": "user-location",
+          "search_icon_title": "search-location",
+          "submit_btn_title": "Search",
+          "filter_all_title": "Selling cups and bags of coffee"
+        }
+      },
+      "template-privacy": {
+        "type": "template-privacy",
+        "settings": {
+          "page_menu": "pages-menu",
+          "enable_assistance_bar": true
+        }
+      },
+      "template-404": {
+        "type": "template-404",
+        "blocks": {
+          "template-404-0": {
+            "type": "button-group",
+            "settings": {
+              "subtitle": "Oops! Page not found!",
+              "text": "",
+              "text_alignment": "center",
+              "btn_text_1": "SHOP",
+              "btn_link_1": "shopify:\/\/collections\/shop",
+              "btn_style_1": "primary-o",
+              "btn_text_2": "NUTRIKEY",
+              "btn_link_2": "https:\/\/app.nutrikey.com.au\/",
+              "btn_style_2": "primary-o",
+              "btn_text_3": "BOOK A NUTRITION CONSULTATION",
+              "btn_link_3": "https:\/\/meetings.hubspot.com\/a-ward",
+              "btn_style_3": "primary-o",
+              "btn_text_4": "",
+              "btn_link_4": "",
+              "btn_style_4": "primary-o",
+              "width": 12,
+              "order_small": 0
+            }
+          }
+        },
+        "block_order": [
+          "template-404-0"
+        ],
+        "settings": {
+          "section_layout": "center-content",
+          "page_height": 50
+        }
+      },
+      "1597123362961": {
+        "type": "home-rich-text",
+        "blocks": {
+          "1597123399004": {
+            "type": "item",
+            "settings": {
+              "title": "Australian owned and made"
+            }
+          },
+          "1597123406862": {
+            "type": "item",
+            "settings": {
+              "title": "Equine only feed mill"
+            }
+          },
+          "1597123414610": {
+            "type": "item",
+            "settings": {
+              "title": "Leading edge technologies"
+            }
+          }
+        },
+        "block_order": [
+          "1597123399004",
+          "1597123406862",
+          "1597123414610"
+        ],
+        "settings": {
+          "subtitle": "Our promise to you",
+          "title": "HYGAIN, THE HIGHEST STANDARD IN HORSE NUTRITION AND FEEDS",
+          "text": ".",
+          "link_text": "LEARN MORE ABOUT US",
+          "link_url": "shopify:\/\/pages\/about-us"
+        }
+      },
+      "1597145895730": {
+        "type": "home-custom-articles",
+        "blocks": {
+          "1597145903612": {
+            "type": "custom_article",
+            "settings": {
+              "title": "Our Feeds",
+              "text": "Learn more about our great range of feeds",
+              "link": "shopify:\/\/collections\/shop",
+              "link_text": "view THE RANGE",
+              "show_boxshadow": true
+            }
+          },
+          "1597145975111": {
+            "type": "custom_article",
+            "settings": {
+              "title": "Our Supplements",
+              "text": "Learn more about our great range of supplements",
+              "link": "shopify:\/\/collections\/supplements",
+              "link_text": "view our range",
+              "show_boxshadow": true
+            }
+          },
+          "2cf3935c-4d78-4565-96a2-cd112a044e75": {
+            "type": "custom_article",
+            "settings": {
+              "title": "Quick Feed Advisor",
+              "text": "Find a Hygain feed to meet your horses specific needs",
+              "link": "shopify:\/\/pages\/advisor-page",
+              "link_text": "VIEW THE RANGE",
+              "show_boxshadow": true
+            }
+          },
+          "c1d0c81b-6efc-4dec-b756-4a65d80c98b5": {
+            "type": "custom_article",
+            "disabled": true,
+            "settings": {
+              "title": "",
+              "text": "",
+              "link": "shopify:\/\/pages\/hygain-usa-calendar-competition",
+              "link_text": "CLICK HERE TO ENTER",
+              "show_boxshadow": true
+            }
+          },
+          "6aa8efa5-5f78-44f3-9f21-f4e272606c94": {
+            "type": "custom_article",
+            "settings": {
+              "title": "Zero",
+              "text": "The low starch and low\nsugar complete horse feed",
+              "link": "shopify:\/\/products\/hygain-zero",
+              "link_text": "FIND OUT MORE",
+              "show_boxshadow": true
+            }
+          },
+          "86548d39-b54d-41f5-8cfd-7318528a40c5": {
+            "type": "custom_article",
+            "settings": {
+              "title": "Find a Retailer",
+              "text": "Find a store near you\nthat carries Hygain",
+              "link": "shopify:\/\/pages\/store-locator",
+              "link_text": "VIEW OUR RETAILERS",
+              "show_boxshadow": true
+            }
+          },
+          "1eeef4e0-095b-4299-bd95-c5960d2913c2": {
+            "type": "custom_article",
+            "settings": {
+              "title": "SHOWTORQUE",
+              "text": "Sensible, slow-release energy",
+              "link": "shopify:\/\/products\/hygain-showtorque",
+              "link_text": "FIND OUT MORE",
+              "show_boxshadow": true
+            }
+          }
+        },
+        "block_order": [
+          "1597145903612",
+          "1597145975111",
+          "2cf3935c-4d78-4565-96a2-cd112a044e75",
+          "c1d0c81b-6efc-4dec-b756-4a65d80c98b5",
+          "6aa8efa5-5f78-44f3-9f21-f4e272606c94",
+          "86548d39-b54d-41f5-8cfd-7318528a40c5",
+          "1eeef4e0-095b-4299-bd95-c5960d2913c2"
+        ],
+        "settings": {
+        }
+      },
+      "1597239112714": {
+        "type": "home-hero-section",
+        "disabled": true,
+        "blocks": {
+          "1597239180923": {
+            "type": "image",
+            "settings": {
+            }
+          }
+        },
+        "block_order": [
+          "1597239180923"
+        ],
+        "settings": {
+          "title": "THE HIGHEST STANDARD IN HORSE NUTRITION",
+          "description": "Bringing you the worlds most advanced feed technologies",
+          "button_text": "View Our Range",
+          "button_link": "shopify:\/\/collections\/shop",
+          "enable_overlay": false,
+          "enable_gradient": false,
+          "text_color_desktop": "#ffffff",
+          "text_color_mobile": "#1e4396",
+          "btn_text_color_desktop": "",
+          "btn_text_color_mobile": "",
+          "btn_color_desktop": "",
+          "btn_color_mobile": "",
+          "btn_hover_color_desktop": "",
+          "btn_hover_color_mobile": "",
+          "text_alignment": "left",
+          "block_alignment": "left"
+        }
+      },
+      "1597312918040": {
+        "type": "home-related-products",
+        "blocks": {
+          "1597312998394": {
+            "type": "product_item",
+            "settings": {
+              "prod": "hygain-zero"
+            }
+          },
+          "1597313008545": {
+            "type": "product_item",
+            "settings": {
+              "prod": "hygain-ice"
+            }
+          },
+          "1597313024850": {
+            "type": "product_item",
+            "settings": {
+              "prod": "hygain-micrbeet"
+            }
+          },
+          "1608764470688": {
+            "type": "product_item",
+            "settings": {
+              "prod": "hygain-balanced"
+            }
+          },
+          "1608764480899": {
+            "type": "product_item",
+            "settings": {
+              "prod": "hygain-safeguard-eq"
+            }
+          }
+        },
+        "block_order": [
+          "1597312998394",
+          "1597313008545",
+          "1597313024850",
+          "1608764470688",
+          "1608764480899"
+        ],
+        "settings": {
+          "title": "You May Be Interested In",
+          "link_text": "view more products",
+          "link_url": "shopify:\/\/collections\/all"
+        }
+      },
+      "1597323389480": {
+        "type": "home-seo",
+        "disabled": true,
+        "settings": {
+          "title": "SEO TEXT",
+          "richtext": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. <\/p>",
+          "hide_mobile": false
+        }
+      },
+      "template-cart": {
+        "type": "template-cart",
+        "blocks": {
+          "template-cart-0": {
+            "type": "cart-header",
+            "settings": {
+              "title": "My Cart",
+              "text": "",
+              "text_alignment": "left",
+              "width": 12,
+              "position": "header"
+            }
+          },
+          "1599081725531": {
+            "type": "cart-submit",
+            "settings": {
+              "btn_text": "PROCEED TO CHECKOUT",
+              "width": 12,
+              "position": "header"
+            }
+          },
+          "template-cart-1": {
+            "type": "cart-products",
+            "settings": {
+              "table_columns": "Product | product \nQuantity | quantity \nSubtotal | price\nRemove | remove",
+              "table_columns_mobile": "Title  \nRemove \nProperties \nQuantity \nSubtotal",
+              "show_header_mobile": false,
+              "product_properties": "title  \nprice \nproperties \nquantity \nremove",
+              "quantity_picker_type": "dropdown",
+              "remove_icon": "basket",
+              "width": 12,
+              "position": "body"
+            }
+          },
+          "template-cart-2": {
+            "type": "side-bar",
+            "settings": {
+              "title": "",
+              "sidebar_rows": "Shipping: | shipping \nOrder Total: | subtotal",
+              "apply_free_shipping_threshold": true,
+              "enable_sticky_element": true,
+              "sticky_offset": "100",
+              "cart_show_padlock_icon": false,
+              "width": 12,
+              "position": "sidebar"
+            }
+          },
+          "1598487800064": {
+            "type": "related-products",
+            "settings": {
+              "enable_slider": true,
+              "title": "We also recommend…",
+              "collection": "supplements",
+              "width": 12,
+              "show_desktop": 5,
+              "show_tablet": 3,
+              "show_mobile": 1.5,
+              "position": "footer"
+            }
+          },
+          "1597682792768": {
+            "type": "recently-viewed-products",
+            "settings": {
+              "enable_slider": true,
+              "title": "",
+              "width": 12,
+              "show_desktop": 4,
+              "show_tablet": 3,
+              "show_mobile": 1.5,
+              "position": "subfooter"
+            }
+          },
+          "1598487877778": {
+            "type": "cart-submit",
+            "settings": {
+              "btn_text": "Proceed to Checkout",
+              "width": 12,
+              "position": "sidebar"
+            }
+          }
+        },
+        "block_order": [
+          "template-cart-0",
+          "1599081725531",
+          "template-cart-1",
+          "template-cart-2",
+          "1598487800064",
+          "1597682792768",
+          "1598487877778"
+        ],
+        "settings": {
+          "section_layout": "default",
+          "empty_cart_text": "<p>your cart is empty<\/p>",
+          "empty_cart_desc": "<p>There are no items in your shopping cart at present<\/p>",
+          "include_cart_count": false
+        }
+      },
+      "account-order-message": {
+        "type": "account-order-message",
+        "settings": {
+          "title": "Need to return an item?",
+          "paragraph": "<p>Lorem ipsum dolor sit amet, adipiscing rhoncus litora ut dui morbi, mattis nascetur amet, ut justo primis, fusce purus tellus hac risus. Vehicula nullam, non suscipit sit vivamus, quam vel nostra,. Faucibus tellus ut odio risus nunc, vivamus ac, laoreet sed, nonummy consequat non ut a<\/p>",
+          "button_text": "Learn more",
+          "button_url": "shopify:\/\/collections\/all",
+          "hide_mobile": false
+        }
+      },
+      "account-edit-account": {
+        "type": "account-edit-account",
+        "settings": {
+          "title": "Personal information",
+          "description": "Enter your details to make shopping with Hygain even easier!"
+        }
+      },
+      "cart-upsell-products": {
+        "type": "cart-upsell-products",
+        "blocks": {
+          "1598378304465": {
+            "type": "upsell-product",
+            "settings": {
+              "product": "hygain-recuperate",
+              "enabled": false
+            }
+          },
+          "1598378322547": {
+            "type": "upsell-product",
+            "settings": {
+              "product": "hygain-pak-cell",
+              "enabled": true
+            }
+          },
+          "1601894140018": {
+            "type": "upsell-product",
+            "settings": {
+              "product": "hygain-micrbarley",
+              "enabled": true
+            }
+          },
+          "1601894693273": {
+            "type": "upsell-product",
+            "settings": {
+              "product": "hygain-hi-vis-vest",
+              "enabled": true
+            }
+          },
+          "1601894719995": {
+            "type": "upsell-product",
+            "settings": {
+              "product": "hygain-allrounder",
+              "enabled": true
+            }
+          }
+        },
+        "block_order": [
+          "1598378304465",
+          "1598378322547",
+          "1601894140018",
+          "1601894693273",
+          "1601894719995"
+        ],
+        "settings": {
+          "enabled_desktop": true,
+          "enabled_mobile": true
+        }
+      },
+      "template-about-us": {
+        "type": "template-about-us",
+        "blocks": {
+          "1598393281188": {
+            "type": "single-text",
+            "settings": {
+              "single_text": "<p><strong>&ldquo;The measure of success varies for all of us, but regardless of how you define success whether it&rsquo;s achieving a ribbon at the pony club, a great ride out on the trail together with your beloved horse, or a win at the Melbourne Cup race, we all share one common goal, to care for our horse, provide the very best for them and keep them sound and healthy.&rdquo; &ndash; HYGAIN<\/strong><\/p>"
+            }
+          },
+          "1598393299311": {
+            "type": "img-text",
+            "settings": {
+              "layout_side": "left",
+              "image_desktop": "shopify:\/\/shop_images\/About_Us_contentblock-1.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/About_Us_contentblock-1_mob.jpg",
+              "reverse_mobile": false,
+              "subtitle": "",
+              "title": "",
+              "text": "<p>That philosophy has long guided Hygain the leading equine feed and supplement company that is devoted to bringing their customer closer to their dream by blending years of experience, innovation, up-to-date research and enthusiasm to nurture the best qualities in horses. As an equine only feed mill and manufacturing facility Hygain is dedicated to equines and their special requirements, resulting in outstanding nutritional solutions that really make a difference to your horse&rsquo;s health, performance and well being.<\/p>"
+            }
+          },
+          "1598393339740": {
+            "type": "img-text",
+            "settings": {
+              "layout_side": "right",
+              "image_desktop": "shopify:\/\/shop_images\/About_Us_contentblock-2.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/About_Us_contentblock-2_mob.jpg",
+              "reverse_mobile": false,
+              "subtitle": "",
+              "title": "How it all began…",
+              "text": "<p>Hy Gain Feeds Pty Ltd started as a one man operation in 1983. As a horse owner and competitor dissatisfied with the quality and nutritional standards of feeds available, Greg Manley decided to take things into his own hands and started developing and mixing nutritionally balanced feed formulas to feed his own horses and others in the local area. Through word of mouth demand for the product rapidly grew and soon outstripped the capacity of the one man operation resulting in the establishment of a dedicated equine feed mill and manufacturing facility in the heart of the Victorian equine industry, south east of Melbourne. Looking confidently to the future with well-established foundations and a great team sharing a common goal, Hygain is progressively extending its global market share, continually evolving its products based on solid nutritional research applied to equine diets and the demands of an ever-changing world.<\/p>"
+            }
+          },
+          "1598393385947": {
+            "type": "overlay-img-text",
+            "settings": {
+              "image_overlay": "shopify:\/\/shop_images\/iamdesigner.png",
+              "image_overlay_mobile": "shopify:\/\/shop_images\/iamdesigner-mobile.png",
+              "overlay_text": "<p>&ldquo;At Hygain, success is not only measured by sales. More importantly, it brings the company&rsquo;s customer closer to their dream and creates exceptional &lsquo;customer satisfaction&rsquo; that gives us the greatest reward.&rdquo; &ndash; Greg Manley, Managing Director<\/p>"
+            }
+          },
+          "1598393415475": {
+            "type": "img-text",
+            "settings": {
+              "layout_side": "left",
+              "image_desktop": "shopify:\/\/shop_images\/About_Us_contentblock-3.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/About_Us_contentblock-3_mob.jpg",
+              "reverse_mobile": false,
+              "subtitle": "",
+              "title": "The Highest Standard",
+              "text": "<p>Our extensive high Performance, Equestrian, Stud and Supplement product range is backed by Hygain Feeds commitment to excellence encompassing all equine activities. A commitment to an uncompromising insistence on only using the finest certified ingredients, applying the strictest quality controls and employing the latest nutritional research resulting in groundbreaking innovations, so as to provide our customers with the highest possible standards in equine nutrition, standards which our customers have come to expect from Hygain.<\/p>"
+            }
+          },
+          "1598393487361": {
+            "type": "img-text",
+            "settings": {
+              "layout_side": "right",
+              "image_desktop": "shopify:\/\/shop_images\/Hygain-AboutUs_Image_4_02.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/Hygain-AboutUs_Image_4.jpg",
+              "reverse_mobile": true,
+              "subtitle": "",
+              "title": "How we ensure the highest standard",
+              "text": "<p>Our modern state of the art manufacturing facilities utilize revolutionar processes to enhance the nutritional value of our products, improving palatability, increasing feed efficiency and conversion whilst reducing the incidences of dietary related equine disorders. All aspects of our manufacturing processes are quality controlled and certified under HACCP and FEEDSAFE quality assurance programs. At Hygain we pride ourselves on being innovative and progressive in the commitment of reducing our impact on the environment. Our senior management fully support and are committed to our Australian Packaging Covenant Action Plan.<br> <br> Hygain products incorporate the latest in equine nutrition and unique ingredients such as bio available organic minerals, a live yeast culture for improved fibre, phosphorus and calcium digestibility and a patented form of Mannan Oligosaccarides derived from the outer cell wall of a selected strain of yeast supporting a healthy immune system and promoting gastrointestinal health and performance. Hygain Feeds only use additives which are scientifically proven to deliver major benefits to the equine&rsquo;s nutritional performance and that complement our fully fortified and precisely balanced feeds.<\/p>"
+            }
+          },
+          "1598393528321": {
+            "type": "text-content",
+            "settings": {
+              "text-content-subtitle": "",
+              "text-content-title": "Our Valued Customers",
+              "text-content-text": "<p>For over 30 years Hygain has been feeding champions, whether it be Melbourne Cup winners, Olympic medallists or championship titlists in harness racing, reining, dressage, show jumping and eventing. National as well as international horse breeders have achieved and continue achieving outstanding success in the equine industry and unconditionally trust in Hygain nutritionally balanced feeds and supplements, allowing the equine athlete to reach its full potential. Hygain as a global equine health and nutrition company partnered with the Alltech FEI World Equestrian Games in 2010 and again 2014 in continuing our support of national and international equine athletes, actively contributing to their success. Hygain fed horses truly stand out with high quality performances, gleaming looks, outstanding condition and balanced temperaments always going for the win.<br><br>Trusted throughout the equine industry, Hygain is not only nationally recognized for its outstanding high quality equine feeds and supplements, but also for leading the way in equine nutrition internationally. Hygain Feeds vast growing global market share, exporting throughout Australasia, North and South Asia, the Middle East and Europe, has resulted in a number of regional and national export awards.<\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "1598393281188",
+          "1598393299311",
+          "1598393339740",
+          "1598393385947",
+          "1598393415475",
+          "1598393487361",
+          "1598393528321"
+        ],
+        "settings": {
+        }
+      },
+      "footer-cart": {
+        "type": "footer-cart",
+        "settings": {
+          "continue_shipping_text": "Continue Shopping",
+          "continue_shipping_link": "\/",
+          "shipping_text": "Shipping",
+          "shipping_link": "#return",
+          "shipping_popup": "<h2>Shipping<\/h2>\n<b>What is the price of shipping?<\/b><br>\nHYGAIN offers free postage on all supplements and merchandise with a minimum spend of $150.00 (AUD) available through the HYGAIN online store with delivery addresses within Australia mainland.\n<br><br>\n<b>How long does delivery take?<\/b><br>\nIn-stock items ordered before 3pm EST on a business day are dispatched the next day.\n<br><br>\n<b>Please see below an estimate of delivery times:<\/b><br>\nMelbourne, Sydney, Canberra and Adelaide: 7-10 business days\nBrisbane, Hobart and Perth: 7-10 business days\nDarwin: 7-10 business days\nRemote regional areas: 7-10 business days\n<br><br>\n<b>Can I get my order delivered to a PO Boxes?<\/b><br>\nAll items purchase via our HYGAIN Online store are shipped via a courier company, which only delivers to street addresses. Unfortunately we are unable to deliver purchased items to PO Boxes.\nUpon request the courier company can leave the parcel at your doorstep without requiring your signature in case you are not home to accept the delivery.\"",
+          "help_text": "Returns",
+          "help_link": "#help",
+          "help_popup": "<h2>Returns<\/h2>\nAt HYGAIN we are committed to providing excellent service and providing fuss-free returns and exchanges subject to the Return Policy below.\n<br><br>\n<b>How do I return\/exchange an item?<\/b><br>\nSimply send an email to sales@hygain.com.au or call on (03) 5943 2255 within 30 days of purchase stating the reason you wish to return\/exchange your purchased item. Please make sure to include your invoice number and name and our dedicated support team will  discuss the return request and advise the best course of action.\n<br><br>\n<b>How does my return\/exchange request qualify?<\/b><br>\nReturns\/exchanges will only be granted within 30 days of the purchase. \nThe purchased item must be unused and in the original condition that you received it in.  In the interest of health and safety, opened supplements or treats are not eligible for refunds or exchanges. \n<br><br>\n<b>Who pays for shipping?<\/b><br>\nShipping costs are non-refundable for returned packages where delivery has been fulfilled as promised. If you receive a refund, the cost of the return shipping will be deducted from your refund.  If you wish to exchange a purchased item, the item must be sent back to HYGAIN at your own cost and a respective postage satchel must be included or postage can be paid over the phone.\n<br><br>\n<b>My item was damaged during transit?<\/b><br>\nIf your item was damaged during transit, please email sales@hygain.com.au with a photo of the damaged item no later than 1 week after the delivery was received.\n<br><br>\n<b>How do I receive a refund\/exchange?<\/b><br>\nOnce we have received your returned item, we will inspect it and notify you on the status of your refund\/exchange. If your return is approved, we will initiate a refund to your credit card.\n<br><br>\n<b>Please note we cannot grant refunds or exchanges without you first speaking to the HYGAIN support team via email or phone. <\/b>"
+        }
+      },
+      "register": {
+        "type": "register",
+        "settings": {
+          "image": "shopify:\/\/shop_images\/Hygain_USA_Create_Account_Image.jpg"
+        }
+      },
+      "login": {
+        "type": "login",
+        "settings": {
+          "image": "shopify:\/\/shop_images\/Hygain_USA_Login_Image.jpg",
+          "image_forgot": "shopify:\/\/shop_images\/Hygain-forgot_password_Image.jpg"
+        }
+      },
+      "reward": {
+        "type": "reward",
+        "blocks": {
+          "1598661326147": {
+            "type": "text-block",
+            "settings": {
+              "text": "<p>We have created the My Champions Club specifically for you, as a way of saying ‘thank you‘ for your loyalty and continued support for our Australian owned and made horse feeds and supplements.<br\/><br\/>We are very excited to be able to offer you a fantastic program that allows you to redeem the tokens on the side of your HYGAIN feed bags for Hygain supplements and merchandise.<br\/><br\/>Collect your first 10 tokens to join the program and fill out the below form to become part of the exclusive My Champions Club!!<br\/><br\/>We look forward to welcoming you soon!!<\/p>"
+            }
+          },
+          "1598661337331": {
+            "type": "aplication-form",
+            "settings": {
+              "aplication_image": "shopify:\/\/shop_images\/HOMEPAGE-MOBILE-BKGROUND1.jpg",
+              "title": "JOIN MY CHAMPIONS CLUB",
+              "sub_title": "To become a member download the application form below and mail it to the address provided along with 10 tokens.*",
+              "link_title_1": "MY CHAMPIONS CLUB AUSTRALIA",
+              "link_url_1": "https:\/\/cdn.shopify.com\/s\/files\/1\/0440\/1115\/9720\/files\/Champ-Club-membership-formAU.pdf?v=1601377288",
+              "link_title_2": "MY CHAMPIONS CLUB NEW ZEALAND",
+              "link_url_2": "https:\/\/cdn.shopify.com\/s\/files\/1\/0440\/1115\/9720\/files\/Champ-Club-membership-form-NZ.pdf?v=1601377288",
+              "text": "<p><a href=\"\/pages\/my-champions-member\" title=\"My Champions Member\"><strong>VIEW REDEMPTION OPTIONS AND DOWNLOAD MEMBERS REDEMPTION FORM HERE<\/strong><\/a><\/p><p>*Hygain Allrounder, Hygain Fibressentials and the Hygain Supplement Range do not have a Champions Club token on their packaging and are not part of this program.<\/p>"
+            }
+          },
+          "1598661382677": {
+            "type": "how-it-works",
+            "settings": {
+              "block_image": "shopify:\/\/shop_images\/mlouye-denim-edit_1_750x_dbd0d0b3-d3c4-4153-8927-92dd2a9b61d1.jpg",
+              "title": "HOW MY CHAMPION CLUB WORKS",
+              "sub_title": "",
+              "text_1": "<p>Cut 10 HYGAIN Champions Club tokens off the side of your HYGAIN feed bag. (Please note: not the barcode!)<\/p><p>Become a member of our HYGAIN Rewards Program by filling out the REWARDS APPLICATION FORM and send the form along with 10 Champions Club tokens to <a href=\"\/pages\/about-us\" title=\"About us\">Hy Gain Feeds Pty Ltd, Rewards Program, PO Box 199, Officer, 3809 VIC, Australia<\/a><\/p><p>Once you are part of the club, we will issue you an exclusive HYGAIN Champions Club account and you can log-in to the exclusive members area where you will have access to all the information on our fantastic merchandise and the number of tokens required for each item.<\/p>"
+            }
+          },
+          "1598661400382": {
+            "type": "seo-text",
+            "settings": {
+              "sub_title": "Enjoy our wide range of rewards items for you and your horses, starting from only 7 tokens!!",
+              "title": "We look forward to welcoming you soon!!"
+            }
+          }
+        },
+        "block_order": [
+          "1598661326147",
+          "1598661337331",
+          "1598661382677",
+          "1598661400382"
+        ],
+        "settings": {
+        }
+      },
+      "template-health-landing": {
+        "type": "template-health-landing",
+        "blocks": {
+          "1598866134736": {
+            "type": "custom_post",
+            "settings": {
+              "icon": "shopify:\/\/shop_images\/screen-shot-2021-04-16-at-9-26-22-am_2x_d75cc1fc-2c55-4b39-9e47-10d6be72f969.png",
+              "title": "Category 1",
+              "link_url": "https:\/\/hygain.com.au\/blogs\/library",
+              "text": "Riding Discipline"
+            }
+          },
+          "1598866153303": {
+            "type": "custom_post",
+            "settings": {
+              "icon": "shopify:\/\/shop_images\/screen-shot-2021-04-16-at-11-31-30-am.png",
+              "title": "Category 2",
+              "link_url": "https:\/\/hygain.com.au\/pages\/advisor-page",
+              "text": "Riding Discipline"
+            }
+          },
+          "1598866168036": {
+            "type": "custom_post",
+            "settings": {
+              "icon": "shopify:\/\/shop_images\/vietnam_flag_by_think0_d475ejz-pre.jpg",
+              "title": "Category 3",
+              "link_url": "https:\/\/hygain.com.au\/pages\/weight-calculator",
+              "text": "Riding Discipline"
+            }
+          },
+          "1598866182836": {
+            "type": "custom_post",
+            "settings": {
+              "icon": "shopify:\/\/shop_images\/screen-shot-2021-04-16-at-9-26-22-am_2x_d75cc1fc-2c55-4b39-9e47-10d6be72f969.png",
+              "title": "Category  3",
+              "link_url": "https:\/\/www.youtube.com\/channel\/UCQOCcmVKEKsV6KUqzpI0ztQ",
+              "text": "Check out our brand new Hygain educational videos on a wide range of equine nutritional topics."
+            }
+          },
+          "1598866198242": {
+            "type": "custom_post",
+            "settings": {
+              "title": "Frequently Asked Questions",
+              "link_url": "https:\/\/hygain.com.au\/pages\/hygain-frequently-asked-questions",
+              "text": "We have compiled the most frequently asked questions (FAQ) and answers directed to Hygain’s Equine Nutritionist to assist you. Search through the categories and if the answer to your question is still pending, you can always contact us directly here."
+            }
+          },
+          "1598866215600": {
+            "type": "custom_post",
+            "settings": {
+              "title": "Equine Glossary",
+              "link_url": "https:\/\/hygain.com.au\/pages\/nutrition-glossary",
+              "text": "A comprehensive glossary of equine health and equine nutrition terms to provide you a better understanding and a quick reference point."
+            }
+          },
+          "1598866225452": {
+            "type": "text-content",
+            "settings": {
+              "title": "NUTRITION CONSULTATION",
+              "description": "Book a personalised consultation with our Nutrition Advisor.",
+              "link_url": "https:\/\/meetings.hubspot.com\/a-ward",
+              "link_text": "BOOK A TIME TO TALK"
+            }
+          }
+        },
+        "block_order": [
+          "1598866134736",
+          "1598866153303",
+          "1598866168036",
+          "1598866182836",
+          "1598866198242",
+          "1598866215600",
+          "1598866225452"
+        ],
+        "settings": {
+        }
+      },
+      "template-blog": {
+        "type": "template-blog",
+        "blocks": {
+          "1598912544967": {
+            "type": "hero-banner",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/pasture-management-for-horses-with-metabolic-disorders.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/register_6233a825-e810-4dd7-a82c-1fa08e851dbd.jpg",
+              "image_alignment": "center",
+              "enable_breadrcrumb": true,
+              "title": "Pasture management for horses with metabolic related disorders",
+              "text": "<p>The accumulation of certain carbohydrates including fructans, starches, and sugars (Non-Structural Carbohydrates, NSC)&hellip;<\/p>",
+              "text_alignment": "center",
+              "text_position": "middle",
+              "button_label": "READ MORE",
+              "button_link": "shopify:\/\/pages\/contact-us",
+              "theme": "light",
+              "width": 12,
+              "position": "header"
+            }
+          },
+          "template-blog-2": {
+            "type": "filter",
+            "settings": {
+              "title": "Title",
+              "filter": "_blog-filter-news",
+              "filter_type": "tabs",
+              "show_label": true,
+              "remove_icon": "close",
+              "width": 12,
+              "position": "body"
+            }
+          },
+          "template-blog-3": {
+            "type": "articles",
+            "settings": {
+              "layout": "default",
+              "width": 12,
+              "pagination_type": "pages",
+              "articles_length": 6,
+              "width_desktop": 4,
+              "width_tablet": 6,
+              "width_mobile": 12,
+              "position": "body"
+            }
+          }
+        },
+        "block_order": [
+          "1598912544967",
+          "template-blog-2",
+          "template-blog-3"
+        ],
+        "settings": {
+        }
+      },
+      "template-library": {
+        "type": "template-library",
+        "blocks": {
+          "template-library-0": {
+            "type": "filter",
+            "settings": {
+              "title": "Health & Nutrition Library",
+              "filter": "_blog-filter-librari-top",
+              "filter_type": "tabs",
+              "show_label": true,
+              "remove_icon": "close",
+              "width": 12,
+              "position": "body"
+            }
+          },
+          "template-library-1": {
+            "type": "articles",
+            "settings": {
+              "menu_title": "Topics",
+              "show_menu": true,
+              "title": "All resources",
+              "width": 12,
+              "pagination_type": "pages",
+              "articles_length": 6,
+              "width_desktop": 4,
+              "width_tablet": 6,
+              "width_mobile": 12
+            }
+          }
+        },
+        "block_order": [
+          "template-library-0",
+          "template-library-1"
+        ],
+        "settings": {
+        }
+      },
+      "gift-related-product": {
+        "type": "gift-related-product",
+        "blocks": {
+          "1599089083695": {
+            "type": "product_item",
+            "settings": {
+              "prod": "hygain-tracktorque"
+            }
+          },
+          "1599089092916": {
+            "type": "product_item",
+            "settings": {
+              "prod": "hygain-flexion"
+            }
+          },
+          "1599089105660": {
+            "type": "product_item",
+            "settings": {
+              "prod": "hygain-smoochies"
+            }
+          },
+          "1599089113547": {
+            "type": "product_item",
+            "settings": {
+              "prod": ""
+            }
+          }
+        },
+        "block_order": [
+          "1599089083695",
+          "1599089092916",
+          "1599089105660",
+          "1599089113547"
+        ],
+        "settings": {
+          "title": "Other gift ideas"
+        }
+      },
+      "template-advisor-accordions": {
+        "type": "template-advisor-accordions",
+        "blocks": {
+          "1599177088664": {
+            "type": "block",
+            "settings": {
+              "title": "Needs high energy",
+              "text": "<p><strong>Look For<\/strong><br\/>Highly digestible energy sources e.g. micronized or extruded grains<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-showtorque\" title=\"Showtorque\"><em>SHOWTORQUE<\/em><\/a> - A grain free, high-fat concentrate<br\/><a href=\"\/products\/hygain-release\" title=\"Release\"><em>RELEASE<\/em><\/a><em> for performance <\/em>- A high fat , high protein oat free,textured feed.<br\/><br\/><strong>Don't Forget About Fibre<\/strong><br\/>Use high quality fibre - such as Lucerne or beet pulp<br\/><br\/><strong>Tips For Success<\/strong><br\/>When feeding large quantities of concentrate never feed more than 2kg of grain in a single meal<\/p>"
+            }
+          },
+          "1599177097804": {
+            "type": "block",
+            "settings": {
+              "title": "Needs medium energy",
+              "text": "<p><strong>Look For<\/strong><br\/>High fat feeds as a safe and energy dense calorie source Moderate cereal grain content<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-showtorque\" title=\"Showtorque\"><em>SHOWTORQUE<\/em><\/a> - a grain free, high-fat concentrate<br\/><br\/><strong>Don't Forget About Fibre<\/strong><br\/>Use high quality fibre sources that are low in sugar and starch such as Lucerne or beet pulp<br\/><br\/><strong>Tips For Success<\/strong><br\/>When feeding large quantities of concentrate never feed more than 2kg of grain in a single meal.<\/p>"
+            }
+          },
+          "1599177108950": {
+            "type": "block",
+            "settings": {
+              "title": "Needs Low Energy",
+              "text": "<p><strong>Look For <\/strong><br\/>Highly digestible energy sources e.g. micronized or extruded grains<br\/>High fat feeds such as a safe and energy dense calorie source<br\/>High fibre, low sugar and starch feeds<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-zero\" title=\"Zero\"><em>ZERO<\/em><\/a> - A grain free, low Carb - Low GI pelleted feed ideal for poor doers or underweight horse<br\/><a href=\"\/products\/hygain-balanced\" title=\"Balanced\"><em>Balanced<\/em><\/a> - A concentrated, low does mineral and vitamin balancer pellet ideal for good doers or overweight horses.<br\/><br\/><strong>Don't Forget About Fibre<\/strong><br\/>Use low energy, mature grass hays<br\/>Use high quality fibre such as Lucerne or beet pulp<br\/><br\/><strong>Tips For Success<\/strong><br\/>Should extra weight gain be desired add extra calories<\/p>"
+            }
+          },
+          "1599177119214": {
+            "type": "block",
+            "settings": {
+              "title": "Needs to Gain Weight \/ Condition",
+              "text": "<p><strong>Look For<\/strong><br\/>High fat feeds as a safe and energy dense calorie source<br\/>Highly digestible energy sources e.g. micronized or extruded grains<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-showtorque\" title=\"Showtorque\"><em>SHOWTORQUE<\/em><\/a> - A grain free, high-fat concentrate <br\/><a href=\"\/products\/hygain-trucare\" title=\"Tru Care\"><em>TRU CARE<\/em><\/a> - High fibre, high fat extruded senior feed <br\/><a href=\"\/products\/hygain-equine-senior\" title=\"Equine Senior\"><em>EQUINE SENIOR<\/em><\/a> - High fibre, high fat textured senior feed<br\/><a href=\"\/products\/hygain-trugain\" title=\"Tru Gain\"><em>TRU GAIN<\/em><\/a> - Supplement any diet with TRU GAIN where additional weight gain is required<br\/><br\/><strong>Don't Forget About Fibre<\/strong><br\/>Allow access to pasture and hay at all times<br\/>Feed a minimum of 1.5% for every 100kg of your horses body weight in good quality roughage<br\/>Use high quality fibre sources such as Lucerne hay and\/or beet pulp<br\/><br\/><strong>Tips for Success<\/strong><br\/>Detect cause for weight loss<br\/>Get teeth checked at least once a year<br\/>Make sure your worming program is up to date<br\/>Avoid horse being bullied or other contributing stress factors<\/p>"
+            }
+          },
+          "1599177134712": {
+            "type": "block",
+            "settings": {
+              "title": "Has a Metabolic Issue",
+              "text": "<p><strong>Avoid Feeding<\/strong><br\/>Cereal grains (oats, maize, barley, wheat)<br\/>Treats (apple, carrots)<br\/>Oaten\/wheaten hay\/chaff<br\/> <br\/><strong>Look for<\/strong><br\/>High fibre, low sugar and starch feeds with a combined sugar and starch intake of less than 10%<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-zero\" title=\"Zero\"><em>ZERO<\/em><\/a> - A grain free, low Carb – Low GI pelleted feed ideal for poor doers or underweight horse<br\/><a href=\"\/products\/hygain-balanced\" title=\"Balanced\"><em>BALANCED<\/em><\/a> - A concentrated, low dose mineral and vitamin balancer pellet ideal for good doers or overweight horses<br\/><br\/><strong>Tips For Success<\/strong><br\/>Warm season grass pasture: DO NOT GRAZE between 8pm-10am<br\/>Use strip grazing or grazing muzzles to avoid excessive pasture intake<br\/>Use low energy, mature grass hays<br\/>Use low sugar fibre sources such as beet pulp<br\/>Should weight gain be desired add a sugar free calorie source<\/p>"
+            }
+          },
+          "1599177146128": {
+            "type": "block",
+            "settings": {
+              "title": "Needs to Lose Weight(Pony or Horse)",
+              "text": "<p><strong>Look For<\/strong><br\/>Concentrated sources of bio-available vitamins and minerals<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-balanced\" title=\"Balanced\"><em>BALANCED<\/em><\/a> - A concentrated, low dose mineral and vitamin balancer pellet ideal for good doers or overweight horses<br\/><br\/><strong>Don't Forget About Fibre<\/strong><br\/>Warm season grass pasture : DO NOT GRAZE between 8pm-10am<br\/>Use strip grazing or grazing muzzles to avoid excessive pasture intake<br\/>Use low energy, mature grass hays<br\/><br\/><strong>Tips For Success<\/strong><br\/>Increase exercise regime<br\/>Do not feed less than 1.5% of body weight as roughage (important for gut health). Hay feed in a slow net feeder is best.<\/p>"
+            }
+          },
+          "1599177156736": {
+            "type": "block",
+            "settings": {
+              "title": "Needs to Develop Topline",
+              "text": "<p><strong>Look For<\/strong><br\/>High fat feeds as a safe and energy dense calorie source<br\/>Highly digestible energy sources e.g. micronized or extruded grains<br\/>Quality protein sources e.g. soybeans, tick beans and lupins<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-showtorque\" title=\"Showtorque\"><em>SHOWTORQUE<\/em><\/a> - A grain free, high-fat concentrate<br\/><a href=\"\/products\/hygain-trugain\" title=\"Tru Gain\"><em>TRU GAIN<\/em><\/a> - Supplement any diet with TRU GAIN where additional weight gain is required<br\/><br\/><strong>Don't Forget About Fibre<\/strong><br\/>Allow access to pasture and hay at all times<br\/>Use high quality fibre sources such as Lucerne hay and\/or beet pulp<br\/><br\/><strong>Tips for Success<\/strong><br\/>Apply relevant exercise regime to support muscle development<\/p>"
+            }
+          },
+          "1599177166647": {
+            "type": "block",
+            "settings": {
+              "title": "Is A Senior Horse",
+              "text": "<p><strong>Look For<\/strong><br\/>Minimum Protein level 14% including good sources of amino acids (lysine)<br\/>Minimum fat level of 5%<br\/>Highly digestible energy sources e.g. micronized or extruded grains<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-trucare\" title=\"Tru Care\"><em>TRU CARE<\/em><\/a> - High fibre, high fat extruded senior feed<br\/><a href=\"\/products\/hygain-equine-senior\" title=\"Equine Senior\"><em>EQUINE SENIOR<\/em><\/a> - High fibre, high fat textured senior feed<br\/><br\/><strong>Tips For Success<\/strong><br\/>For horses with poor dentition look for feeds and fibre sources that are can be soaked without compromising the nutritional value of the feed (e.g. TRU CARE).<\/p>"
+            }
+          },
+          "1599177176836": {
+            "type": "block",
+            "settings": {
+              "title": "Has Poor Hooves and\/or Coat",
+              "text": "<p><strong>Look for<\/strong><br\/>Increased fat for coat health<br\/>Bio-available Zinc<br\/>Biotin<br\/>Methionine<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-showtorque\" title=\"Showtorque\"><em>SHOWTORQUE<\/em><\/a> - A grain free, high-fat concentrate<br\/><br\/><strong>Don't Forget About Fibre<\/strong><br\/>Feed a minimum of 1.5% for every 100kg of your horses body weight in good quality roughage<\/p>"
+            }
+          },
+          "1599177192764": {
+            "type": "block",
+            "settings": {
+              "title": "Is Prone to Tying Up",
+              "text": "<p><strong>Look For<\/strong><br\/>High fat feeds<br\/>Elevated Vitamin E and Selenium<br\/>Moderate to low sugar and starch content depending on severity of tying up<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-zero\" title=\"Zero\"><em>ZERO<\/em><\/a> - A grain free, low Carb – Low GI pelleted feed ideal for poor doers or underweight horse<br\/><a href=\"https:\/\/hygain.com.au\/products\/hygain-release\"><em>RELEASE<\/em><\/a> was designed specifically for horses that suffer from this disorder. It is a non-oat micronized feed with a high fat content and increased vitamin E and selenium concentrations that aid in muscle repair and performance.<br\/><a href=\"https:\/\/hygain.com.au\/products\/hygain-regain\" title=\"https:\/\/hygain.com.au\/products\/hygain-regain\"><em>REGAIN<\/em><\/a> - to reduce electrolyte in-balances following exercise<br\/><br\/><strong>Don't Forget About Fibre<\/strong><br\/>Use low energy, mature grass hays<br\/>Use high quality fibre sources that are low in sugar and starch such as Rhodes\/Teff hay or beet pulp<\/p><p><br\/><strong>Tips For Success<\/strong><br\/>Maintain routine<br\/>Limit days off<\/p>"
+            }
+          },
+          "1599177199131": {
+            "type": "block",
+            "settings": {
+              "title": "Is Recovering From an Injury, and  requiring weight gain",
+              "text": "<p><strong>Look For<\/strong><br\/>High fat feeds as a safe and energy dense calorie source<br\/>Highly digestible energy sources e.g. micronized or extruded grains<br\/>Quality protein sources e.g. soybeans, tick beans and lupins<br\/><br\/><strong>We Recommend<\/strong><br\/><a href=\"\/products\/hygain-showtorque\" title=\"Showtorque\"><em>SHOWTORQUE<\/em><\/a> - A grain free, high-fat concentrate<br\/><a href=\"\/products\/hygain-trugain\" title=\"Tru Gain\"><em>TRU GAIN<\/em><\/a> - Supplement any diet with TRU GAIN where additional weight gain is required<\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "1599177088664",
+          "1599177097804",
+          "1599177108950",
+          "1599177119214",
+          "1599177134712",
+          "1599177146128",
+          "1599177156736",
+          "1599177166647",
+          "1599177176836",
+          "1599177192764",
+          "1599177199131"
+        ],
+        "settings": {
+          "section_title": "FIND A HYGAIN FEED TO MEET YOUR HORSES SPECIFIC NEEDS",
+          "top_image": "shopify:\/\/shop_images\/Hygain_USA_FeedAd_Image.jpg",
+          "bottom_image": "shopify:\/\/shop_images\/Hygain_USA_FeedAd_Image_02.jpg"
+        }
+      },
+      "template-advisor-linklists": {
+        "type": "template-advisor-linklists",
+        "blocks": {
+          "1599177368529": {
+            "type": "block",
+            "settings": {
+              "navlist": "topline-weight-gain"
+            }
+          },
+          "1599177371888": {
+            "type": "block",
+            "settings": {
+              "navlist": "advisor-linklist-2"
+            }
+          },
+          "1599177376423": {
+            "type": "block",
+            "settings": {
+              "navlist": "advisor-linklist-3"
+            }
+          },
+          "1599177380381": {
+            "type": "block",
+            "settings": {
+              "navlist": "advisor-linklist-3"
+            }
+          },
+          "1599177384265": {
+            "type": "block",
+            "settings": {
+              "navlist": "advisor-linklist-4"
+            }
+          },
+          "1599177387700": {
+            "type": "block",
+            "settings": {
+              "navlist": "advisor-linklist-5"
+            }
+          },
+          "1599177391404": {
+            "type": "block",
+            "settings": {
+              "navlist": "advisor-linklist-6"
+            }
+          },
+          "1599177394886": {
+            "type": "block",
+            "settings": {
+              "navlist": "advisor-linklist-7"
+            }
+          },
+          "1599177398327": {
+            "type": "block",
+            "settings": {
+              "navlist": ""
+            }
+          },
+          "1599177404021": {
+            "type": "block",
+            "settings": {
+              "navlist": ""
+            }
+          },
+          "1599177413311": {
+            "type": "block",
+            "settings": {
+              "navlist": ""
+            }
+          },
+          "1599177418438": {
+            "type": "block",
+            "settings": {
+              "navlist": "advisor-linklist-8"
+            }
+          }
+        },
+        "block_order": [
+          "1599177368529",
+          "1599177371888",
+          "1599177376423",
+          "1599177380381",
+          "1599177384265",
+          "1599177387700",
+          "1599177391404",
+          "1599177394886",
+          "1599177398327",
+          "1599177404021",
+          "1599177413311",
+          "1599177418438"
+        ],
+        "settings": {
+          "section_title": "find a feed based on problem",
+          "single_image": "shopify:\/\/shop_images\/Hygain-findafeed_FA.jpg"
+        }
+      },
+      "weight-calculator": {
+        "type": "weight-calculator",
+        "settings": {
+          "title": "Estimate the weight of your horse with our quick calculator",
+          "description": "<p>The weight of your horse serves as a basic guide to determine feeding requirements and to make observations about your horse&rsquo;s health and condition. Weighing your horse on a scale is the most accurate way to determine your horse&rsquo;s weight. The Hygain Horse Weight Calculator offers a simple method to estimate your horse&rsquo;s weight. Measure your horse&rsquo;s heart girth and body length as shown on the illustrations and enter the numbers in the indicated fields below.<\/p>",
+          "calc_title": "Calculator",
+          "calc_sub_title": "Please choose the unit of measurment:",
+          "block_image_1": "shopify:\/\/shop_images\/Weight-calculator-girth_2.jpg",
+          "block_title_1": "Step 1:  Measure your horses hearth girth",
+          "block_sub_title_1": "<p>Measure your horse&rsquo;s heart girth (circumference) by running the tape measure all the way around your horse 10cm (4&Prime;) behind it&rsquo;s front legs.<\/p>",
+          "block_image_2": "shopify:\/\/shop_images\/Weight-calculator-length_2.jpg",
+          "block_title_2": "Step 2:  Measure your horses body length",
+          "block_sub_title_2": "<p>Measure your horse&rsquo;s body length from the point of the shoulder to the point of the buttock in a straight line.<\/p>",
+          "bottom_text": "<p>Hygain Horse Weight Calculator is intended as a weight estimation tool only and does not take different horse body types into account.<br><br>Hy Gain Feeds Pty Ltd is not responsible for any inaccuracy in the estimation of your horse's weight or issues arising from the use\/misuse of this online tool.<\/p>"
+        }
+      },
+      "template-sponsorship": {
+        "type": "template-sponsorship",
+        "blocks": {
+          "1599648159597": {
+            "type": "footer_text",
+            "settings": {
+              "title": "Sponsorship Decision Process",
+              "text": "<p>All of HYGAIN&rsquo;s Sponsorship decisions are made by the HYGAIN Sponsorship Committee at their sole discretion. HYGAIN reserves the right to nominate the amount of product, merchandise or cash it awards to successful recipients. Submitting an application does not guarantee your application will be successful. For the best chance of getting your event sponsored; ensure the criteria are met, the event attracts a large audience and competitors and you have stated how you will promote HYGAIN. Applications with a creative flair will be considered favourably. Ensure you can deliver on your promises as we will have HYGAIN staff or scouts present at your event.<\/p>"
+            }
+          },
+          "1599648194973": {
+            "type": "text_section",
+            "settings": {
+              "title": "HYGAIN will be the ONLY FEED sponsor of the event.",
+              "width": 12
+            }
+          },
+          "1599648217236": {
+            "type": "text_singlecheckbox",
+            "settings": {
+              "title": "Yes",
+              "id": "will_be_only",
+              "checked": true,
+              "is_required": false,
+              "position": "top",
+              "width": 12
+            }
+          },
+          "1599738329550": {
+            "type": "text_day_mask",
+            "settings": {
+              "title": "Date of the Event",
+              "id": "date",
+              "mask_day": true,
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648266824": {
+            "type": "text_section",
+            "settings": {
+              "title": "Event must be held in NO LESS than 2 months from today! Any applications received for events less than two months away will be automatically declined.",
+              "width": 12
+            }
+          },
+          "1599648286037": {
+            "type": "text_input",
+            "settings": {
+              "title": "name",
+              "text_placeholder": "First",
+              "id": "first_name",
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648310420": {
+            "type": "text_input",
+            "settings": {
+              "title": "Last",
+              "text_placeholder": "Last",
+              "id": "last_name",
+              "position": "none",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599738373537": {
+            "type": "text_phone",
+            "settings": {
+              "title": "Phone",
+              "mask_number": true,
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648353516": {
+            "type": "text_input",
+            "settings": {
+              "title": "Name of Club",
+              "text_placeholder": "",
+              "id": "club_name",
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648374476": {
+            "type": "text_input",
+            "settings": {
+              "title": "email",
+              "text_placeholder": "Enter Email",
+              "id": "email",
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648392183": {
+            "type": "text_input",
+            "settings": {
+              "title": "Confirm Email",
+              "text_placeholder": "Confirm Email",
+              "id": "confirm_mail",
+              "position": "none",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648421426": {
+            "type": "text_input",
+            "settings": {
+              "title": "Club's Address\/Event Venue",
+              "text_placeholder": "Street Address",
+              "id": "club_address",
+              "position": "top",
+              "is_required": true,
+              "width": 12
+            }
+          },
+          "1599648436685": {
+            "type": "text_input",
+            "settings": {
+              "title": "City",
+              "text_placeholder": "City",
+              "id": "city",
+              "position": "none",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648453857": {
+            "type": "text_input",
+            "settings": {
+              "title": "State \/ Province \/ Region",
+              "text_placeholder": "State \/ Province \/ Region",
+              "id": "state",
+              "position": "none",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648470615": {
+            "type": "text_input",
+            "settings": {
+              "title": "ZIP \/ Postal Code",
+              "text_placeholder": "ZIP \/ Postal Code",
+              "id": "zip",
+              "position": "none",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648488533": {
+            "type": "text_country_dropdown",
+            "settings": {
+              "title": "Сountry",
+              "id": "country",
+              "position": "none",
+              "is_required": false,
+              "width": 6
+            }
+          },
+          "1599648511424": {
+            "type": "text_input",
+            "settings": {
+              "title": "Club's Website",
+              "text_placeholder": "http:\/\/",
+              "id": "club_site",
+              "position": "top",
+              "is_required": false,
+              "width": 6
+            }
+          },
+          "1599648528543": {
+            "type": "text_input",
+            "settings": {
+              "title": "Club's Facebook Page",
+              "text_placeholder": "",
+              "id": "club_facebook",
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648558324": {
+            "type": "text_input",
+            "settings": {
+              "title": "Official Name of the Event",
+              "text_placeholder": "",
+              "id": "event_name",
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648573432": {
+            "type": "text_input",
+            "settings": {
+              "title": "Name of Local Feed Store",
+              "text_placeholder": "",
+              "id": "name_local_store",
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648597404": {
+            "type": "text_multiplecheckboxes",
+            "settings": {
+              "title": "Type of Event",
+              "options": "Dressgae,Reining,Showjumping,Cutting,Eventing,Western Pleasure\/Trail,Pony Club,Endurance,Campdrafting,Polocrosse,Barrel Racing,Fundraiser,Other",
+              "id": "event_type",
+              "is_required": true,
+              "position": "top",
+              "width": 6
+            }
+          },
+          "1599648614543": {
+            "type": "text_input",
+            "settings": {
+              "title": "Expected Number of Competitors",
+              "text_placeholder": "Please enter a value greater than or equal to 30.",
+              "id": "number_comperirors",
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648635366": {
+            "type": "text_input",
+            "settings": {
+              "title": "Expected Number of Spectators",
+              "text_placeholder": "Please enter a value greater than or equal to 30.",
+              "id": "number_spectators",
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648678539": {
+            "type": "text_input",
+            "settings": {
+              "title": "Number of Classes per Day",
+              "text_placeholder": "",
+              "id": "number_of_classes",
+              "position": "top",
+              "is_required": true,
+              "width": 6
+            }
+          },
+          "1599648698695": {
+            "type": "text_textarea",
+            "settings": {
+              "title": "How will you promote HYGAIN at your event?",
+              "id": "how_will_promote",
+              "position": "top",
+              "is_required": true,
+              "width": 12
+            }
+          },
+          "1599648712729": {
+            "type": "text_textarea",
+            "settings": {
+              "title": "Quantity and type of sponsorship you are requesting",
+              "id": "quantity_sponsorship",
+              "position": "top",
+              "is_required": true,
+              "width": 12
+            }
+          },
+          "1599648726315": {
+            "type": "upload_file",
+            "settings": {
+              "title": "Upload relevant photos",
+              "text_footer": "Accepted file types: jpg, gif, png, pdf.",
+              "id": "upload_file",
+              "is_required": false,
+              "width": 12
+            }
+          },
+          "1599648763644": {
+            "type": "text_textarea",
+            "settings": {
+              "title": "Additional information",
+              "id": "additional_info",
+              "position": "top",
+              "is_required": false,
+              "width": 12
+            }
+          },
+          "1599648782145": {
+            "type": "text_submit_button",
+            "settings": {
+              "title": "submit",
+              "width": 3
+            }
+          }
+        },
+        "block_order": [
+          "1599648159597",
+          "1599648194973",
+          "1599648217236",
+          "1599738329550",
+          "1599648266824",
+          "1599648286037",
+          "1599648310420",
+          "1599738373537",
+          "1599648353516",
+          "1599648374476",
+          "1599648392183",
+          "1599648421426",
+          "1599648436685",
+          "1599648453857",
+          "1599648470615",
+          "1599648488533",
+          "1599648511424",
+          "1599648528543",
+          "1599648558324",
+          "1599648573432",
+          "1599648597404",
+          "1599648614543",
+          "1599648635366",
+          "1599648678539",
+          "1599648698695",
+          "1599648712729",
+          "1599648726315",
+          "1599648763644",
+          "1599648782145"
+        ],
+        "settings": {
+          "title": "sponsorship",
+          "redirect_url": "",
+          "hide_form": true,
+          "show_atrix": true,
+          "show_optional": false,
+          "heading": "EVENT SPONSORSHIP APPLICATION FORM",
+          "description": "",
+          "position": "center"
+        }
+      },
+      "account-addresses": {
+        "type": "account-addresses",
+        "settings": {
+        }
+      },
+      "template-nutrition": {
+        "type": "template-nutrition",
+        "settings": {
+          "title": "Nutrition Glossary",
+          "checkbox": false
+        }
+      },
+      "1613561848c6aa3dd7": {
+        "type": "home-custom-articles-2col",
+        "disabled": true,
+        "blocks": {
+          "b7418706-843c-4e3f-becc-8e4f496c1fc1": {
+            "type": "custom_article",
+            "settings": {
+              "title": "Zero",
+              "text": "The low starch and low<br>\nsugar complete horse feed",
+              "link": "shopify:\/\/products\/hygain-zero",
+              "link_text": "FIND OUT MORE",
+              "show_boxshadow": true
+            }
+          },
+          "05cbadfa-98aa-4b51-9cc0-0c7a77120c79": {
+            "type": "custom_article",
+            "settings": {
+              "title": "Find a Retailer",
+              "text": "Find a store near you<br>\nthat carries Hygain",
+              "link": "shopify:\/\/pages\/store-locator",
+              "link_text": "VIEW OUR RETAILERS",
+              "show_boxshadow": true
+            }
+          }
+        },
+        "block_order": [
+          "b7418706-843c-4e3f-becc-8e4f496c1fc1",
+          "05cbadfa-98aa-4b51-9cc0-0c7a77120c79"
+        ],
+        "settings": {
+        }
+      },
+      "161365218629517d15": {
+        "type": "call-to-action",
+        "settings": {
+          "title": "",
+          "text": "For over 35 years, HYGAIN feeds have been perfected with painstaking attention to every detail.\n\nOur revolutionary cooking processes enhance nutritional value, improve palatability, increase feed efficiency, and reduce digestive disorders.\n\nHYGAIN is made in an equine-only manufacturing facility for product purity with no cross-\ncontamination. Each feed is formulated to deliver optimal health, outstanding condition, and balanced temperament.",
+          "btn_text": "Learn More",
+          "btn_url": "shopify:\/\/pages\/about-us"
+        }
+      },
+      "1613661306279d434a": {
+        "type": "home-blog-posts",
+        "settings": {
+          "title": "HEALTH & NUTRITION LIBRARY",
+          "blog": "library",
+          "items_to_show": 3,
+          "button_show_more_enabled": true,
+          "button_show_more_text": "view all articles",
+          "layout": "default"
+        }
+      },
+      "1613664101770918e4": {
+        "type": "home-brands",
+        "blocks": {
+          "d1fe6686-33f2-45e1-b467-511806215c65": {
+            "type": "list",
+            "settings": {
+              "title": "",
+              "text": "",
+              "link": "",
+              "link_text": ""
+            }
+          },
+          "8dea4a35-8660-4ef1-ab98-729f33c17b69": {
+            "type": "list",
+            "settings": {
+              "title": "",
+              "text": "",
+              "link": "",
+              "link_text": ""
+            }
+          },
+          "7aa5795a-d21f-4d27-8255-181846ee0b77": {
+            "type": "list",
+            "settings": {
+              "title": "",
+              "text": "",
+              "link": "",
+              "link_text": ""
+            }
+          }
+        },
+        "block_order": [
+          "d1fe6686-33f2-45e1-b467-511806215c65",
+          "8dea4a35-8660-4ef1-ab98-729f33c17b69",
+          "7aa5795a-d21f-4d27-8255-181846ee0b77"
+        ],
+        "settings": {
+        }
+      },
+      "161417310690cc1cf6": {
+        "type": "slideshow",
+        "blocks": {
+          "793a68f2-4db6-45a1-91bf-8c2d7a8089f2": {
+            "type": "image",
+            "settings": {
+              "alignment": "center",
+              "preheading": "",
+              "title": "\"Hygain has plenty of options\nto suit every horse in my program.\"",
+              "subheading": "Olympic Gold Medalist, Will Simpson and Chacco",
+              "button_text": "VIEW OUR RANGE",
+              "terms": "",
+              "enable_overlay": true,
+              "text_alignment": "left",
+              "link": "shopify:\/\/collections\/shop"
+            }
+          },
+          "cdbb26c5-fe90-4103-b5a8-ae4fd4830feb": {
+            "type": "image",
+            "settings": {
+              "alignment": "top",
+              "preheading": "HYGAIN FEEDS",
+              "title": "FEEDING CHAMPIONS SINCE 1983",
+              "subheading": "Arno Honstetter & Special Made Whiskey",
+              "button_text": "See Our Feeds",
+              "terms": "",
+              "enable_overlay": true,
+              "text_alignment": "left",
+              "link": "shopify:\/\/collections\/feeds"
+            }
+          },
+          "4c6f9cfc-1c97-4d4a-a784-ae242744edfe": {
+            "type": "image",
+            "settings": {
+              "alignment": "top",
+              "preheading": "",
+              "title": "THE HIGHEST STANDARD\nIN HORSE NUTRITION",
+              "subheading": "Bringing you the worlds most advanced feed technologies",
+              "button_text": "VIEW OUR RANGE",
+              "terms": "",
+              "enable_overlay": true,
+              "text_alignment": "left",
+              "link": "shopify:\/\/collections\/shop"
+            }
+          }
+        },
+        "block_order": [
+          "793a68f2-4db6-45a1-91bf-8c2d7a8089f2",
+          "cdbb26c5-fe90-4103-b5a8-ae4fd4830feb",
+          "4c6f9cfc-1c97-4d4a-a784-ae242744edfe"
+        ],
+        "settings": {
+          "autoplay": true,
+          "autoplay_speed": "5000",
+          "slideshow_height": "large",
+          "text_size": "large",
+          "transition": "fade",
+          "dots": true,
+          "arrows": false
+        }
+      },
+      "1617743766c87ed1e2": {
+        "type": "html-text",
+        "settings": {
+          "text": "<div class=\"col-sm-6 hygain-cta text-center\">\n        <a href=\"https:\/\/my-schedule.timetrade.com\/app\/td-6944047\/workflows\/q8ks1\/schedule\/availability?wfsid=16a5bdb5-baba97f6-16a5bef5-baba97f6-00000002-ar45apv42ov3teutlt5nkvio9iln66tp&view=full&fs=1\"> <i class=\"hyg-icon book-icon\"><\/i> <span style=\"position: relative; display: inline-flex; top: -12px; font-weight: bold;\"> BOOK A CONSULTATION <\/span> <\/a>\n    <\/div>\n\n\n    <div class=\"col-sm-6 hygain-cta text-center\">\n      <a href=\"https:\/\/hygainfeeds.com\/pages\/weight-calculator\"> <i class=\"hyg-icon weight-icon\"><\/i> <span style=\"position: relative; display: inline-flex; top: -12px; font-weight: bold;\">WEIGHT CALCULATOR<\/span><\/a>\n    <\/div>"
+        }
+      },
+      "16186027487788469c": {
+        "type": "testimonials",
+        "blocks": {
+          "62b077df-bc27-4a38-a6e6-7d5d3bf5164a": {
+            "type": "item",
+            "settings": {
+              "title": "Amy Speck-Kern, Excel Dressage",
+              "textarea": "“Showtorque and Balanced were the magic combo for Invictus aka \"Vic\" with Excel Dressage to build additional muscle and really get his coat gleaming.”"
+            }
+          },
+          "8b21d5a8-fb99-4573-96c7-f3c71f1bf43e": {
+            "type": "item",
+            "settings": {
+              "title": "Will Simpson, Team USA Olympic Show Jumper",
+              "textarea": "\"Hygain is great, Chacco is a big horse and eats a lot, so having a concentrated feed with all the nutritional components in a smaller ration is better for traveling and his gut. Hygain has plenty of options to suit every horse in my program.\""
+            }
+          },
+          "a58a6feb-bbc3-460b-b5dd-9752d3885c3d": {
+            "type": "item",
+            "settings": {
+              "title": "Brandi Wilson, Barrel Racer",
+              "textarea": "“I’ve been using Hygain feeds for almost a year now and it has been the best decision I have ever made for my barrel horses. Both my mares have gained so much muscle mass and weight and are performing better than they ever have. I 100% recommend!!\""
+            }
+          },
+          "bec04770-b830-4fcf-be1e-85550eb63e67": {
+            "type": "item",
+            "settings": {
+              "title": "Sabine Schut-Kery, Team USA Dressage",
+              "textarea": "“Proper nutrition is key to my training program, and I trust Hygain to help Sanceo perform at the highest level of competition. I am so impressed with the quality of their feed that can suit any horse. Sanceo not only looks great, but feels great every time we go down centerline!”"
+            }
+          },
+          "ecd5effa-b0cc-4448-b3d4-96c80e3bf91b": {
+            "type": "item",
+            "settings": {
+              "title": "IIlse Schwarz, Dressage Rider",
+              "textarea": "“There isn't a feed I don't love. We have Showtorque, Senior, Balanced and Zero feed grains. Then Tru Gain, Regain, Bonafide and the AMAZING Super Anti-Ox as supplements. Safegard EQ as necessary. I have never been happier with my nutritional program.\""
+            }
+          }
+        },
+        "block_order": [
+          "62b077df-bc27-4a38-a6e6-7d5d3bf5164a",
+          "8b21d5a8-fb99-4573-96c7-f3c71f1bf43e",
+          "a58a6feb-bbc3-460b-b5dd-9752d3885c3d",
+          "bec04770-b830-4fcf-be1e-85550eb63e67",
+          "ecd5effa-b0cc-4448-b3d4-96c80e3bf91b"
+        ],
+        "settings": {
+        }
+      },
+      "background-header": {
+        "type": "background-header",
+        "blocks": {
+          "1d5f5c98-0282-4ab1-bfed-49671a92d9ed": {
+            "type": "image",
+            "settings": {
+              "page": "shopify:\/\/pages\/landing-page",
+              "enable_breadcrumbs": true,
+              "title": "Sponsored Riders",
+              "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo.",
+              "text_alignment": "center",
+              "show_title": true,
+              "show_image_overlay": true,
+              "hide_content_title": false,
+              "image": "shopify:\/\/shop_images\/vietnam_flag_by_think0_d475ejz-pre.jpg",
+              "alignment": "center",
+              "size": "large",
+              "navigation": ""
+            }
+          }
+        },
+        "block_order": [
+          "1d5f5c98-0282-4ab1-bfed-49671a92d9ed"
+        ],
+        "settings": {
+          "limit_to_content_width": false,
+          "subtitle_position": "after"
+        }
+      },
+      "template-article-sponsored-rider": {
+        "type": "template-article-sponsored-rider",
+        "blocks": {
+          "template-article-sponsored-rider-0": {
+            "type": "banner-image",
+            "settings": {
+              "enable_breadcrumbs": true,
+              "breadcrumb_position": "overlay",
+              "width": 12,
+              "position": "body"
+            }
+          },
+          "template-article-sponsored-rider-1": {
+            "type": "body",
+            "settings": {
+              "width": 12,
+              "position": "body"
+            }
+          },
+          "template-article-sponsored-rider-2": {
+            "type": "navigation",
+            "settings": {
+              "width": 12,
+              "position": "body"
+            }
+          },
+          "template-article-sponsored-rider-3": {
+            "type": "related-articles",
+            "settings": {
+              "title": "",
+              "enable_slider": true,
+              "related_type": "metafields",
+              "show_desktop": 3,
+              "show_tablet": 2,
+              "show_mobile": 1,
+              "width": 12,
+              "position": "body"
+            }
+          }
+        },
+        "block_order": [
+          "template-article-sponsored-rider-0",
+          "template-article-sponsored-rider-1",
+          "template-article-sponsored-rider-2",
+          "template-article-sponsored-rider-3"
+        ],
+        "settings": {
+          "related_title": "Related products"
+        }
+      }
+    },
+    "content_for_index": [
+      "1597239112714",
+      "161417310690cc1cf6",
+      "1617743766c87ed1e2",
+      "161365218629517d15",
+      "1597145895730",
+      "1613561848c6aa3dd7",
+      "1597312918040",
+      "1613661306279d434a",
+      "16186027487788469c",
+      "1597323389480",
+      "1597123362961",
+      "1613664101770918e4"
+    ]
+  }
+}

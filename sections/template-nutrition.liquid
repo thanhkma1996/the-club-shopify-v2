@@ -1,0 +1,139 @@
+{% assign s_sett = section.settings %}
+
+{% assign metaSection = page.metafields.glossary %}
+{% assign letter = metaSection["glossary_letter"] %}
+{% assign title = metaSection["glossary_title"] %}
+{% assign text = metaSection["glossary_text"] %}
+
+{% assign all_alphabets = '' %}
+
+{%- for n in (0..letter.size) -%}
+  {% assign all_alphabets = all_alphabets | append: letter[forloop.index0] | append: ',' %}
+{%- endfor -%}
+
+{% assign uniq_alphabets = all_alphabets | split: ',' %}
+{% assign arr_abc = uniq_alphabets | uniq | join: ',' | split: ',' %}
+
+<div data-section-id="{{ section.id }}" data-section-type="nutrition">
+
+  <div class="nutrition">
+    <div class="full-width nutrition-intro js-intro-sticky">
+      {%- include 'breadcrumbs' -%}
+      <section class="container nutrition-intro__container">
+        {% if  s_sett.title != blank %}
+          <h1 class="nutrition-intro__title">{{ s_sett.title }}</h1>
+        {% endif %}
+
+        <div class="input-wrapper nutrition-intro__search js-mark-search">
+          <input class="js-mark-input input-base nutrition-intro__input" type="search" placeholder="{{ 'layout.navigation.search' | t }}">
+          <button type="button" class="js-mark-submit nutrition-intro__btn nutrition-intro__btn--submit">{%- render 'icon' with 'search-glossary' -%}</button>
+          <button type="button" class="js-mark-clear nutrition-intro__btn nutrition-intro__btn--clear">{%- render 'icon' with 'close' -%}</button>
+        </div>
+        <p class="js-fixed-on-scroll" id="fixedOnScroll">
+          {%- for abc in arr_abc -%}
+            <a href="#alphabet-{{abc | downcase}}" class="nutrition-intro__letter">{{- abc -}}</a>
+          {%- endfor -%}
+        </p>
+        <p class="fixed-height"></p>
+      </section>
+    </div>
+
+    <div class="container">
+      <div class="js-mark-content nutrition__wrap"></div>
+    </div>
+  </div>
+
+  {%- capture glossary_json -%}
+     [
+        {%- for i in (0..letter.size) -%}
+          {
+          "letter": {{ letter[forloop.index0] | downcase | json }},
+          "title": {{ title[forloop.index0] | json }},
+          "content": {{ text[forloop.index0] | json}}
+          }
+          {%- unless forloop.last -%}
+            ,
+          {%- endunless -%}
+        {%- endfor -%}
+      ]
+  {% endcapture %}
+  <script id="glossary-data" type="application/ld+json">
+    {{- glossary_json -}}
+  </script>
+</div>
+
+{%- schema %}
+  {
+    "name": "Nutrition",
+    "class": "nutrition-page",
+    "settings": [
+      {
+         "type": "header",
+         "content": "Nutrition Page"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Page title",
+        "default": "Nutrition Glossary"
+      },
+      {
+        "type": "checkbox",
+        "id": "checkbox",
+        "label": "checkbox"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "alphabet",
+        "name": "Alphabet",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "select",
+            "id": "abc_type",
+            "label": "Select letter",
+            "options": [
+              { "value": "A", "label": "A" },
+              { "value": "B", "label": "B" },
+              { "value": "C", "label": "C" },
+              { "value": "D", "label": "D" },
+              { "value": "E", "label": "E" },
+              { "value": "F", "label": "F" },
+              { "value": "G", "label": "G" },
+              { "value": "H", "label": "H" },
+              { "value": "I", "label": "I" },
+              { "value": "J", "label": "J" },
+              { "value": "K", "label": "K" },
+              { "value": "L", "label": "L" },
+              { "value": "M", "label": "M" },
+              { "value": "N", "label": "N" },
+              { "value": "O", "label": "O" },
+              { "value": "P", "label": "P" },
+              { "value": "Q", "label": "Q" },
+              { "value": "R", "label": "R" },
+              { "value": "S", "label": "S" },
+              { "value": "T", "label": "T" },
+              { "value": "U", "label": "U" },
+              { "value": "V", "label": "V" },
+              { "value": "W", "label": "W" },
+              { "value": "X", "label": "X" },
+              { "value": "Y", "label": "Y" },
+              { "value": "Z", "label": "Z" }
+            ],
+            "default": "A"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema -%}

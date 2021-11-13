@@ -1,0 +1,26 @@
+{%- assign secret = 1123581321 -%}
+
+<div data-section-id="{{ section.id }}" data-section-type="gift-product">
+
+  <script type="application/json" data-free-gift-json>
+    {
+      "variantId": {{ section.settings.variant_id | plus: 0 | json }},
+      "secret": {{ section.settings.variant_id | times: secret | slice: 1, 6 | json }}
+    }
+  </script>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Gift Product",
+    "class": "free-product-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "variant_id",
+        "label": "Product variant ID"
+      }
+    ]
+  }
+{% endschema %}

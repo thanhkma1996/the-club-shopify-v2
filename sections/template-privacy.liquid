@@ -1,0 +1,61 @@
+{% comment %}
+ 1.
+ create navigation
+ _faq categories
+
+2.
+paste the below in your local storage //app.accentuate.io while on the page in accentuate to build the faq accentuate fields
+then set the "All fields in this section applies to" value on the section to be scoped to faq
+{"id":9230751727702,"namespace":"acc.meta.page","key":"8ba8cf16_55650d0c","value":{"namespace":"","value":"FAQ Question","color":"#dfe3e8","sequence":0,"type":"header","scope":"page","collapse":"true","repeatable":"true","hidden":"false","appliesTo":"faqs|subscription-landing-page","label":"FAQ Question"},"value_type":"json_string","description":"FAQ Question","owner_id":12004142,"created_at":"2019-07-17T11:54:48+10:00","updated_at":"2019-08-08T18:33:15+10:00","owner_resource":"shop","admin_graphql_api_id":"gid://shopify/Metafield/9230751727702"}~~{"id":"9230751760470","namespace":"acc.meta.page","key":"faq_question","value":{"namespace":"faq","value":"","textlines":"1","allowMultiple":"false","hidden":"false","repeatable":"block","appliesTo":"faqs|subscription-landing-page","instructions":"","sequence":"1","type":"text","scope":"page","section":"8ba8cf16_55650d0c","label":"Faq Question"},"value_type":"json_string","description":"Faq Question","owner_id":"12004142","created_at":"2019-07-17T11:54:48+10:00","updated_at":"2019-08-08T18:33:15+10:00","owner_resource":"shop","admin_graphql_api_id":"gid://shopify/Metafield/9230751760470"}~~{"id":"9230751793238","namespace":"acc.meta.page","key":"faq_answer","value":{"namespace":"faq","value":"","textlines":"","allowMultiple":"false","hidden":"false","repeatable":"block","appliesTo":"faqs|subscription-landing-page","instructions":"","sequence":"2","type":"html","scope":"page","section":"8ba8cf16_55650d0c","label":"Faq Answer"},"value_type":"json_string","description":"Faq Answer","owner_id":"12004142","created_at":"2019-07-17T11:54:48+10:00","updated_at":"2019-08-08T18:33:15+10:00","owner_resource":"shop","admin_graphql_api_id":"gid://shopify/Metafield/9230751793238"}~~{"id":"9230751694934","namespace":"acc.meta.page","key":"faq_category","value":{"namespace":"faq","value":"","textlines":"1","allowMultiple":"false","hidden":"false","repeatable":"block","appliesTo":"faqs|subscription-landing-page","instructions":"","sequence":"3","type":"text","scope":"page","section":"8ba8cf16_55650d0c","label":"Faq Category"},"value_type":"json_string","description":"Faq Category","owner_id":"12004142","created_at":"2019-07-17T11:54:48+10:00","updated_at":"2019-08-08T18:33:15+10:00","owner_resource":"shop","admin_graphql_api_id":"gid://shopify/Metafield/9230751694934"}
+{% endcomment %}
+
+<div class="privacy-page" data-section-id="{{ section.id }}" data-section-type="faq">
+  <div class="container">
+    <div class="row">
+      {%- if section.settings.enable_assistance_bar or section.settings.page_menu != blank -%}
+        {%- assign is_sidebar = true -%}
+      {%- endif -%}
+      {%- if is_sidebar -%}
+        <div class="col-xs-12 col-md-4 col-lg-3 order-md-2">
+          {% if section.settings.page_menu != blank %}
+            {% assign custom_class = 'page' %}
+            {%- include 'site-nav' with section.settings.page_menu, id: 'page_nav', dropdown: false, inline: true, type: 'page-nav-blocks' -%}
+          {% endif %}
+
+          {% if section.settings.enable_assistance_bar %}
+            {% include 'assistance-bar' %}
+          {% endif %}
+        </div>
+      {%- endif -%}
+      <div class="{% if is_sidebar %}col-xs-12 col-md-8 col-lg-7 col-lg-offset-1 {% else %} col-xs-12 col-lg-12{% endif %} order-md-1">
+        <h1>{{ page.title }}</h1>
+        {% if page.content != blank %}
+          <div class="rte">
+            {{ page.content }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Privacy Policy",
+  "class": "privacy-section",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "page_menu",
+      "label": "Page menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_assistance_bar",
+      "default": true,
+      "label": "Enable Assistance Bar"
+    }
+  ]
+}
+{% endschema %}
+

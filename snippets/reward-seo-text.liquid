@@ -1,0 +1,13 @@
+{%- assign b_set = block.settings -%}
+
+{%- assign title = b_set.title -%}
+{%- assign sub_title = b_set.sub_title -%}
+
+<div class="reward-seo-text">
+	{%- if sub_title != blank -%}
+		<p>{{ sub_title }}</p>
+	{%- endif -%}
+	{%- if title != blank -%}
+		<h2>{{ title }}</h2>
+	{%- endif -%}
+</div>

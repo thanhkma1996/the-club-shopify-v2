@@ -1,0 +1,124 @@
+{% assign s_sett = section.settings %}
+
+{%- for block in section.blocks -%}
+  {% if block.type == 'text-content' %}
+    {% assign block_text = 1 %}
+  {% elsif block.type == 'custom_post' %}
+    {% assign block_post = 1 %}
+  {% endif %}
+{%- endfor -%}
+
+{% if block_post == 1 %}
+  <div class="container cards">
+    <ul class="row cards__list">
+      {%- for block in section.blocks -%}
+        {% if block.type == 'custom_post' %}
+          {% assign b_sett = block.settings %}
+          <li class="cards__li col-lg-4 col-md-6 col-sm-6 col-xs-12">
+          <article class="cards__item">
+            {% if b_sett.title != blank or b_sett.text != blank or b_sett.icon != blank %}
+              {% if  b_sett.icon != blank %}
+                {%- include 'img' with b_sett.icon, img_class: 'cards__img' -%}
+              {% endif %}
+              {% if  b_sett.title != blank %}
+                {% if b_sett.link_url != blank %}
+                  <a href="{{b_sett.link_url}}" class="h4 cards__title">{{ b_sett.title }}</a>
+                {% else %}
+                  <h4 class="cards__title">{{ b_sett.title }}</h4>
+                {% endif %}
+              {% endif %}
+              {% if  b_sett.text != blank %}
+                <p class="cards__desc">{{ b_sett.text | escape }}</p>
+              {% endif %}
+            {% endif %}
+          </article>
+        </li>
+        {% endif %}
+      {%- endfor -%}
+    </ul>
+  </div>
+{% endif %}
+
+{% if block_text == 1 %}
+  <div class="container cards-text">
+    {%- for block in section.blocks -%}
+      {% if block.type == 'text-content' %}
+        {% assign b_sett = block.settings %}
+          <article class="cards-text__item">
+            {% if b_sett.title != blank or b_sett.description != blank or b_sett.link_url != blank %}
+              {% if  b_sett.title != blank %}
+                <h4 class="cards-text__title">{{ b_sett.title }}</h4>
+              {% endif %}
+              {% if  b_sett.description != blank %}
+                <p class="cards-text__desc">{{ b_sett.description | truncatewords: 13, escape }}</p>
+              {% endif %}
+              {% if  b_sett.link_url != blank %}
+                <a href="{{ b_sett.link_url }}" class="cards-text__link">{{ b_sett.link_text }}</a>
+              {% endif %}
+            {% endif %}
+          </article>
+      {% endif %}
+    {%- endfor -%}
+  </div>
+{% endif %}
+{% schema %}
+  {
+    "name": "Feature row",
+    "blocks": [
+      {
+        "type": "custom_post",
+        "name": "Сard",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link Url"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text"
+          }
+        ]
+      },
+      {
+        "type": "text-content",
+        "name": "Text content",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "description",
+            "label": "Title"
+          },
+          {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link Url"
+          },
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link Text",
+            "default": "Learn more"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+

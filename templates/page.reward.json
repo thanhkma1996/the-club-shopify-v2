@@ -1,0 +1,89 @@
+{
+  "sections": {
+    "main": {
+      "type": "header-image",
+      "settings": {
+        "limit_to_content_width": false,
+        "subtitle_position": "after"
+      }
+    },
+    "reward": {
+      "type": "reward",
+      "blocks": {
+        "01caf6aa-fcb0-47f2-a3d5-92a72554a082": {
+          "type": "text-block",
+          "settings": {
+            "text": "<p>We have created the My Champions Club specifically for you, as a way of saying ‘thank you‘ for your loyalty and continued support for our Australian owned and made horse feeds and supplements.<br\/><br\/>We are very excited to be able to offer you a fantastic program that allows you to redeem the tokens on the side of your HYGAIN feed bags for Hygain supplements and merchandise.<br\/><br\/>Collect your first 10 tokens to join the program and fill out the below form to become part of the exclusive My Champions Club!!<br\/><br\/>We look forward to welcoming you soon!!<\/p>"
+          }
+        },
+        "56c6923d-46a8-48b6-85c3-095ba3da8014": {
+          "type": "aplication-form",
+          "settings": {
+            "aplication_image": "shopify:\/\/shop_images\/vietnam_flag_by_think0_d475ejz-pre.jpg",
+            "title": "JOIN MY CHAMPIONS CLUB",
+            "sub_title": "To become a member download the application form below and mail it to the address provided with your 10 tokens.*",
+            "link_title_1": "MY CHAMPIONS CLUB AUSTRALIA",
+            "link_url_1": "https:\/\/cdn.shopify.com\/s\/files\/1\/0440\/1115\/9720\/files\/Champ-Club-membership-formAU.pdf?v=1601377288",
+            "link_title_2": "MY CHAMPIONS CLUB NEW ZEALAND",
+            "link_url_2": "https:\/\/cdn.shopify.com\/s\/files\/1\/0440\/1115\/9720\/files\/Champ-Club-membership-form-NZ.pdf?v=1601377288",
+            "text": "<p><a href=\"\/pages\/my-champions-member\" title=\"My Champions Member\"><strong>VIEW REDEMPTION OPTIONS AND DOWNLOAD MEMBERS REDEMPTION FORM HERE<\/strong><\/a><\/p><p>*Hygain Allrounder, Hygain Fibressentials and the Hygain Supplement Range do not have a Champions Club token on their packaging and are not part of this program.<\/p>"
+          }
+        },
+        "c194d299-be0d-4662-a5ff-36e949175cf8": {
+          "type": "how-it-works",
+          "settings": {
+            "block_image": "shopify:\/\/shop_images\/image_122_1100x_c327c654-0f5c-42de-8629-359c878184fc.jpg",
+            "title": "HOW MY CHAMPION CLUB WORKS",
+            "sub_title": "Follow the steps below and start collecting the HYGAIN merchandise and supplements today.",
+            "text_1": "<p>Cut 10 HYGAIN Champions Club tokens off the side of your HYGAIN feed bag. (Please note: not the barcode!)<\/p><p>Become a member of our HYGAIN Rewards Program by filling out the REWARDS APPLICATION FORM and send the form along with 10 Champions Club tokens to <a href=\"\/pages\/about-us\" title=\"About us\">Hy Gain Feeds Pty Ltd, Rewards Program, PO Box 199, Officer, 3809 VIC, Australia<\/a><\/p><p>Once you are part of the club, we will issue you an exclusive HYGAIN Champions Club account and you can log-in to the exclusive members area where you will have access to all the information on our fantastic merchandise and the number of tokens required for each item.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "01caf6aa-fcb0-47f2-a3d5-92a72554a082",
+        "56c6923d-46a8-48b6-85c3-095ba3da8014",
+        "c194d299-be0d-4662-a5ff-36e949175cf8"
+      ],
+      "settings": {
+      }
+    },
+    "1636705090dd0bc528": {
+      "type": "home-custom-articles",
+      "blocks": {
+        "fffb49c3-5bb2-485a-9a9d-303a356bc224": {
+          "type": "custom_article",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/lulu-swivel-glider-pearl-grey-2-94788.1602737925-7.jpg",
+            "title": "Test content article",
+            "text": "adadad",
+            "link": "shopify:\/\/collections\/listing-product",
+            "link_text": "learn more",
+            "show_boxshadow": true
+          }
+        },
+        "f2c5b5d2-42d1-4cdc-98dd-c90e4dd7ed81": {
+          "type": "custom_article",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/lulu-swivel-glider-pearl-grey-2-94788.1602737925-7.jpg",
+            "title": "Test cdontent multiple section",
+            "text": "testst",
+            "link": "",
+            "link_text": "learn more",
+            "show_boxshadow": true
+          }
+        }
+      },
+      "block_order": [
+        "fffb49c3-5bb2-485a-9a9d-303a356bc224",
+        "f2c5b5d2-42d1-4cdc-98dd-c90e4dd7ed81"
+      ],
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "main",
+    "reward",
+    "1636705090dd0bc528"
+  ]
+}

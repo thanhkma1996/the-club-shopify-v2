@@ -1,0 +1,80 @@
+
+{%- if block.type == 'form' %}
+
+  <!--[Contact form]-->
+
+{%- elsif block.type == 'breadcrumbs' %}
+
+  <div class="row breadcrumb-row">
+    <div class="col-xs-12">
+      {%- include 'breadcrumbs' -%}
+    </div>
+  </div>
+
+{% elsif block.type == 'assistance' %}
+  {%- assign header = block.settings.title | default: '' -%}
+  {%- assign description = block.settings.text | default: ''-%}
+  {%- assign button_text = block.settings.button_label | default: ''-%}
+  {%- assign button_link = block.settings.button_link | default: ''-%}
+
+  <div class="notice-bar">
+
+    <h4 class="notice-bar__title">
+      {%- if header != blank -%}
+        {{ header }}
+      {%- endif -%}
+    </h4>
+
+    <div class="notice-bar__description rte">
+      {%- if description != blank -%}
+        {{ description }}
+      {%- endif -%}
+    </div>
+
+    <div class="notice-bar__links">
+      {%- for i in (i..4) -%}
+      
+        {%- assign link_icon_key = 'icon_' | append: forloop.index -%}
+        {%- assign link_title_key = 'title_' | append: forloop.index -%}
+        {%- assign link_url_key  = 'link_' | append: forloop.index -%}
+        
+        {%- assign link_icon = block.settings[link_icon_key] -%}
+        {%- assign link_title = block.settings[link_title_key] -%}
+        {%- assign link_url = block.settings[link_url_key] -%}
+
+        {%- if link_url != blank and link_title != blank -%}
+          <div class="notice-bar__link">
+              <span class="notice-bar__link-icon">{%- render 'icon' with link_icon -%}</span>
+              <a href="{{ link_url }}" class="notice-bar__link-title">{{ link_title }}</a>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+
+{% elsif block.type == 'header' %}
+
+  {%- assign contact_title = block.settings.title -%}
+  {%- assign contact_description = block.settings.text -%}
+
+  <div class="text-{{ block.settings.text_alignment }} contact__header">    
+    {%- if contact_title != blank  -%}
+      <div class="section-header">
+        <h1 class="contact__title h2">{{ contact_title }}</h1>
+      </div>
+    {%- endif -%}
+    
+    {%- if contact_description != blank -%}
+      <p class="contact__description rte">
+        {%- include 'text' with contact_description -%}
+      </p>
+    {%- endif -%}
+  </div>
+
+{% elsif block.type == 'spacer' %}
+  <div class="faq__spacer {% if block.settings.display_on_mobile %} visible-xs {% else %} hidden-xs{% endif %}"></div>
+
+{%- endif -%}
+
+

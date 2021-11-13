@@ -1,0 +1,30 @@
+{%- capture icon_output %}{%- render 'icon-source', icon: icon -%}{% endcapture -%}
+
+{%- assign class_string = class | default: '' -%}
+
+{%- if color == true or colour == true -%}
+  {%- assign class_string = class_string | prepend: 'icon--full-color ' -%}
+{%- endif -%}
+
+{%- if class_string != blank -%}
+  {%- assign class_string = class_string | append: ' ' | prepend: 'class="icon ' -%}
+  {%- assign icon_output = icon_output | replace: 'class="icon ', class_string -%}
+{%- endif -%}
+
+{%- if icon_output contains 'Liquid error' or icon_output == blank -%}
+  <script type="text/javascript">console.error('SVG Icon missing: {{ icon }}')</script>
+{%- else -%}
+  
+  {{ icon_output }}
+  
+  {%- if fallback != blank -%}
+    <span class="icon-fallback-text">{{ fallback }}</span>
+  {%- endif -%}
+
+{%- endif -%}
+
+{%- assign class = null -%}
+{%- assign class_string = null -%}
+{%- assign color = null -%}
+{%- assign colour = null -%}
+{%- assign icon_output = null -%}

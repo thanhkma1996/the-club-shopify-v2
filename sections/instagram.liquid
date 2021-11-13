@@ -1,0 +1,63 @@
+{%- if section.settings.id != blank -%}
+  
+  <div id="instagram-feature-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="instagram-feature" data-access-token="{{ section.settings.id }}" data-limit="6">
+    <div class="instagram-feature-wrap"{% if section.settings.image != blank %} style="background-image: url({{ section.settings.image | img_url: '1200x' }});"{% endif %}>
+      <div class="instagram-feature">
+        <div class="container-width instagram-feature-text">
+          <div class="instagram-feature__item-content">
+            <span class="instagram-feature__item-title h1">
+              {{ section.settings.title }}
+            </span>
+            <span class="instagram-feature__item-text">
+              {{ section.settings.text | newline_to_br }}
+            </span>
+          </div>
+        </div>
+        <div class="instagram-feature-media">
+          Loading...
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Instagram Feed",
+    "class": "index-section",
+    "settings": [
+      {
+        "label": "Title",
+        "id": "title",
+        "type": "text",
+        "default": "Instagram"
+      },
+      {
+        "label": "Text",
+        "id": "text",
+        "type": "textarea"
+      },
+      {
+        "label": "Link to",
+        "id": "url",
+        "type": "url"
+      },
+      {
+        "label": "Background Image",
+        "id": "image",
+        "type": "image_picker"
+      },
+      {
+        "label": "Instagram Access Token",
+        "id": "id",
+        "type": "text"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Instagram Feed",
+        "category": "Social Media"
+      }
+    ]
+  }
+{% endschema %}

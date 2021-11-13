@@ -1,0 +1,394 @@
+{%- assign header_contrast_with_dark = settings.color_header_bg | color_contrast: '#000' -%}
+{%- assign header_contrast_with_light = settings.color_header_bg | color_contrast: '#fff' -%}
+{%- if header_contrast_with_light > header_contrast_with_dark -%}
+  {%- assign header_theme = 'dark' -%}
+{%- else -%}
+  {%- assign header_theme = 'light' -%}
+{%- endif -%}
+
+{%- assign bc_filter_enabled = false -%}
+{%- if shop.metafields.bc-sf-filter.settings != blank -%}
+  {%- assign bc_filter_enabled = true -%}
+{%- endif -%}
+
+{% comment %} RESPONSIVE BREAKPOINTS {% endcomment %}
+{%- assign class_hide_on_small = 'hidden-xs hidden-sm hidden-md hidden--menu' -%}
+{%- assign class_block_on_small = 'visible-xs visible-sm visible-md visible--menu' -%}
+{%- assign class_flex_on_small = 'flex-xs flex-sm flex-md flex--menu' -%}
+
+
+{%- comment -%} LOGO {%- endcomment -%}
+{%- capture header_logo %}
+  {%- if section.settings.logo != blank -%}
+    <style>
+      .site-header__logo-image {
+        max-width: {{ section.settings.logo_max_width }}px;
+      }
+    </style>
+  {%- endif -%}
+
+  <div class="site-header__section site-header__section--logo">
+    <div class="site-header__logo">
+      {%- if template.name == 'index' -%}
+        <h1 itemscope itemtype="http://schema.org/Organization">
+      {%- else -%}
+        <div class="h1" itemscope itemtype="http://schema.org/Organization">
+      {%- endif -%}
+          <a href="/" itemprop="url" class="site-logo" itemprop="logo">
+            {%- include 'logo' with shop.name -%}
+            <span class="icon-fallback-text">{{ shop.name }}</span>
+          </a>
+      {%- if template.name == 'index' -%}
+        </h1>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{% endcapture -%}
+
+
+{%- comment -%} OLD MAIN NAV {%- endcomment -%}
+{%- comment -%}
+{%- capture header_nav %}
+  <div class="site-header__section site-header__section--nav {{ class_hide_on_small }}">
+    <div class="site-nav-wrap">
+      <nav id="AccessibleNav" role="navigation">
+        {% include 'site-nav' with settings.primary_linklist_desktop, type: 'default', id: 'SiteNav', dropdown: 'mega-menu' %}
+      </nav>
+    </div>
+  </div>
+{% endcapture -%}
+{%- endcomment -%}
+
+{%- comment -%} MAIN NAV {%- endcomment -%}
+{%- capture header_nav %}
+  <div class="site-header__section site-header__section--nav {{ class_hide_on_small }}">
+    <div class="site-nav-wrap">
+      <nav id="AccessibleNav" role="navigation">
+        {% include 'site-nav' with settings.primary_linklist_desktop, type: 'default', id: 'SiteNav', dropdown: 'mega-menu' %}
+      </nav>
+    </div>
+  </div>
+{% endcapture -%}
+
+{%- comment -%} SECONDARY NAV {%- endcomment -%}
+{%- capture header_nav_secondary %}
+  <div class="secondary-site-nav {{ class_hide_on_small }}">
+    {% include 'site-nav' with section.settings.secondary_linklist, id: 'SecondarySiteNav' %}
+  </div>
+{% endcapture -%}
+
+
+{%- comment -%} MOBILE NAV TOGGLE {%- endcomment -%}
+{%- capture header_nav_toggle_mobile %}
+  <button type="button" class="site-header__link site-header__menu mobile-nav--open hamburger {{ class_block_on_small }}">
+    {%- render 'icon' with 'hamburger' -%}
+    <span class="icon-fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
+  </button>
+
+  <button type="button" class="site-header__link site-header__menu close-all-drawers {{ class_block_on_small }}">
+    {%- render 'icon' with 'close-cross' -%}
+    <span class="icon-fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
+  </button>
+{% endcapture -%}
+
+
+{%- comment -%} SEARCH TOGGLE BUTTON {%- endcomment -%}
+{%- capture header_search_toggle -%}
+  <button type="button" class="mobile-search--open">
+    {%- render 'icon' with 'search' -%}
+    {%- comment -%}{%- render 'icon' with 'close' -%}{%- endcomment -%}
+    <span class="icon-fallback-text">{{ 'layout.navigation.search' | t }}</span>
+  </button>
+{%- endcapture -%}
+
+
+{%- comment -%} DESKTOP SEARCH {%- endcomment -%}
+{%- capture header_search %}
+  <div class="site-header__link site-header__search">
+    <div class="site-header__search-toggle site-header__search-toggle--desktop {{ class_hide_on_small }}">
+      {{ header_search_toggle }}
+    </div>
+
+    <form action="/search" method="get" autocomplete="off" class="search-header search" role="search">
+      {%- unless bc_filter_enabled -%}
+        <input type="hidden" name="type" value="product">
+        <input type="hidden" name="unavailable_products" value="last">
+      {%- endunless -%}
+      <label for="q" class="label-hidden">
+        {{ 'general.search.placeholder' | t }}
+      </label>
+      <div class="input-group input-group--underlined">
+        <div class="left-side">
+          <div class="inner-wrap">
+            <input type="hidden" autocomplete="false">
+            <input type="search"
+                   name="q"
+                   id="Search"
+                   class="input-group__field search-header__input search__input"
+                   value="{{ search.terms | escape }}"
+                   placeholder="{{ 'general.search.placeholder' | t }}"
+                   aria-label="Search">
+            <button class="input-group__btn search-header__submit search__submit btn" type="submit">
+              {% render 'icon' with 'search' %}
+              {% comment %}<span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>{% endcomment %}
+            </button>
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="site-header__search-close">
+            {% include 'icon' with 'close-search' %}
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endcapture -%}
+
+
+{%- comment -%} MOBILE SEARCH {%- endcomment -%}
+{%- capture header_search_mobile %}
+  <div class="site-header__link site-header__search-toggle site-header__search-toggle--mobile">
+    {{ header_search_toggle }}
+  </div>
+{% endcapture -%}
+
+
+{%- comment -%} CART {%- endcomment -%}
+{%- capture header_cart %}
+  <div class="site-header__link site-header__cart">
+    <a href="/cart" id="header-cart" class="cart__toggle js-drawer-open-right" data-cart-view="data-cart-view" rv-data-count="cart.item_count_display" data-count="{{ cart.item_count_display }}">
+      <span class="icon-fallback-text {{ class_hide_on_small }}">{{ 'layout.cart.title' | t }}</span>
+      <span rv-class-count--even="cart.item_count_display | modulo 2 | eq 0" rv-class-count--odd="cart.item_count_display | modulo 2 | eq 1" class="count" rv-html="cart.item_count_display">{{ cart.item_count }}</span>
+      {% render 'icon' with 'cart' %}
+    </a>
+  </div>
+{% endcapture -%}
+
+
+{%- capture header_wishlist %}
+  <div class="site-header__link site-header__wishlist hidden-xs hidden-sm">
+    <a href="/pages/wishlist" id="header-wishlist">
+      {% render 'icon' with 'wishlist' %}
+      <span class="icon-fallback-text">{{ 'layout.navigation.wishlist' | t }}</span>
+    </a>
+  </div>
+{% endcapture -%}
+
+{%- comment -%} ACCOUNT LINKS {%- endcomment -%}
+{%- capture header_account %}
+  {%- if shop.customer_accounts_enabled -%}
+    {%- assign customer_accounts_show_text = false -%}
+    <div class="site-header__link site-header__account hidden-xs hidden-sm">
+        {%- capture link_icon %}{% render 'icon' with 'user', fallback: 'Account' %}{% endcapture -%}
+        {%- if customer -%}
+          {%- if customer.first_name != blank -%}
+            {%- capture first_name %}<a href="/account"><span class="{% unless customer_accounts_show_text %}visually-hidden {% endunless %}{{ class_hide_on_small }}">{{ customer.first_name }}</span>{{ link_icon }}</a>{% endcapture -%}
+
+            {%- if customer_accounts_show_text -%}
+              {{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}
+            {%- else -%}
+              <a href="/account">{{ link_icon }}</a>
+            {%- endif -%}
+          {%- else -%}
+            <a href="/account"><span class="{% unless customer_accounts_show_text %}visually-hidden {% endunless %}{{ class_hide_on_small }}">{{ 'layout.customer.account' | t }}</span>{{ link_icon }}</a>
+          {%- endif -%}
+          {% comment %}<li class="{{ class_hide_on_small }}">
+            {{ 'layout.customer.log_out' | t | customer_logout_link }}
+          </li>{% endcomment %}
+        {%- else -%}
+          {%- if customer_accounts_show_text -%}
+            <span class="{{ class_hide_on_small }}">
+              {{ 'layout.customer.log_in' | t | customer_login_link }}
+            </span>
+          {%- endif -%}
+          {%- if customer_accounts_show_text -%}
+            <span class="{{ class_hide_on_small }}">
+              {{ 'layout.customer.create_account' | t | append: link_icon | customer_register_link }}
+            </span>
+            <span class="{{ class_block_on_small }}">
+              {{ link_icon | customer_register_link }}
+            </span>
+          {%- else -%}
+            {{ link_icon | customer_register_link }}
+          {%- endif -%}
+        {%- endif -%}
+      </ul>
+    </div>
+  {%- endif -%}
+{% endcapture -%}
+
+
+{%- comment -%} CONTACT INFO {%- endcomment -%}
+{%- capture header_contact_info %}
+  <ul class="site-header__contact {{ class_hide_on_small }}">
+    <li>
+      {%- include 'globals' with 'phone', icon: true, style: 'tooltip' -%}
+    </li>
+    {%- if section.settings.contact_page != blank and section.settings.contact_link_icon or section.settings.contact_link_title != blank -%}
+      <li>
+        <a href="{{ section.settings.contact_page }}">
+          {%- if section.settings.contact_link_icon -%}{%- render 'icon' with 'fa-envelope' -%}{%- endif -%}
+          {{ section.settings.contact_link_title }}
+        </a>
+      </li>
+    {%- endif -%}
+  </ul>
+{% endcapture -%}
+
+
+{%- comment -%} CURRENCY SELECTOR {%- endcomment -%}
+{%- capture header_currency_selector %}
+  {%- if settings.show_multiple_currencies -%}
+    <div class="site-header__link site-header__currency {{ class_hide_on_small }}">
+      {%- include 'currency-picker' -%}
+    </div>
+  {%- endif -%}
+{% endcapture -%}
+
+
+{%- comment -%} TRANSLATE SELECTOR {%- endcomment -%}
+{%- capture header_translate %}
+  <div class="site-header__section site-header__section--translate">
+    <div class="translate-select-wrapper" data-lang="ENG">
+      <!-- GTranslate: https://gtranslate.io/ -->
+      <select class="translate-select select--styled" onchange="doGTranslate(this);theme.Translate.updateSelectElements(this);">
+        <option data-country-code="ARA" data-google-code="/en/ar" value="en|ar">Arabic</option>
+        <option data-country-code="CN" data-google-code="/en/zh" value="en|zh-CN">Chinese (Simplified)</option>
+        <option data-country-code="NL" data-google-code="/en/nl" value="en|nl">Dutch</option>
+        <option data-country-code="ENG" data-google-code="/en/en" value="en|en">English</option>
+        <option data-country-code="FRE" data-google-code="/en/fr" value="en|fr">French</option>
+        <option data-country-code="GER" data-google-code="/en/de" value="en|de">German</option>
+        <option data-country-code="ITA" data-google-code="/en/it" value="en|it">Italian</option>
+        <option data-country-code="JAP" data-google-code="/en/ja" value="en|ja">Japanese</option>
+        <option data-country-code="PTG" data-google-code="/en/pt" value="en|pt">Portuguese</option>
+        <option data-country-code="RUS" data-google-code="/en/ru" value="en|ru">Russian</option>
+        <option data-country-code="ESP" data-google-code="/en/es" value="en|es">Spanish</option>
+      </select>
+      <div class="google-translate-select" id="google_translate_element2"></div>
+      <script type="text/javascript">
+      function googleTranslateElementInit2() {new google.translate.TranslateElement({pageLanguage: 'en',autoDisplay: false}, 'google_translate_element2');}
+      </script><script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
+      <script type="text/javascript">
+      /* <![CDATA[ */
+      eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('6 7(a,b){n{4(2.9){3 c=2.9("o");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s(\'t\'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a==\'\')v;3 b=a.w(\'|\')[1];3 c;3 d=2.x(\'y\');z(3 i=0;i<d.5;i++)4(d[i].A==\'B-C-D\')c=d[i];4(2.j(\'k\')==E||2.j(\'k\').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,\'m\');7(c,\'m\')}}',43,43,'||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500'.split('|'),0,{}))
+      /* ]]> */
+      </script>
+    </div>
+  </div>
+{% endcapture -%}
+
+
+<div data-section-id="{{ section.id }}" data-section-type="header-section" class="site-header site-header--{{ header_theme }}">
+  {%- if section.settings.notice_bar_text != blank -%}
+    <div class="site-header__notice-bar" style="color: {{ section.settings.notice_bar_text_color }}; background-color: {{ section.settings.notice_bar_bg_color }};">
+      <div class="container text-center">
+        {% include 'text' with section.settings.notice_bar_text %}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <header role="banner" class="header">
+
+    {%- comment -%}
+
+      AVAILABLE SECTIONS:
+      header_logo
+      header_nav
+      header_nav_secondary
+      header_nav_toggle_mobile
+      header_search_toggle
+      header_search
+      header_search_mobile
+      header_cart
+      header_account
+      header_contact_info
+      header_currency_selector
+      header_translate
+
+    {%- endcomment -%}
+
+    <div class="container-fluid site-header__main" {% comment %}data-viewport-container{% endcomment %}>
+
+      <div class="site-header__section site-header__section--links site-header__links site-header__links--left {{ class_flex_on_small }}">
+        {{ header_nav_toggle_mobile }}
+        {%- comment -%}
+        {{ header_search_mobile }}
+        {%- endcomment -%}
+      </div>
+
+      {{ header_logo }}
+
+      {{ header_nav }}
+
+      <div class="site-header__section site-header__section--links site-header__links site-header__links--right">
+        {%- comment -%}
+          {{ header_contact_info }}
+        {%- endcomment -%}
+        {{ header_search }}
+        {{ header_wishlist }}
+        {{ header_account }}
+        {{ header_cart }}
+      </div>
+
+    </div>
+
+    {%- comment -%}
+    <div class="site-header-lower container {{ class_hide_on_small }}">
+      <div class="container">
+
+      </div>
+    </div>
+    {%- endcomment -%}
+
+
+  </header>
+</div>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "url",
+        "id": "contact_page",
+        "label": "Contact page"
+      },
+      {
+        "type": "text",
+        "id": "contact_link_title",
+        "label": "Contact link title",
+        "default": "Contact"
+      },
+      {
+        "type": "checkbox",
+        "id": "contact_link_icon",
+        "label": "Show icon with contact link",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Notice Bar"
+      },
+      {
+        "type": "text",
+        "id": "notice_bar_text",
+        "label": "Text",
+        "default": "Free Regular Shipping with all orders over $150"
+      },
+      {
+        "type": "color",
+        "id": "notice_bar_text_color",
+        "label": "Text color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "notice_bar_bg_color",
+        "label": "Background color",
+        "default": "#343e50"
+      }
+    ]
+  }
+{% endschema %}

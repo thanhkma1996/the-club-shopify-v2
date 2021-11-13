@@ -1,0 +1,146 @@
+{%- assign payment_method = 'unknown' -%}
+{%- if order.payment_details.credit_card_company != blank -%}
+  {%- assign payment_method = 'Credit Card' -%}
+{%- endif -%}
+
+{%- assign delivery_address = '' -%}
+{%- if order.shipping_address.address1 != blank -%}
+  {%- assign delivery_address = delivery_address | append: order.shipping_address.address1 -%}
+{%- endif -%}
+{%- if order.shipping_address.address2 != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.address2 -%}
+{%- endif -%}
+{%- if order.shipping_address.city != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.city -%}
+{%- endif -%}
+{%- if order.shipping_address.province != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.province -%}
+{%- endif -%}
+{%- if order.shipping_address.zip != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.zip -%}
+{%- endif -%}
+
+
+{%- assign reorder_link = '' -%}
+{%- for line_item in order.line_items -%}
+  {%- if line_item.product.id -%}
+    {% assign show = false %}
+    {% if line_item.variant.available %}
+      {% assign show = true %}
+    {% endif %}
+    {% if show == true %}
+      {%- assign reorder_link = reorder_link | append: line_item.variant_id | append: ':' | append: line_item.quantity -%}
+      {%- assign reorder_link = reorder_link | append: ',' -%}
+    {% endif %}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign reorder_link = reorder_link | strip | split: "" | reverse | join: "" | remove_first: ',' | split: "" | reverse | join: "" -%}
+
+
+{% assign same_track = true %}
+{% assign one_track = '' %}
+{% for line_item in order.line_items %}
+  {% if line_item.fulfillment.tracking_number != blank %}
+    {% if forloop.last %}
+      {% assign one_track = one_track | append: line_item.fulfillment.tracking_number %}
+    {% else %}
+      {% assign one_track = one_track | append: line_item.fulfillment.tracking_number | append: '|' %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% assign one_track = one_track | split: '|' | uniq %}
+{% for element in one_track %}
+  {% if forloop.length > 1 %}
+    {% assign same_track = false %}
+  {% endif %}
+{% endfor %}
+
+{% comment %}
+  {% if order.cancelled %}
+    <div class="order--cancelled">
+      {%- assign cancelled_at = order.cancelled_at | date: "%B %d, %Y %I:%M%p" -%}
+      <p>{{ 'customer.order.cancelled' | t: date: cancelled_at }}</p>
+      <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
+    </div>
+  {% endif %}
+{% endcomment %}
+
+
+<div class="order">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="order__details order-detail">
+
+          <div class="order-detail__item">
+            <p class="order-detail__title">{{ 'customer.order.order_date' | t }}</p>
+
+            <div class="order-detail__value order-detail__value--text">
+              {{ order.created_at | date: "%d/%m/%y" }}
+            </div>
+          </div>
+
+          <div class="order-detail__item">
+            <p class="order-detail__title">{{ 'customer.order.fulfillment_status' | t }}</p>
+
+            <div class="order-detail__value">
+                <span class="order-fulfillment-status" data-status="{{ order.fulfillment_status_label }}">
+                  {% if order.fulfillment_status_label == 'Fulfilled' %}
+                    {{ 'customer.order.fulfillment_done' | t }}
+                  {% else elsif order.fulfillment_status_label == 'Unfulfilled' %}
+                    {{ 'customer.order.fulfillment_process' | t }}
+                    {% elsif order.fulfillment_status_label == 'Cancelled' %}
+                    {{ 'customer.order.fulfillment_cancelled' | t }}
+                  {% endif %}
+                </span>
+            </div>
+          </div>
+
+          {% for line_item in order.line_items %}
+            {% if line_item.fulfillment %}
+              <div class="order-detail__item">
+                <p class="order-detail__title">{{ 'customer.order.shipping_data_title' | t }}</p>
+
+                <div class="order-detail__value order-detail__value--text">
+                  <div>{{ line_item.fulfillment.created_at | date: "%d/%m/%y" }} </div>
+                </div>
+              </div>
+              {%-break-%}
+            {% endif %}
+          {% endfor %}
+
+          {% if payment_method != 'unknown' %}
+            <div class="order-detail__item">
+              <p class="order-detail__title">{{ 'customer.order.payment_method' | t }}</p>
+
+              <div class="order-detail__value order-detail__value--text">
+                  {{payment_method}}
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="order-detail__item order-detail__item--row">
+            {%- if reorder_link != blank -%}
+              <a href="/cart/{{ reorder_link }}"
+                 class="btn btn-primary-o btn-large order-details-reorder-btn"
+                 data-no-instant
+              >{{ 'customer.orders.add_cart_to_order' | t }}</a>
+            {%- endif -%}
+            {% if same_track %}
+              {% for line_item in order.line_items %}
+                {% if line_item.fulfillment.tracking_number != blank %}
+                  <a href="{{line_item.fulfillment.tracking_url}}" target="_blank" class="btn order-detail__btn-track">
+                    {{ 'customer.order.track_order' | t }}
+                  </a>
+                {% endif %}
+                {%- break -%}
+              {% endfor %}
+            {% endif %}
+          </div>
+
+        </div>
+    </div>
+  </div>
+
+
+</div>

@@ -1,0 +1,121 @@
+{%- if settings.account_linklist != blank -%}
+
+  {%- if canonical_url contains 'addresses' -%}
+    {%- assign active_view = 'addresses' -%}
+  {%- elsif canonical_url contains 'search' or canonical_url contains 'cart'-%}
+    {%- assign active_view = '?view=place-order' -%}
+  {%- elsif template.suffix != blank -%}
+    {%- assign active_view = '?view=' | append: template.suffix -%}
+  {% elsif canonical_url contains '/account/orders' %}
+    {%- assign active_view = 'order-history' -%}
+  {% elsif canonical_url contains '/account' %}
+    {%- assign active_page = '/account?view=orders' -%}
+  {%- endif -%}
+
+  {%- assign account_nav = linklists[settings.account_linklist] -%}
+  <ul class="account-nav{% if swipeable %}swipeable{% endif %}">
+    {%- for link in account_nav.links -%}
+      {%- if link.url contains active_view or active_page contains link.url -%}
+        {%- assign link_active = true -%}
+      {%- endif -%}
+      {%- if link.links == blank -%}
+        <li class="account-nav__item js-account-nav-item"
+            {% if link_active %}data-nav-item="active"{% endif %}>
+          <a href="{{ link.url }}" class="js-account-nav-item {% if link_active %}active{% endif %}"
+              {% if link.url contains 'logout' %}data-no-instant{% endif %}
+          >{{ link.title }}</a>
+          {% if link.title contains 'My Orders'  %}
+            <span class="nav-item-count">
+              {% if customer.orders.size > 0 %}
+                {{customer.orders.size}}
+              {% else %}
+                0
+              {% endif %}
+            </span>
+          {% elsif link.title contains 'Saved Items' %}
+            <span class="nav-item-count">
+              <!-- include 'wishlist-count' -->
+            </span>
+          {% endif %}
+        </li>
+      {%- else -%}
+        <li class="account-nav__item account-nav__item--has-children">
+          <a href="{{ link.url | default: '#' }}" class="{% if link_active or link.child_active %}active{% endif %}" {% if link.url contains 'logout' %}data-no-instant{% endif %}>
+            {{ link.title }}
+          </a>
+          <ul class="">
+            {%- for sub_link in link.links -%}
+              {%- if sub_link.links == blank -%}
+                {%- assign sub_link_active = '' -%}
+                {%- if sub_link.url contains active_view or sub_link.url == active_page -%}
+                  {%- assign sub_link_active = ' active' -%}
+                {%- endif -%}
+                <li>
+                  <a href="{{ sub_link.url | default: '#' }}" class="{{ sub_link_active }}">
+                    {{ sub_link.title }} <span class="icon-arrow-right"></span>
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </li>
+      {%- endif -%}
+      {%- assign link_active = false -%}
+      {%- assign sub_link_active = false -%}
+    {%- endfor -%}
+  </ul>
+
+
+  <select class="account-nav-mob js-account-nav">
+    {%- for link in account_nav.links -%}
+      {%- if link.url contains active_view or active_page contains link.url -%}
+        {%- assign select_active = true -%}
+      {%- endif -%}
+      {%- if link.links == blank -%}
+        <option {% if select_active %}selected="selected"{% endif %}
+          value="{{ link.url }}">
+          My Account: {{ link.title }}
+        </option>
+      {%- endif -%}
+      {%- assign select_active = false -%}
+    {%- endfor -%}
+  </select>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      handleChangeLocation();
+    });
+
+    function handleChangeLocation() {
+      const $select = document.querySelector('.js-account-nav');
+      const $selectOptions = [...$select.options];
+
+      if ($select) {
+        // on change go to
+        $select.addEventListener('change', () => {
+          window.location = $select.options[$select.selectedIndex].value
+        });
+        // Add selected by pathname
+        $selectOptions.forEach(function (option) {
+          if (option.value === (window.location.pathname + window.location.search)) {
+            option.selected = 'selected';
+          } else {
+            option.selected = '';
+          }
+        });
+      }
+    }
+
+    const accNavLinks = [...document.querySelectorAll('.js-account-nav-item')];
+
+    if (accNavLinks.length) {
+      accNavLinks.forEach( function (link) {
+        if (link.href === document.location.href) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      } )
+    }
+  </script>
+{%- endif -%}

@@ -1,0 +1,338 @@
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+
+  {% when 'single-text' %}
+    <div class="section__block--content single__block">
+    {% if block.settings.single_text != blank %}
+      <div class="single__text">
+        {{ block.settings.single_text }}
+      </div>
+    {% endif %}
+    </div>
+
+  {% when 'img-text' %}
+    <div class="section__block--content image__text--block">
+      <div class="container">
+        <div class="content__block">
+          <div class="image__block {% if block.settings.layout_side == 'left' %}left__side{% else %}right__side{% endif %} {% if block.settings.reverse_mobile %}reverse__position{% endif %}">
+            {%- if block.settings.image_desktop != blank -%}
+              <div class="feature-row__image-wrapper image-desktop">
+                {%- include 'img' with block.settings.image_desktop, id: img_id, img_class: 'feature-row__image' -%}
+              </div>
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg image-desktop' }}
+            {%- endif -%}
+            {%- if block.settings.image_mobile != blank -%}
+              <div class="feature-row__image-wrapper image-mobile">
+                {%- include 'img' with block.settings.image_mobile, id: img_id, img_class: 'feature-row__image' -%}
+              </div>
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg image-mobile' }}
+            {%- endif -%}
+          </div>
+          <div class="text__block">
+            {% if block.settings.subtitle != blank %}
+              <p class="text__block--subtitle">
+                {{ block.settings.subtitle }}
+              </p>
+            {% endif %}
+            {% if block.settings.title != blank %}
+              <h2 class="text__block--title">
+                {{ block.settings.title }}
+              </h2>
+            {% endif %}
+            {% if block.settings.text != blank %}
+              <div class="text__block--content-text">
+                {{ block.settings.text }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% when 'overlay-img-text' %}
+    <div class="section__block--content overlay__text--block">
+      <div class="overlay-img">
+        {% if block.settings.image_overlay != blank %}
+          <div class="overlay__image--content overlay--desktop">
+            <img src="{{ block.settings.image_overlay | img_url: '1440x388' }}" alt="image">
+          </div>
+            {% else %}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg overlay--desktop' }}
+            {% endif %}
+        {% if block.settings.image_overlay_mobile != blank %}
+        <div class="overlay__image--content overlay--mobile">
+          <img src="{{ block.settings.image_overlay_mobile | img_url: '375x295' }}" alt="image">
+        </div>
+        {% else %}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg overlay--mobile' }}
+        {% endif %}
+
+
+      </div>
+      <div class="overlay-content">
+        {% if block.settings.overlay_text != blank %}
+          <div class="rte">{{ block.settings.overlay_text }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+  {% when 'video-content' %}
+    <div class="section__block--content video__content--block">
+      <div class="container">
+        <div class="content-video-text__position">
+          <div class="content-video-content">
+
+            {% if block.settings.video_subtitle != blank %}
+              <p class="text__block--subtitle">
+                {{ block.settings.video_subtitle }}
+              </p>
+            {% endif %}
+            {% if block.settings.video_title != blank %}
+              <h2 class="text__block--title">
+                {{ block.settings.video_title }}
+              </h2>
+            {% endif %}
+            {% if block.settings.video_text != blank %}
+              <div class="text__block--content-text">
+                {{ block.settings.video_text }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if block.settings.video_id != blank %}
+          <div class="content-video">
+            {%- if block.settings.video_image != blank -%}
+              <div class="video__image desktop__image--block">
+                {%- include 'img' with block.settings.video_image, id: img_id, img_class: 'image-desktop' -%}
+                <div class="button__play">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 24 24"><path d="M3 22v-20l18 10-18 10z"/></svg>
+                </div>
+              </div>
+            {%- else -%}
+            <div class="video__image desktop__image--block">
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg image-desktop' }}
+              <div class="button__play">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 24 24"><path d="M3 22v-20l18 10-18 10z"/></svg>
+              </div>
+            </div>
+            {%- endif -%}
+            {%- if block.settings.video_image_mobile != blank -%}
+              <div class="video__image mobile__image--block">
+                {%- include 'img' with block.settings.video_image_mobile, id: img_id, img_class: 'image-mobile' -%}
+                <div class="button__play">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 24 24"><path d="M3 22v-20l18 10-18 10z"/></svg>
+                </div>
+              </div>
+            {%- else -%}
+              <div class="video__image mobile__image--block">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg image-mobile' }}
+                <div class="button__play">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 24 24"><path d="M3 22v-20l18 10-18 10z"/></svg>
+                </div>
+              </div>
+            {%- endif -%}
+
+            <iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;" type="text/html"
+                    src="https://www.youtube.com/embed/{{ block.settings.video_id }}?controls=0&hl=en&modestbranding=1&;showinfo=0&;autohide=1&mute=1&playsinline=0&loop=1&playlist={{ block.settings.video_id }}"
+                    frameborder="0" allowfullscreen></iframe>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% when 'text-content' %}
+    <div class="section__block--content">
+      <div class="container">
+        <div class="text__content">
+          {% if block.settings.text-content-subtitle != blank %}
+            <p class="text__block--subtitle">
+              {{ block.settings.text-content-subtitle }}
+            </p>
+          {% endif %}
+          {% if block.settings.text-content-title != blank %}
+            <h2 class="text__block--title">
+              {{ block.settings.text-content-title }}
+            </h2>
+          {% endif %}
+          {% if block.settings.text-content-text != blank %}
+            <div class="text__block--content-text">
+              {{ block.settings.text-content-text }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  {% endcase %}
+{%- endfor -%}
+
+{% schema %}
+{
+  "name": "Feature row",
+  "class": "page-section-about us",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Global section for page about us"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "single-text",
+      "name": "Single text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "single_text",
+          "label": "Single text"
+        }
+      ]
+    },
+    {
+      "type": "img-text",
+      "name": "Image with text",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image content"
+        },
+        {
+          "type": "select",
+          "id": "layout_side",
+          "label": "Layout side for image",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Image for desktop"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image for mobile"
+        },
+        {
+          "type": "checkbox",
+          "id": "reverse_mobile",
+          "default": false,
+          "label": "Reverse position image on mobile"
+        },
+        {
+          "type": "header",
+          "content": "Text content"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "overlay-img-text",
+      "name": "Overlay image and text",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_overlay",
+          "label": "Image for overlay"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_overlay_mobile",
+          "label": "Image for mobile overlay"
+        },
+        {
+          "type": "richtext",
+          "id": "overlay_text",
+          "label": "Text for overlay"
+        }
+      ]
+    },
+    {
+      "type": "video-content",
+      "name": "Video content",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "video_image",
+          "label": "Placeholder image",
+          "info": "Images should be a minimum of 1000px wide x 800px tall. Larger images will be sized to fit automatically."
+        },
+        {
+          "type": "image_picker",
+          "id": "video_image_mobile",
+          "label": "Placeholder image for mobile",
+          "info": "Images should be a minimum of 335px wide x 250px tall. Larger images will be sized to fit automatically."
+        },
+        {
+          "type": "text",
+          "id": "video_id",
+          "label": "Youtube video ID",
+          "default": "_9VUPq3SxOc"
+        },
+        {
+          "type": "text",
+          "id": "video_subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "text",
+          "id": "video_title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "video_text",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "text-content",
+      "name": "Text content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text-content-subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "text",
+          "id": "text-content-title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "text-content-text",
+          "label": "Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

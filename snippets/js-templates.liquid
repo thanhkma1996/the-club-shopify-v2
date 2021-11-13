@@ -1,0 +1,80 @@
+{%- comment %}
+  This file contains markup templates for use in Javascript
+{% endcomment -%}
+
+{%- comment %} Photoswipe {% endcomment -%}
+{%- capture template_output -%}
+  {%- comment %} NOTE: Before modifying this template, read the documentation on it. {% endcomment -%}
+  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+      <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+      </div>
+      <div class="pswp__ui pswp__ui--hidden">
+        <div class="pswp__top-bar">
+          <div class="pswp__counter"></div>
+          <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+          <button class="pswp__button pswp__button--share" title="Share"></button>
+          <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+          <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+          <div class="pswp__preloader">
+            <div class="pswp__preloader__icn">
+              <div class="pswp__preloader__cut">
+                <div class="pswp__preloader__donut"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+          <div class="pswp__share-tooltip"></div>
+        </div>
+        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endcapture -%}
+
+{{ template_output | strip_newlines }}
+
+
+{%- comment %} Product Grid Item {% endcomment -%}
+{%- capture product_grid_template -%}{%- render 'product-grid-item' with product: null -%}{%- endcapture -%}
+<template class="js-template" data-template-for="product-grid-item" tabindex="-1" aria-hidden="true">
+  {{ product_grid_template | strip_newlines }}
+</template>
+
+
+{%- comment %} Quantity Selector {% endcomment -%}
+{%- capture template_output -%}
+  <div class="js-qty-select">
+    <button class="js-qty-select-sub"
+      rv-disabled="data.input.min | eq data.input.value"
+      rv-class-disabled="data.input.min | eq data.input.value"
+      rv-on-click="methods.subtract">-</button>
+    <div rv-class="data.input.class | append ' js-qty-input'">
+      <span rv-if="data.formatAsSize | not" rv-html="data.input.value"></span>
+      <span rv-if="data.formatAsSize" rv-html="data.input.value | timesSize data.variantSize"></span>
+    </div>
+    <button class="js-qty-select-add"
+      rv-disabled="data.input.max | eq data.input.value"
+      rv-class-disabled="data.input.max | eq data.input.value"
+      rv-on-click="methods.add" >+</button>
+  </div>
+{%- endcapture -%}
+
+<template class="js-template" data-template-for="quantity-selector" tabindex="-1" aria-hidden="true">
+  {{ template_output | strip_newlines }}
+</template>
+
+<template class="js-template" data-template-for="faq-item" tabindex="-1" aria-hidden="true">
+  {%- capture faq_template %}{%- include 'faq-item' with faq: null -%}{% endcapture -%}
+  {%- assign faq_template = faq_template | replace: '{{ question }}', '{question}' | replace: '{{ answer }}', '{answer}' -%}
+  {{ faq_template }}
+</template>

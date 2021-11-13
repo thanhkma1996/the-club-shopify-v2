@@ -1,0 +1,480 @@
+{%- assign separator_character = 'general.breadcrumbs.separator' | t -%}
+{%- assign breadcrumb_html = '' -%}
+{%- capture separator %} <span class="sep" aria-hidden="true">{{ separator_character }}</span> {% endcapture -%}
+
+{%- assign site_hierarchy_navlist = shop.metafields.navigation.site_hierarchy | default: '_site-hierarchy' -%}
+{%- assign first_level_linklist = linklists[site_hierarchy_navlist] -%}
+
+{%- assign hierarchy_position = false -%}
+{%- assign hierarchy_fourth_level_link = false -%}
+{%- assign hierarchy_third_level_link = false -%}
+{%- assign hierarchy_second_level_link = false -%}
+{%- assign hierarchy_first_level_link = false -%}
+
+{%- assign current_location = request.path -%}
+
+{%- if article or blog -%}
+  {%- assign current_location = blog.url -%}
+{%- endif -%}
+
+{%- assign display_home = true -%}
+
+{%- assign breadcrumb_depth = 1 -%}
+{%- assign breadcrumb_deepest_crumb = 0 -%}
+
+{%- if display_home -%}
+  {%- assign breadcrumb_depth = breadcrumb_depth | plus: 1 -%}
+{%- endif -%}
+
+{%- assign found = false -%}
+{%- assign is_current_link = false -%}
+
+{%- for first_level_link in first_level_linklist.links -%}
+  {%- if forloop.first -%}
+    {%- assign breadcrumb_depth = breadcrumb_depth | plus: 1 -%}
+  {%- endif -%}
+
+  {%- assign first_level_link_url = first_level_link.url | split: '?' | first -%}
+
+  {%- if first_level_link_url == current_location -%}
+    {%- assign found = true -%}
+    {%- assign breadcrumb_deepest_crumb = breadcrumb_depth -%}
+    {%- assign is_current_link = true -%}
+  {%- endif -%}
+
+  {%- assign second_level_linklist_handle = first_level_link.handle -%}
+  {%- assign second_level_linklist = linklists[second_level_linklist_handle] -%}
+
+  {%- if second_level_linklist.handle == blank -%}
+    {%- assign second_level_linklist_handle = second_level_linklist_handle | append: "" -%}
+    {%- assign second_level_linklist = linklists[second_level_linklist_handle] -%}
+  {%- endif -%}
+
+  {%- if found != true -%}
+
+    {%- for second_level_link in second_level_linklist.links -%}
+      {%- if forloop.first -%}
+        {%- assign breadcrumb_depth = breadcrumb_depth | plus: 1 -%}
+      {%- endif -%}
+
+      {%- assign second_level_link_url = second_level_link.url | split: '?' | first -%}
+
+      {%- if second_level_link_url == current_location -%}
+        {%- assign found = true -%}
+        {%- assign breadcrumb_deepest_crumb = breadcrumb_depth -%}
+        {%- assign is_current_link = true -%}
+      {%- endif -%}
+
+      {%- assign third_level_linklist_handle = second_level_link.handle -%}
+      {%- assign third_level_linklist = linklists[third_level_linklist_handle] -%}
+
+      {%- if third_level_linklist.handle == blank -%}
+        {%- assign third_level_linklist_handle = third_level_linklist_handle | append: "" -%}
+        {%- assign third_level_linklist = linklists[third_level_linklist_handle] -%}
+      {%- endif -%}
+
+      {%- if found != true -%}
+
+        {%- for third_level_link in third_level_linklist.links -%}
+          {%- if forloop.first -%}
+            {%- assign breadcrumb_depth = breadcrumb_depth | plus: 1 -%}
+          {%- endif -%}
+
+          {%- assign third_level_link_url = third_level_link.url | split: '?' | first -%}
+
+          {%- if third_level_link_url == current_location -%}
+            {%- assign found = true -%}
+            {%- assign breadcrumb_deepest_crumb = breadcrumb_depth -%}
+            {%- assign is_current_link = true -%}
+          {%- endif -%}
+
+          {%- assign fourth_level_linklist_handle = third_level_link.handle -%}
+          {%- assign fourth_level_linklist = linklists[fourth_level_linklist_handle] -%}
+
+          {%- if fourth_level_linklist.handle == blank -%}
+            {%- assign fourth_level_linklist_handle = fourth_level_linklist_handle | append: "" -%}
+            {%- assign fourth_level_linklist = linklists[fourth_level_linklist_handle] -%}
+          {%- endif -%}
+
+          {%- if found != true -%}
+
+            {%- for fourth_level_link in fourth_level_linklist.links -%}
+              {%- if forloop.first -%}
+                {%- assign breadcrumb_depth = breadcrumb_depth | plus: 1 -%}
+              {%- endif -%}
+
+              {%- assign fourth_level_link_url = fourth_level_link.url | split: '?' | first -%}
+
+              {%- if fourth_level_link_url == current_location -%}
+                {%- assign found = true -%}
+                {%- assign breadcrumb_deepest_crumb = breadcrumb_depth -%}
+                {%- assign is_current_link = true -%}
+              {%- endif -%}
+
+              {%- if found != true -%}
+                {% comment %} Next level here {% endcomment %}
+              {%- endif -%}
+
+              {%- if found != true and product -%}
+                {%- for collection in product.collections -%}
+                  {%- if fourth_level_link_url == collection.url -%}
+                    {%- assign found = true -%}
+                    {%- assign breadcrumb_deepest_crumb = breadcrumb_depth -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+
+              {%- if found == true -%}
+
+                {%- assign breadcrumb_depth = breadcrumb_depth | minus: 1 -%}
+
+                {%- capture crumb %}
+                  {%- include 'breadcrumbs__crumb' with
+                    crumb_link: fourth_level_link,
+                    crumb_title: fourth_level_link.title,
+                    crumb_url: fourth_level_link.url,
+                    crumb_position: breadcrumb_depth,
+                    crumb_current_link: is_current_link,
+                   -%}
+                {% endcapture -%}
+
+                {%- assign breadcrumb_html = breadcrumb_html | prepend: crumb | prepend: separator -%}
+
+                {%- assign hierarchy_fourth_level_link = fourth_level_link -%}
+
+                {%- if is_current_link -%}
+                  {%- assign hierarchy_position = breadcrumb_depth -%}
+                {%- endif -%}
+
+                {%- capture hierarchy_fourth_level_meta %}
+
+                  {%- capture children %}
+                    {%- for link in fifth_level_linklist.links -%}
+                      {
+                        "title": {{ link.title | json }},
+                        "url": {{ link.url | json }},
+                        {%- if link.type == 'collection_link' -%}
+                          "collection_products_count": {{ link.object.products_count | json }}
+                        {%- endif -%}
+                      } {%- unless forloop.last -%},{%- endunless -%}
+                    {%- endfor -%}
+                  {% endcapture -%}
+
+                  {
+                    "title": {{ fourth_level_link.title | json }},
+                    "url": {{ fourth_level_link.url | json }},
+                    "handle": {{ fourth_level_link.object.handle | default: fourth_level_link.handle | append: "" | json }},
+                    "children": [ {{ children }} ],
+                    "metafields": {
+                      "layout": {{ fourth_level_link.object.metafields.layout | json }}
+                    }
+                  }
+
+                {% endcapture -%}
+
+                {%- assign is_current_link = false -%}
+                {%- break -%}
+              {%- endif -%}
+
+              {%- if forloop.last -%}
+                {%- assign breadcrumb_depth = breadcrumb_depth | minus: 1 -%}
+              {%- endif -%}
+
+            {%- endfor -%}
+
+          {%- endif -%}
+
+          {%- if found != true and product -%}
+            {%- for collection in product.collections -%}
+              {%- if third_level_link_url == collection.url -%}
+                {%- assign found = true -%}
+                {%- assign breadcrumb_deepest_crumb = breadcrumb_depth -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+
+          {%- if found == true -%}
+
+            {%- assign breadcrumb_depth = breadcrumb_depth | minus: 1 -%}
+
+            {%- capture crumb %}
+              {%- include 'breadcrumbs__crumb' with
+                crumb_link: third_level_link,
+                crumb_title: third_level_link.title,
+                crumb_url: third_level_link.url,
+                crumb_position: breadcrumb_depth,
+                crumb_current_link: is_current_link,
+               -%}
+            {% endcapture -%}
+
+            {%- assign breadcrumb_html = breadcrumb_html | prepend: crumb | prepend: separator -%}
+
+            {%- assign hierarchy_third_level_link = third_level_link -%}
+
+            {%- if is_current_link -%}
+              {%- assign hierarchy_position = breadcrumb_depth -%}
+            {%- endif -%}
+
+            {%- capture hierarchy_third_level_meta %}
+
+              {%- capture children %}
+                {%- for link in fourth_level_linklist.links -%}
+                  {
+                    "title": {{ link.title | json }},
+                    "url": {{ link.url | json }},
+                    {%- if link.type == 'collection_link' -%}
+                      "collection_products_count": {{ link.object.products_count | json }}
+                    {%- endif -%}
+                  } {%- unless forloop.last -%},{%- endunless -%}
+                {%- endfor -%}
+              {% endcapture -%}
+
+              {
+                "title": {{ third_level_link.title | json }},
+                "url": {{ third_level_link.url | json }},
+                "handle": {{ third_level_link.object.handle | default: third_level_link.handle | append: "" | json }},
+                "children": [ {{ children }} ],
+                "metafields": {
+                  "layout": {{ third_level_link.object.metafields.layout | json }}
+                }
+              }
+
+            {% endcapture -%}
+
+            {%- assign is_current_link = false -%}
+            {%- break -%}
+          {%- endif -%}
+
+          {%- if forloop.last -%}
+            {%- assign breadcrumb_depth = breadcrumb_depth | minus: 1 -%}
+          {%- endif -%}
+
+        {%- endfor -%}
+
+      {%- endif -%}
+
+      {%- if found != true and product-%}
+        {%- for collection in product.collections -%}
+          {%- if second_level_link_url == collection.url -%}
+            {%- assign found = true -%}
+            {%- assign breadcrumb_deepest_crumb = breadcrumb_depth -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- if found == true -%}
+
+        {%- assign breadcrumb_depth = breadcrumb_depth | minus: 1 -%}
+
+        {%- capture crumb %}
+          {%- include 'breadcrumbs__crumb' with
+            crumb_link: second_level_link,
+            crumb_title: second_level_link.title,
+            crumb_url: second_level_link.url,
+            crumb_position: breadcrumb_depth,
+            crumb_current_link: is_current_link,
+           -%}
+        {% endcapture -%}
+
+        {%- assign breadcrumb_html = breadcrumb_html | prepend: crumb | prepend: separator -%}
+
+        {%- assign hierarchy_second_level_link = second_level_link -%}
+
+        {%- if is_current_link -%}
+          {%- assign hierarchy_position = breadcrumb_depth -%}
+        {%- endif -%}
+
+        {%- capture hierarchy_second_level_meta %}
+
+          {%- capture children %}
+            {%- for link in third_level_linklist.links -%}
+              {
+                "title": {{ link.title | json }},
+                "url": {{ link.url | json }},
+                {%- if link.type == 'collection_link' -%}
+                  "collection_products_count": {{ link.object.products_count | json }}
+                {%- endif -%}
+              } {%- unless forloop.last -%},{%- endunless -%}
+            {%- endfor -%}
+          {% endcapture -%}
+
+          {
+            "title": {{ second_level_link.title | json }},
+            "url": {{ second_level_link.url | json }},
+            "handle": {{ second_level_link.object.handle | default: second_level_link.handle | append: "" | json }},
+            "children": [ {{ children }} ],
+            "metafields": {
+              "layout": {{ second_level_link.object.metafields.layout | json }}
+            }
+          }
+
+        {% endcapture -%}
+
+        {%- assign is_current_link = false -%}
+        {%- break -%}
+      {%- endif -%}
+
+      {%- if forloop.last -%}
+        {%- assign breadcrumb_depth = breadcrumb_depth | minus: 1 -%}
+      {%- endif -%}
+
+    {%- endfor -%}
+  {%- endif -%}
+
+  {%- if found != true and product -%}
+    {%- for collection in product.collections -%}
+      {%- if first_level_link_url == collection.url -%}
+        {%- assign found = true -%}
+        {%- assign breadcrumb_deepest_crumb = breadcrumb_depth -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+
+  {%- if found == true -%}
+
+    {%- assign breadcrumb_depth = breadcrumb_depth | minus: 1 -%}
+
+    {%- capture crumb %}
+      {%- include 'breadcrumbs__crumb' with
+        crumb_link: first_level_link,
+        crumb_title: first_level_link.title,
+        crumb_url: first_level_link.url,
+        crumb_position: breadcrumb_depth,
+        crumb_current_link: is_current_link,
+       -%}
+    {% endcapture -%}
+
+    {%- assign breadcrumb_html = breadcrumb_html | prepend: crumb -%}
+
+    {%- assign hierarchy_first_level_link = first_level_link -%}
+
+    {%- if is_current_link -%}
+      {%- assign hierarchy_position = breadcrumb_depth -%}
+    {%- endif -%}
+
+    {%- capture hierarchy_first_level_meta %}
+
+      {%- capture children %}
+        {%- for link in second_level_linklist.links -%}
+          {
+            "title": {{ link.title | json }},
+            "url": {{ link.url | json }},
+            {%- if link.type == 'collection_link' -%}
+              "collection_products_count": {{ link.object.products_count | json }}
+            {%- endif -%}
+          } {%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      {% endcapture -%}
+
+      {
+        "title": {{ first_level_link.title | json }},
+        "url": {{ first_level_link.url | json }},
+        "handle": {{ first_level_link.object.handle | default: first_level_link.handle | append: "" | json }},
+        "children": [ {{ children }} ],
+        "metafields": {
+          "layout": {{ first_level_link.object.metafields.layout | json }}
+        }
+      }
+
+    {% endcapture -%}
+
+    {%- assign is_current_link = false -%}
+    {%- break -%}
+  {%- endif -%}
+
+{%- endfor -%}
+
+{%- if found == false -%}
+
+  {%- assign current_view_type = template.name -%}
+  {%- case current_view_type -%}
+    {%- when 'product' -%}
+      {%- assign current_view_object = product -%}
+    {%- when 'page' -%}
+      {%- assign current_view_object = page -%}
+    {%- when 'collection' -%}
+      {%- assign current_view_object = collection -%}
+    {%- when 'blog' -%}
+      {%- assign current_view_object = blog -%}
+    {%- when 'article' -%}
+      {%- assign current_view_object = article -%}
+    {%- else -%}
+      {%- assign current_view_object = false -%}
+  {%- endcase -%}
+
+  {%- if current_view_object -%}
+    {%- capture crumb %}
+      <span class="active">{{ current_view_object.title }}</span>
+    {% endcapture -%}
+    {%- assign breadcrumb_html = breadcrumb_html | append: crumb -%}
+  {%- endif -%}
+
+{%- endif -%}
+
+{%- if display_home -%}
+
+  {%- assign home_crumb_title = 'general.breadcrumbs.home' | t -%}
+  {%- assign breadcrumb_depth = breadcrumb_depth | minus: 1 -%}
+
+  {%- capture home_crumb %}
+
+      {%- include 'breadcrumbs__crumb' with
+        crumb_title: home_crumb_title,
+        crumb_url: '/',
+        crumb_position: breadcrumb_depth,
+        crumb_current_link: is_current_link,
+       -%}
+
+    {%- if breadcrumb_html != blank -%}
+      {{ separator }}
+    {%- endif -%}
+
+  {% endcapture -%}
+
+  {%- assign breadcrumb_html = breadcrumb_html | prepend: home_crumb -%}
+
+{%- endif -%}
+
+{%- if breadcrumb_html -%}
+
+{%- if container -%}
+  <div class="container">
+{%- endif -%}
+
+  <nav class="breadcrumb {% if hidden %}hidden{% endif %}" role="navigation" aria-label="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+    {{ breadcrumb_html }}
+  </nav>
+
+{%- if container -%}
+  </div>
+{%- endif -%}
+
+{%- endif -%}
+
+<script type="text/javascript">
+
+  theme.current.hierarchy = [
+
+    {%- if hierarchy_first_level_meta -%}
+      {{ hierarchy_first_level_meta }}
+      {%- if hierarchy_second_level_meta -%},{%- endif -%}
+    {%- endif -%}
+
+    {%- if hierarchy_second_level_meta -%}
+      {{ hierarchy_second_level_meta }}
+      {%- if hierarchy_third_level_meta -%},{%- endif -%}
+    {%- endif -%}
+
+    {%- if hierarchy_third_level_meta -%}
+      {{ hierarchy_third_level_meta }}
+      {%- if hierarchy_fourth_level_meta -%},{%- endif -%}
+    {%- endif -%}
+
+    {%- if hierarchy_fourth_level_meta -%}
+      {{ hierarchy_fourth_level_meta }}
+      {%- if hierarchy_fifth_level_meta -%},{%- endif -%}
+    {%- endif -%}
+
+  ];
+
+</script>

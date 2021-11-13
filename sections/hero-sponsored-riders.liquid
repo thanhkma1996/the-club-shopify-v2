@@ -1,0 +1,324 @@
+{%- assign title = page.title
+  | default: article.title
+  | default: blog.title
+  | default: collection.title
+-%}
+
+{%- assign subtitle = page.metafields.header.subtitle
+  | default: article.metafields.header.subtitle
+  | default: blog.metafields.header.subtitle
+-%}
+
+{%- assign content = collection.metafields.details.hero_description
+  | default: blog.metafields.global.description_tag
+-%}
+
+{%- assign featured_image = page.metafields.header.featured_image -%}
+
+{%- assign text_style = blog.metafields.header.text_style
+  | default: collection.metafields.header.text_style
+  | default: 'light'
+  | downcase
+-%}
+
+{%- if featured_image == blank -%}
+  {%- assign featured_icon = collection.metafields.layout.icon -%}
+{%- endif -%}
+
+{%- assign background_image = page.metafields.header.background_image
+  | default: collection.metafields.header.background_image
+  | default: article.metafields.accentuate.featured_image
+  | default: article.image
+  | default: blog.metafields.header.background_image
+-%}
+
+{%- assign background_image_mobile = page.metafields.header.background_image_mobile
+  | default: collection.metafields.header.background_image_mobile
+  | default: article.metafields.accentuate.featured_image
+  | default: article.image
+  | default: blog.metafields.header.background_image_mobile
+-%}
+
+{%- if background_image_mobile == blank -%}
+  {%- assign background_image_mobile = background_image -%}
+{%- endif -%}
+
+{%- assign color_background = page.metafields.header.color_background
+  | default: null
+-%}
+
+{%- if collection -%}
+  {%- assign color_background = 'collection-header' -%}
+{%- endif -%}
+
+{%- assign hide_main_content_title = page.metafields.header.hide_main_content_title
+  | default: null
+-%}
+
+{%- assign show_overlay = page.metafields.header.show_overlay
+  | default: null
+-%}
+
+{%- assign id = page.id
+  | default: blog.id
+  | default: article.id
+-%}
+{%- assign inverse = false -%}
+{%- assign show_read_more_button = false -%}
+{%- assign hide_breadcrumbs = section.settings.hide_breadcrumbs | default: false -%}
+{%- assign show_border_bottom = section.settings.show_border_bottom | default: false -%}
+{%- assign condense_titles = condense_titles | default: section.settings.condense_titles | default: false -%}
+
+{%- if subtitle == blank and condense_titles -%}
+  {%- assign subtitle = content -%}
+{%- endif -%}
+
+{%- if template contains 'cart' or template contains 'collection' or template contains 'search' -%}
+  {%- assign title = 'cart.general.title' | t: number: cart_title_number, items: cart_title_items -%}
+  {%- assign hide_breadcrumbs = true -%}
+  {%- assign condense_titles = true -%}
+{%- endif -%}
+
+{% comment %}
+  If condense_titles is true blocks and buttons will be disabled
+{% endcomment %}
+
+{%- if background_image and text_style != 'dark' -%}
+  {%- assign inverse = true -%}
+{%- endif -%}
+
+{%- if  condense_titles != true -%}
+  {% comment %}{%- for block in section.blocks -%}
+    {%- assign feature_block = block -%}
+    {%- break -%}
+  {%- endfor -%}{% endcomment %}
+
+  {%- assign feature_block = false -%}
+
+  {%- if featured_image or featured_icon -%}
+    {%- assign feature_block = true -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- capture buttons %}
+
+  {%- for i in (1..2) -%}
+    {%- assign button_text_field = 'button_text_' | append: i -%}
+    {%- assign button_url_field = 'button_url_' | append: i -%}
+    {%- assign button_text = section.settings[button_text_field] -%}
+    {%- assign button_url = section.settings[button_url_field] -%}
+    {%- if button_text != blank and button_url != blank -%}
+      <a href="{{ button_url }}" class="btn btn--text btn-text-u">{{ button_text }}</a>
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if collection.description and show_read_more_button-%}
+    <a href="#description" class="btn btn--text btn-text-u">{{ 'collections.general.read_more' | t }}</a>
+  {%- endif -%}
+
+{% endcapture -%}
+
+{%- if color_background or hide_main_content_title -%}
+  {%- style -%}
+    {%- if color_background -%}
+      .page-header--{{ section.id }}-{{ id }} {
+        background-color: {%- include 'color-var' with color_background -%};
+      }
+    {%- endif -%}
+    {%- if hide_main_content_title -%}
+      .template__main-title {
+        display: none !important;
+      }
+    {%- endif -%}
+  {%- endstyle -%}
+{%- endif -%}
+
+<div style="margin-top:0; padding:50px 0 20px 0; background-color:#f5f8fb;" class="page-header
+  page-header--{{ section.id }}-{{ id }}
+  under-header
+  
+  {% if collection %}page-header--collection{% endif %}
+  {% if color_background != blank or background_image != blank %}page-header--large{% endif %}
+  {% if feature_block != blank %}page-header--with-feature{% endif %}
+  {% if condense_titles == true %}page-header--condensed-titles{% endif %}
+  {% if show_border_bottom != false %}page-header--with-border-bottom{% endif %}
+  {% if show_overlay %}page-header--with-overlay{% endif %}
+  {% if background_image != blank %}page-header--with-background-image{% else %}page-header--no-background-image{% endif %}
+  {% if inverse %}inverse{% endif %}"
+     {% if section.settings.background_color != blank %}style="background-color: {{ section.settings.background_color }}"{% endif %}
+>
+
+  <div class="container page-header__container-wrapper">
+    <div class="row">
+      <div class="col-xs">
+
+     
+
+        <div class="page-header__container" style="border:none;">
+
+          <div class="page-header__text">
+
+            {% if icon and icon != 'none' and hide_titles != true %}
+              <div class="page-header__icon">
+                {%- render 'icon' with icon -%}
+              </div>
+            {% endif %}
+
+            {%- if pretext != blank -%}
+              {{ pretext }}
+            {%- endif -%}
+
+            {% if title and hide_titles != true %}
+              <h1 class="page-header__title">
+                {{ title | replace: '  ', '</br>' }}
+              </h1>
+            {% endif %}
+
+            {% if subtitle and hide_titles != true %}
+              <p class="{% unless condense_titles %}h3{% endunless %} page-header__subtitle">
+                {{ subtitle | replace: '  ', '</br>' }}
+              </p>
+            {% endif %}
+
+            {% unless condense_titles %}
+              {%- if content != blank and hide_titles != true -%}
+                <div class="page-header__content rte">
+                  {%- if content contains '</p>' -%}
+                    {%- include 'text' with content -%}
+                  {%- else -%}
+                    <p>{%- include 'text' with content -%}</p>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endunless -%}
+
+            {% comment %}{%- if template contains 'contact' -%}
+              {%- include 'store-contact' with paragraph: false -%}
+            {%- endif -%}{% endcomment %}
+
+            {%- if buttons != blank and hide_titles != true and condense_titles != true -%}
+              <div class="page-header__buttons">
+                {{ buttons }}
+              </div>
+            {%- endif -%}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- if featured_image -%}
+
+    {%- assign image = featured_image
+      | default: feature_block.settings.image
+      | default: article.image
+      | default: collection.image
+    -%}
+
+    <div class="page-header__feature page-header__feature--image">
+      {%- if feature_block.settings.container == true -%}
+      <div class="container">
+        {%- endif -%}
+        {%- include 'img' with image, fit: feature_block.settings.image_size, position: feature_block.settings.image_gravity, type: 'accentuate' -%}
+        {%- if feature_block.settings.container == true -%}
+      </div>
+      {%- endif -%}
+    </div>
+
+    {%- elsif featured_icon -%}
+
+    <div class="page-header__feature page-header__feature--icon">
+      <div class="container narrow">
+        <div class="page-header__feature-icon">
+          {%- render 'icon' with featured_icon -%}
+        </div>
+      </div>
+    </div>
+
+    {% elsif contact_form %}
+
+    {% comment %}<div class="page-header__feature page-header__feature--contact-form">
+
+      <div class="contact-form-wrapper">
+        <div class="contact-form">
+          <div class="container">
+
+            {%- form 'contact' , class: '' -%}
+
+              {%- if form.posted_successfully? -%}
+                <p class="note form-success">
+                  {{ 'contact.form.post_success' | t }}
+                </p>
+              {% else %}
+
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-6 _custom-pr">
+                      <div class="form-control _custom-mt-9">
+                        <input type="text" placeholder="Name" id="name" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required />
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 _custom-pl">
+                      <div class="form-control _custom-mt-9">
+                        <input type="tel"
+                               name="contact[tel]"
+                               id="CustomerNumber"
+                               class="{% if form.errors contains 'tel' %}input-error{% endif %}"
+                               placeholder="Phone Number (optional)"
+                               spellcheck="false"
+                               autocapitalize="off"
+                               autofocus>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <div class="form-control _custom-mt-9">
+                        <input type="email"
+                               name="contact[email]"
+                               id="CustomerEmail"
+                               class="{% if form.errors contains 'email' %}input-error{% endif %}"
+                               placeholder="{{ 'customer.login.email' | t }}"
+                                {% if hide_labels %}{% endif %}
+                               required
+                               spellcheck="false"
+                               autocapitalize="off">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 _custom-mt-9">
+                      <div class="form-control">
+                        <textarea id="message" placeholder="Message" name="contact[message]" required>{% if form.message %}{{ form.body }}{% endif %}</textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-vertical__actions _custom-mt-9">
+                  <input type="submit" value="{{ 'contact.form.send' | t }}" class="btn btn-black btn--wide">
+                </div>
+
+              {%- endif -%}
+
+              {{ form.errors | default_errors }}
+
+
+
+            {%- endform -%}
+
+          </div>
+        </div>
+      </div>
+      </div>{% endcomment %}
+
+  {%- endif -%}
+
+  {%- if background_image -%}
+    <div class="page-header__background-image">
+      {%- include 'img' with background_image, type: 'accentuate', img_class: 'rellax hidden-xs' -%}
+      {%- include 'img' with background_image_mobile, type: 'accentuate', img_class: 'visible-xs' -%}
+    </div>
+  {%- endif -%}
+
+</div>

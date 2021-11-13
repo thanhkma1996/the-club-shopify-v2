@@ -1,0 +1,23 @@
+{%- include 'breadcrumbs' -%}
+{% comment %}{%- include 'page-header' -%}{% endcomment %}
+
+{%- assign error_string = 'Liquid error: Could not find asset' -%}
+
+<div class="site-header__width container">
+
+  {%- capture contact_form %}
+    {% section 'form-builder--contact' %}
+  {% endcapture -%}
+
+  {%- capture page_layout %}
+    {% section 'template-contact' %}
+  {% endcapture -%} 
+
+  {%- unless contact_form contains error_string or page_layout contains error_string -%}
+    {%- assign contact_form = contact_form | replace: 'class="shopify-section', 'class="shopify-section-nested' -%}
+    {{ page_layout | replace: '<!--[Contact form]-->', contact_form }}
+    {% comment %}{{ page_layout }}{% endcomment %}
+  {%- endunless -%}
+
+</div>
+

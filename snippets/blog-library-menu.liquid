@@ -1,0 +1,50 @@
+<div class="blog-filter__menu library-menu">
+  {% assign all_tags = '' %}
+  {% for article in blog.articles %}
+    {% assign data_tags = '' %}
+
+    {% for tag in article.tags %}
+      {% if forloop.length >= 1 %}
+        {% assign data_tags = data_tags | append: tag | append: '##' %}
+      {% endif %}
+    {% endfor %}
+
+    {% if data_tags contains 'parent:' %}
+      {% assign all_tags = all_tags | append: data_tags | append: '$$' %}
+    {% endif %}
+  {% endfor %}
+
+
+  {% assign split_parent_tags = all_tags | split: '$$' %}
+  <script id="library-data" type="application/json">
+    {{ split_parent_tags | json }}
+  </script>
+
+  {% if title %}
+    <h4 class="library-menu__title">{{ title }}</h4>
+  {% endif %}
+
+  <div class="js-library-menu library-menu__wrap"></div>
+  {% comment %}
+    {% for parent in split_parent_tags %}
+      {% assign split_child_tags = parent | split: '##' %}
+
+      <ul class="library-menu__list">
+      {% for child in split_child_tags %}
+        {% if child contains 'parent:' %}
+          {% assign class_header = 'library-menu__li--first' %}
+        {% else %}
+          {% assign class_header = '' %}
+        {% endif %}
+        <li class="library-menu__li {{ class_header }}">
+          {% if child contains 'parent:' %}
+            <h2 >{{ child | remove: 'parent:' }}</h2>
+          {% else %}
+            <p >{{ child }}</p>
+          {% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+    {% endfor %}
+  {% endcomment %}
+</div>

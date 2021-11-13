@@ -1,0 +1,60 @@
+{%- assign template_w = '{width}x' | escape -%}
+{
+  "price": {{ product.price | json }},
+  "options_with_values": {{ product.options_with_values | json }},
+  "options": {{ product.options | json }},
+  "available": {{ product.available | json }},
+  "featured_image": {{ product.featured_image | json }},
+  "featured_media": {{ product.featured_media | json }},
+  "options_with_values": {{ product.options_with_values | json }},
+  "handle": {{ product.handle | json }},
+  "id": {{ product.id | json }},
+  "images": {{ product.images | json }},
+  "price_min": {{ product.price_min | json }},
+  "price_max": {{ product.price_max | json }},
+  "price_varies": {{ product.price_varies | json }},
+  "tags": {{ product.tags | json }},
+  "title": {{ product.title | json }},
+  "type": {{ product.type | json }},
+  "product_type": {{ product.type | json }},
+  "description": {{ product.description | json }},
+  "url": {{ product.url | json }},
+  "variants": [
+    {%- for variant in product.variants -%}
+      {
+      "inventory_quantity": {{ variant.inventory_quantity | json }},
+      "compare_at_price": {{ variant.compare_at_price | json }},
+      "sku": {{ variant.sku | json }},
+      "merged_options":{{ variant.merged_options | json }},
+      "image":{{ variant.image | json }},
+      "inventory_management":{{ variant.inventory_management | json }},
+      "price": {{ variant.price | json }},
+      "available": {{ variant.available | json }},
+      "id": {{ variant.id | json }},
+      "title": {{ variant.title | json }},
+      "barcode": {{ variant.barcode | json }},
+      "inventory_policy": {{ variant.inventory_policy | json }},
+      "option1": {{ variant.option1 | json }},
+      "option2": {{ variant.option2 | json }},
+      "options": {{ variant.options | json }},
+      "featured_media": {{ variant.featured_media | json }}
+      }
+        {%- unless forloop.last -%}
+          ,
+        {%- endunless -%}
+    {%- endfor -%}
+  ],
+  "vendor": {{ product.vendor | json }},
+  "metafields": [
+    {
+    "key":"description",
+    "namespace": "alternative",
+    "value": {{ product.metafields.alternative.description.html | json }}
+    },
+   {
+    "key":"type",
+    "namespace": "alternative",
+    "value": {{ product.metafields.alternative.type | json }}
+}
+]
+}

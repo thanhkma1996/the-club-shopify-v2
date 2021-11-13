@@ -1,0 +1,115 @@
+{
+  "sections": {
+    "1636692045075a6256": {
+      "type": "home-custom-articles",
+      "blocks": {
+        "9322672a-d51b-403f-bbe9-b92759ea75cf": {
+          "type": "custom_article",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/lulu-swivel-glider-pearl-grey-2-94788.1602737925-7.jpg",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_text": "learn more",
+            "show_boxshadow": false
+          }
+        },
+        "3af8a8a2-aca3-46a6-9064-6eecca59c77a": {
+          "type": "custom_article",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/lulu-swivel-glider-pearl-grey-2-94788.1602737925-7.jpg",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_text": "learn more",
+            "show_boxshadow": false
+          }
+        },
+        "01861565-446f-4a45-b9db-8f8e06281482": {
+          "type": "custom_article",
+          "settings": {
+            "icon": "shopify:\/\/shop_images\/lulu-swivel-glider-pearl-grey-2-94788.1602737925-7.jpg",
+            "title": "Tesst Arrticle",
+            "text": "tesst content arrticle",
+            "link": "",
+            "link_text": "learn more",
+            "show_boxshadow": true
+          }
+        }
+      },
+      "block_order": [
+        "9322672a-d51b-403f-bbe9-b92759ea75cf",
+        "3af8a8a2-aca3-46a6-9064-6eecca59c77a",
+        "01861565-446f-4a45-b9db-8f8e06281482"
+      ],
+      "settings": {
+      }
+    },
+    "main": {
+      "type": "template-article",
+      "blocks": {
+        "d0287780-2b5f-40c1-bb41-1b37038f9ade": {
+          "type": "banner-image",
+          "settings": {
+            "enable_breadcrumbs": true,
+            "breadcrumb_position": "overlay",
+            "width": 12,
+            "position": "body"
+          }
+        },
+        "facb9569-fb3a-4513-a4ff-3b2a8d00e3d3": {
+          "type": "body",
+          "settings": {
+            "width": 12,
+            "position": "body"
+          }
+        },
+        "f08c6fb1-bca0-4dce-b453-5a256307ab7e": {
+          "type": "navigation",
+          "settings": {
+            "width": 12,
+            "position": "body"
+          }
+        },
+        "914a2f38-e01e-4eaa-9315-e3ffaa3f2861": {
+          "type": "related-articles",
+          "settings": {
+            "title": "",
+            "enable_slider": true,
+            "related_type": "metafields",
+            "show_desktop": 3,
+            "show_tablet": 2,
+            "show_mobile": 1,
+            "width": 12,
+            "position": "body"
+          }
+        }
+      },
+      "block_order": [
+        "d0287780-2b5f-40c1-bb41-1b37038f9ade",
+        "facb9569-fb3a-4513-a4ff-3b2a8d00e3d3",
+        "f08c6fb1-bca0-4dce-b453-5a256307ab7e",
+        "914a2f38-e01e-4eaa-9315-e3ffaa3f2861"
+      ],
+      "settings": {
+        "related_title": "Related products"
+      }
+    },
+    "latest-blog-posts": {
+      "type": "latest-blog-posts",
+      "settings": {
+        "title": "Related articles",
+        "blog": "news",
+        "items_to_show": 3,
+        "button_show_more_enabled": true,
+        "button_show_more_text": "view all articles",
+        "layout": "default"
+      }
+    }
+  },
+  "order": [
+    "1636692045075a6256",
+    "main",
+    "latest-blog-posts"
+  ]
+}

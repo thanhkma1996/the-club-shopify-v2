@@ -1,0 +1,43 @@
+{% comment %}
+$('#CartDrawer').removeClass('drawer drawer--right');
+
+(function() {
+  var popupAnchor = $('.site-header__cart')[0];
+  var view = false;
+
+  $('#CartDrawer').addClass('loading');
+  
+  tippy(popupAnchor, {
+    content: $('#PageContainer > #CartDrawer')[0],
+    interactive: true,
+    appendTo: popupAnchor,
+    animateFill: false,
+    theme: 'light',
+  arrow: true,
+  arrowTransform: 'scaleX(1.5)',
+    onShown: function() {
+      if (!view) {
+        var $parentElem = $(this.appendTo);
+
+        view = tinybind.bind($parentElem, $.extend({
+          cart: CartJS.cart
+        }, CartJS.settings.tinybindModels));
+
+        $('#CartDrawer').removeClass('loading');
+      }
+    }
+  });
+})();
+
+{% assign cart_type = 'popup' %}
+{% endcomment %}
+{%- assign cart_close_button = 'icon' -%}{% comment %}icon, text{% endcomment %}
+{%- assign cart_type = type | default: 'drawer' -%}
+
+<div {% if cart_type != 'cart_page' %}id="CartDrawer"{% endif %} class="cart-drawer {% if cart_type == 'drawer' %}drawer drawer--right{% elsif cart_type == 'popup' %}cart-drawer--popup{% endif %}">
+  <div rv-class-cart-drawer--loaded="cart" class="drawer__inner cart-drawer__inner"{% if cart_type != 'popup' %} data-cart-view{% endif %}>
+    
+    {%- include 'template-cart-drawer'-%}
+
+  </div>
+</div>

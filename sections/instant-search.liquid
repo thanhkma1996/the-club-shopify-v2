@@ -1,0 +1,270 @@
+{%- assign search_params = '?type=product&unavailable_products=last&q=' -%}
+
+{%- if settings.search_provider == 'boost' -%}
+  {%- assign search_params = '?q=' -%}
+{%- endif -%}
+
+{%- assign show_view_all_arrow = false -%}
+
+{%- capture search_products %}
+  {% comment %} Products {% endcomment %}
+  <div class="instant-search__block instant-search__block--products">
+    <div class="instant-search__key" rv-if="search.products | size | more 0">
+      <span class="instant-search__key-title">Products</span>
+      {% comment %}<span class="instant-search__key-title">Showing { search.products_returned_count } of { search.products_total_count } for '{ search.query }'</span>{% endcomment %}
+      <span class="instant-search__key-count" rv-if="search.products_total_count" rv-html="search.products_total_count | prepend '(' | append ')'"></span>
+      <div class="instant-search__key-view-all btn btn--text">
+        <a
+          class="instant-search__key-view-all btn btn--text"
+          rv-href="search.query | prepend '/search{{ search_params }}'"
+          >
+            {{ 'general.search.view_all' | t }}
+            {%- if show_view_all_arrow -%}
+              {%- include 'icon' with 'arrow-right' -%}
+            {%- endif -%}
+        </a>
+      </div>
+    </div>
+    <div class="instant-search__values-wrapper">
+      <div class="instant-search__values" rv-if="search.products">
+        <div class="instant-search__product" rv-each-product="search.products">
+          <div rv-data-index="$index" rv-if="$index | less 3" rv-product-grid-item="product"></div>
+
+          {% comment %}<a rv-href="product.handle | prepend '/products/'" class="instant-search__product-image-wrapper" rv-html="product.featured_image | img product.title">
+          </a>
+
+          <div class="instant-search__product-details">
+
+            <a
+              rv-href="product.handle | prepend '/products/'"
+              class="instant-search__product-title"
+              rv-html="product.title | truncate 35">
+            </a>
+
+            <p
+              rv-data-price="product.price"
+              rv-data-compare_at_price="product.compare_at_price"
+              class="instant-search__product-price"
+              rv-class-instant-search__product-price--sale="product.compare_at_price | gt product.price">
+              {%- include 'price' with price_type: 'search' -%}
+              
+            </p>
+
+          </div>{% endcomment %}
+
+        </div>
+
+        <div class="instant-search__no-results" rv-if="search.products | size | eq 0">
+          {{ 'general.search.no_results' | t }}
+        </div>
+
+        {% comment %}<a
+          class="instant-search__key-view-all btn btn--text hidden-md hidden-lg hidden-xl"
+          rv-href="search.query | prepend '/search{{ search_params }}'"
+           rv-if="search.products | size | gt 0">
+           {{ 'general.search.view_all_results' | t }}
+           {%- if show_view_all_arrow -%}
+             {%- include 'icon' with 'arrow-right' -%}
+           {%- endif -%}
+        </a>{% endcomment %}
+
+      </div>
+    </div>
+  </div>
+{% endcapture -%}
+
+{%- capture search_collections %}
+  {% comment %} Collections {% endcomment %}
+  <div class="instant-search__block instant-search__block--collections" rv-if="search.collections | size | gt 0">
+    <div class="instant-search__key">
+      <span class="instant-search__key-title">Related Categories</span>
+      {% comment %}<span class="instant-search__key-count" rv-if="search.collections_total_count" rv-html="search.collections_total_count | prepend '(' | append ')'"></span>{% endcomment %}
+    </div>
+    <div class="instant-search__values-wrapper">
+
+      <div
+        class="instant-search__values"
+        rv-if="search.collections">
+
+        <div
+          class="instant-search__collection"
+          rv-each-collection="search.collections">
+          <a
+            class="instant-search__item-title"
+            rv-href="collection.handle | prepend '/collections/'"
+            rv-html="collection.title | highlight search.query">
+          </a>
+        </div>
+
+        <div class="instant-search__no-results" rv-if="search.collections | size | eq 0">
+          {{ 'general.search.no_results' | t }}
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+{% endcapture -%}
+
+{%- capture search_pages %}
+  <div class="instant-search__block instant-search__block--pages" rv-if="search.pages | size | gt 0">
+    <div class="instant-search__key">
+      <span class="instant-search__key-title">Related Pages & Articles</span>
+      <span class="instant-search__key-count" rv-if="search.pages_total_count" rv-html="search.pages_total_count | prepend '(' | append ')'"></span>
+      {% comment %}<a class="instant-search__key-view-all btn btn--text" href="/blogs/blog">{{ 'general.search.view_all' | t }}</a>{% endcomment %}
+    </div>
+    <div class="instant-search__values-wrapper">
+
+      <div
+        class="instant-search__values"
+        rv-if="search.pages">
+
+        <a
+          class="instant-search__page"
+          rv-href="article.handle | prepend '/' | prepend article.blog.handle | prepend '/blogs/'"
+          rv-each-page="search.pages">
+          {% comment %}<span
+            class="instant-search__item-image-wrapper"
+            rv-html="page.image | img page.title">
+          </span>{% endcomment %}
+          <span
+            class="instant-search__item-title"
+            rv-html="page.title | highlight search.query">
+          </span>
+        </a>
+
+        <div class="instant-search__no-results" rv-if="search.pages | size | eq 0">
+          {{ 'general.search.no_results' | t }}
+        </div>
+
+      </div>
+  
+
+    </div>
+  </div>
+{% endcapture -%}
+
+{%- capture search_articles %}
+  {% comment %} Pages/Articles {% endcomment %}
+  <div class="instant-search__block instant-search__block--article" rv-if="search.articles | size | gt 0">
+    <div class="instant-search__key">
+      <span class="instant-search__key-title">Related Articles</span>
+      {% comment %}<span class="instant-search__key-count" rv-if="search.articles_total_count" rv-html="search.articles_total_count | prepend '(' | append ')'"></span>{% endcomment %}
+      {% comment %}<a class="instant-search__key-view-all btn btn--text" href="/blogs/blog">{{ 'general.search.view_all' | t }}</a>{% endcomment %}
+    </div>
+    <div class="instant-search__values-wrapper">
+
+      <div
+        class="instant-search__values"
+        rv-if="search.articles">
+
+        <a
+          class="instant-search__page"
+          rv-href="article.handle | prepend '/' | prepend article.blog.handle | prepend '/blogs/'"
+          rv-each-article="search.articles">
+          <span
+            class="instant-search__item-image-wrapper"
+            rv-html="article.image | img article.title">
+          </span>
+          <span
+            class="instant-search__item-title"
+            rv-html="article.title | highlight search.query">
+          </span>
+        </a>
+
+        <div class="instant-search__no-results" rv-if="search.articles | size | eq 0">
+          {{ 'general.search.no_results' | t }}
+        </div>
+
+      </div>
+  
+
+    </div>
+  </div>
+{% endcapture -%}
+
+{%- capture search_faq %}
+  {% comment %} FAQ {% endcomment %}
+  <div class="instant-search__block instant-search__block--pages"  rv-if="search.faq | size | gt 0">
+    <div class="instant-search__key">
+      <span class="instant-search__key-title">Information</span>
+      <span class="instant-search__key-count" rv-if="search.faq_total_count" rv-html="search.faq_total_count | prepend '(' | append ')'"></span>
+      <div class="instant-search__key-view-all">
+        <a class="btn btn--text" href="{{ settings.default_page_faq }}">{{ 'general.search.view_all' | t }}</a>
+      </div>
+    </div>
+    <div class="instant-search__values-wrapper">
+
+      <div
+        class="instant-search__values"
+        rv-if="search.faq">
+
+        <div
+          class="instant-search__faq"
+          rv-each-faq="search.faq">
+          <a
+            class="instant-search__item-title"
+            rv-href="faq.url"
+            rv-html="faq.title | highlight search.query">
+          </a>
+        </div>
+
+        <div class="instant-search__no-results" rv-if="search.faq | size | eq 0">
+          {{ 'general.search.no_results' | t }}
+        </div>
+
+      </div>
+  
+
+    </div>
+  </div>
+{% endcapture -%}
+
+{%- capture view_all %}
+  <div class="instant-search__view-all">
+    <a
+      rv-href="search.query | prepend '/search?q='">{{ 'general.search.results_for' | t }} '{ search.query }'
+      {%- if show_view_all_arrow -%}
+        {%- include 'icon' with 'arrow-right' -%}</a>
+      {%- endif -%}
+  </div>
+{% endcapture -%}
+
+<div
+  tabindex="-1"
+  rv-aria-hidden="data.active | not"
+  data-section-id="{{ section.id }}"
+  data-section-type="instant-search"
+  class="instant-search"
+  rv-class-active="data.active"
+  {% comment %}rv-on-mouseover="methods.mouseoverContainer"{% endcomment %}
+  {% comment %}rv-on-mouseleave="methods.mouseleaveContainer"{% endcomment %}
+  {% comment %}rv-data-mouse-over="data.mouseIsOverElement"{% endcomment %}
+  rv-class-loading="data.loading"
+  >
+
+  {% comment %}{{ view_all }}{% endcomment %}
+
+  {{ search_products }}
+
+  <div class="instant-search__aside" rv-if="search | any search.articles search.collections search.faq">
+
+    {% comment %}{{ search_articles }}{% endcomment %}
+    {{ search_pages }}
+    {{ search_collections }}
+    {{ search_faq }}
+
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Instant Search",
+    "class": "instant-search-section",
+    "settings": [
+      
+    ]
+  }
+{% endschema %}
+

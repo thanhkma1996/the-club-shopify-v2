@@ -1,0 +1,59 @@
+{% if section.settings.hide_mobile %}
+  {% assign hiddenClass = 'hidden-xs hidden-md' %}
+{% endif %}
+<div class="{{ hiddenClass }}">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="order-page-message-section__divider"></div>
+    </div>
+    <div class="col-xs-12 col-md-8">
+      <h2>{{ section.settings.title }}</h2>
+      <div class="rte">
+        {{ section.settings.paragraph }}
+      </div>
+    </div>
+
+    {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
+      <div class="col-xs-12 col-md-4 text-right order-page-message-section__btn">
+        <a href="{{ section.settings.button_url }}" class="btn btn-primary-o">{{ section.settings.button_text }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Order Page Message",
+    "class": "order-page-message-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Need to return an item?"
+      },
+      {
+        "type": "richtext",
+        "id": "paragraph",
+        "label": "Paragraph",
+        "default": "<p>Lorem ipsum dolor sit amet, adipiscing rhoncus litora ut dui morbi, mattis nascetur amet, ut justo primis, fusce purus tellus hac risus. Vehicula nullam, non suscipit sit vivamus, quam vel nostra,. Faucibus tellus ut odio risus nunc, vivamus ac, laoreet sed, nonummy consequat non ut a</p>"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button text",
+        "default": "Learn more"
+      },
+      {
+        "type": "url",
+        "id": "button_url",
+        "label": "Button link"
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_mobile",
+        "label": "Hide on Mobile"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,768 @@
+{% comment %} If a feature article block exists, assign it to a variable so it doesn't appear twice. {% endcomment %}
+{%- assign feature_article_blocks = section.blocks | where: "type", 'feature-article' -%}
+{%- assign featured_articles = null -%}
+
+{%- for feature_article_block in feature_article_blocks -%}
+  {%- assign featured_articles = featured_articles | append: ',' | append: feature_article_block.settings.featured_article -%}
+{%- endfor -%}
+
+<div data-section-id="{{ section.id }}" data-section-type="blog">
+  {% for block in section.blocks %}
+    {% if block.type == 'hero-banner' %}
+      {%- assign slideshow_image = block.settings.image -%}
+      {%- assign slideshow_image_mobile = block.settings.image_mobile -%}
+      {%- assign slideshow_image_alignment = block.settings.image_alignment -%}
+
+      {%- assign slideshow_title = block.settings.title  -%}
+      {%- assign slideshow_subtitle = block.settings.subtitle -%}
+      {%- assign slideshow_text = block.settings.text -%}
+
+      {%- assign slideshow_text_alignment = block.settings.text_alignment -%}
+      {%- assign slideshow_text_position = block.settings.text_position -%}
+
+      {%- assign slideshow_button_label = block.settings.button_label -%}
+      {%- assign slideshow_button_link = block.settings.button_link -%}
+
+      {%- assign slideshow_theme = block.settings.theme -%}
+
+      {%- assign enable_breadrcrumb = block.settings.enable_breadrcrumb -%}
+
+      <div class="full-width {{ page_type }}__hero {{ page_type }}__hero--{{ block.id }}">
+
+        {%- include 'blog-hero-image' with 
+          block: block,
+          slideshow_image: slideshow_image,
+          slideshow_image_mobile: slideshow_image_mobile,
+          slideshow_image_alignment: slideshow_image_alignment,
+          slideshow_title: slideshow_title,
+          slideshow_subtitle: slideshow_subtitle,
+          slideshow_text: slideshow_text,
+          slideshow_text_alignment: slideshow_text_alignment,
+          slideshow_text_position: slideshow_text_position,
+          slideshow_button_label: slideshow_button_label,
+          slideshow_button_link: slideshow_button_link,
+          slideshow_theme: slideshow_theme,
+          breadcrumb: enable_breadrcrumb
+          -%}
+
+      </div>
+    {% elsif block.type == 'filter' %}
+      <div class="container">
+        {%- include 'blog-filter' with block -%}
+      </div>
+    {% elsif block.type == 'articles' %}
+      <div class="blog-articles-container" style="background-color:#ffffff">
+        <div class="container">
+          {%- assign blog_search_enabled = false -%}
+          {%- assign search_block = section.blocks | where: "type", 'search' -%}
+          {%- assign search_block_2 = section.blocks | where: "type", 'header-search' -%}
+          {%- if search_block.size > 0 or search_block_2.size > 0-%}
+            {%- assign blog_search_enabled = true -%}
+          {%- endif -%}
+
+          {%- if blog_search_enabled -%}
+            <div class="blog__search-results hide">
+              <p class="blog__search-results-list row"></p>
+            </div>
+          {%- endif -%}
+
+          {%- assign pagination_type = block.settings.pagination_type -%}
+
+          {% assign paginate_size = block.settings.articles_length %}
+          {%- paginate blog.articles by paginate_size -%}
+          
+            <div class="row blog__articles">
+
+              {%- assign article_grid_class = 'col-xs-{mobile} col-sm-{tablet} col-lg-{desktop} ' | replace: '{desktop}', block.settings.width_desktop | replace: '{tablet}', block.settings.width_tablet | replace: '{mobile}', block.settings.width_mobile -%}
+
+              {% comment %}{% assign articles = blog.articles | sort: 'title' %}{% endcomment %}
+              {%- for article in blog.articles -%}
+                {% comment %}{% assign blog_length = forloop.length %}{% endcomment %}
+                {%- if current_tags != blank -%}
+
+                  {% comment %}show all blogs that match even if its the feature article{% endcomment %}
+                  <div class="{{ article_grid_class }} article-grid-item-wrapper">
+                    {%- include 'article-grid-item-sponsored-riders' with article: article, class: '', layout: block.settings.layout, blog_title: blog.title  -%}
+                  </div>
+
+                {%- else -%}
+                
+                {% comment %}only hide feature article if filter isnt enabled{% endcomment %}
+                  {%- unless featured_articles contains article.handle -%}
+                    <div class="{{ article_grid_class }} article-grid-item-wrapper">
+                      {%- include 'article-grid-item-sponsored-riders' with article: article, class: '', layout: block.settings.layout, blog_title: blog.title-%}
+                    </div>
+                  {%- endunless -%}
+                {%- endif -%}
+
+              {%- endfor -%}
+            </div>
+
+          {%- if paginate.pages > 1 -%}
+            {% comment %}paginate.current_offset{% endcomment %}
+            <div class="blog-pagination-wrap">
+              {% assign show_items = paginate.current_offset | plus: paginate_size %}
+              {% if show_items > blog.articles_count %}
+                {% assign show_items = blog.articles_count %}
+              {% endif %}
+              <p class="pagination-showing">{{ show_items }} of {{ blog.articles_count }} Articles</p>
+              <ul class="blog-pagination">
+              {%- if paginate.previous-%}
+                  <li class="paginate-arrow"><a href="{{ paginate.previous.url }}" class="pagination-btn">{% render 'icon' with 'angle-left', class: '' %}</a></li>
+              {%- else -%}
+                  <li class="paginate-arrow disabled"><span aria-hidden="true" class="pagination-btn">{% render 'icon' with 'angle-left', class: '' %}</span></li>
+              {%- endif -%}
+
+              {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                      <li><a href="{{ part.url }}" class="pagination-btn">{{ part.title }}</a></li>
+                  {%- else -%}
+                      {%- if part.title == paginate.current_page -%}
+                          <li class="active" aria-current="page"><span class="pagination-btn">{{ part.title }}</span></li>
+                      {%- else -%}
+                          <li>{{ part.title }}</li>
+                      {%- endif -%}
+                  {%- endif -%}
+              {%- endfor -%}
+
+              {%- if paginate.next -%}
+                  <li class="paginate-arrow"><a href="{{ paginate.next.url }}" class="pagination-btn">{% render 'icon' with 'angle-right', class: '' %}</a></li>
+              {%- else -%}
+                  <li class="paginate-arrow disabled"><span aria-hidden="true" class="pagination-btn">{% render 'icon' with 'angle-right', class: '' %}</span></li>
+              {%- endif -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          {%- endpaginate -%}
+
+          {%- if blog.articles.size <= 0 -%}
+            <p class="blog-filter-results-message text-center">{{ 'general.search.no_results' | t }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+</div>
+
+{%- schema %}
+  {
+    "name": "Blog Landing Page",
+    "class": "blog-page",
+    "settings": [
+      {
+         "type": "header",
+         "content": "Blog News Page"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Blog Hero Banner",
+        "type": "hero-banner",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Banner Image Options"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image displayed on desktop"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_mobile",
+            "label": "Image displayed on mobile",
+            "info":"If this image is not set the banner image will remain the desktop image"
+          },
+          {
+            "type": "select",
+            "id": "image_alignment",
+            "label": "Image alignment",
+            "default": "center",
+            "options": [
+              {
+                "value": "top",
+                "label": "Top"
+              },
+              {
+                "value": "center",
+                "label": "Middle"
+              },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Banner Text Options"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_breadrcrumb",
+            "default": true,
+            "label": "Enable Breadcrumb"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Heading goes here"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Description text goes here</p>"
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text Horizontal Alignment",
+            "default": "center",
+            "options": [
+              {
+                "label": "Left",
+                "value": "left"
+              },
+              {
+                "label": "Centre",
+                "value": "center"
+              },
+              {
+                "label": "Right",
+                "value": "right"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "text_position",
+            "label": "Text Vertical Alignment",
+            "options": [
+              {
+                "value": "top",
+                "label": "Top"
+              },
+              {
+                "value": "middle",
+                "label": "Middle"
+              },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ],
+            "default": "middle"
+          },
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button label"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+          },
+          {
+            "type": "select",
+            "id": "theme",
+            "label": "Text colour",
+            "default": "light",
+            "options": [
+              {
+                "label": "Light",
+                "value": "light"
+              },
+              {
+                "label": "Dark",
+                "value": "dark"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Section Position Options"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+           "type": "radio",
+           "id": "position",
+           "label": "Page Position",
+           "options": [
+              { "value": "header", "label": "Header" },
+              { "value": "body", "label": "Body" },
+              { "value": "sidebar", "label": "Sidebar" },
+              { "value": "footer", "label": "Footer" }
+           ],
+           "default":"header",
+           "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Blog Header and search",
+        "type": "header-search",
+        "settings": [
+            {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image"
+            },
+            {
+              "type": "image_picker",
+              "id": "image_mobile",
+              "label": "Image Mobile"
+            },
+            {
+              "type": "select",
+              "id": "alignment",
+              "label": "Image alignment",
+              "default": "center",
+              "options": [
+                {
+                  "value": "top",
+                  "label": "Top"
+                },
+                {
+                  "value": "center",
+                  "label": "Middle"
+                },
+                {
+                  "value": "bottom",
+                  "label": "Bottom"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Heading",
+              "default": "Image with text overlay"
+            },
+            {
+              "type": "text",
+              "id": "sub_heading",
+              "label": "Sub Heading",
+              "default": "Sub Heading"
+            },
+            {
+              "type": "richtext",
+              "id": "text",
+              "label": "Text",
+              "default": "<p>Use overlay text to give your customers insight into your brand. Select imagery and text that relates to your style and story.</p>"
+            },
+            {
+              "type": "select",
+              "id": "text_position",
+              "label": "Text Vertical Alignment",
+              "options": [
+                {
+                  "value": "top",
+                  "label": "Top"
+                },
+                {
+                  "value": "middle",
+                  "label": "Middle"
+                },
+                {
+                  "value": "bottom",
+                  "label": "Bottom"
+                }
+              ],
+              "default": "middle"
+            },
+            {
+              "type": "text",
+              "id": "button_label",
+              "label": "Button label"
+            },
+            {
+              "type": "url",
+              "id": "button_link",
+              "label": "Button link"
+            },
+            {
+              "type": "checkbox",
+              "id": "enable_overlay",
+              "default": true,
+              "label": "Enable overlay for readability"
+            },
+            {
+              "type": "checkbox",
+              "id": "page_width",
+              "label": "Limit to content width",
+              "default": false
+            },
+            {
+              "type": "select",
+              "id": "theme",
+              "label": "Text colour",
+              "default": "light",
+              "options": [
+                {
+                  "label": "Light",
+                  "value": "light"
+                },
+                {
+                  "label": "Dark",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "title_search",
+              "label": "Search Title"
+            },
+            {
+              "type": "text",
+              "id": "placeholder",
+              "label": "Placeholder in input",
+              "default":"Search all articles..."
+            },
+            {
+              "type": "select",
+              "id": "text_alignment",
+              "label": "Text Alignment",
+              "options": [
+                {
+                  "value": "left",
+                  "label": "Left"
+                },
+                {
+                  "value": "center",
+                  "label": "Center"
+                },
+                {
+                  "value": "right",
+                  "label": "Right"
+                }
+                
+              ],
+              "default": "left"
+            },
+            {
+              "type": "range",
+              "id": "width",
+              "min": 0,
+              "max": 12,
+              "step": 1,
+              "unit": "col",
+              "label": "Width on page",
+              "default": 12
+            },
+            {
+               "type": "radio",
+               "id": "position",
+               "label": "Page Position",
+               "options": [
+                  { "value": "header", "label": "Header" },
+                  { "value": "body", "label": "Body" },
+                  { "value": "sidebar", "label": "Sidebar" },
+                  { "value": "footer", "label": "Footer" }
+               ],
+               "default":"header",
+               "info":"Choose where the block will appear"
+            }
+        ]
+      },  
+      {
+        "name": "Blog Filter Bar",
+        "type": "filter",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Table Options"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Filter Section Title"
+          },
+          {
+            "type": "link_list",
+            "id": "filter",
+            "label": "Filter Navigation",
+            "info": "The filter will output each link as a filter option"
+          },
+          {
+            "type": "select",
+            "id": "filter_type",
+            "label": "Filter Type",
+            "options": [
+              {
+                "value": "dropdown",
+                "label": "Dropdown"
+              },
+              {
+                "value": "tabs",
+                "label": "Tabs"
+              }
+            ],
+            "default": "dropdown"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_label",
+            "default": true,
+            "label": "Show Dropdown Label"
+          },
+          {
+            "type": "select",
+            "id": "remove_icon",
+            "label": "Clear Icon/Text",
+            "options": [
+              {
+                "value": "remove",
+                "label": "Trash"
+              },
+              {
+                "value": "close",
+                "label": "Cross"
+              },
+              {
+                "value": "text",
+                "label": "Text"
+              }
+            ],
+            "default": "close"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" }
+             ],
+             "default":"body",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Blog Articles",
+        "type": "articles",
+        "settings": [
+          {
+            "type": "select",
+            "id": "layout",
+            "label": "Grid item layout",
+            "default": "default",
+            "options": [
+              {
+                "label": "Default",
+                "value": "default"
+              }
+            ]
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "select",
+            "id": "pagination_type",
+            "label": "Pagination Type",
+            "options": [
+              {
+                "value": "pages",
+                "label": "Pages"
+              }
+            ],
+            "default": "pages"
+          },
+          {
+            "type": "range",
+            "id": "articles_length",
+            "min": 3,
+            "max": 12,
+            "step": 3,
+            "label": "Articles on page",
+            "default": 6
+          },
+          {
+            "type": "header",
+            "content": "Grid Item Options"
+          },
+          {
+            "type": "range",
+            "id": "width_desktop",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Article Column width on desktop",
+            "default": 4
+          },
+          {
+            "type": "range",
+            "id": "width_tablet",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Article Column width on tablet",
+            "default": 6
+          },
+          {
+            "type": "range",
+            "id": "width_mobile",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Article Column width on mobile",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" }
+             ],
+             "default":"body",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Spacer",
+        "type": "spacer",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "display_on_mobile",
+            "default": false,
+            "label": "Display on Mobile"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" }
+             ],
+             "default":"body",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+    
+      
+      {
+        "name": "Feature Article",
+        "type": "feature-article",
+        "settings": [
+          {
+            "type": "paragraph",
+            "content": "The Featured article can be set via the 'featured-article' tag or by selecting an article below"
+          },
+          {
+             "type": "article",
+             "id": "featured_article",
+             "label": "Set Article to feature"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" }
+             ],
+             "default":"header",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      }
+    ],
+    "default": {
+      "settings": {
+      },
+      "blocks": [
+        {
+          "type": "header-search",
+          "settings": {
+          }
+        },
+        {
+          "type": "feature-article",
+          "settings": {
+          }
+        },
+        {
+          "type": "filter",
+          "settings": {
+          }
+        },
+        {
+          "type": "articles",
+          "settings": {
+          }
+        }
+      ]
+    }
+  }
+{% endschema -%}

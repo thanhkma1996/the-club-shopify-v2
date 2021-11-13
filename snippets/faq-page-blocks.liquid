@@ -1,0 +1,189 @@
+
+{%- if block.type == 'search' %}
+  {%- assign error_message = 'Liquid error' -%}
+  {%- assign faqs = page.metafields.faq.faq_question | split: ','-%}
+  {% comment %}this makes the json for fuse search{% endcomment %}
+  {%- capture faqs_json -%}
+    {%- for i in (0..faqs.size) -%}
+      {%- assign question = page.metafields.faq.faq_question[forloop.index0] -%}
+      {%- assign answer = page.metafields.faq.faq_answer[forloop.index0] -%}
+      {%- assign category = page.metafields.faq.faq_category[forloop.index0] %}
+      {%- if question != blank -%}
+        {
+          "category": {{ category | json }},
+          "question": {{ question | json }},
+          "answer": {{ answer | strip_html | json }}
+        }
+        {%- unless forloop.last -%}
+          ,
+        {%- endunless -%}
+      {%- endif -%}      
+    {%- endfor -%}
+  {% endcapture -%}
+
+  <script>
+    theme.faqContent = [
+      {{- faqs_json -}}
+    ];
+  </script>
+
+  <div class="faq-search-input-wrapper">
+    <input id="faq-search" type="search" name="search" class="faq-search" placeholder="Search">
+     <div class="search-button">
+      <di class="search-button__inner">
+        {%- render 'icon' with 'search' -%}
+      </di>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-md-12 faq-search-wrapper">
+      {%- comment -%} When user searches the results will be appended here {%- endcomment -%}
+    </div>
+  </div>
+
+{%- elsif block.type == 'navigation' -%}
+
+  <div class="faq-nav-bar">
+    
+    {%- if block.settings.title != blank -%}
+      <h3 class="faq-nav-bar__heading">{{ block.settings.title }}</h3>
+    {%- endif -%}
+
+    <ul class="faq-nav-bar__menu">
+      {%- for category_group in sorted_categories -%}
+
+        {%- assign category_group_values = category_group | split: '**' -%}
+        {%- assign category_title = category_group_values[0] -%}
+        {%- assign category_link = category_group_values[1] -%}
+        
+        <li class="faq-nav-bar__item">
+          <a href="{{ category_link | prepend: '#' }}" class="faq-nav-bar__link">
+            {{ category_title | capitalize }}
+          </a>
+        </li>
+
+      {%- endfor -%}
+    </ul>
+  </div>
+
+{%- elsif block.type == 'assistance' -%}
+  {%- assign header = block.settings.title | default: '' -%}
+  {%- assign description = block.settings.text | default: '' -%}
+  {%- assign button_text = block.settings.button_label | default: '' -%}
+  {%- assign button_link = block.settings.button_link | default: '' -%}
+
+  <div class="faq-notice-bar">
+
+    <h4 class="faq-notice-bar__title">
+      {%- if header != blank -%}
+        {{ header }}
+      {%- endif -%}
+    </h4>
+
+    <div class="faq-notice-bar__description rte">
+      {%- if description != blank -%}
+        {{ description }}
+      {%- endif -%}
+    </div>
+
+    <div class="faq-notice-bar__links">
+      {%- for i in (i..4) -%}
+      
+        {%- assign link_icon_key = 'icon_' | append: forloop.index -%}
+        {%- assign link_title_key = 'title_' | append: forloop.index -%}
+        {%- assign link_url_key  = 'link_' | append: forloop.index -%}
+        
+        {%- assign link_icon = block.settings[link_icon_key] -%}
+        {%- assign link_title = block.settings[link_title_key] -%}
+        {%- assign link_url = block.settings[link_url_key] -%}
+
+        {%- if link_url != blank and link_title != blank -%}
+          <div class="faq-notice-bar__link">
+              <span class="faq-notice-bar__link-icon">{%- render 'icon' with link_icon -%}</span>
+              <a href="{{ link_url }}" class="faq-notice-bar__link-title">{{ link_title }}</a>
+          </div>
+        {%- endif -%}
+
+      {%- endfor -%}
+    </div>
+  </div>
+
+{%- elsif block.type == 'accordion' or  block.type == 'tabs' -%}
+
+<div class="row faq-container">
+
+  {%- if block.type == 'tabs' -%}
+    <div class="faq-categories tabs-menu">
+      {%- if block.settings.show_include_all -%}
+        <li class="faq-category__item">
+          <a href="#all" class="faq-category__title all-tabs active">
+            {{ block.settings.all_label | default: 'All' }}
+          </a>
+        </li>
+      {%- endif -%}
+
+      {%- for category_group in sorted_categories -%}
+
+        {%- assign category_group_values = category_group | split: '**' -%}
+        {%- assign category_title = category_group_values[0] -%}
+        {%- assign category_link = category_group_values[1] -%}
+        
+        <li class="faq-category__item">
+          <a href="#{{ category_link }}" class="faq-category__title">
+            {{ category_title }}
+          </a>
+        </li>
+
+      {%- endfor -%}
+
+    </div>
+  {%- endif -%}
+
+  <div class="col-xs-12 col-md-12 faq-accordion-wrapper {% if block.type == 'tabs' %} faq-tabs-wrapper {% endif %}">
+    {%- assign faqs = page.metafields.faq.faq_question | split: ','-%}
+
+    {%- for category_group in sorted_categories -%}
+
+      {%- assign category_group_values = category_group | split: '**' -%}
+      {%- assign category_title = category_group_values[0] -%}
+      {%- assign category_link = category_group_values[1] -%}
+      
+      <div id="{{ category_link }}" class="flex-center faq-accordion-group {% if block.type == 'tabs' %} js-display tab-content {% endif %}">
+        <h3 class="faq-category__title">{{ category_title }}</h3>
+
+        {%- assign questions_index = 0 -%}
+        {%- assign first_faq = true -%}
+        {%- for i in (0..faqs.size) -%}
+          
+          {%- assign question = page.metafields.faq.faq_question[questions_index] -%}
+          {%- assign answer = page.metafields.faq.faq_answer[questions_index] -%}
+          {%- assign category = page.metafields.faq.faq_category[questions_index] %}
+
+          {%- assign faq_category_link = category | strip | downcase | handle -%}
+
+          {%- if faq_category_link == category_link -%}
+
+            {%- include 'faq-grid-item' with faq: true -%}
+
+            {%- if first_faq -%}
+              {%- assign first_faq = false -%}
+            {%- endif -%}
+
+          {%- endif -%}
+          {%- assign questions_index = questions_index | plus: 1 -%}
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{%- elsif block.type == 'spacer' -%}
+
+  <div class="faq__spacer {% if block.settings.display_on_mobile %} visible-xs {% else %} hidden-xs{% endif %}"></div>
+
+{%- elsif block.type == 'hero' -%}
+
+  {%- include 'hero' with block -%}
+
+{%- endif -%}

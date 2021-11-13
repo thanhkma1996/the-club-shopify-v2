@@ -1,0 +1,93 @@
+{% assign s_sett = section.settings %}
+
+<div data-section-type="home-related-product" data-section-id="{{ section.id }}">
+  <div class="home-related-product-wrap">
+    <div class="container">
+      {% if s_sett.title != blank %}
+        <h2 class="h1 home-related-product__title text-center">{{ s_sett.title }}</h2>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="home-related-product__slider"
+             id="Slideshow-{{ section.id }}"
+             data-autoplay="{{ section.settings.autoplay }}"
+             data-speed="{{ section.settings.autoplay_speed }}"
+             data-arrows="false"
+             data-dots-mobile="true"
+             data-dots-tablet="true"
+             data-slides-show="3"
+             data-slides-scroll="3"
+             data-slides-show-tablet="2"
+             data-slides-scroll-tablet="2"
+             data-slides-show-mobile="1"
+             data-slides-scroll-mobile="1"
+             data-center-mode-mobile="false"
+             data-center-padding-mobile="30px"
+             data-dots="{% if section.blocks.size > 1 %}true{% else %}false{% endif %}"
+        >
+          {%- for block in section.blocks -%}
+            {% assign product_item = all_products[block.settings.prod] %}
+            {% if product_item.id != blank %}
+              <div>
+                {%- render 'product-grid-item', product: product_item -%}
+              </div>
+            {% endif %}
+          {%- endfor -%}
+        </div>
+      {% endif %}
+
+      {% if s_sett.link_url != blank %}
+        <div class="home-related-product__link">
+          <a class="btn btn-primary-o" href="{{s_sett.link_url}}">
+            <span>{{ s_sett.link_text }}</span>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+    {
+      "name": "Home related product",
+      "class": "home-related-product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "You May Be Interested In"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Mobile Link text",
+          "default": "view more products"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Mobile Link url"
+        }
+      ],
+      "blocks": [
+        {
+          "name": "Product",
+          "type": "product_item",
+          "settings": [
+            {
+              "type": "product",
+              "id": "prod",
+              "label": "Product"
+            }
+          ]
+        }
+      ],
+      "presets": [
+        {
+          "name": "Home Grid",
+          "category": "Content"
+        }
+      ]
+    }
+{% endschema %}

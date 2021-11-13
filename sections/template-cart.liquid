@@ -1,0 +1,1533 @@
+{%- capture cart_title_number %}{ cart.item_count_display }{% endcapture -%}
+{%- capture cart_title_items %}{ cart.item_count_display | pluralize 'item' 'items' }{% endcapture -%}
+
+
+{%- assign section_layout = section.settings.section_layout -%}
+{%- assign test = true -%}
+{% assign amount = 0 %}
+
+<div class="js">
+  <div data-section-id="{{ section.id }}" data-section-type="cart-template" data-cart-view>
+
+    <div rv-hide="cart.item_count_display" rv-class-cart-header-empty="cart.item_count_display | not">
+      <div class="container">
+        <div class="cart-header">
+          <h1 rv-hide="cart.item_count_display" class="cart-header__title">
+            {%- if section.settings.empty_cart_text != blank -%}
+              {{ section.settings.empty_cart_text }}
+            {%- endif -%}
+          </h1>
+          <span rv-hide="cart.item_count_display" class="cart-header__description">
+        {%- if section.settings.empty_cart_desc != blank -%}
+          {{ section.settings.empty_cart_desc }}
+        {%- endif -%}
+      </span>
+          <div rv-hide="cart.item_count_display" class="cart-header__actions">
+            <a href="/collections/all" class="btn btn-primary-o">Continue Shopping</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%- include 'template-blocks' with page_type: 'cart' -%}
+
+
+
+  {%- assign related_products = section.blocks | where: 'type', 'related-products' | first -%}
+  {%- unless related_products == blank -%}
+    {% if cart.item_count > 0 %}
+    {%- assign block = related_products -%}
+    <div class="container">
+      <div class="row">
+          <div class="col-xs-12 col-md-12 lock-wrapper block-wrapper--related-products" rv-class-no-margin-and-padding="cart.item_count_display | not">
+            <div class="cart-block cart-block--related-products">
+              <div class="cart__related-products">
+                 {%- assign show_count = block.settings.show_desktop | append: '|'| append: block.settings.show_tablet | append: '|'| append: block.settings.show_mobile -%}
+                 {%- assign products = collections[block.settings.collection].products -%}
+
+                {% assign available_products = products | where: "available" %}
+                {% assign products_without_tags = null | sort %}
+
+                {% for product in available_products %}
+                  {% unless product.tags contains 'stockists-only' %}
+                    {% assign notebook = product | sort %}
+                    {% assign products_without_tags = products_without_tags | concat: notebook %}
+                  {% endunless %}
+                {% endfor %}
+
+                  {%- include 'related-items' with 
+                  related: products_without_tags,
+                  slideshow: block.settings.enable_slider, 
+                  type: 'product',
+                  arrows: false,
+                  progress_bar: false,
+                  infinity: false,
+                  limit: 5,
+                  slide_sizes: show_count,
+                  related_heading: block.settings.title -%}
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    {%- endif -%}
+  {%- endunless -%}
+  </div>
+  {%- assign recently_viewed_products = section.blocks | where: 'type', 'recently-viewed-products' | first -%}
+  {%- unless recently_viewed_products == blank -%}
+    {%- assign block = recently_viewed_products -%}
+    {% if cart.item_count <= 0 %}
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-12 cart__fix-margin-slider">
+          <div class="cart__recently-viewed">
+          {%- assign show_count = block.settings.show_desktop | append: '|'| append: block.settings.show_tablet | append: '|'| append: block.settings.show_mobile -%}
+
+            {%- include 'recently-viewed' with
+            recently_heading: block.settings.title,
+            enable_slider: true,
+            show_count: show_count,
+            arrows: true -%}
+
+          </div>
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+  {%- endunless -%}
+
+  {%- assign cart_footer = section.blocks | where: 'type', 'cart-footer' | first -%}
+  {%- unless cart_footer == blank -%}
+  {%- assign block = cart_footer -%}
+  <div class="cart-block--cart-footer">
+    <div class="cart-footer__wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+            <div class="cart-footer__inner">
+              {%- for i in (1..3) -%}
+
+                {%- assign field_link = 'link_' | append: i -%}
+                {%- assign field_text = 'title_' | append: i -%}
+
+                  <div class="cart-footer__item">
+                    {%- assign value_link = block.settings[field_link] -%}
+                    {%- assign value_text = block.settings[field_text] -%}
+
+                    <a href="{{ value_link }}" class="cart-footer__link">
+                      {% if forloop.first %}
+                        <span class="cart-footer__link-icon">{%- render 'icon' with 'arrow-left' -%}</span>
+                      {% endif %}
+                      <span>{{ value_text }}</span>
+                    </a>
+                  </div>
+
+              {%- endfor -%}
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            {%- assign icon_color = block.settings.icon_colour -%}
+            <div class="cart__payment-methods">
+              {%- include 'globals' with output: 'payment_icons', color: icon_color -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- endunless -%}
+</div>
+{% schema %}
+  {
+    "name": "Cart Page",
+    "class": "cart-page",
+    "settings": [
+      {
+         "type": "paragraph",
+         "content": "Text"
+      },
+      {
+        "type": "select",
+        "id": "section_layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "default",
+            "label": "Default"
+          },
+          {
+            "value": "side-bar-right",
+            "label": "Sidebar on the Right"
+          },
+          {
+            "value": "side-bar-left",
+            "label": "Sidebar on the Left"
+          },
+          {
+            "value": "center-content",
+            "label": "Center all content"
+          }
+        ],
+        "default": "default",
+        "info": "By selecting a layout you can have more then one sidebar item remain on one side of the page"
+      },
+      {
+        "type": "header",
+        "content": "Empty Cart Header"
+      },
+      {
+        "type": "richtext",
+        "id": "empty_cart_text",
+        "label": "Empty Cart Message"
+      },
+      {
+       "type": "richtext",
+       "id": "empty_cart_desc",
+       "label": "Empty Cart Description"
+      },
+      {
+        "type": "checkbox",
+        "id": "include_cart_count",
+        "default": false,
+        "label": "Enable cart count in title"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Cart Header",
+        "type": "cart-header",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Cart page header"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Body Text"
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+              
+            ],
+            "default": "left"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+             ],
+             "default":"header",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Cart Sidebar",
+        "type": "side-bar",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "sidebar_rows",
+            "label": "Sidebar Rows",
+            "info":"[title] | [value], vales: subtotal, shipping",
+            "default":"Subtotal | Shipping | Tax | Grand Total"
+          },
+          {
+            "type": "checkbox",
+            "id": "apply_free_shipping_threshold",
+            "default": true,
+            "label": "Apply free shipping threshold",
+            "info":"Click here to set your free shipping threshold #makelinkhere#"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_sticky_element",
+            "default": true,
+            "label": "Enable sticky navigation"
+          },
+          {
+            "type": "text",
+            "id": "sticky_offset",
+            "label": "Sticky Navigation Offset",
+            "default":"100"
+          },
+          {
+            "type": "checkbox",
+            "id": "cart_show_padlock_icon",
+            "default": true,
+            "label": "Include padlock icon on submit button"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+             ],
+             "default":"sidebar",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+       {
+        "name": "Cart Submit Button",
+        "type": "cart-submit",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Cart Submit Button"
+          },
+          {
+            "type": "text",
+            "id": "btn_text",
+            "label": "Submit Text"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+             ],
+             "default":"sidebar",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Cart Footer",
+        "type": "cart-footer",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Cart Footer Settings"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_payment_icons",
+            "default": true,
+            "label": "Show payment icons"
+          },
+          {
+            "type": "url",
+            "id": "link_1",
+            "label": "Link 1"
+          },
+          {
+            "type": "text",
+            "id": "title_1",
+            "label": "Title 1"
+          },
+          {
+            "type": "url",
+            "id": "link_2",
+            "label": "Link 2"
+          },
+          {
+            "type": "text",
+            "id": "title_2",
+            "label": "Title 2"
+          },
+          {
+            "type": "url",
+            "id": "link_3",
+            "label": "Link 3"
+          },
+          {
+            "type": "text",
+            "id": "title_3",
+            "label": "Title 3"
+          },
+          {
+            "type": "checkbox",
+            "id": "icon_colour",
+            "default": true,
+            "label": "Enable icons colour"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+             ],
+             "default":"sidebar",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Cart Table",
+        "type": "cart-products",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Table Options"
+          },
+          {
+            "type": "textarea",
+            "id": "table_columns",
+            "label": "Cart Table Columns",
+            "info":"[title] | [value] (Name each column of the cart table) values: product,quantity,subtotal,remove",
+            "default":"Product | product \nQuantity | quantity \nSubtotal | subtotal \nRemove | remove"
+          },
+          {
+            "type": "textarea",
+            "id": "table_columns_mobile",
+            "label": "Cart Table Rows on Mobile",
+            "info":"Name each row of the table on Mobile options: image, product, remove, subtotal",
+            "default":"Image \nProduct \nRemove \nSubtotal"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_header_mobile",
+            "default": false,
+            "label": "Show Table Header on Mobile"
+          },
+          {
+            "type": "header",
+            "content": "Product Options"
+          },
+          {
+            "type": "textarea",
+            "id": "product_properties",
+            "label": "Product Properties",
+            "info":"[title] | [value] (Name the order of details in grid item) values: title, price, properties, quantity, remove",
+            "default":"'title  \nprice \nproperties \nquantity \nremove'"
+          },
+          {
+            "type": "select",
+            "id": "quantity_picker_type",
+            "label": "Quantity Picker Type",
+            "options": [
+              {
+                "value": "buttons",
+                "label": "Plus/Minus"
+              },
+              {
+                "value": "dropdown",
+                "label": "Dropdown"
+              }
+            ],
+            "default": "buttons"
+          },
+          {
+            "type": "select",
+            "id": "remove_icon",
+            "label": "Remove Icon",
+            "options": [
+              {
+                "value": "trash",
+                "label": "Trash"
+              },
+              {
+                "value": "close",
+                "label": "Cross"
+              },
+              {
+                "value": "basket",
+                "label": "Basket"
+              },
+              {
+                "value": "text",
+                "label": "Text"
+              }
+            ],
+            "default": "close"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+             ],
+             "default":"body",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Recently Viewed Products",
+        "type": "recently-viewed-products",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enable_slider",
+            "default": true,
+            "label": "Enable Slider"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "header",
+            "content": "Slider Options"
+          },
+          {
+            "type": "range",
+            "id": "show_desktop",
+            "min": 1,
+            "max": 6,
+            "step": 0.5,
+            "unit": "Sli",
+            "label": "Number of Slides to show",
+            "default": 3
+          },
+          {
+            "type": "range",
+            "id": "show_tablet",
+            "min": 1,
+            "max": 6,
+            "step": 0.5,
+            "unit": "Sli",
+            "label": "Number of Slides to show",
+            "default": 2
+          },
+          {
+            "type": "range",
+            "id": "show_mobile",
+            "min": 1,
+            "max": 6,
+            "step": 0.5,
+            "unit": "Sli",
+            "label": "Number of Slides to show",
+            "default": 1
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+
+             ],
+             "default":"footer",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Related Products",
+        "type": "related-products",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enable_slider",
+            "default": true,
+            "label": "Enable Slider"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Related Products Collection"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 0.5,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "header",
+            "content": "Slider Options"
+          },
+          {
+            "type": "range",
+            "id": "show_desktop",
+            "min": 1,
+            "max": 6,
+            "step": 0.5,
+            "unit": "Sli",
+            "label": "Number of Slides to show",
+            "default": 3
+          },
+          {
+            "type": "range",
+            "id": "show_tablet",
+            "min": 1,
+            "max": 6,
+            "step": 0.5,
+            "unit": "Sli",
+            "label": "Number of Slides to show",
+            "default": 2
+          },
+          {
+            "type": "range",
+            "id": "show_mobile",
+            "min": 1,
+            "max": 6,
+            "step": 0.5,
+            "unit": "Sli",
+            "label": "Number of Slides to show",
+            "default": 1
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+
+             ],
+             "default":"footer",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Payment Icons",
+        "type": "payment-icons",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "icon_colour",
+            "default": true,
+            "label": "Enable icons colour"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+
+             ],
+             "default":"sidebar",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Delayed Payments",
+        "type": "delayed-payments",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "icon_colour",
+            "default": true,
+            "label": "Enable icons colour"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+
+             ],
+             "default":"sidebar",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Cart Notes",
+        "type": "cart-notes",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Accordion Title"
+          },
+          {
+            "type": "checkbox",
+            "id": "accordion_notes",
+            "default": true,
+            "label": "Enable accordion on notes"
+          },
+          {
+            "type": "checkbox",
+            "id": "hide_label",
+            "default": false,
+            "label": "Hide field labels"
+          },
+          {
+            "type": "header",
+            "content":"--------------- Field 1 ---------------"
+          },
+          {
+            "type": "text",
+            "id": "label_1",
+            "label": "Field Label 1"
+          },
+          {
+            "type": "select",
+            "id": "input_1",
+            "label": "Input Type 1",
+            "options": [
+              {
+                "value": "disable",
+                "label": "Disable"
+              },
+              {
+                "value": "input",
+                "label": "Text input"
+              },
+              {
+                "value": "textarea",
+                "label": "Textarea"
+              },
+              {
+                "value": "date",
+                "label": "Date input"
+              }
+            ],
+            "default": "textarea"
+          },
+          {
+            "type": "checkbox",
+            "id": "required_1",
+            "default": false,
+            "label": "Make field required 1"
+          },
+          {
+            "type": "text",
+            "id": "Placeholder_1",
+            "label": "Placeholder 1"
+          },
+          {
+            "type": "richtext",
+            "id": "message_1",
+            "label": "Field information 1"
+          },
+          {
+            "type": "header",
+            "content":"--------------- Field 2 ---------------"
+          },
+          {
+            "type": "text",
+            "id": "label_2",
+            "label": "Textfield Label 2"
+          },
+          {
+            "type": "select",
+            "id": "input_2",
+            "label": "Input Type 2 ",
+            "options": [
+              {
+                "value": "disable",
+                "label": "Disable"
+              },
+              {
+                "value": "input",
+                "label": "Text input"
+              },
+              {
+                "value": "textarea",
+                "label": "Textarea"
+              },
+              {
+                "value": "date",
+                "label": "Date input"
+              }
+            ],
+            "default": "disable"
+          },
+          {
+            "type": "text",
+            "id": "Placeholder_2",
+            "label": "Placeholder 2"
+          },
+          {
+            "type": "checkbox",
+            "id": "required_2",
+            "default": false,
+            "label": "Make field required 2"
+          },
+          {
+            "type": "richtext",
+            "id": "message_2",
+            "label": "Field information 2"
+          },
+          {
+            "type": "header",
+            "content":"--------------- Field 3 ---------------"
+          },
+          {
+            "type": "text",
+            "id": "label_3",
+            "label": "Field Label 3"
+          },
+          {
+            "type": "select",
+            "id": "input_3",
+            "label": "Input Type 3",
+            "options": [
+              {
+                "value": "disable",
+                "label": "Disable"
+              },
+              {
+                "value": "input",
+                "label": "Text input"
+              },
+              {
+                "value": "textarea",
+                "label": "Textarea"
+              },
+              {
+                "value": "date",
+                "label": "Date input"
+              }
+            ],
+            "default": "disable"
+          },
+          {
+            "type": "text",
+            "id": "Placeholder_3",
+            "label": "Placeholder 3"
+          },
+          {
+            "type": "checkbox",
+            "id": "required_3",
+            "default": false,
+            "label": "Make field required 3"
+          },
+          {
+            "type": "richtext",
+            "id": "message_3",
+            "label": "Field information 3"
+          },
+          {
+            "type": "header",
+            "content":"--------------- Field 4 ---------------"
+          },
+          {
+            "type": "text",
+            "id": "label_4",
+            "label": "Field Label 4"
+          },
+          {
+            "type": "select",
+            "id": "input_4",
+            "label": "Input Type",
+            "options": [
+              {
+                "value": "disable",
+                "label": "Disable"
+              },
+              {
+                "value": "input",
+                "label": "Text input"
+              },
+              {
+                "value": "textarea",
+                "label": "Textarea"
+              },
+              {
+                "value": "date",
+                "label": "Date input"
+              }
+            ],
+            "default": "disable"
+          },
+          {
+            "type": "text",
+            "id": "Placeholder_4",
+            "label": "Placeholder 4"
+          },
+          {
+            "type": "checkbox",
+            "id": "required_4",
+            "default": false,
+            "label": "Make field required 4"
+          },
+          {
+            "type": "richtext",
+            "id": "message_4",
+            "label": "Field information 4"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+
+             ],
+             "default":"body",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Cart Attributes",
+        "type": "cart-attributes",
+        "settings": [
+          {
+            "type": "paragraph",
+            "content":"Settings for this section can be found in languages"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+
+             ],
+             "default":"body",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Spacer",
+        "type": "spacer",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "display_on_mobile",
+            "default": false,
+            "label": "Display on Mobile"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+
+             ],
+             "default":"body",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Breadcrumbs",
+        "type": "breadcrumbs",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enable_overlay",
+            "default": false,
+            "label": "Overlay breadcrumbs"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+
+             ],
+             "default":"body",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Value Props",
+        "type": "value-props",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "display_on_mobile",
+            "default": false,
+            "label": "Display on Mobile"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_global_message",
+            "default": true,
+            "label": "Use global cart message"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "header",
+            "content":"Value Link 1"
+          },
+          {
+            "type": "select",
+            "id": "icon_1",
+            "label": "Link Icon 1",
+            "options": [
+              {
+                "value": "none",
+                "label": "Display None"
+              },
+              {
+                "value": "phone",
+                "label": "Phone"
+              },
+              {
+                "value": "email",
+                "label": "Email"
+              },
+              {
+                "value": "letter",
+                "label": "Mail"
+              },
+              {
+                "value": "chat",
+                "label": "Chat"
+              },
+              {
+                "value": "tick",
+                "label": "Tick"
+              }
+            ],
+            "default": "tick"
+          },
+          {
+            "type": "text",
+            "id": "title_1",
+            "label": "Link Label 1"
+          },
+          {
+            "type": "header",
+            "content":"Value Link 2"
+          },
+          {
+            "type": "select",
+            "id": "icon_2",
+            "label": "Link Icon 2",
+            "options": [
+              {
+                "value": "none",
+                "label": "Display None"
+              },
+              {
+                "value": "phone",
+                "label": "Phone"
+              },
+              {
+                "value": "email",
+                "label": "Email"
+              },
+              {
+                "value": "letter",
+                "label": "Mail"
+              },
+              {
+                "value": "chat",
+                "label": "Chat"
+              },
+              {
+                "value": "tick",
+                "label": "Tick"
+              }
+            ],
+            "default": "tick"
+          },
+          {
+            "type": "text",
+            "id": "title_2",
+            "label": "Link Label 2"
+          },
+          {
+            "type": "header",
+            "content":"Value Link 3"
+          },
+          {
+            "type": "select",
+            "id": "icon_3",
+            "label": "Link Icon 3",
+            "options": [
+              {
+                "value": "none",
+                "label": "Display None"
+              },
+              {
+                "value": "phone",
+                "label": "Phone"
+              },
+              {
+                "value": "email",
+                "label": "Email"
+              },
+              {
+                "value": "letter",
+                "label": "Mail"
+              },
+              {
+                "value": "chat",
+                "label": "Chat"
+              },
+              {
+                "value": "tick",
+                "label": "Tick"
+              }
+            ],
+            "default": "tick"
+          },
+          {
+            "type": "text",
+            "id": "title_3",
+            "label": "Link Label 3"
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+             ],
+             "default":"sidebar",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Text/Heading/Button",
+        "type": "text-block",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "title",
+            "label": "Text"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Btn Link"
+          },
+          {
+            "type": "select",
+            "id": "text_style",
+            "label": "Text Type",
+            "options": [
+              {
+                "value": "paragraph",
+                "label": "Paragraph"
+              },
+              {
+                "value": "main-heading",
+                "label": "Main Heading"
+              },
+              {
+                "value": "subheading",
+                "label": "Subheading"
+              },
+              {
+                "value": "button",
+                "label": "Button"
+              }
+            ],
+            "default": "paragraph"
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+              
+            ],
+            "default": "left"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+             ],
+             "default":"body",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Shipping Calculator",
+        "type": "shipping",
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Title"
+          },
+          {
+            "type": "select",
+            "id": "prgoress_bar_type",
+            "label": "Progress Bar Type",
+            "options": [
+              {
+                "value": "bar",
+                "label": "Progress Bar"
+              },
+              {
+                "value": "none",
+                "label": "None"
+              }
+            ],
+            "default": "bar"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Message",
+            "info":"include {amount_to_go} values: amount_to_go, percentage_to_go",
+            "default":"<p>You are {amount_to_go} away from recieving Free Shipping</p>"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+             ],
+             "default":"sidebar",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Shipping Modal",
+        "type": "shipping-modal",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_assistance_bar",
+            "default": true,
+            "label": "Enable assistance bar in modal"
+          },
+          {
+            "type": "page",
+            "id": "page",
+            "label": "Shipping Modal Content Page"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+             ],
+             "default":"sidebar",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      }
+    ],
+    "default": {
+      "settings": {
+        "section_layout":"side-bar-right",
+        "empty_cart_text": "<p>your cart is empty</p>"
+      },
+      "blocks": [
+        {
+          "type": "cart-header",
+          "settings": {
+            "title":"My Cart",
+            "text": "<p>Lorem Ipsum is simply dummy text of the printing...</p>",
+            "text_alignment":"left",
+            "width":12
+          }
+        },
+        {
+          "type": "cart-products",
+          "settings": {
+            "table_columns":"Product | product \nQuantity | quantity \nSubtotal | subtotal \nRemove | remove",
+            "table_columns_mobile":"Title  \nRemove \nProperties \nQuantity \nSubtotal",
+            "show_header_mobile":false,
+            "product_properties":"title  \nprice \nproperties \nquantity \nremove",
+            "quantity_picker_type":"buttons",
+            "remove_icon":"close",
+            "width":12
+          }
+        },
+        {
+          "type": "side-bar",
+          "settings": {
+            "title":"",
+            "sidebar_rows":"Subtotal | subtotal \nShipping | shipping \nGrand Total | subtotal",
+            "enable_sticky_element":true,
+            "sticky_offset":"100",
+            "cart_show_padlock_icon":false,
+            "width":12
+          }
+        }
+      ]
+    }
+  }
+{% endschema %}

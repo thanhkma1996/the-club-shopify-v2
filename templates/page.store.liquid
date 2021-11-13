@@ -1,0 +1,30 @@
+{%- assign stores = shop.metafields.stores.stores -%}
+{%- assign store_found = false -%}
+{%- for store in stores -%}
+  {%- if store.handle == page.handle -%}
+    {%- assign store_found = true -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if store_found -%}
+
+  <div class="container">
+    <h1>{{ store.title }}</h1>
+    <p>
+      {{ store.street }},<br>
+      {{ store.city }},<br>
+      {{ store.province }} {{ store.zip }}
+    </p>
+    <p>{{ store.opening_hours }}</p>
+    <p>Phone: {{ store.phone }}</p>
+    <p>Fax: {{ store.fax }}</p>
+    <p>Email: {{ store.email }}</p>
+  </div>
+
+{% else %}
+
+  {%- section '404' -%}
+
+{%- endif -%}
+

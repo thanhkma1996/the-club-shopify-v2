@@ -1,0 +1,127 @@
+<div data-section-id="{{ section.id }}" data-section-type="collection-template">
+  {% include 'template-collection' %}
+</div>
+
+{% schema %}
+  {
+    "name": "Collection",
+    "class": "collection-section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Grid Items"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sku",
+        "label": "Show product SKU",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sku_text",
+        "label": "Show text before SKU",
+        "info": "Text is configured via 'Edit language' in theme actions.",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "products_per_page",
+        "label": "Products per page",
+        "min": 2,
+        "max": 50,
+        "step": 1,
+        "default": 24
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show product vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_price",
+        "label": "Show price",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sale_label",
+        "label": "Show sale label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sold_out_label",
+        "label": "Show sold out label",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_new_label",
+        "label": "Show new label",
+        "default": true,
+        "info": "Products must be tagged 'new'"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_preorder_label",
+        "label": "Show preorder label",
+        "default": true,
+        "info": "Products must be tagged 'preorder'"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sorting",
+        "label": "Enable collection sorting",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "soldout_label",
+        "label": "Sold Out Label",
+        "default": "Sold out"
+      },
+      {
+        "type": "text",
+        "id": "sale_label",
+        "label": "Sale Label",
+        "default": "Sale"
+      },
+      {
+        "type": "text",
+        "id": "from",
+        "label": "From",
+        "default": "from"
+      },
+      {
+        "type": "header",
+        "content": "Advice Block"
+      },
+      {
+        "type": "text",
+        "id": "advice_title",
+        "label": "Advice Title",
+        "default": "Do you need an expert advice?"
+      },
+      {
+        "type": "text",
+        "id": "advice_text",
+        "label": "Advice Text",
+        "default": "Lorem ipsum dolor sit amet, coectetur adipiscing elit, sed do eiusmod tempor inci"
+      },
+      {
+        "type": "url",
+        "id": "advice_link",
+        "label": "Advice URL"
+      },
+      {
+        "type": "text",
+        "id": "advice_link_text",
+        "label": "Advice link text",
+        "default": "Book now"
+      }
+    ]
+  }
+{% endschema %}

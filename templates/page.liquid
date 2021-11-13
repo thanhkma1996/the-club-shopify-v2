@@ -1,0 +1,18 @@
+{%- include 'page-header' -%}
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-xl-8 col-xl-offset-2">
+      <div class="section-header template__main-title text-{{ settings.page_header_text_align }}">
+        <h1>{{ page.title }}</h1>
+      </div>
+
+      <div class="rte">
+        {%- include 'text' with page.content -%}
+      </div>
+      
+    </div>
+  </div>
+
+</div>

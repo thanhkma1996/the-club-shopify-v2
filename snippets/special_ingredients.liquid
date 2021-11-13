@@ -1,0 +1,39 @@
+{%- assign title = product.metafields.accentuate.special_ingredients_title -%}
+{%- assign subtitle = product.metafields.accentuate.special_ingredients_subtitle -%}
+{%- assign image = product.metafields.accentuate.special_ingredients_image -%}
+{%- assign file_title = product.metafields.accentuate.special_ingredients_file_title -%}
+{%- assign file = product.metafields.accentuate.special_ingredients_file -%}
+<div class="ingredients-section">
+	<div class="container">
+		<div class="ingredients">
+			<div class="ingredients-text">
+				<p class="title__small">{{ subtitle }}</p>
+				<p class="title">{{ title }}</p>
+
+				{% for element in product.metafields.ingredients.image %}
+					{%- assign el_image = product.metafields.ingredients.image[forloop.index0] -%}
+					{%- assign el_title = product.metafields.ingredients.title[forloop.index0] -%}
+					{%- assign el_text = product.metafields.ingredients.description[forloop.index0] -%}
+
+					<div class="ingredient-block">
+						<div class="ingredient-img">
+							<img class="lazyload" data-sizes="auto" data-srcset="{{ el_image }}"/>
+						</div>
+						<div class="ingredient-block--text">
+							<p class="ingredient-block--title">{{ el_title }}</p>
+							<p class="ingredient-block--description">{{ el_text }}</p>
+							{% if forloop.last %}
+								{% if file != blank and file_title != blank %}
+									<a href="{{ file }}" class="feeding-link" target="_blank" download>{{ file_title }}</a>
+								{% endif %}
+							{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			<div class="ingredients-image">
+				<img class="lazyload" data-sizes="auto" data-srcset="{{ image }}"/>
+			</div>
+		</div>
+	</div>
+</div>

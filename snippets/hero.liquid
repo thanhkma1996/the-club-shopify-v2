@@ -1,0 +1,153 @@
+{% assign block = block | default: '' %}
+
+{%- assign slideshow_image = slideshow_image 
+  | default: section.settings.image 
+  | default: block.settings.image -%}
+  
+{%- assign slideshow_image_mobile = slideshow_image_mobile 
+  | default: section.settings.image_mobile 
+  | default: block.settings.image_mobile -%}
+
+{%- assign slideshow_image_alignment = slideshow_image_alignment 
+  | default: section.settings.image_alignment 
+  | default: block.settings.image_alignment -%}
+
+{%- assign slideshow_title = slideshow_title 
+  | default: section.settings.title 
+  | default: block.settings.title -%}
+
+{%- assign slideshow_subtitle = slideshow_subtitle 
+  | default: section.settings.subtitle 
+  | default: block.settings.subtitle -%}
+
+{%- assign slideshow_text = slideshow_text 
+  | default: section.settings.text 
+  | default: block.settings.text -%}
+
+{%- assign slideshow_text_alignment = slideshow_text_alignment 
+  | default: section.settings.text_alignment 
+  | default: block.settings.text_alignment -%}
+
+{%- assign slideshow_text_position = slideshow_text_position 
+  | default: section.settings.text_position 
+  | default: block.settings.text_position -%}
+
+{%- assign slideshow_button_label = slideshow_button_label 
+  | default: section.settings.button_label 
+  | default: block.settings.button_label -%}
+
+{%- assign slideshow_button_link = slideshow_button_link 
+  | default: section.settings.button_link 
+  | default: block.settings.button_link -%}
+
+{%- assign slideshow_theme = slideshow_theme 
+  | default: section.settings.theme
+  | default: block.settings.theme -%}
+
+{%- assign slideshow_image_type = slideshow_image_type 
+  | default: 'asset' -%}
+
+{%- assign slideshow_buttons = slideshow_buttons  -%}
+{%- assign slideshow_search = slideshow_search  -%}
+{%- assign breadcrumb = breadcrumb | default: false -%}
+
+<div class="hero">
+
+  <div class="hero-image image-align--{{ slideshow_alignment }}">
+
+    {%- assign image_classes = '' -%}
+    {%- assign large_image = slideshow_image -%}
+    {%- assign small_image = slideshow_image_mobile -%}
+    {%- assign image_mobile_classes = 'visible-xs visible-sm' -%}
+    
+    {%- if small_image != blank -%}
+      {%- assign image_classes = 'hidden-xs hidden-sm' -%}
+    {%- endif -%}
+
+    {%- if large_image != blank -%}
+      {%- include 'img' with large_image, img_class: image_classes, type: slideshow_image_type -%}
+    {%- endif -%}
+    {%- if small_image != blank -%}
+      {%- include 'img' with small_image, img_class: image_mobile_classes, type: slideshow_image_type -%}
+    {%- endif -%}
+
+  </div>
+
+  <div class="hero-overlay">
+    <div class="container hero-container">
+
+      <div class="row hero-row {{ slideshow_text_position }}-xs {{ slideshow_alignment }}-xs">
+        
+        {%- if breadcrumb -%}
+          {%- include 'breadcrumbs' -%}
+        {%- endif -%}
+        
+        {%- if slideshow_alignment == 'right' -%}
+          <div class="col-xs-12 col-md-6 hidden-xs hidden-sm hero-position-block">
+        </div>
+        {%- endif -%}
+        
+        <div class="col-xs-12 col-md-6">
+          <div class="hero-inner theme--{{ slideshow_theme }} text-{{ slideshow_text_alignment }}">
+            
+            <div class="hero-inner-content">
+
+              {%- if slideshow_subtitle != blank -%}
+                <h5 class="hero-subtitle">{{ slideshow_subtitle }}</h5>
+              {%- endif -%}
+
+              {% if slideshow_title != blank %}
+                <h1 class="h1 hero-title">{{ slideshow_title }}</h1>
+              {% endif %}
+
+              {% if slideshow_text != blank %}
+                <div class="rte hero-description">{{ slideshow_text }}</div>
+              {% endif %}
+
+              {%- if slideshow_buttons != blank -%}
+
+                {{ slideshow_buttons }}
+
+              {%- else -%}
+
+                {%- if section.blocks.size > 0 -%}
+
+                  <div class="hero-buttons">
+
+                    {%- for block in section.blocks -%}
+
+                      {% if block.settings.title != blank and block.settings.link != blank %}
+                        <a href="{{ block.settings.link }}" class="btn hero-btn btn-{{ block.settings.style }}">
+                          {{ block.settings.title }}
+                        </a>
+                      {% endif %}
+
+                    {%- endfor -%}
+                    
+                  </div>
+
+                {%- endif -%}
+
+              {%- endif -%}
+               
+            </div>
+
+            {%- if slideshow_search != blank -%}
+
+              {{ slideshow_search }}
+
+            {%- endif -%}
+
+          </div>
+        </div>
+
+        {%- if slideshow_alignment == 'left' -%}
+          <div class="col-xs-12 col-md-6 hidden-xs hidden-sm hero-position-block"></div>
+        {%- endif -%}
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

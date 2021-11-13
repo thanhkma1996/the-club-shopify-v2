@@ -1,0 +1,9 @@
+{%- assign enable_filters = false -%}
+
+{%- section 'header-image' -%}
+
+{%- if enable_filters -%}
+  {% section 'collection-filters' %}
+{%- endif -%}
+
+{% section 'collection' %}

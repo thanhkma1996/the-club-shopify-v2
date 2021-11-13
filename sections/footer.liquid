@@ -1,0 +1,517 @@
+
+{%- assign footer_contrast_with_dark = settings.color_footer_bg | color_contrast: '#000' -%}
+{%- assign footer_contrast_with_light = settings.color_footer_bg | color_contrast: '#fff' -%}
+{%- if footer_contrast_with_light > footer_contrast_with_dark -%}
+  {%- assign footer_theme = 'dark' -%}
+  {%- assign show_light_elements = false -%}
+{%- else -%}
+  {%- assign footer_theme = 'light' -%}
+  {%- assign show_light_elements = true -%}
+{%- endif -%}
+
+{%- capture social_links_output %}
+  {% include 'globals' with 'social_icons' %}
+{% endcapture -%}
+
+
+<div data-section-id="{{ section.id }}" data-section-type="footer-section">
+  <footer>
+    <div class="site-footer site-footer--{{ footer_theme }}">
+      {% comment %}<div class="site-footer__upper hidden-xs">
+
+        <div class="site-footer__search-mobile">
+          <div class="container">
+            <form action="/search" method="get" class="search-footer search-footer-mobile search" role="search">
+              <label for="Search" class="label-hidden">
+                {{ 'general.search.placeholder' | t }}
+              </label>
+              <div class="input-group">
+                <input type="search"
+                       name="q"
+                       id="FooterSearch"
+                       class="search-footer__input search__input"
+                       value="{{ search.terms | escape }}"
+                       placeholder="{{ 'general.search.placeholder' | t }}"
+                       aria-label="Search">
+                <button class="search-footer__submit search__submit btn btn--text" type="submit">
+                  {% render 'icon' with 'search' %}
+                  <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="site-footer__brand-values">
+          <div class="page-width">
+            <div class="brand-values-clone"></div>
+          </div>
+        </div>
+      </div>{% endcomment %}
+
+      {%- capture footer_main_content %}
+        {%- for block in section.blocks -%}
+          {%- capture block_container_prefix -%}
+            <div class="{%- if block.settings.style %}site-footer__{{ block.settings.style }} {% endif -%}
+                        {%- if block.settings.theme %}site-footer__{{ block.settings.theme }} {% endif -%}
+                        site-footer__col site-footer__{{ block.type }}"
+                 data-attribute-flex
+                 data-width-small="{{ block.settings.width_small | default: '0' }}"
+                 data-width-large="{{ block.settings.width_large | default: '0' }}"
+                 data-order-small="{{ block.settings.order_small | default: '0' }}"
+                 data-order-large="{{ block.settings.order_large | default: '0' }}">
+          {%- endcapture -%}
+
+          {%- capture block_container_suffix -%}
+            </div>
+          {%- endcapture -%}
+
+          {%- capture block_content -%}
+            {%- case block.type -%}
+              {%- when 'store-logo' -%}
+
+                <a href="/" itemprop="url" class="site-logo" itemprop="logo">
+                  {% include 'logo' with shop.name %}
+                  <span class="visually-hidden">{{ shop.name }}</span>
+                </a>
+
+              {%- when 'store-info' -%}
+
+                {%- if block.settings.text != blank -%}
+                  <div class="rte">
+                    {%- include 'text' with block.settings.text -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.show_social and social_links_output != blank -%}
+                  {{ social_links_output }}
+                {%- endif -%}
+
+              {%- when 'separator' -%}
+
+                <!-- Separator -->
+
+              {%- when 'newsletter' -%}
+
+                {%- include 'newsletter' with button: 'secondary-o', show_social: block.settings.show_social, social_links_output: social_links_output -%}
+
+              {%- when 'accreditations' -%}
+
+                {%- include 'accreditations' with settings: block.settings -%}
+
+              {%- when 'social-links' -%}
+
+                {%- if social_links_output != blank -%}
+                  {{ social_links_output }}
+                {%- endif -%}
+
+              {%- when 'navigation' -%}
+
+                {%- if block.settings.navlist != blank -%}
+
+                  {%- assign navigation_id = block.settings.navlist | prepend: 'site-footer__navigation--' -%}
+                  {%- assign replacement_prefix_class = 'site-footer__col ' | append: navigation_id | append: ' ' -%}
+                  {%- assign block_container_prefix = block_container_prefix | replace: 'site-footer__col ', replacement_prefix_class -%}
+
+                  {%- include 'site-nav' with block.settings.navlist,
+                    id: navigation_id,
+                    dropdown: false,
+                    inline: block.settings.display_inline,
+                    flex: block.settings.display_inline,
+                    accordion: 'small',
+                    depth_limit: 2
+                  -%}
+
+                {%- endif -%}
+
+            {%- endcase -%}
+          {%- endcapture -%}
+
+          {%- if block_content != blank -%}
+            {{ block_container_prefix }}
+            {{ block_content }}
+            {{ block_container_suffix }}
+          {%- endif -%}
+        {%- endfor -%}
+      {% endcapture -%}
+
+      {%- if footer_main_content != blank -%}
+        <div class="site-footer__main{% if footer_theme == 'dark' %} inverse{% endif %}">
+          <div class="container">
+            <div class="row site-footer__col-wrap">
+
+              {{ footer_main_content }}
+
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+      {% comment %}
+      <div class="site-footer__lower">
+
+        {%- if section.settings.show_payment_icons %}
+          <div class="site-footer__payment-methods">
+            <div class="site-footer__payment-methods-title">
+              {{ 'layout.footer.payment_methods' | t }}
+            </div>
+            {% include 'globals' with 'payment_icons', style: 'visually-match', color: true %}
+          </div>
+        {% endif -%}
+
+        <div class="site-footer__copyright">
+          <p>{{ 'layout.footer.copyright' | t }} &copy; {{ 'now' | date: "%Y" }} {{ shop.name | link_to: '/' }}</p>
+
+          {%- assign footer_additional_details = 'layout.footer.additional_details' | t -%}
+          {%- if footer_additional_details != blank -%}
+            <p>{{ footer_additional_details }}</p>
+          {%- endif -%}
+        </div>
+
+      </div>
+      {% endcomment %}
+    </div>
+  </footer>
+</div>
+
+
+{%- schema -%}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_payment_icons",
+        "label": "Show payment icons",
+        "default": true
+      }
+    ],
+    "blocks": [
+      {
+        "type": "store-logo",
+        "name": "Store Logo",
+        "settings": [
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "type": "store-info",
+        "name": "Store Info",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_social",
+            "default": true,
+            "label": "Show social buttons"
+          },
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "type": "newsletter",
+        "name": "Newsletter",
+        "settings": [
+          {
+            "type": "paragraph",
+            "content": "Wording can be adjusted via theme language settings."
+          },
+          {
+            "type": "checkbox",
+            "id": "show_social",
+            "default": true,
+            "label": "Show social buttons"
+          },
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "type": "separator",
+        "name": "Separator",
+        "settings": [
+          {
+            "type": "select",
+            "id": "style",
+            "options": [
+              { "value": "inivisible", "label": "Invisible"},
+              { "value": "vertical-line-primary", "label": "Line, primary brand colour"},
+              { "value": "vertical-line-secondary", "label": "Line, secondary brand colour"}
+            ],
+            "label": "Separator style"
+          },
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "type": "navigation",
+        "name": "Navigation",
+        "settings": [
+          {
+            "type": "link_list",
+            "id": "navlist",
+            "label": "Navigation list"
+          },
+          {
+            "type": "checkbox",
+            "id": "display_inline",
+            "label": "Stack items horizontally",
+            "default": true
+          },
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "type": "accreditations",
+        "name": "Accreditations",
+        "settings": [
+          {
+            "type":"text",
+            "id":"title",
+            "label":"Title"
+          },
+          {
+            "type": "image_picker",
+            "id": "first_image",
+            "label": "First image"
+          },
+          {
+            "type": "image_picker",
+            "id": "second_image",
+            "label": "Second image"
+          },
+          {
+            "type": "image_picker",
+            "id": "third_image",
+            "label": "Third image"
+          },
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      }
+    ]
+  }
+{% endschema -%}

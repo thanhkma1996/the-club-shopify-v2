@@ -1,0 +1,11 @@
+{%- capture main %}
+  {%- include 'account-dashboard' -%}
+{% endcapture -%}
+
+{% comment %}
+{%- capture aside -%}
+  {%- section 'account-constant-cart' -%}
+{%- endcapture -%}
+{% endcomment %}
+
+{%- include 'account-view' with main: main, aside: aside -%}

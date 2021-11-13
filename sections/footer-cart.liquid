@@ -1,0 +1,108 @@
+<footer>
+    <div class="site-footer site-footer--cart" data-section-type="cart-footer-modal">
+        <div class="footer_container">
+            <div class="footer-links">
+                <div class="footer-continue--shopping">
+                    <a href="{{ section.settings.continue_shipping_link }}" class="continue-shopping--link">
+                        <div class="footer-icon--arrow">
+                            {% include 'icon' with 'arrow-left' %}
+                        </div>
+                        <div class="continue-shopping--container">
+                            <span class="continue-shopping--text footer-cart--text">
+                                {{ section.settings.continue_shipping_text }}
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="shipping-returns">
+                    <a href="{{ section.settings.shipping_link }}" class="shipping-returns--link footer-popup">
+                        <span class="shipping-returns--text footer-cart--text">
+                            {{ section.settings.shipping_text }}
+                        </span>
+                    </a>
+                    <div class="hidden">
+                        <div data-popup="{{ section.settings.shipping_link }}">
+                            <div class="html-text">{{ section.settings.shipping_popup }}</div>
+                            {% include 'assistance-bar' %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-container">
+                    <a href="{{ section.settings.help_link }}" class="help--link footer-popup">
+                        <span class="help--text footer-cart--text">
+                            {{ section.settings.help_text }}
+                        </span>
+                    </a>
+                    <div class="hidden">
+                        <div data-popup="{{ section.settings.help_link }}">
+                            <div class="html-text">{{ section.settings.help_popup }}</div>
+                            {% include 'assistance-bar' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-footer__payment-methods">
+                {% include 'globals' with 'payment_icons', style: 'visually-match', color: false %}
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer-cart",
+  "settings": [
+    {
+      "type": "text",
+      "id": "continue_shipping_text",
+      "label": "Continue shipping text"
+    },
+    {
+      "type": "url",
+      "id": "continue_shipping_link",
+      "label": "Continue shipping link"
+    },
+    {
+      "type": "header",
+      "content": "Shipping and returns"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text",
+      "label": "Shipping and returns button text"
+    },
+    {
+      "type": "url",
+      "id": "shipping_link",
+      "label": "Shipping and returns link"
+    },
+    {
+      "type": "html",
+      "id": "shipping_popup",
+      "label": "Shipping and returns modal text"
+    },
+    {
+      "type": "header",
+      "content": "Help"
+    },
+    {
+      "type": "text",
+      "id": "help_text",
+      "label": "Help text"
+    },
+    {
+      "type": "url",
+      "id": "help_link",
+      "label": "Help link"
+    },
+    {
+      "type": "html",
+      "id": "help_popup",
+      "label": "Help modal text"
+    }
+  ]
+}
+{% endschema %}

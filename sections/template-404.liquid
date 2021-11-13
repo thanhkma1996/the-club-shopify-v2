@@ -1,0 +1,1003 @@
+<div class="error-page">
+  <div class="container theme--{{ page_type }}">
+    <div class="row {{ page_type }}-row {{ accordion_icon_class }}">
+
+      {%- for block in section.blocks -%}
+        {% assign width = block.settings.width | default: '12' %}
+
+        <div data-attribute-flex data-order-small="{{ block.settings.order_small  | default: '0' }}" class="col-xs-12 col-md-{{ width }} error-block--{{ block.type }}">
+
+          {%- if block.type == 'header' -%}
+
+            <div class="error-page--{{ block.type }} text-{{ block.settings.text_alignment }}">
+              {%- if block.settings.subtitle != blank -%}
+                {%- assign subtitle_arr = block.settings.subtitle | split: ' ' -%}
+                {%- assign slice_part = subtitle_arr | slice: 1, subtitle_arr.size -%}
+                {%- assign join_part = slice_part | join: ' ' -%}
+                <h4 class="error-page__subheading"><span>{{ subtitle_arr[0] }}</span> {{ join_part }}</h4>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="rte">
+                  {%- include 'text' with block.settings.text -%}
+                </div>
+              {%- endif -%}
+            </div>
+
+          {% elsif block.type == 'hero-banner' %}
+
+            <div class="error-banner full-width">
+
+            {%- capture buttons %}
+              <div class="error-block--button-group">
+                {%- for i in (1..2) -%}
+
+                  {%- assign btn_text_field_key = 'btn_text_' | append: i -%}
+                  {%- assign btn_link_field_key = 'btn_link_' | append: i -%}
+                  {%- assign btn_style_field_key = 'btn_style_' | append: i -%}
+
+                  {%- assign btn_text = block.settings[btn_text_field_key] -%}
+                  {%- assign btn_link = block.settings[btn_link_field_key] -%}
+                  {%- assign btn_stype = block.settings[btn_style_field_key] -%}
+
+                  {%- if btn_text != blank or btn_link != blank -%}
+                    <div class="error-page-btn__item">
+                      <a href="{{ btn_link }}" class="btn btn-{{ btn_stype }} btn--large error-page__btn">{{ btn_text }}</a>
+                    </div>
+                  {%- endif -%}
+
+                {%- endfor -%}
+              </div>
+            {% endcapture -%}
+
+            {%- include 'hero' with
+              block: block,
+              slideshow_image: block.settings.image,
+              slideshow_image_mobile: block.settings.image_mobile,
+              slideshow_title: block.settings.title,
+              slideshow_text: block.settings.text,
+              slideshow_subtitle: block.settings.subtitle,
+              slideshow_buttons: buttons,
+              slideshow_button_label: slideshow_button_label,
+              slideshow_button_link: slideshow_button_link,
+              slideshow_alignment: 'center',
+              slideshow_width: false,
+              slideshow_image_type: 'asset',
+              slideshow_theme: 'dark',
+              breadcrumb: false
+              -%}
+            </div>
+
+          {% elsif block.type == 'button' %}
+
+
+          <div class="error-page--{{ block.type }}">
+            {%- if block.settings.title != blank -%}
+              <h2 class="error-page__title">{{ block.settings.title }}</h2>
+            {%- endif -%}
+            {%- if block.settings.btn_text != blank or block.settings.btn_link != blank -%}
+              <a href="{{ block.settings.btn_link }}" class="btn btn-{{ block.settings.button_style }} error-page__btn">{{ block.settings.btn_text }}</a>
+            {%- endif -%}
+          </div>
+
+
+          {% elsif block.type == 'button-group' %}
+
+
+            <div class="error-page--header-buttons">
+              <div class="error-page--header text-{{ block.settings.text_alignment }}">
+                <div class="error-page--title">
+                  <span>4</span>
+                  {% render 'icon' with 'horseshoe' %}
+                  <span>4</span>
+                </div>
+                {%- if block.settings.subtitle != blank -%}
+                  {%- assign subtitle_arr = block.settings.subtitle | split: ' ' -%}
+                  {%- assign slice_part = subtitle_arr | slice: 1, subtitle_arr.size -%}
+                  {%- assign join_part = slice_part | join: ' ' -%}
+                  <h4 class="error-page__subheading"><span>{{ subtitle_arr[0] }}</span> {{ join_part }}</h4>
+                  {% comment %}<h4 class="error-page__subheading">{{ block.settings.subtitle }}</h4>{% endcomment %}
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <div class="rte error-page__text">
+                    {%- include 'text' with block.settings.text -%}
+                  </div>
+                {%- endif -%}
+              </div>
+              <div class="error-page--button-group">
+                {%- for i in (0..4) -%}
+
+                {%- assign btn_text_field_key = 'btn_text_' | append: i -%}
+                {%- assign btn_link_field_key = 'btn_link_' | append: i -%}
+                {%- assign btn_style_field_key = 'btn_style_' | append: i -%}
+
+                {%- assign btn_text = block.settings[btn_text_field_key] -%}
+                {%- assign btn_link = block.settings[btn_link_field_key] -%}
+                {%- assign btn_stype = block.settings[btn_style_field_key] -%}
+
+                {%- if btn_text != blank or btn_link != blank -%}
+                  <div class="error-page-btn__item">
+                    <a href="{{ btn_link }}" class="btn btn-{{ btn_stype }} error-page__btn">{{ btn_text }}</a>
+                  </div>
+                {%- endif -%}
+
+                {%- endfor -%}
+              </div>
+            </div>
+
+
+          {% elsif block.type == 'image' %}
+
+
+            <div class="error-page__image">
+              {%- include 'img' with block.settings.image -%}
+            </div>
+
+
+          {% elsif block.type == 'value-props' %}
+
+
+          {% elsif block.type == 'text-block' %}
+
+          {% elsif block.type == 'related-products' %}
+
+            <div class="error-page__related-products">
+            {%- assign related_products = collections[block.settings.collection] -%}
+            {%- assign show_count = block.settings.show_desktop | append: '|'| append: block.settings.show_tablet | append: '|'| append: block.settings.show_mobile -%}
+
+            {%- include 'related-items' with
+              related: related_products,
+              slideshow: block.settings.enable_slider,
+              type: 'product',
+              slide_sizes: show_count ,
+              related_heading: block.settings.title -%}
+            </div>
+
+          {% elsif block.type == 'spacer' %}
+
+
+              <div class="faq__spacer {% if block.settings.display_on_mobile %} visible-xs {% else %} hidden-xs{% endif %}"></div>
+
+
+          {%- endif -%}
+
+        </div>
+      {%- endfor -%}
+
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "404 Page",
+    "class": "template-error-page",
+    "settings": [
+       {
+        "type": "select",
+        "id": "section_layout",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "default",
+            "label": "Default"
+          },
+          {
+            "value": "center-content",
+            "label": "Center all content"
+          }
+        ],
+        "default": "default",
+        "info": "This layout will effect how all items on the page output"
+      },
+      {
+        "type": "range",
+        "id": "page_height",
+        "min": 0,
+        "max": 100,
+        "step": 10,
+        "unit": "%",
+        "label": "Height of page",
+        "default": 50
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Hero Banner",
+        "type": "hero-banner",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_mobile",
+            "label": "Small screen Image"
+          },
+          {
+            "type": "select",
+            "id": "alignment",
+            "label": "Image alignment",
+            "default": "center",
+            "options": [
+              {
+                "value": "top",
+                "label": "Top"
+              },
+              {
+                "value": "center",
+                "label": "Middle"
+              },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ]
+          },
+          {
+            "type": "richtext",
+            "id": "title",
+            "label": "Heading"
+          },
+          {
+            "type": "text",
+            "id": "sub_heading",
+            "label": "Sub Heading"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "select",
+            "id": "text_position",
+            "label": "Text Position",
+            "default": "center",
+            "options": [
+              {
+                "label": "Left",
+                "value": "left"
+              },
+              {
+                "label": "Centre",
+                "value": "center"
+              },
+              {
+                "label": "Right",
+                "value": "right"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "text_align",
+            "label": "Text Alignment",
+            "default": "center",
+            "options": [
+              {
+                "label": "Left",
+                "value": "left"
+              },
+              {
+                "label": "Centre",
+                "value": "center"
+              },
+              {
+                "label": "Right",
+                "value": "right"
+              }
+            ]
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_overlay",
+            "default": true,
+            "label": "Enable overlay for readability"
+          },
+          {
+            "type": "checkbox",
+            "id": "page_width",
+            "label": "Limit to content width",
+            "default": true
+          },
+          {
+            "type": "select",
+            "id": "theme",
+            "label": "Text colour",
+            "default": "light",
+            "options": [
+              {
+                "label": "Light",
+                "value": "light"
+              },
+              {
+                "label": "Dark",
+                "value": "dark"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Button 1"
+          },
+          {
+            "type": "text",
+            "id": "btn_text_1",
+            "label": "Button Text 1"
+          },
+          {
+            "type": "url",
+            "id": "btn_link_1",
+            "label": "Button Link 1"
+          },
+          {
+            "type": "select",
+            "id": "btn_style_1",
+            "label": "Button Style 1",
+            "options": [
+              {
+                "value": "primary",
+                "label": "Primary"
+              },
+              {
+                "value": "primary-o",
+                "label": "Primary Outline"
+              },
+              {
+                "value": "secondary",
+                "label": "Secondary"
+              },
+              {
+                "value": "secondary-o",
+                "label": "Secondary Outline"
+              },
+              {
+                "value": "tertiary",
+                "label": "Tertiary"
+              },
+              {
+                "value": "tertiary-o",
+                "label": "Tertiary Outline"
+              }
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "header",
+            "content": "Button 2"
+          },
+          {
+            "type": "text",
+            "id": "btn_text_2",
+            "label": "Button Text 2"
+          },
+          {
+            "type": "url",
+            "id": "btn_link_2",
+            "label": "Button Link 2"
+          },
+          {
+            "type": "select",
+            "id": "btn_style_2",
+            "label": "Button Style 2",
+            "options": [
+              {
+                "value": "primary",
+                "label": "Primary"
+              },
+              {
+                "value": "primary-o",
+                "label": "Primary Outline"
+              },
+              {
+                "value": "secondary",
+                "label": "Secondary"
+              },
+              {
+                "value": "secondary-o",
+                "label": "Secondary Outline"
+              },
+              {
+                "value": "tertiary",
+                "label": "Tertiary"
+              },
+              {
+                "value": "tertiary-o",
+                "label": "Tertiary Outline"
+              }
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "radio",
+            "id": "position",
+            "label": "Page Position",
+            "options": [{
+                "value": "header",
+                "label": "Header"
+              },
+              {
+                "value": "body",
+                "label": "Body"
+              },
+              {
+                "value": "sidebar",
+                "label": "Sidebar"
+              },
+              {
+                "value": "footer",
+                "label": "Footer"
+              }
+            ],
+            "default": "header",
+            "info": "set where the block appears"
+          }
+        ]
+      },
+      {
+        "name": "Button Group",
+        "type": "button-group",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Page header"
+          },
+          {
+            "type": "text",
+            "id": "subtitle",
+            "label": "SubTitle"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Body Text"
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+
+            ],
+            "default": "left"
+          },
+          {
+            "type": "header",
+            "content": "Button 1"
+          },
+          {
+            "type": "text",
+            "id": "btn_text_1",
+            "label": "Button Text 1"
+          },
+          {
+            "type": "url",
+            "id": "btn_link_1",
+            "label": "Button Link 1"
+          },
+          {
+            "type": "select",
+            "id": "btn_style_1",
+            "label": "Button Style 1",
+            "options": [
+              {
+                "value": "primary",
+                "label": "Primary"
+              },
+              {
+                "value": "primary-o",
+                "label": "Primary Outline"
+              },
+              {
+                "value": "secondary",
+                "label": "Secondary"
+              },
+              {
+                "value": "secondary-o",
+                "label": "Secondary Outline"
+              },
+              {
+                "value": "tertiary",
+                "label": "Tertiary"
+              },
+              {
+                "value": "tertiary-o",
+                "label": "Tertiary Outline"
+              }
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "header",
+            "content": "Button 2"
+          },
+          {
+            "type": "text",
+            "id": "btn_text_2",
+            "label": "Button Text 2"
+          },
+          {
+            "type": "url",
+            "id": "btn_link_2",
+            "label": "Button Link 2"
+          },
+          {
+            "type": "select",
+            "id": "btn_style_2",
+            "label": "Button Style 2",
+            "options": [
+              {
+                "value": "primary",
+                "label": "Primary"
+              },
+              {
+                "value": "primary-o",
+                "label": "Primary Outline"
+              },
+              {
+                "value": "secondary",
+                "label": "Secondary"
+              },
+              {
+                "value": "secondary-o",
+                "label": "Secondary Outline"
+              },
+              {
+                "value": "tertiary",
+                "label": "Tertiary"
+              },
+              {
+                "value": "tertiary-o",
+                "label": "Tertiary Outline"
+              }
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "header",
+            "content": "Button 3"
+          },
+          {
+            "type": "text",
+            "id": "btn_text_3",
+            "label": "Button Text 3"
+          },
+          {
+            "type": "url",
+            "id": "btn_link_3",
+            "label": "Button Link 3"
+          },
+          {
+            "type": "select",
+            "id": "btn_style_3",
+            "label": "Button Style 3",
+            "options": [
+              {
+                "value": "primary",
+                "label": "Primary"
+              },
+              {
+                "value": "primary-o",
+                "label": "Primary Outline"
+              },
+              {
+                "value": "secondary",
+                "label": "Secondary"
+              },
+              {
+                "value": "secondary-o",
+                "label": "Secondary Outline"
+              },
+              {
+                "value": "tertiary",
+                "label": "Tertiary"
+              },
+              {
+                "value": "tertiary-o",
+                "label": "Tertiary Outline"
+              }
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "header",
+            "content": "Button 4"
+          },
+          {
+            "type": "text",
+            "id": "btn_text_4",
+            "label": "Button Text 4"
+          },
+          {
+            "type": "url",
+            "id": "btn_link_4",
+            "label": "Button Link 4"
+          },
+          {
+            "type": "select",
+            "id": "btn_style_4",
+            "label": "Button Style 4",
+            "options": [
+              {
+                "value": "primary",
+                "label": "Primary"
+              },
+              {
+                "value": "primary-o",
+                "label": "Primary Outline"
+              },
+              {
+                "value": "secondary",
+                "label": "Secondary"
+              },
+              {
+                "value": "secondary-o",
+                "label": "Secondary Outline"
+              },
+              {
+                "value": "tertiary",
+                "label": "Tertiary"
+              },
+              {
+                "value": "tertiary-o",
+                "label": "Tertiary Outline"
+              }
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "name": "Header",
+        "type": "header",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Page header"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "subtitle",
+            "label": "SubTitle"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Body Text"
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+
+            ],
+            "default": "left"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "name": "Page Button",
+        "type": "button",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "btn_text",
+            "label": "Submit Text"
+          },
+          {
+            "type": "url",
+            "id": "btn_link",
+            "label": "Btn Link"
+          },
+          {
+            "type": "select",
+            "id": "button_style",
+            "label": "Text Alignment",
+            "options": [
+              {
+                "value": "primary",
+                "label": "Primary"
+              },
+              {
+                "value": "primary-o",
+                "label": "Primary Outline"
+              },
+              {
+                "value": "secondary",
+                "label": "Secondary"
+              },
+              {
+                "value": "secondary-o",
+                "label": "Secondary Outline"
+              },
+              {
+                "value": "tertiary",
+                "label": "Tertiary"
+              },
+              {
+                "value": "tertiary-o",
+                "label": "Tertiary Outline"
+              }
+            ],
+            "default": "primary"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "name": "Related Products",
+        "type": "related-products",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enable_slider",
+            "default": true,
+            "label": "Enable Slider"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Related Products Collection"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "header",
+            "content": "Slider Options"
+          },
+          {
+            "type": "range",
+            "id": "show_desktop",
+            "min": 1,
+            "max": 6,
+            "step": 0.5,
+            "unit": "sli",
+            "label": "Number of Slides to show",
+            "default": 3
+          },
+          {
+            "type": "range",
+            "id": "show_tablet",
+            "min": 1,
+            "max": 6,
+            "step": 0.5,
+            "unit": "sli",
+            "label": "Number of Slides to show",
+            "default": 2
+          },
+          {
+            "type": "range",
+            "id": "show_mobile",
+            "min": 1,
+            "max": 6,
+            "step": 0.5,
+            "unit": "sli",
+            "label": "Number of Slides to show",
+            "default": 1
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" },
+                { "value": "subfooter", "label": "Subfooter" }
+
+             ],
+             "default":"footer",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Image",
+        "type": "image",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image for large devices",
+            "info": "Images should be a minimum of 1600px wide x 900px tall. Larger images will be sized to fit automatically."
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "name": "Spacer",
+        "type": "spacer",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "display_on_mobile",
+            "default": false,
+            "label": "Display on Mobile"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -5,
+            "max": 5,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          }
+        ]
+      }
+    ],
+    "default": {
+      "settings": {
+        "section_layout":"center-content"
+      },
+      "blocks": [
+        {
+          "type": "button-group",
+          "settings": {
+            "subtitle": "oops, something's gone wrong...",
+            "text": "<p>Sorry, the page you were looking for is no longer available.</p>",
+            "text_alignment":"center",
+            "btn_text_1": "Home",
+            "btn_link_1": "/",
+            "btn_text_2": "Explore our products",
+            "btn_link_2": "shopify:\/\/collections",
+            "btn_text_3": "Contact Us",
+            "btn_link_3": "shopify:\/\/pages\/contact-us",
+            "btn_text_4": "About Us",
+            "btn_link_4": "shopify:\/\/pages\/about-us",
+            "width":6
+          }
+        }
+      ]
+    }
+  }
+{% endschema %}

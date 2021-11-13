@@ -1,0 +1,83 @@
+{%- assign simple = simple | default: false -%}
+{%- assign limit = limit | default: 999 -%}
+{% assign class = '' %}
+{% if customer.orders.size == 0 %}
+  {% assign class = 'account__table--empty' %}
+{% endif %}
+<div class="order-history-table account__table {{ class }}">
+  {% paginate customer.orders by 20 %}
+    {% if customer.orders.size != 0 %}
+
+      <table class="">
+        <thead>
+          <tr>
+            <th>{{ 'customer.orders.order_number' | t }}</th>
+            <th>{{ 'customer.orders.date' | t }}</th>
+            {% unless simple == true %}<th>{{ 'customer.orders.total' | t }}</th>{% endunless %}
+            {% comment %}
+              {% unless simple == true %}<th class="hidden-xs">{{ 'customer.orders.payment_status' | t }}</th>{% endunless %}
+            {% endcomment %}
+            <th class="hidden-xs hidden-sm">{{ 'customer.orders.address' | t }}</th>
+            <th>{{ 'customer.orders.order_status' | t }}</th>
+            <th class="hidden-xs text-center">{{ 'customer.orders.order_details' | t }}</th>
+            <th class="hidden-xs">{{ 'customer.orders.reorder' | t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for order in customer.orders, limit: limit -%}
+
+            {%- assign reorder_link = '' -%}
+            {%- for line_item in order.line_items -%}
+              {%- if line_item.product.id -%}
+                {%- assign reorder_link = reorder_link | append: line_item.variant_id | append: ':' | append: line_item.quantity -%}
+                {%- assign reorder_link = reorder_link | append: ',' -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- assign reorder_link = reorder_link | strip | split: "" | reverse | join: "" | remove_first: ',' | split: "" | reverse | join: "" -%}
+            {% assign order_address = order.billing_address.address1 | append: ' ' | append: order.billing_address.address2 %}
+            {% assign order_address_full = order_address | append: ', ' | append: order.billing_address.country  | append: ', ' | append: order.billing_address.city %}
+
+            <tr>
+              <td data-label="{{ 'customer.orders.order_number' | t }}">{{ order.name }}</td>
+              <td data-label="{{ 'customer.orders.date' | t }}">{{ order.created_at | date: "%d/%m/%y" }}</td>
+              {% unless simple == true %}<td data-label="{{ 'customer.orders.total' | t }}">{{ order.total_price | money }}</td>{% endunless %}
+              {% comment %}
+                {% unless simple == true %}<td class="hidden-xs" data-label="{{ 'customer.orders.payment_status' | t }}">{{ order.financial_status_label }}</td>{% endunless %}
+              {% endcomment %}
+             <td class="hidden-xs hidden-sm" data-label="{{ 'customer.orders.address' | t }}">{{ order_address_full | truncatewords: 7 }}</td>
+              <td data-label="{{ 'customer.orders.fulfillment_status' | t }}">
+                <span class="order-fulfillment-status" data-status="{{ order.fulfillment_status_label }}">
+                   {% if order.fulfillment_status_label == 'Fulfilled' %}
+                     {{ 'customer.order.fulfillment_done' | t }}
+                   {% else elsif order.fulfillment_status_label == 'Unfulfilled' %}
+                     {{ 'customer.order.fulfillment_process' | t }}
+                     {% elsif order.fulfillment_status_label == 'Cancelled' %}
+                     {{ 'customer.order.fulfillment_cancelled' | t }}
+                   {% endif %}
+                </span></td>
+              <td class="order-history-table__view text-center" data-label="{{ 'customer.orders.order_details' | t }}">
+                 <a class="hidden-xs hidden-sm" href="{{ order.customer_url }}">{{ 'customer.orders.view' | t }}</a>
+                 <a class="order-history-table__mob-link hidden-md hidden-lg hidden-xl" href="{{ order.customer_url }}">
+                   {%- include 'icon' with 'order-arrow-right' -%}
+                 </a>
+              </td>
+              <td class="hidden-xs" data-label="{{ 'customer.orders.reorder' | t }}">
+                {%- if reorder_link != blank -%}
+                  <a href="/cart/{{ reorder_link }}" data-no-instant>{{ 'customer.orders.add_cart_to_order' | t }}</a>
+                {%- endif -%}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+
+    {%- else -%}
+
+      <p>{{ 'customer.orders.none' | t }}</p>
+
+    {%- endif -%}
+    {% if paginate.pages > 1 %}
+      {%- include 'pagination' -%}
+    {% endif %}
+  {% endpaginate %}
+</div>

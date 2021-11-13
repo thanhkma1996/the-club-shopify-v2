@@ -1,0 +1,12 @@
+{% if product.metafields.feature.article != blank %}
+  {% include 'product-features' %}
+{% endif %}
+{% if product.metafields.accentuate.special_ingredients_title != blank and product.metafields.ingredients.image != blank %}
+  {% include 'special_ingredients' %}
+{% endif %}
+{% if product.metafields.feeding.feeding_image != blank and product.metafields.feeding.feeding_small_title != blank %}
+  {% include 'feeding' %}
+{% endif %}
+{% if product.metafields.faq.faq_question != blank %}
+  {% include 'product-faq' %}
+{% endif %}

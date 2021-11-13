@@ -1,0 +1,163 @@
+{%- assign current_product = price | default: product -%}
+{%- assign current_variant = current_product.selected_or_first_available_variant -%}
+{%- assign current_product_price_varies = current_product.price_varies -%}
+
+{%- if current_variant == blank -%}
+  {%- assign current_variant = current_product -%}
+  {%- assign current_product = product -%}
+  {%- assign current_product_price_varies = false -%}
+{%- endif -%}
+
+{%- assign attribute_prefix = '' -%}
+{%- unless current_product -%}
+{%- assign attribute_prefix = binder_prefix | default: 'rv-' -%}
+{%- endunless -%}
+
+{%- if template.name == 'product' and current_product.id == product.id -%}
+  {%- assign output_price = current_variant.price | default: current_product.price -%}
+{%- else -%}
+  {%- assign output_price = current_variant.price | default: current_product.price_min | default: current_variant.price | default: current_product.price -%}
+{%- endif -%}
+
+{%- assign product_on_sale = false -%}
+
+{%- assign from_text = from_text | default: false -%}
+
+{% comment %}
+{%- if current_product.compare_at_price > output_price or current_product.compare_at_price_varies -%}
+  {%- assign product_on_sale = true -%}
+{%- endif -%}
+
+{%- if from_text and current_product.compare_at_price_max > output_price -%}
+  {%- assign product_on_sale = true -%}
+{%- endif -%}
+{% endcomment %}
+
+<span data-price-wrapper class="product__price {{ class }}{% unless current_product.available %} product__price--sold-out{% endunless %}{% if product_on_sale %} product__price--on-sale{% endif %}" {% unless current_product %}{{ attribute_prefix }}class-product__price--on-sale="" {% endunless %} {{ attribute_prefix }}itemprop="offers" {{ attribute_prefix }}itemscope {{ attribute_prefix }}itemtype="http://schema.org/Offer">
+  <meta {{ attribute_prefix }}itemprop="priceCurrency" content="{{ shop.currency }}" />
+  <meta {{ attribute_prefix }}itemprop="price" content="{{ output_price | money_without_currency }}" />
+  <link {{ attribute_prefix }}itemprop="availability" href="http://schema.org/{% if current_product.available %}InStock{% else %}OutOfStock{% endif %}">
+  <meta {{ attribute_prefix }}itemprop="itemCondition" {{ attribute_prefix }}itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition" />
+  <meta {{ attribute_prefix }}itemprop="url" content="{{ shop.url }}{{ current_product.selected_or_first_available_variant.url }}">
+
+  {%- capture product_price_output -%}
+    <span data-product-price>
+
+      {% unless current_product %}
+
+        <span {{ attribute_prefix }}if="product.variants | check_variants_null" {{ attribute_prefix }}html="product.variants | return_available_variant_price | money_without_trailing_zeros shop.currency">
+          </span>
+
+        <span {{ attribute_prefix }}if="product.variants | check_variants_count">
+             {{ 'products.product.in_store_only' | t }}
+          </span>
+
+      {% endunless %}
+
+   {% if current_product %}
+      {%- if current_variant.price > 0 -%}
+
+        {{ output_price | money }}
+
+        {% comment %}
+          <span class="product__price-currency">{{ shop.currency }}</span>
+        {% endcomment %}
+
+        {% elsif product.variants[0].price > 0 %}
+         {{ product.variants[0].price | money }}
+       {%- else -%}
+        {{ 'products.product.in_store_only' | t }}
+      {%- endif -%}
+      {% endif %}
+    </span>
+  {%- endcapture -%}
+
+  {%- capture product_variant_output -%}
+    {% unless disable_variant_prefix %}
+      <span data-variant-price {% unless current_product %}{{ attribute_prefix }}text="product.variants | return_available_variant | prepend '/ '" {{ attribute_prefix }}if="product.tags | includes 'merchandise' | not"{% endunless %}>
+        {% unless product.tags contains 'merchandise' %}
+          {%- if product.variants -%}
+            <span> / {{ product.variants[0].title }}</span>
+          {%- endif -%}
+        {% endunless %}
+    </span>
+    {%- endunless -%}
+  {%- endcapture -%}
+
+  {%- if from_text -%}
+
+    {%- if current_product_price_varies or current_product == blank -%}
+
+      <span {% unless current_product %}{{ attribute_prefix }}if="product.price_varies" {% endunless %} class="product__price-text product__price-text--price-from">
+        {%- if current_product == blank or current_product.compare_at_price_min > 0 and current_product.compare_at_price_min != blank -%}
+          <span {% unless current_product %}{{ attribute_prefix }}if="product.compare_at_price"{% endunless %}>
+            {% comment %}
+            {{ 'products.product.on_sale_from_html' | t: price: product_price_output }} {{ product_variant_output }}
+           {% endcomment %}
+            {{ 'products.product.from_text_html' | t: price: product_price_output }} {{ product_variant_output }}
+
+          </span>
+        {%- endif -%}
+        {%- if current_product == blank or current_product.compare_at_price_min == 0 or current_product.compare_at_price_min == blank -%}
+          <span {% unless current_product %}{{ attribute_prefix }}if="product.compare_at_price | not"{% endunless %}>
+            {{ 'products.product.from_text_html' | t: price: product_price_output }} {{ product_variant_output }}
+          </span>
+        {%- endif -%}
+      </span>
+
+    {%- endif -%}
+
+    {%- if current_product_price_varies == false or current_product == blank -%}
+    <span {% unless current_product %}{{ attribute_prefix }}if="product.price_varies | not" {% endunless %} class="product__price-text">
+        <span>
+          {{ product_price_output }} {{ product_variant_output }}
+        </span>
+      </span>
+  {%- endif -%}
+
+  {%- else -%}
+
+    <span {% unless current_product %}{{ attribute_prefix }}if="product.price_varies | not" {% endunless %} class="product__price-text">
+      <span>
+        {{ product_price_output }} {{ product_variant_output }}
+      </span>
+    </span>
+
+  {%- endif -%}
+
+  {%- if product_on_sale or current_product == blank %}
+    {%- comment -%}<span class="visually-hidden" data-compare-text>{{ 'products.product.regular_price' | t }}</span>{%- endcomment -%}
+
+    {%- capture compare_price_prefix %}{{ 'products.product.regular_price' | t | escape }} {% endcapture -%}
+    {%- capture compare_price_suffix %}{% endcapture -%}
+    <s data-compare-price data-prefix-string="{{ compare_price_prefix | escape }}" data-suffix-string="{{ compare_price_suffix | escape }}" {% unless current_product %}{{ attribute_prefix }}if="product.compare_at_price" {{ attribute_prefix }}html="product.compare_at_price | money_without_trailing_zeros shop.currency | prepend '{{ compare_price_prefix | escape }}' | append '{{ compare_price_suffix | escape }}'"{% endunless %}>
+      {{ compare_price_prefix }}{{ current_product.compare_at_price | money_without_trailing_zeros }}{{ compare_price_suffix }}
+    </s>
+  {% endif -%}
+
+  {%- unless shop.enabled_payment_types == empty %}
+    {%- for type in shop.enabled_payment_types -%}
+      {%- capture translation_string %}general.payment_types.{{ type }}{% endcapture -%}
+      {%- assign payment_type = translation_string | t -%}
+
+      {%- if payment_type contains translation_string -%}
+        {%- assign payment_type = type | capitalize | replace: '_', ' ' -%}
+      {%- endif -%}
+
+      <meta {{ attribute_prefix }}itemprop="acceptedPaymentMethod" content="{{ payment_type }}" />
+    {%- endfor -%}
+  {%- endunless -%}
+
+  {%- if afterpay_enabled and output_price <= 100000 -%}
+    <meta {{ attribute_prefix }}itemprop="acceptedPaymentMethod" content="Afterpay" />
+  {%- endif -%}
+
+  {% comment %}<span itemprop="warranty" itemscope itemtype="https://schema.org/WarrantyPromise">
+    <span itemprop="durationOfWarranty" itemscope itemtype="https://schema.org/QuantitativeValue">
+       <span itemprop="value" content="30" />
+       <meta itemprop="unitCode" content="DAY" />
+    </span>
+  </span>{% endcomment %}
+</span>
+
+{%- assign from_text = null -%}

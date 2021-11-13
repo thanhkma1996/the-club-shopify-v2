@@ -1,0 +1,89 @@
+<div data-section-id="{{ section.id }}" data-section-type="dashboard-place-order">
+
+  {%- assign tabs = '' -%}
+
+  {%- assign tabs = tabs | prepend: ',search#Search' -%}
+
+  {%- assign tabs = tabs | append: ',eat#Eat,drink#Drink' -%}
+
+  {%- if settings.popular_collection -%}
+    {%- assign tabs = tabs | append: ',popular#Popular' -%}
+  {%- endif -%}
+
+  {%- if customer.orders.size > 0 -%}
+    {%- assign tabs = tabs | append: ',recent#Recently Ordered' -%}
+  {%- endif -%}
+
+  {%- assign tabs = tabs | append: ',cart#My Cart' -%}
+
+  {%- assign tabs = tabs | replace_first: ',', '' | split: ',' -%}
+
+  <div class="tabs-group tabs-group--dashboard" id="tabs--{{ section.id }}">
+
+    <div class="tabs-group__tabs">
+
+      {% for tab in tabs %}
+
+        {%- assign tab_handle = tab | split: '#' | first -%}
+        {%- assign tab_name = tab | split: '#' | last -%}
+
+        <div class="tabs-group__tab" data-tab="{{ forloop.index }}" data-tab-title="{{ tab_name }}">
+          {%- case tab_handle -%}
+
+            {%- when 'search' -%}
+
+              {%- include 'tab--search' -%}
+
+            {%- when 'popular' -%}
+
+              {%- assign collection = collections[settings.popular_collection] -%}
+              {%- include 'tab--collection' with collection: collection -%}
+
+            {%- when 'full-range' -%}
+
+              {%- assign collection = collections[settings.full_range_collection] -%}
+              {%- include 'tab--collection' with collection: collection -%}
+
+            {%- when 'eat' -%}
+
+              {%- assign collection = collections[settings.eat_collection] -%}
+              {%- include 'tab--collection' with collection: collection -%}
+
+            {%- when 'drink' -%}
+
+              {%- assign collection = collections[settings.drink_collection] -%}
+              {%- include 'tab--collection' with collection: collection -%}
+
+            {%- when 'recent' -%}
+
+              {%- include 'tab--recent' -%}
+
+            {%- when 'cart' -%}
+
+              <div data-cart-view>
+                {%- include 'tab--cart' -%}
+              </div>
+
+            {%- else -%}
+
+              <pre>No tab found :(</pre>
+
+          {%- endcase -%}
+        </div>
+
+      {% endfor %}
+
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Place Order",
+    "class": "place-order-section",
+    "settings": [
+      
+    ]
+  }
+{% endschema %}

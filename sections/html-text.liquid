@@ -1,0 +1,35 @@
+  <div class="container" data-section-id="{{ section.id }}">
+      
+    <div class="row">
+      {% if section.settings.text != blank %}
+        {{ section.settings.text }}
+      {% endif %}
+    
+    </div>
+      
+  </div>
+
+{% schema %}
+  {
+    "name": "HTML Text",
+    "settings": [
+	      {
+        "type":"textarea",
+        "id": "text",
+        "label": "Text"
+      }
+    ],
+    "presets": [
+         {
+          "name": "HTML Text",
+          "category": "Text"
+         }
+       ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

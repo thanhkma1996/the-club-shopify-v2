@@ -1,0 +1,71 @@
+{%- assign cols = blank -%}
+{%- include 'collection-grid-items-cols' -%}
+
+{%- assign search_results_count = 0 -%}
+
+{%- capture search_results_grid %}
+  {%- paginate search.results by 999 -%}
+    <div class="row">
+
+      {%- for item in search.results -%}
+        {%- if item.object_type != 'product' -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        {%- assign product = item -%}
+
+        {%- unless product.handle -%}
+          {%- continue -%}
+        {%- endunless -%}
+
+        {%- if product_handles_rendered contains product.handle -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        {%- include 'user-can-view-product' -%}
+
+        {%- if user_can_view_product -%}
+
+          <div class="{{ cols }}">
+            {%- render 'product-grid-item', product: product, order_form: true -%}
+          </div>
+
+          {%- assign search_results_count = search_results_count | plus: 1 -%}
+        {%- endif -%}
+
+        
+      {%- endfor -%}
+      
+    </div>
+  {%- endpaginate -%}
+{% endcapture -%}
+
+<div class="search-tab">
+
+  <div class="search-tab__bar">
+    {%- include 'search-bar' -%}
+  </div>
+
+  <div class="search-tab__title">
+    <h5>
+      {%- if search.performed -%}
+        {%- if search_results_count == 0 -%}
+          {{ 'general.search.no_results_html' | t: terms: search.terms }}
+        {%- else -%}
+          {{ 'general.search.results_for_html' | t: terms: search.terms, count: search_results_count }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'general.search.title' | t }}
+      {%- endif -%}
+    </h5>
+  </div>
+
+  <div class="search-tab__content">
+
+    {%- if search.performed -%}
+      {{ search_results_grid }}
+    {%- endif -%}
+
+  </div>
+
+</div>

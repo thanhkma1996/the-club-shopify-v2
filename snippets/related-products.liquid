@@ -1,0 +1,100 @@
+{% comment %}
+If related products are used outside of the product container on product pages (the div that has itemscope, itemtype attributes), you need to add this line alongside those attributes:
+{% if related_product_ids != blank %} itemref="{{ related_product_ids }}"{% endif %}
+{% endcomment %}
+
+{%- assign number_of_related_products_per_row = 4 -%}
+{%- assign number_of_rows = 1 -%}
+{%- assign heading = section.settings.related_title -%}
+{%- assign same_vendor = false -%}
+{%- assign same_type = false -%}
+{%- assign exclusions = 'frontpage,all' | split: ',' -%}
+{%- assign related_product_ids = '' -%}
+
+{%- if product.metafields.related.collection != blank -%}
+  {%- assign collection = collections[product.metafields.related.collection] -%}
+{%- endif -%}
+
+{%- assign found_a_collection = false -%}
+
+{%- if collection and collection.all_products_count > 1 -%}
+  {%- unless exclusions contains collection.handle -%}
+    {%- assign found_a_collection = true -%}
+  {%- endunless -%}
+{%- endif -%}
+
+{%- unless found_a_collection -%}
+  {%- for c in product.collections -%}
+    {%- unless exclusions contains c.handle or c.all_products_count < 2 -%}
+      {%- assign found_a_collection = true -%}
+      {%- assign collection = c -%}
+      {%- break -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endunless -%}
+
+{%- if found_a_collection -%}
+
+  {%- assign counter = 0 -%}
+  {%- assign break_at = number_of_rows | times: number_of_related_products_per_row -%}
+  {%- assign current_product = product -%}
+  {%- assign passed_titles = current_product.title -%}
+  
+  {%- case number_of_related_products_per_row -%}
+    {%- when '1' -%}
+      {%- assign grid_item_width = '' -%}
+    {%- when '2' -%}
+      {%- assign grid_item_width = 'col-xs-6' -%}
+    {%- when '3' -%}
+      {%- assign grid_item_width = 'col-xs-6 col-sm-4' -%}
+    {%- when '4' -%}
+      {%- assign grid_item_width = 'col-xs-6 col-sm-3' -%}
+    {%- when '5' -%}
+      {%- assign grid_item_width = 'col-xs-6 col-sm-2' -%}
+    {%- when '6' -%}
+      {%- assign grid_item_width = 'col-xs-6 col-sm-2' -%}
+    {%- else -%}
+      {%- assign grid_item_width = 'col-xs-6 col-sm-3' -%}
+  {%- endcase -%}
+
+  {%- capture related_items -%}
+    {%- for product in collection.products -%}
+      {%- if product.available -%}
+        {%- unless passed_titles contains product.title -%}
+          {%- unless product.handle == current_product.handle -%}
+            {%- unless same_vendor and current_product.vendor != product.vendor -%}
+              {%- unless same_type and current_product.type != product.type -%}
+                <div class="{{ grid_item_width }}">
+                  {%- render 'product-grid-item', product: product, related: true -%}
+                </div>
+                {%- assign related_product_ids = related_product_ids | append: product_element_id | append: ' ' -%}
+                {%- assign counter = counter | plus: 1 -%}
+                {%- assign passed_titles = passed_titles | append: '##' | append: product.title -%}
+                {%- if counter == break_at -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endunless -%}
+            {%- endunless -%}
+          {%- endunless -%}
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- assign related_items = related_items | trim -%}
+  {%- unless related_items == blank -%}
+    <aside>
+      {%- unless heading == blank -%}
+        <header class="section-header">
+          <h2 class="section-header__title text-center">
+            <span>{{ heading }}</span>
+          </h2>
+        </header>
+      {%- endunless -%}
+      <div class="row">
+        {{ related_items }}
+      </div>
+    </aside>
+  {%- endunless -%}
+     
+{%- endif -%}

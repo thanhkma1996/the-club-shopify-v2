@@ -1,0 +1,192 @@
+<div data-section-id="{{ section.id }}" data-section-type="featured-products">
+  {%- if section.blocks.size > 0 or section.settings.collection != blank -%}
+    <div class="section">
+      <div class="container page-width">
+        {%- if section.settings.title != blank -%}
+          <div class="section-header text-center">
+            <h2 class="section-header__title">
+              <span>{{ section.settings.title | escape }}</span>
+            </h2>
+          </div>
+        {%- endif -%}
+
+        <div class="row">
+          <div class="col-xs-12 featured-products featured-products--{{ section.settings.layout }}">
+
+            {%- if section.settings.layout == 'feature-block' -%}
+              <div class="featured-product-masthead"
+                   id="featured-products-masthead-{{ section.id }}"
+                   data-fade="true"
+                   data-wait-for-animate="false"
+                   {% unless section.settings.autoplay == 'disabled' -%}
+                     data-autoplay="{% if section.settings.autoplay == 'mobile' %}false{% else %}true{% endif %}"
+                     data-autoplay-mobile="{% if section.settings.autoplay == 'desktop' %}false{% else %}true{% endif %}"
+                     data-speed="{{ section.settings.autoplay_speed }}"
+                   {% endunless -%}>
+                  
+                {%- for block in section.blocks -%}
+                  <div class="featured-product-masthead__inner" {{ block.shopify_attributes }}>
+                    {%- include 'img' with block.settings.background_image, img_class: 'featured-products__background-image' -%}
+                    {%- if block.settings.title != blank or block.settings.subtitle != blank or block.settings.text != blank -%}
+                      <div class="featured-products-masthead__text rte inverse">
+                        <div class="featured-products-masthead__title h2">
+                          {{ block.settings.title }}
+                        </div>
+
+                        <div class="featured-products-masthead__subtitle h5">
+                          {{ block.settings.subtitle }}
+                        </div>
+                        
+                        {%- assign list_items = block.settings.text | newline_to_br | split: '<br />' -%}
+                        <ul class="featured-products-masthead__list">
+                          {%- for item in list_items -%}
+                            <li>{{ item }}</li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            <div class="featured-product"
+                 id="featured-products-{{ section.id }}"
+                 data-arrows="true"
+                 data-prev-arrow="#slideshow-prev-{{ section.id }}"
+                 data-next-arrow="#slideshow-next-{{ section.id }}"
+                 {% if section.settings.layout == 'feature-block' -%}
+                   data-slides-show-desktop="4"
+                   data-slides-show-mobile="1"
+                   data-as-nav-for="#featured-products-masthead-{{ section.id }}"
+                 {% endif -%}
+                 {% unless section.settings.autoplay == 'disabled' -%}
+                   data-autoplay="{% if section.settings.autoplay == 'mobile' %}false{% else %}true{% endif %}"
+                   data-autoplay-mobile="{% if section.settings.autoplay == 'desktop' %}false{% else %}true{% endif %}"
+                   data-speed="{{ section.settings.autoplay_speed }}"
+                 {% endunless -%}>
+
+              {%- for block in section.blocks -%}
+                {%- assign product = all_products[block.settings.product] -%}
+                <div class="featured-products__slide">
+                  {%- if section.settings.layout == 'feature-block' -%}
+                    {%- render 'product-grid-item', product: product, style: 'simple' -%}
+                  {%- else -%}
+                    {%- render 'product-feature-item', product: product -%}
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" id="slideshow-prev-{{ section.id }}" class="slideshow__prev slideshow__prev--styled featured-products__prev">
+      {%- render 'icon' with 'arrow-left' -%}
+    </button>
+    <button type="button" id="slideshow-next-{{ section.id }}" class="slideshow__next slideshow__next--styled featured-products__next">
+      {%- render 'icon' with 'arrow-right' -%}
+    </button>
+  {%- endif -%}
+</div>
+
+{% schema %}
+  {
+    "name": "Featured products",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured products"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "options": [
+          { "value": "default", "label": "Default"},
+          { "value": "feature-block", "label": "With feature area"}
+        ],
+        "label": "Layout",
+        "default": "default"
+      },
+      {
+        "type": "select",
+        "id": "autoplay",
+        "options": [
+          { "value": "disabled", "label": "Disabled"},
+          { "value": "mobile", "label": "On small screens only"},
+          { "value": "desktop", "label": "On large screens only"},
+          { "value": "all", "label": "On all screen sizes"}
+        ],
+        "label": "Auto-rotate slides",
+        "default": "disabled"
+      },
+      {
+        "type": "select",
+        "id": "autoplay_speed",
+        "label": "Change slides every",
+        "options": [
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "7000"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show Vendor",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "View Product"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Featured product",
+        "settings": [
+          {
+            "type": "paragraph",
+            "content": "Some settings may be ignored based on selected layout."
+          },
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "subtitle",
+            "label": "Subtitle"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "image_picker",
+            "id": "background_image",
+            "label": "Background Image"
+          }
+        ]
+      }
+    ]
+  }
+
+{% endschema %}

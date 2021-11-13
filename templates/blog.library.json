@@ -1,0 +1,54 @@
+{
+  "sections": {
+    "main": {
+      "type": "template-library",
+      "blocks": {
+        "0fce0a5f-2123-4189-b061-d5aa3ab4edc7": {
+          "type": "filter",
+          "settings": {
+            "title": "Health & Nutrition Library",
+            "filter": "account-navigation",
+            "filter_type": "tabs",
+            "show_label": true,
+            "remove_icon": "close",
+            "width": 12,
+            "position": "body"
+          }
+        },
+        "e06c093e-13a2-4236-97e8-80a92a6f405d": {
+          "type": "articles",
+          "settings": {
+            "menu_title": "Topics",
+            "show_menu": true,
+            "title": "All resources",
+            "width": 12,
+            "pagination_type": "pages",
+            "articles_length": 6,
+            "width_desktop": 4,
+            "width_tablet": 6,
+            "width_mobile": 12
+          }
+        }
+      },
+      "block_order": [
+        "0fce0a5f-2123-4189-b061-d5aa3ab4edc7",
+        "e06c093e-13a2-4236-97e8-80a92a6f405d"
+      ],
+      "settings": {
+      }
+    },
+    "1636699803bdf3fcc2": {
+      "type": "call-to-action",
+      "settings": {
+        "title": "Section Heading",
+        "text": "This section can contain a call to action, and link to a product or page with the button below. All elements are optional.",
+        "btn_text": "View More",
+        "btn_url": "shopify:\/\/pages\/subscription"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "1636699803bdf3fcc2"
+  ]
+}

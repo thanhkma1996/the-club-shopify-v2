@@ -1,0 +1,94 @@
+{
+  "sections": {
+    "main": {
+      "type": "template-blog",
+      "blocks": {
+        "5a054374-b246-4bd4-bbe4-cb7de6a9a6b9": {
+          "type": "hero-banner",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/lulu-swivel-glider-pearl-grey-2-94788.1602737925-7.jpg",
+            "image_mobile": "shopify:\/\/shop_images\/lulu-swivel-glider-pearl-grey-2-94788.1602737925-7.jpg",
+            "image_alignment": "center",
+            "enable_breadrcrumb": true,
+            "title": "Pasture management for horses with metabolic related disorders",
+            "text": "<p>The accumulation of certain carbohydrates including fructans, starches, and sugars (Non-Structural Carbohydrates, NSC)…<\/p>",
+            "text_alignment": "center",
+            "text_position": "middle",
+            "button_label": "READ MORE",
+            "button_link": "shopify:\/\/pages\/contact-us",
+            "theme": "light",
+            "width": 12,
+            "position": "header"
+          }
+        },
+        "088ced09-071a-4c99-9a42-37e918c8c1bb": {
+          "type": "filter",
+          "settings": {
+            "title": "",
+            "filter": "drnks-club",
+            "filter_type": "dropdown",
+            "show_label": true,
+            "remove_icon": "close",
+            "width": 12,
+            "position": "body"
+          }
+        },
+        "1c12d7e7-60af-436d-906a-946321a0fa30": {
+          "type": "articles",
+          "settings": {
+            "layout": "default",
+            "width": 12,
+            "pagination_type": "pages",
+            "articles_length": 6,
+            "width_desktop": 4,
+            "width_tablet": 6,
+            "width_mobile": 12,
+            "position": "body"
+          }
+        }
+      },
+      "block_order": [
+        "5a054374-b246-4bd4-bbe4-cb7de6a9a6b9",
+        "088ced09-071a-4c99-9a42-37e918c8c1bb",
+        "1c12d7e7-60af-436d-906a-946321a0fa30"
+      ],
+      "settings": {
+      }
+    },
+    "1636699128cfd6e1a6": {
+      "type": "featured-collections",
+      "blocks": {
+        "4579cb8d-ee46-4b0b-8bd4-5e504d0db3c5": {
+          "type": "collection",
+          "settings": {
+            "title": "",
+            "collection": "listing-product",
+            "limit": 6
+          }
+        }
+      },
+      "block_order": [
+        "4579cb8d-ee46-4b0b-8bd4-5e504d0db3c5"
+      ],
+      "settings": {
+        "title": "Featured collection",
+        "autoplay": "mobile",
+        "autoplay_speed": "7000"
+      }
+    },
+    "1636698965048d9451": {
+      "type": "call-to-action",
+      "settings": {
+        "title": "Section Heading",
+        "text": "This section can contain a call to action, and link to a product or page with the button below. All elements are optional.",
+        "btn_text": "View More",
+        "btn_url": "shopify:\/\/pages\/contact-us"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "1636699128cfd6e1a6",
+    "1636698965048d9451"
+  ]
+}

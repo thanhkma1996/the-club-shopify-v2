@@ -1,0 +1,25 @@
+{%- assign faq = faq | default: null -%}
+{%- capture active_class %}
+{% if faq and block.settings.show_first_accordion and first_faq == true %} active {% endif %}
+{% endcapture -%}
+
+<div class="faq-item simple-accordion" data-simple-accordion>
+  <div class="simple-accordion__title {{ active_class }}faq-item__title">
+    <span class="faq-item__question">
+      {%- if faq -%}
+        {{ question }}
+      {%- else -%}
+        {question}
+      {%- endif -%}
+    </span>
+  </div>
+  <div class="faq-item__content {{ active_class }}">
+    <div class="faq-item__answer rte">
+      {%- if faq -%}
+        {{ answer }}
+      {%- else -%}
+        {answer}
+      {%- endif -%}
+    </div>
+  </div>
+</div>

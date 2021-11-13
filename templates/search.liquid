@@ -1,0 +1,7 @@
+{% section 'header-image' %}
+
+{%- if settings.search_provider == 'boost' -%}
+  {%- section 'collection' -%}
+{%- else -%}
+  {%- include 'template-search' -%}
+{%- endif -%}
