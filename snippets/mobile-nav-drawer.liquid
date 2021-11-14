@@ -1,24 +1,24 @@
-{%- assign outerLoopIndex = 0 -%}
-<nav id="MobileNavDrawer" class="mobile-nav-drawer drawer--full-width drawer drawer--left" role="navigation">
-
-  <div class="mobile-nav__inner">
-    <div class="mobile-nav__scroll" rv-transformx="data.depth | times 100 | times -1 | append '%'">
-
-      {%- include 'site-nav' with settings.primary_linklist_mobile,
-        type: 'mobile-nav',
-        id: 'MobileNav',
-        dropdown: false,
-        inline: false -%}
-      {%- include 'site-nav' with settings.secondary_linklist_mobile,
-        type: 'mobile-nav',
-        id: 'SecondaryMobileNav',
-        dropdown: false,
-        inline: false -%}
-      <div class="site-nav site-nav--mobile-nav">
-        {%- include 'nav-drawer-footer' -%}
-      </div>
-    </div>
-
-  </div>
-
-</nav>
+{%- assign outerLoopIndex = 0 -%}
+<nav id="MobileNavDrawer" class="mobile-nav-drawer drawer--full-width drawer drawer--left" role="navigation">
+
+  <div class="mobile-nav__inner">
+    <div class="mobile-nav__scroll" rv-transformx="data.depth | times 100 | times -1 | append '%'">
+
+      {%- include 'site-nav' with settings.primary_linklist_mobile,
+        type: 'mobile-nav',
+        id: 'MobileNav',
+        dropdown: false,
+        inline: false -%}
+      {%- include 'site-nav' with settings.secondary_linklist_mobile,
+        type: 'mobile-nav',
+        id: 'SecondaryMobileNav',
+        dropdown: false,
+        inline: false -%}
+      <div class="site-nav site-nav--mobile-nav">
+        {%- include 'nav-drawer-footer' -%}
+      </div>
+    </div>
+
+  </div>
+
+</nav>

@@ -1,89 +1,89 @@
-<div class="account-cards account-address-table">
-  {%- if customer.addresses.size > 0 -%}
-  <div class="account-card">
-    <div class="account-card__title">{{ 'customer.addresses.additional_addresses' | t }}</div>
-    <div class="account-card__content">
-
-      <div class="account__table">
-
-        <table class="">
-          <thead class="hidden-xs hidden-sm">
-            <tr>
-              <th>Name</th>
-              <th>Mobile</th>
-              <th>Address</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            {%- for address in customer.addresses -%}
-
-              {%- assign customer_street_address = '' -%}
-              {%- if address.street != blank -%}
-                {%- assign customer_street_address = customer_street_address | append:address.street -%}
-              {%- endif -%}
-
-              {%- if address.city != blank -%}
-                {%- assign customer_street_address = customer_street_address | append: ', ' | append: address.city -%}
-              {%- endif -%}
-
-              {%- if address.province != blank -%}
-                {%- assign customer_street_address = customer_street_address | append: ', ' | append: address.province -%}
-              {%- endif -%}
-
-              {%- capture address_form %}
-                {%- form 'customer_address', address -%}
-                  {%- assign form_id = form.id -%}
-                {%- endform -%}
-              {% endcapture -%}
-
-              <tr>
-                <td class="account-address-table__info-mob">
-                  {{ address.first_name }}
-                  <span class="hidden-md hidden-lg hidden-xl">
-                    {{ address.phone }}
-                  </span>
-                  <span class="account-address-table__address hidden-md hidden-lg hidden-xl">
-                    {%- if address.company != blank -%}
-                      {{- address.company -}},
-                    {%- endif -%} {{ customer_street_address }}
-                  </span>
-                </td>
-                <td class=" hidden-xs hidden-sm">{{ address.phone }}</td>
-                <td>
-                  <div class="account-address-table__info">
-                   <span class="account-address-table__address hidden-xs hidden-sm">
-                    {%- if address.company != blank -%}
-                      {{- address.company -}},
-                    {%- endif -%} {{ customer_street_address }}
-                    </span>
-
-                    <a href="#" data-address-form="{{ form_id }}" class="account-address-table__edit">
-                      {{ 'customer.addresses.edit' | t }}
-                    </a>
-
-                    <a href="#" data-form-id="{{ form_id }}" class="js-address-delete account-address-table__del">
-                      {% include 'icon' with 'bin-delete' %}
-                    </a>
-                  </div>
-                </td>
-              </tr>
-
-            {%- endfor -%}
-
-          </tbody>
-        </table>
-
-      </div>
-    </div>
-  </div>
-  {%- endif -%}
-
-
-  <button type="button" class="btn btn-primary-o" data-address-form="AddressNewForm">
-    {{ 'customer.addresses.add' | t }}
-  </button>
-
-</div>
-
-{%- include 'account-edit-addresses' -%}
+<div class="account-cards account-address-table">
+  {%- if customer.addresses.size > 0 -%}
+  <div class="account-card">
+    <div class="account-card__title">{{ 'customer.addresses.additional_addresses' | t }}</div>
+    <div class="account-card__content">
+
+      <div class="account__table">
+
+        <table class="">
+          <thead class="hidden-xs hidden-sm">
+            <tr>
+              <th>Name</th>
+              <th>Mobile</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {%- for address in customer.addresses -%}
+
+              {%- assign customer_street_address = '' -%}
+              {%- if address.street != blank -%}
+                {%- assign customer_street_address = customer_street_address | append:address.street -%}
+              {%- endif -%}
+
+              {%- if address.city != blank -%}
+                {%- assign customer_street_address = customer_street_address | append: ', ' | append: address.city -%}
+              {%- endif -%}
+
+              {%- if address.province != blank -%}
+                {%- assign customer_street_address = customer_street_address | append: ', ' | append: address.province -%}
+              {%- endif -%}
+
+              {%- capture address_form %}
+                {%- form 'customer_address', address -%}
+                  {%- assign form_id = form.id -%}
+                {%- endform -%}
+              {% endcapture -%}
+
+              <tr>
+                <td class="account-address-table__info-mob">
+                  {{ address.first_name }}
+                  <span class="hidden-md hidden-lg hidden-xl">
+                    {{ address.phone }}
+                  </span>
+                  <span class="account-address-table__address hidden-md hidden-lg hidden-xl">
+                    {%- if address.company != blank -%}
+                      {{- address.company -}},
+                    {%- endif -%} {{ customer_street_address }}
+                  </span>
+                </td>
+                <td class=" hidden-xs hidden-sm">{{ address.phone }}</td>
+                <td>
+                  <div class="account-address-table__info">
+                   <span class="account-address-table__address hidden-xs hidden-sm">
+                    {%- if address.company != blank -%}
+                      {{- address.company -}},
+                    {%- endif -%} {{ customer_street_address }}
+                    </span>
+
+                    <a href="#" data-address-form="{{ form_id }}" class="account-address-table__edit">
+                      {{ 'customer.addresses.edit' | t }}
+                    </a>
+
+                    <a href="#" data-form-id="{{ form_id }}" class="js-address-delete account-address-table__del">
+                      {% include 'icon' with 'bin-delete' %}
+                    </a>
+                  </div>
+                </td>
+              </tr>
+
+            {%- endfor -%}
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+
+
+  <button type="button" class="btn btn-primary-o" data-address-form="AddressNewForm">
+    {{ 'customer.addresses.add' | t }}
+  </button>
+
+</div>
+
+{%- include 'account-edit-addresses' -%}

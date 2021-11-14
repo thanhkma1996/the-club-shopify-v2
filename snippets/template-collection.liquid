@@ -1,416 +1,416 @@
-{% comment %} This template is used in both Collection & Search Result Pages {% endcomment %}
-{% assign s_set = section.settings %}
-{% assign img_banner = collection.metafields.accentuate.collection_image %}
-{% assign video_banner = collection.metafields.accentuate.collection_video %}
-{% assign banner_overlay = collection.metafields.accentuate.collection_video %}
-{% assign collection_description = collection.metafields.accentuate.collection_description %}
-{% assign collection_title = collection.metafields.accentuate.collection_title %}
-
-{% assign title_alignment = collection.metafields.accentuate.alignment | default: 'left' %}
-{% assign text_color = collection.metafields.accentuate.text_color | default: '#fff'%}
-
-{% assign subcollections = collection.metafields.subcollection.subcollection_title  %}
-{% assign subcollections_tags = collection.metafields.subcollection.tag  %}
-{% assign wide_banners = collection.metafields.subcollection.wide_banner  %}
-{% assign small_banners = collection.metafields.subcollection.small_banner  %}
-
-{% assign subcollection_handle = collection.metafields.subcollection.subcollection %}
-{% assign subcollection_description = collection.metafields.subcollection.description %}
-
-{% assign wide_banners_titles = collection.metafields.subcollection.wide_banner_title  %}
-{% assign small_banners_titles = collection.metafields.accentuate.small_banner_title  %}
-
-{% assign wide_banners_subtitles = collection.metafields.subcollection.wide_banner_subtitle  %}
-{% assign small_banners_subtitles = collection.metafields.subcollection.small_banner_subtitle  %}
-
-{% assign wide_banners_button_links = collection.metafields.subcollection.wide_banner_button_link  %}
-{% assign small_banners_button_links= collection.metafields.subcollection.small_banner_button_link  %}
-
-{% assign wide_banners_button_texts = collection.metafields.subcollection.wide_banner_button_text  %}
-{% assign small_banners_button_texts= collection.metafields.subcollection.small_banner_button_text %}
-
-{% assign subcollection_view = collection.metafields.accentuate.enable_subcollection_view %}
-
-{% assign seo_title = collection.metafields.seo.seo_title %}
-{% assign seo_text = collection.metafields.seo.seo_text %}
-
-
-
-
-
-{%- assign search_template = false -%}
-{%- if template contains 'all' -%}
-  {%- assign products_per_page = 999 -%}
-{%- elsif template contains 'search' -%}
-  {%- assign search_template = true -%}
-{%- endif -%}
-
-{%- assign enable_filters = false -%}
-{%- assign enable_breadcrumbs = true -%}
-{%- assign items_per_row = 3 -%}
-{% if search_template %}
-  {%- assign items_per_row = 4 -%}
-{% endif %}
-{%- assign grid_column_lg = 12 | divided_by: items_per_row | floor -%}
-{%- assign grid_column_md = items_per_row | minus: 1 -%}
-{%- assign grid_column_md = 12 | divided_by: grid_column_md | floor -%}
-{%- assign products_per_page = section.settings.products_per_page -%}
-
-
-{%- assign bc_filter_enabled = false -%}
-{%- if shop.metafields.bc-sf-filter.settings != blank -%}
-  {%- assign bc_filter_enabled = true -%}
-{%- endif -%}
-
-{%- capture search_form -%}
-  {% comment %} Search Results Page {% endcomment %}
-  <div class="bc-sf-search-container">
-    {% comment %}<h1 class="search-result__title">{{ 'general.search.title' | t }}</h1>
-    <p class="bc-sf-search-result-header"></p>{% endcomment %}
-    <form class="bc-sf-search-form" action="/search" method="get" role="search">
-      <input class="bc-sf-search-box" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search Products">
-      {% comment %}<button class="btn btn-grey-o hidden-md hidden-lg hidden-xl">
-        {% include 'icon' with 'search' %}
-        <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
-      </button>{% endcomment %}
-      <button type="submit" class="btn btn-primary">{% comment %}{{ 'general.search.search_button' | t }}{% endcomment %}{% include 'icon' with 'search-pg' %}</button>
-    </form>
-  </div>
-{%- endcapture -%}
-
-{%- capture sorting -%}
-  <label>Sort by:</label>
-  <select class="bc-sf-filter-filter-dropdown">
-    <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
-    <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
-    <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
-    <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
-    <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
-    <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
-    <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
-    <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
-    {% if subcollection_view  %}
-      <option value="type" selected>{{ 'collections.sorting.type' | t }}</option>
-    {% endif %}
-
-  </select>
-{%- endcapture -%}
-
-{%- capture subcollectionbar -%}
-  {% if subcollections != blank %}
-  <div class="subcollection-bar subcollection-bar--mobile">
-    <h6 class="subcollection-bar__title js-subcollection" id="js-subcollection">View Products:</h6>
-    <div id="bc-sf-filter-tree-mobile"></div>
-  </div>
-    <div class="subcollection-bar hidden">
-      <h6 class="subcollection-bar__title">View Products:</h6>
-      <div class="subcollection-bar__subcollections">
-        {%- for subcollection in subcollections -%}
-          <div class="subcollection-bar__subcollection"
-            data-tag="{{subcollections_tags[forloop.index0] | handle}}"
-            data-wide-banner="{{wide_banners[forloop.index0]}}"
-            data-small-banner="{{small_banners[forloop.index0]}}"
-            data-wide-title="{{wide_banners_titles[forloop.index0]}}"
-            data-small-title="{{small_banners_titles[forloop.index0]}}"
-            data-wide-subtitle="{{wide_banners_subtitles[forloop.index0]}}"
-            data-small-subtitle="{{small_banners_subtitles[forloop.index0]}}"
-            data-wide-button-link="{{wide_banners_button_links[forloop.index0]}}"
-            data-small-button-link="{{small_banners_button_links[forloop.index0]}}"
-            data-wide-button-text="{{wide_banners_button_texts[forloop.index0]}}"
-            data-small-button-text="{{small_banners_button_texts[forloop.index0]}}"
-            data-handle= "{{subcollection_handle[forloop.index0]}}"
-            data-description= "{{subcollection_description[forloop.index0]}}"
-
-            >
-            <a href="#{{subcollection | handleize}}" data-text="{{subcollection}}">{{subcollection}}</a>
-          </div>
-        {%- endfor -%}
-      </div>
-    </div>
-  {% endif %}
-{%- endcapture -%}
-
-{%- capture advice_block -%}
-  {% if s_set.advice_title != blank %}
-    <div class="advice-block">
-      <h5 class="advice-block_title">{{ s_set.advice_title }}</h5>
-      {% if s_set.advice_text != blank %}
-        <p class="advice-block_text">{{ s_set.advice_text }}</p>
-      {% endif %}
-      {% if s_set.advice_link != blank and s_set.advice_link_text != blank %}
-        <a href="{{ s_set.advice_link }}" class="btn">{{ s_set.advice_link_text }}</a>
-      {% endif %}
-    </div>
-  {% endif %}
-{%- endcapture -%}
-
-{%- unless bc_filter_enabled or section.settings.show_sorting == false -%}
-  <div class="collection-filters-wrap">
-    <div class="container-width">
-      
-      {% comment %}<div class="collection-filter collection__header-sort-by">
-        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-        <label for="SortBy" class="label--hidden">{{ 'collections.sorting.title' | t }}</label>
-        <select name="SortBy" id="SortBy" class="collection-filters__dropdown collection-filters__dropdown--sort hidden">
-          {%- if sort_by == collection.default_sort_by -%}
-            <option value="title-ascending" selected="selected">{{ 'collections.sorting.title' | t }}</option>
-            {%- if collection.default_sort_by != 'manual' -%}
-              <option value="manual"{% if sort_by == "manual" %} selected="selected"{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
-            {% endif %}
-            {%- if collection.default_sort_by != 'best-selling' -%}
-              <option value="best-selling"{% if sort_by == "best-selling" %} selected="selected"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
-            {% endif %}
-            {%- if collection.default_sort_by != 'title-ascending' -%}
-              <option value="title-ascending"{% if sort_by == "title-ascending"  %}selected="selected"{% endif %}>{{ 'collections.sorting.az' | t }}</option>
-            {% endif %}
-            {%- if collection.default_sort_by != 'title-descending' -%}
-              <option value="title-descending"{% if sort_by == "title-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.za' | t }}</option>
-            {% endif %}
-            {%- if collection.default_sort_by != 'price-ascending' -%}
-              <option value="price-ascending"{% if sort_by == "price-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
-            {% endif %}
-            {%- if collection.default_sort_by != 'price-descending' -%}
-              <option value="price-descending"{% if sort_by == "price-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
-            {% endif %}
-            {%- if collection.default_sort_by != 'created-descending' -%}
-              <option value="created-descending"{% if sort_by == "created-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
-            {% endif %}
-            {%- if collection.default_sort_by != 'created-ascending' -%}
-              <option value="created-ascending"{% if sort_by == "created-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
-            {%- endif -%}
-          {%- else -%}
-            <option value="manual"{% if sort_by == "manual" %} selected="selected"{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
-            <option value="best-selling"{% if sort_by == "best-selling" %} selected="selected"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
-            <option value="title-ascending"{% if sort_by == "title-ascending"  %}selected="selected"{% endif %}>{{ 'collections.sorting.az' | t }}</option>
-            <option value="title-descending"{% if sort_by == "title-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.za' | t }}</option>
-            <option value="price-ascending"{% if sort_by == "price-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
-            <option value="price-descending"{% if sort_by == "price-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
-            <option value="created-descending"{% if sort_by == "created-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
-            <option value="created-ascending"{% if sort_by == "created-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
-          {%- endif -%}
-        </select>
-        <input id="DefaultSortBy" class="collection-filters__default-sort" type="hidden" value="{{ collection.default_sort_by }}">
-      </div>{% endcomment %}
-
-      {%- if enable_filters -%}
-        <div class="collection-filters-placeholder--mobile"></div>
-      {%- endif -%}
-
-    </div>
-  </div>
-{%- endunless -%}
-
-{% capture collection_banner %}
-  {%- if collection -%}
-  <header role="banner">
-    <div class="collection__header">
-        {% comment %} Collection Page {% endcomment %}
-        <div class="collection__banner">
-            {% if img_banner != blank  %}
-              <img class="lazyload" data-sizes="auto" data-srcset="//images.accentuate.io?options=w{% raw %}{width}{% endraw %}&shop={{ shop.permanent_domain }}&image={{ img_banner }}"/>
-          {% elsif video_banner !=blank %}
-              <video autoplay loop controls muted>
-                <source src="{{video_banner}}" type="video/mp4">
-              </video>
-          {% endif  %}
-        </div>
-        <div class="collection__header-text " style="text-align: {{title_alignment}}; color: {{text_color}}">
-          <div class="container narrow">
-            {% if collection_title != blank  %}
-                <h1 class="collection__header-title " style="color: {{text_color}}">{{collection_title}}</h1>
-            {% endif %}
-            {% if collection_description != blank  %}
-              <div class="collection__header-description " style="color: {{text_color}}">
-                {{collection_description}}
-              </div>
-            {% endif %}
-          </div>
-        </div>
-        {% comment %} <h1 class="collection__header-title template__main-title">{{ collection.title }}</h1> {% endcomment %}
-    </div>
-  </header>
-  {%- endif -%}
-{% endcapture %}
-{% if search_template == false %}
-  <div class="subcollectionbar-wrapper">
-    {% if subcollections %}
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xs-12">{{subcollectionbar}}</div>
-        </div>
-      </div>
-    {% endif %}
-  </div>
-{% endif %}
-{% if search_template == true %}
-  <div class="search-count">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          {{ search_form }}
-        </div>
-        <div class="col-xs-12 show-on-load" rv-if="current.collection.products | length">
-          <p>Products ({ current.collection.products | length })</p>
-        </div>
-      </div>
-    </div>
-  </div>
-{% endif %}
-<div class="collection container-fluid narrow">
-  {% comment %} <div class="row subcollection-bar__container">
-    <div class="col-xs-12 col-md-3 breadcrumb-container">
-      {% include 'breadcrumbs' %}
-    </div>
-    <div class=" {% unless enable_breadcrumbs %}col-xs-offset-3{% endunless %} col-xs-12 col-md-offset-3 col-md-9">
-      {{subcollectionbar}}
-    </div>
-  </div> {% endcomment %}
-
-  {% comment %}<div class="search-form__container hidden-md hidden-lg hidden-xl">
-    {%- unless collection -%}
-      {{search_form}}
-    {%- endunless -%}
-  </div>{% endcomment %}
-
-  <div class="row">
-    {% if search_template == false %}
-      <div class="col-xs-12 {% if bc_filter_enabled or enable_filters %}col-md-3{% else %}col-md-12{% endif %}">
-        {%- if bc_filter_enabled -%}
-          <div id="bc-sf-filter-wrapper">
-            {% if subcollections == blank %}
-              <div id="bc-sf-filter-tree-mobile"></div>
-            {% endif %}
-            <h6 class="filter-title">Filters</h6>
-            <div id="bc-sf-filter-tree"></div>
-            {%- if section.settings.show_sorting -%}
-              <div id="bc-sf-filter-top-sorting"></div>
-            {%- endif -%}
-          </div>
-          {{ advice_block }}
-        {%- elsif enable_filters -%}
-          <div class="col-xs-12 col-md-3 collection-filters-placeholder--desktop">&nbsp;</div>
-        {%- endif -%}
-      </div>
-    {% endif %}
-
-    <div class="col-xs-12 {% if search_template == false and bc_filter_enabled or enable_filters %}col-md-9{% else %}col-md-12{% endif %}">
-      {% comment %}<div class="search-form__container hidden-sm hidden-xs">
-        {%- unless collection -%}
-          {{search_form}}
-        {%- endunless -%}
-      </div>{% endcomment %}
-
-      <div class="collection-wrap">
-        {% if subcollections %}
-          <div id="subcollection-container" class="collection-wrap__inner">
-            {{ advice_block }}
-          </div>
-        {% endif %}
-        <div id="bc-sf-filter-products" class="collection-wrap__inner" data-page="{{ current_page }}">
-
-          {%- capture bc_filter_grid_template %}
-            {%- if bc_filter_enabled -%}
-              <div class="row js" rv-if="current.collection.products | size | gt 0">
-                {% if search_template == false %}
-                  {{ advice_block }}
-                {% endif %}
-                <div class="product-grid-element-container {% if search_template == true %}col-xs-6{% else %}col-xs-12{% endif %} col-md-{{ grid_column_md }} col-lg-{{ grid_column_lg }}" rv-each-product="current.collection.products">
-                  <div rv-data-index="$index" rv-product-grid-item="product"></div>
-                  {% comment %}{%- include 'product-grid-item' with product: null -%}{% endcomment %}
-                </div>
-              </div>
-            {%- endif -%}
-          {% endcapture -%}
-
-          {%- if collection -%}
-
-            {% comment %} Collection Page {% endcomment %}
-            {% paginate collection.products by products_per_page %}
-
-              <div class="collection-grid{% if bc_filter_enabled %} collection-grid--js-filter{% endif %}" data-products-per-row="{{ items_per_row | default: '4' }}" rv-data-loaded="current.collection.products | size | gte 0">
-
-                {{ bc_filter_grid_template }}
-
-                <div class="row{% if bc_filter_enabled %} no-js{% endif %}">
-                  {%- for product in collection.products -%}
-                    <div class="product-grid-element-container col-xs-12 col-md-{{ grid_column_md }} col-lg-{{ grid_column_lg }}">
-                      {%- include 'product-grid-item' -%}
-                    </div>
-                  {%- else -%}
-                    <p>{{ 'collections.general.no_matches' | t }}</p>
-                  {%- endfor -%}
-
-                </div>
-
-              </div>
-
-              {%- if paginate.pages > 1 -%}
-                <div class="collection__pagination no-js">
-                  {%- include 'pagination' with target_container: '.collection-wrap__inner', offset: '-120' -%}
-                </div>
-              {%- endif -%}
-              <div id="bc-sf-filter-bottom-pagination"></div>
-              <div id="bc-sf-filter-load-more"></div>
-
-              {% comment %}{%- if collection.description != blank -%}
-                <div class="rte">
-                  {%- include 'text' with collection.description -%}
-                </div>
-              {%- endif -%}{% endcomment %}
-
-            {% endpaginate %}
-
-          {%- else -%}
-
-            {% comment %} Search Results Page {% endcomment %}
-            {% paginate search.results by 20 %}
-
-              <div class="collection-grid" data-products-per-row="{{ items_per_row | default: '4' }}">
-
-                {{ bc_filter_grid_template }}
-
-                <div class="row{% if bc_filter_enabled %} no-js{% endif %}">
-
-                  {%- for item in search.results -%}
-                    {% if item.object_type == 'product' %}
-                      <div class="col-xs-6 col-md-{{ grid_column_md }} col-lg-{{ grid_column_lg }}">
-                        {%- include 'product-grid-item' with product: item -%}
-                      </div>
-                    {%- endif -%}
-                  {%- else -%}
-                    <p>{{ 'collections.general.no_matches' | t }}</p>
-                  {%- endfor -%}
-
-                </div>
-
-              </div>
-
-              {%- if paginate.pages > 1 -%}
-                <div class="collection__pagination no-js">
-                  {%- include 'pagination' with target_container: '.collection-wrap__inner', offset: '-120' -%}
-                </div>
-              {%- endif -%}
-              <div id="bc-sf-filter-bottom-pagination"></div>
-              <div id="bc-sf-filter-load-more"></div>
-            {% endpaginate %}
-          {%- endif -%}
-
-        </div>
-      </div>
-    </div>
-
-    {% if seo_title != blank %}
-      <div class="col-xs-12">
-        <div class="collection-seo-text">
-          <h3>{{ seo_title }}</h3>
-          {% if seo_text != blank %}
-            <p>{{ seo_text }}</p>
-          {% endif %}
-        </div>
-      </div>
-    {% endif %}
-
-  </div>
-</div>
-
+{% comment %} This template is used in both Collection & Search Result Pages {% endcomment %}
+{% assign s_set = section.settings %}
+{% assign img_banner = collection.metafields.accentuate.collection_image %}
+{% assign video_banner = collection.metafields.accentuate.collection_video %}
+{% assign banner_overlay = collection.metafields.accentuate.collection_video %}
+{% assign collection_description = collection.metafields.accentuate.collection_description %}
+{% assign collection_title = collection.metafields.accentuate.collection_title %}
+
+{% assign title_alignment = collection.metafields.accentuate.alignment | default: 'left' %}
+{% assign text_color = collection.metafields.accentuate.text_color | default: '#fff'%}
+
+{% assign subcollections = collection.metafields.subcollection.subcollection_title  %}
+{% assign subcollections_tags = collection.metafields.subcollection.tag  %}
+{% assign wide_banners = collection.metafields.subcollection.wide_banner  %}
+{% assign small_banners = collection.metafields.subcollection.small_banner  %}
+
+{% assign subcollection_handle = collection.metafields.subcollection.subcollection %}
+{% assign subcollection_description = collection.metafields.subcollection.description %}
+
+{% assign wide_banners_titles = collection.metafields.subcollection.wide_banner_title  %}
+{% assign small_banners_titles = collection.metafields.accentuate.small_banner_title  %}
+
+{% assign wide_banners_subtitles = collection.metafields.subcollection.wide_banner_subtitle  %}
+{% assign small_banners_subtitles = collection.metafields.subcollection.small_banner_subtitle  %}
+
+{% assign wide_banners_button_links = collection.metafields.subcollection.wide_banner_button_link  %}
+{% assign small_banners_button_links= collection.metafields.subcollection.small_banner_button_link  %}
+
+{% assign wide_banners_button_texts = collection.metafields.subcollection.wide_banner_button_text  %}
+{% assign small_banners_button_texts= collection.metafields.subcollection.small_banner_button_text %}
+
+{% assign subcollection_view = collection.metafields.accentuate.enable_subcollection_view %}
+
+{% assign seo_title = collection.metafields.seo.seo_title %}
+{% assign seo_text = collection.metafields.seo.seo_text %}
+
+
+
+
+
+{%- assign search_template = false -%}
+{%- if template contains 'all' -%}
+  {%- assign products_per_page = 999 -%}
+{%- elsif template contains 'search' -%}
+  {%- assign search_template = true -%}
+{%- endif -%}
+
+{%- assign enable_filters = false -%}
+{%- assign enable_breadcrumbs = true -%}
+{%- assign items_per_row = 3 -%}
+{% if search_template %}
+  {%- assign items_per_row = 4 -%}
+{% endif %}
+{%- assign grid_column_lg = 12 | divided_by: items_per_row | floor -%}
+{%- assign grid_column_md = items_per_row | minus: 1 -%}
+{%- assign grid_column_md = 12 | divided_by: grid_column_md | floor -%}
+{%- assign products_per_page = section.settings.products_per_page -%}
+
+
+{%- assign bc_filter_enabled = false -%}
+{%- if shop.metafields.bc-sf-filter.settings != blank -%}
+  {%- assign bc_filter_enabled = true -%}
+{%- endif -%}
+
+{%- capture search_form -%}
+  {% comment %} Search Results Page {% endcomment %}
+  <div class="bc-sf-search-container">
+    {% comment %}<h1 class="search-result__title">{{ 'general.search.title' | t }}</h1>
+    <p class="bc-sf-search-result-header"></p>{% endcomment %}
+    <form class="bc-sf-search-form" action="/search" method="get" role="search">
+      <input class="bc-sf-search-box" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search Products">
+      {% comment %}<button class="btn btn-grey-o hidden-md hidden-lg hidden-xl">
+        {% include 'icon' with 'search' %}
+        <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
+      </button>{% endcomment %}
+      <button type="submit" class="btn btn-primary">{% comment %}{{ 'general.search.search_button' | t }}{% endcomment %}{% include 'icon' with 'search-pg' %}</button>
+    </form>
+  </div>
+{%- endcapture -%}
+
+{%- capture sorting -%}
+  <label>Sort by:</label>
+  <select class="bc-sf-filter-filter-dropdown">
+    <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
+    <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
+    <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+    <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+    <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
+    <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
+    <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+    <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
+    {% if subcollection_view  %}
+      <option value="type" selected>{{ 'collections.sorting.type' | t }}</option>
+    {% endif %}
+
+  </select>
+{%- endcapture -%}
+
+{%- capture subcollectionbar -%}
+  {% if subcollections != blank %}
+  <div class="subcollection-bar subcollection-bar--mobile">
+    <h6 class="subcollection-bar__title js-subcollection" id="js-subcollection">View Products:</h6>
+    <div id="bc-sf-filter-tree-mobile"></div>
+  </div>
+    <div class="subcollection-bar hidden">
+      <h6 class="subcollection-bar__title">View Products:</h6>
+      <div class="subcollection-bar__subcollections">
+        {%- for subcollection in subcollections -%}
+          <div class="subcollection-bar__subcollection"
+            data-tag="{{subcollections_tags[forloop.index0] | handle}}"
+            data-wide-banner="{{wide_banners[forloop.index0]}}"
+            data-small-banner="{{small_banners[forloop.index0]}}"
+            data-wide-title="{{wide_banners_titles[forloop.index0]}}"
+            data-small-title="{{small_banners_titles[forloop.index0]}}"
+            data-wide-subtitle="{{wide_banners_subtitles[forloop.index0]}}"
+            data-small-subtitle="{{small_banners_subtitles[forloop.index0]}}"
+            data-wide-button-link="{{wide_banners_button_links[forloop.index0]}}"
+            data-small-button-link="{{small_banners_button_links[forloop.index0]}}"
+            data-wide-button-text="{{wide_banners_button_texts[forloop.index0]}}"
+            data-small-button-text="{{small_banners_button_texts[forloop.index0]}}"
+            data-handle= "{{subcollection_handle[forloop.index0]}}"
+            data-description= "{{subcollection_description[forloop.index0]}}"
+
+            >
+            <a href="#{{subcollection | handleize}}" data-text="{{subcollection}}">{{subcollection}}</a>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {% endif %}
+{%- endcapture -%}
+
+{%- capture advice_block -%}
+  {% if s_set.advice_title != blank %}
+    <div class="advice-block">
+      <h5 class="advice-block_title">{{ s_set.advice_title }}</h5>
+      {% if s_set.advice_text != blank %}
+        <p class="advice-block_text">{{ s_set.advice_text }}</p>
+      {% endif %}
+      {% if s_set.advice_link != blank and s_set.advice_link_text != blank %}
+        <a href="{{ s_set.advice_link }}" class="btn">{{ s_set.advice_link_text }}</a>
+      {% endif %}
+    </div>
+  {% endif %}
+{%- endcapture -%}
+
+{%- unless bc_filter_enabled or section.settings.show_sorting == false -%}
+  <div class="collection-filters-wrap">
+    <div class="container-width">
+      
+      {% comment %}<div class="collection-filter collection__header-sort-by">
+        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+        <label for="SortBy" class="label--hidden">{{ 'collections.sorting.title' | t }}</label>
+        <select name="SortBy" id="SortBy" class="collection-filters__dropdown collection-filters__dropdown--sort hidden">
+          {%- if sort_by == collection.default_sort_by -%}
+            <option value="title-ascending" selected="selected">{{ 'collections.sorting.title' | t }}</option>
+            {%- if collection.default_sort_by != 'manual' -%}
+              <option value="manual"{% if sort_by == "manual" %} selected="selected"{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+            {% endif %}
+            {%- if collection.default_sort_by != 'best-selling' -%}
+              <option value="best-selling"{% if sort_by == "best-selling" %} selected="selected"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+            {% endif %}
+            {%- if collection.default_sort_by != 'title-ascending' -%}
+              <option value="title-ascending"{% if sort_by == "title-ascending"  %}selected="selected"{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+            {% endif %}
+            {%- if collection.default_sort_by != 'title-descending' -%}
+              <option value="title-descending"{% if sort_by == "title-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+            {% endif %}
+            {%- if collection.default_sort_by != 'price-ascending' -%}
+              <option value="price-ascending"{% if sort_by == "price-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+            {% endif %}
+            {%- if collection.default_sort_by != 'price-descending' -%}
+              <option value="price-descending"{% if sort_by == "price-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+            {% endif %}
+            {%- if collection.default_sort_by != 'created-descending' -%}
+              <option value="created-descending"{% if sort_by == "created-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+            {% endif %}
+            {%- if collection.default_sort_by != 'created-ascending' -%}
+              <option value="created-ascending"{% if sort_by == "created-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+            {%- endif -%}
+          {%- else -%}
+            <option value="manual"{% if sort_by == "manual" %} selected="selected"{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+            <option value="best-selling"{% if sort_by == "best-selling" %} selected="selected"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+            <option value="title-ascending"{% if sort_by == "title-ascending"  %}selected="selected"{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+            <option value="title-descending"{% if sort_by == "title-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+            <option value="price-ascending"{% if sort_by == "price-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+            <option value="price-descending"{% if sort_by == "price-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+            <option value="created-descending"{% if sort_by == "created-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+            <option value="created-ascending"{% if sort_by == "created-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+          {%- endif -%}
+        </select>
+        <input id="DefaultSortBy" class="collection-filters__default-sort" type="hidden" value="{{ collection.default_sort_by }}">
+      </div>{% endcomment %}
+
+      {%- if enable_filters -%}
+        <div class="collection-filters-placeholder--mobile"></div>
+      {%- endif -%}
+
+    </div>
+  </div>
+{%- endunless -%}
+
+{% capture collection_banner %}
+  {%- if collection -%}
+  <header role="banner">
+    <div class="collection__header">
+        {% comment %} Collection Page {% endcomment %}
+        <div class="collection__banner">
+            {% if img_banner != blank  %}
+              <img class="lazyload" data-sizes="auto" data-srcset="//images.accentuate.io?options=w{% raw %}{width}{% endraw %}&shop={{ shop.permanent_domain }}&image={{ img_banner }}"/>
+          {% elsif video_banner !=blank %}
+              <video autoplay loop controls muted>
+                <source src="{{video_banner}}" type="video/mp4">
+              </video>
+          {% endif  %}
+        </div>
+        <div class="collection__header-text " style="text-align: {{title_alignment}}; color: {{text_color}}">
+          <div class="container narrow">
+            {% if collection_title != blank  %}
+                <h1 class="collection__header-title " style="color: {{text_color}}">{{collection_title}}</h1>
+            {% endif %}
+            {% if collection_description != blank  %}
+              <div class="collection__header-description " style="color: {{text_color}}">
+                {{collection_description}}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        {% comment %} <h1 class="collection__header-title template__main-title">{{ collection.title }}</h1> {% endcomment %}
+    </div>
+  </header>
+  {%- endif -%}
+{% endcapture %}
+{% if search_template == false %}
+  <div class="subcollectionbar-wrapper">
+    {% if subcollections %}
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12">{{subcollectionbar}}</div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+{% if search_template == true %}
+  <div class="search-count">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          {{ search_form }}
+        </div>
+        <div class="col-xs-12 show-on-load" rv-if="current.collection.products | length">
+          <p>Products ({ current.collection.products | length })</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+<div class="collection container-fluid narrow">
+  {% comment %} <div class="row subcollection-bar__container">
+    <div class="col-xs-12 col-md-3 breadcrumb-container">
+      {% include 'breadcrumbs' %}
+    </div>
+    <div class=" {% unless enable_breadcrumbs %}col-xs-offset-3{% endunless %} col-xs-12 col-md-offset-3 col-md-9">
+      {{subcollectionbar}}
+    </div>
+  </div> {% endcomment %}
+
+  {% comment %}<div class="search-form__container hidden-md hidden-lg hidden-xl">
+    {%- unless collection -%}
+      {{search_form}}
+    {%- endunless -%}
+  </div>{% endcomment %}
+
+  <div class="row">
+    {% if search_template == false %}
+      <div class="col-xs-12 {% if bc_filter_enabled or enable_filters %}col-md-3{% else %}col-md-12{% endif %}">
+        {%- if bc_filter_enabled -%}
+          <div id="bc-sf-filter-wrapper">
+            {% if subcollections == blank %}
+              <div id="bc-sf-filter-tree-mobile"></div>
+            {% endif %}
+            <h6 class="filter-title">Filters</h6>
+            <div id="bc-sf-filter-tree"></div>
+            {%- if section.settings.show_sorting -%}
+              <div id="bc-sf-filter-top-sorting"></div>
+            {%- endif -%}
+          </div>
+          {{ advice_block }}
+        {%- elsif enable_filters -%}
+          <div class="col-xs-12 col-md-3 collection-filters-placeholder--desktop">&nbsp;</div>
+        {%- endif -%}
+      </div>
+    {% endif %}
+
+    <div class="col-xs-12 {% if search_template == false and bc_filter_enabled or enable_filters %}col-md-9{% else %}col-md-12{% endif %}">
+      {% comment %}<div class="search-form__container hidden-sm hidden-xs">
+        {%- unless collection -%}
+          {{search_form}}
+        {%- endunless -%}
+      </div>{% endcomment %}
+
+      <div class="collection-wrap">
+        {% if subcollections %}
+          <div id="subcollection-container" class="collection-wrap__inner">
+            {{ advice_block }}
+          </div>
+        {% endif %}
+        <div id="bc-sf-filter-products" class="collection-wrap__inner" data-page="{{ current_page }}">
+
+          {%- capture bc_filter_grid_template %}
+            {%- if bc_filter_enabled -%}
+              <div class="row js" rv-if="current.collection.products | size | gt 0">
+                {% if search_template == false %}
+                  {{ advice_block }}
+                {% endif %}
+                <div class="product-grid-element-container {% if search_template == true %}col-xs-6{% else %}col-xs-12{% endif %} col-md-{{ grid_column_md }} col-lg-{{ grid_column_lg }}" rv-each-product="current.collection.products">
+                  <div rv-data-index="$index" rv-product-grid-item="product"></div>
+                  {% comment %}{%- include 'product-grid-item' with product: null -%}{% endcomment %}
+                </div>
+              </div>
+            {%- endif -%}
+          {% endcapture -%}
+
+          {%- if collection -%}
+
+            {% comment %} Collection Page {% endcomment %}
+            {% paginate collection.products by products_per_page %}
+
+              <div class="collection-grid{% if bc_filter_enabled %} collection-grid--js-filter{% endif %}" data-products-per-row="{{ items_per_row | default: '4' }}" rv-data-loaded="current.collection.products | size | gte 0">
+
+                {{ bc_filter_grid_template }}
+
+                <div class="row{% if bc_filter_enabled %} no-js{% endif %}">
+                  {%- for product in collection.products -%}
+                    <div class="product-grid-element-container col-xs-12 col-md-{{ grid_column_md }} col-lg-{{ grid_column_lg }}">
+                      {%- include 'product-grid-item' -%}
+                    </div>
+                  {%- else -%}
+                    <p>{{ 'collections.general.no_matches' | t }}</p>
+                  {%- endfor -%}
+
+                </div>
+
+              </div>
+
+              {%- if paginate.pages > 1 -%}
+                <div class="collection__pagination no-js">
+                  {%- include 'pagination' with target_container: '.collection-wrap__inner', offset: '-120' -%}
+                </div>
+              {%- endif -%}
+              <div id="bc-sf-filter-bottom-pagination"></div>
+              <div id="bc-sf-filter-load-more"></div>
+
+              {% comment %}{%- if collection.description != blank -%}
+                <div class="rte">
+                  {%- include 'text' with collection.description -%}
+                </div>
+              {%- endif -%}{% endcomment %}
+
+            {% endpaginate %}
+
+          {%- else -%}
+
+            {% comment %} Search Results Page {% endcomment %}
+            {% paginate search.results by 20 %}
+
+              <div class="collection-grid" data-products-per-row="{{ items_per_row | default: '4' }}">
+
+                {{ bc_filter_grid_template }}
+
+                <div class="row{% if bc_filter_enabled %} no-js{% endif %}">
+
+                  {%- for item in search.results -%}
+                    {% if item.object_type == 'product' %}
+                      <div class="col-xs-6 col-md-{{ grid_column_md }} col-lg-{{ grid_column_lg }}">
+                        {%- include 'product-grid-item' with product: item -%}
+                      </div>
+                    {%- endif -%}
+                  {%- else -%}
+                    <p>{{ 'collections.general.no_matches' | t }}</p>
+                  {%- endfor -%}
+
+                </div>
+
+              </div>
+
+              {%- if paginate.pages > 1 -%}
+                <div class="collection__pagination no-js">
+                  {%- include 'pagination' with target_container: '.collection-wrap__inner', offset: '-120' -%}
+                </div>
+              {%- endif -%}
+              <div id="bc-sf-filter-bottom-pagination"></div>
+              <div id="bc-sf-filter-load-more"></div>
+            {% endpaginate %}
+          {%- endif -%}
+
+        </div>
+      </div>
+    </div>
+
+    {% if seo_title != blank %}
+      <div class="col-xs-12">
+        <div class="collection-seo-text">
+          <h3>{{ seo_title }}</h3>
+          {% if seo_text != blank %}
+            <p>{{ seo_text }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
 {%- include 'bc-sf-filter-config' -%}

@@ -1,126 +1,126 @@
-{%- assign related_item_type = type | default: 'product' -%}
-{%- assign limit = limit | default: 9 -%}
-
-{%- assign article_temp = article_temp | default: 'article-grid-item--recipe' -%}
-{%- assign product_temp = product_temp | default: 'product-grid-item' -%}
-
-{%- assign related = related | default: ''-%}
-{%- if related == blank -%}
-  {%- include '_get-related-items' with algorithm_type: 'type' -%}
-{% elsif related contains '|' %}
-  {%- assign related_items = related | split: '|' -%}
-{% elsif related.products %}
-  {%- assign related_items = related.products -%}
-{% elsif related.articles %}
-  {%- assign related_items = related.articles -%}
-{% else %}
-  {%- assign related_items = related -%}
-{%- endif -%}
-
-{%- assign enable_slideshow = slideshow | default: false -%}
-{%- assign related_heading = related_heading | default: 'Related Products' -%}
-{%- assign use_fallback = fallback | default: true -%}
-
-{%- capture slideshow_settings %}
-{%- assign slide_sizes = slide_sizes | default: '4 | 2 | 1' -%}
-{%- assign sizes = slide_sizes | split: '|' -%}
-   data-slides-show-desktop="{{ sizes[0]| strip }}"
-   data-slides-show-tablet="{{ sizes[1] | strip }}"
-   data-slides-show-mobile="{{ sizes[2] | strip }}"
-   data-infinite= {{ infinity }}
-{% endcapture -%}
-
-{%- assign more_btn_text = more_btn_text | default: '' -%}
-{%- assign more_btn_link = more_btn_link | default: '' -%}
-
-{% comment %}WIP
-{%- assign page_type = template | split:'.' | first -%}
-{%- if related_items == blank and use_fallback -%}
-  {%- if related_item_type == 'product' -%}
-    {%- if page_type == 'product' -%}
-    {% elsif page_type == 'article' %}
-    {%- endif -%}
-
-  {% elsif related_item_type == 'article'%}
-    {%- if page_type == 'product' -%}
-    {% elsif page_type == 'article' %}
-    {%- endif -%}
-
-  {%- endif -%}
-{%- endif -%}{% endcomment %}
-
-{%- if related_items != blank -%}
-<div class="related-items related-items--{{ type }}" data-section-type="related-items">
-      {%- if related_heading != blank -%}
-        <div class="related-items__header">
-          <h3 class="related-items__title">{{ related_heading }}</h3>
-        </div>
-      {%- endif -%}
-    <div class="related-items-container">
-      
-      {%- if enable_slideshow -%}
-        <div class="related-items__slider"
-           id="Slideshow-{{ section.id }}{{ type }}"
-           data-slideshow="Slideshow-{{ section.id }}{{ type }}"
-           {{ slideshow_settings }}>
-      {%- else -%}
-        <div class="related-items-wrapper">
-      {%- endif -%}
-
-          {%- if related_item_type == 'product' -%}
-            {%- for item in related_items limit:limit -%}
-              {%- if item.title != blank -%}
-                <div class="related-items__item col-xs-12 col-sm">
-                  {%- include product_temp with product: item-%}
-                </div>
-              {%- else -%}
-                {%- assign related_product = all_products[item] -%}
-                {%- if related_product != blank -%}
-                  <div class="related-items__item col-xs-12 col-sm">
-                    {%- include product_temp with product: related_product-%}
-                  </div>
-                {%- endif -%}
-              {%- endif -%}
-            {%- endfor -%}
-
-          {% elsif related_item_type == 'article' %}
-
-            {%- for item in related_items -%}
-
-              {%- if item.title != blank -%}
-                <div class="related-items__item col-xs-12 col-sm">
-                  {%- include article_temp with article: item-%}
-                </div>
-              {%- else -%}
-                {%- assign related_article = articles[item] -%}
-                {%- if related_article != blank -%}
-                  <div class="related-items__item col-xs-12 col-sm">
-                    {%- include article_temp with article: related_article-%}
-                  </div>
-                {%- endif -%}
-              {%- endif -%}
-            {%- endfor -%}
-
-          {%- endif -%}
-
-      {%- if enable_slideshow -%}
-        </div>
-      {%- else -%}
-        </div>
-      {%- endif -%}
-      
-
-      {%- if enable_slideshow -%}
-        {% comment %}
-        <div class="related-items__arrow-prev slideshow__prev">{% render 'icon' with 'chevron-left' %}</div>
-        <div class="related-items__arrow-next slideshow__next">{% render 'icon' with 'chevron-right' %}</div>
-        {% endcomment %}
-      {%- endif -%}
-    </div>
-    <div class="related-items-btns">
-      {%- if more_btn_text != blank -%}
-        <a href="{{ more_btn_link }}" class="btn btn-primary related-items-btn">{{ more_btn_text }}</a>
-      {%- endif -%}
-    </div>
-</div>
+{%- assign related_item_type = type | default: 'product' -%}
+{%- assign limit = limit | default: 9 -%}
+
+{%- assign article_temp = article_temp | default: 'article-grid-item--recipe' -%}
+{%- assign product_temp = product_temp | default: 'product-grid-item' -%}
+
+{%- assign related = related | default: ''-%}
+{%- if related == blank -%}
+  {%- include '_get-related-items' with algorithm_type: 'type' -%}
+{% elsif related contains '|' %}
+  {%- assign related_items = related | split: '|' -%}
+{% elsif related.products %}
+  {%- assign related_items = related.products -%}
+{% elsif related.articles %}
+  {%- assign related_items = related.articles -%}
+{% else %}
+  {%- assign related_items = related -%}
+{%- endif -%}
+
+{%- assign enable_slideshow = slideshow | default: false -%}
+{%- assign related_heading = related_heading | default: 'Related Products' -%}
+{%- assign use_fallback = fallback | default: true -%}
+
+{%- capture slideshow_settings %}
+{%- assign slide_sizes = slide_sizes | default: '4 | 2 | 1' -%}
+{%- assign sizes = slide_sizes | split: '|' -%}
+   data-slides-show-desktop="{{ sizes[0]| strip }}"
+   data-slides-show-tablet="{{ sizes[1] | strip }}"
+   data-slides-show-mobile="{{ sizes[2] | strip }}"
+   data-infinite= {{ infinity }}
+{% endcapture -%}
+
+{%- assign more_btn_text = more_btn_text | default: '' -%}
+{%- assign more_btn_link = more_btn_link | default: '' -%}
+
+{% comment %}WIP
+{%- assign page_type = template | split:'.' | first -%}
+{%- if related_items == blank and use_fallback -%}
+  {%- if related_item_type == 'product' -%}
+    {%- if page_type == 'product' -%}
+    {% elsif page_type == 'article' %}
+    {%- endif -%}
+
+  {% elsif related_item_type == 'article'%}
+    {%- if page_type == 'product' -%}
+    {% elsif page_type == 'article' %}
+    {%- endif -%}
+
+  {%- endif -%}
+{%- endif -%}{% endcomment %}
+
+{%- if related_items != blank -%}
+<div class="related-items related-items--{{ type }}" data-section-type="related-items">
+      {%- if related_heading != blank -%}
+        <div class="related-items__header">
+          <h3 class="related-items__title">{{ related_heading }}</h3>
+        </div>
+      {%- endif -%}
+    <div class="related-items-container">
+      
+      {%- if enable_slideshow -%}
+        <div class="related-items__slider"
+           id="Slideshow-{{ section.id }}{{ type }}"
+           data-slideshow="Slideshow-{{ section.id }}{{ type }}"
+           {{ slideshow_settings }}>
+      {%- else -%}
+        <div class="related-items-wrapper">
+      {%- endif -%}
+
+          {%- if related_item_type == 'product' -%}
+            {%- for item in related_items limit:limit -%}
+              {%- if item.title != blank -%}
+                <div class="related-items__item col-xs-12 col-sm">
+                  {%- include product_temp with product: item-%}
+                </div>
+              {%- else -%}
+                {%- assign related_product = all_products[item] -%}
+                {%- if related_product != blank -%}
+                  <div class="related-items__item col-xs-12 col-sm">
+                    {%- include product_temp with product: related_product-%}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+          {% elsif related_item_type == 'article' %}
+
+            {%- for item in related_items -%}
+
+              {%- if item.title != blank -%}
+                <div class="related-items__item col-xs-12 col-sm">
+                  {%- include article_temp with article: item-%}
+                </div>
+              {%- else -%}
+                {%- assign related_article = articles[item] -%}
+                {%- if related_article != blank -%}
+                  <div class="related-items__item col-xs-12 col-sm">
+                    {%- include article_temp with article: related_article-%}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+          {%- endif -%}
+
+      {%- if enable_slideshow -%}
+        </div>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+      
+
+      {%- if enable_slideshow -%}
+        {% comment %}
+        <div class="related-items__arrow-prev slideshow__prev">{% render 'icon' with 'chevron-left' %}</div>
+        <div class="related-items__arrow-next slideshow__next">{% render 'icon' with 'chevron-right' %}</div>
+        {% endcomment %}
+      {%- endif -%}
+    </div>
+    <div class="related-items-btns">
+      {%- if more_btn_text != blank -%}
+        <a href="{{ more_btn_link }}" class="btn btn-primary related-items-btn">{{ more_btn_text }}</a>
+      {%- endif -%}
+    </div>
+</div>
 {%- endif -%}

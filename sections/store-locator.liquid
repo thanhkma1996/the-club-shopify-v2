@@ -1,512 +1,512 @@
-{%- capture store_additional_details %}
-  <div class="store-locator__description"
-     rv-if="store.notes">
-    <p rv-html="store.notes"></p>
-  </div>
-  <p class="store-locator-store__street-address">
-    <span class="store-locator-store__icon" data-loads>
-      {%- render 'icon' with 'location-pin-sm' -%}
-    </span>
-    <a rv-href="store.google_url" target="_blank" class="store-locator__link">
-      <span rv-html="store.street"></span>
-      <span rv-html="store.city"></span>, <span rv-html="store.province"></span> <span rv-html="store.zip"></span>
-    </a>
-    <a rv-href="store.google_url | replace 'search' 'dir/'" target="_blank" class="store-locator__link-dir store-locator__link-base">
-      Get Directions
-    </a>
-  </p>
-
-  <div class="store-locator-contact" rv-if="store.phone | store.fax">
-    <span class="store-locator-store__icon" data-loads>
-      {%- render 'icon' with 'info-phone' -%}
-    </span>
-    {% if section.settings.contact_title != blank %}
-      <p class="store-locator-contact__title h5 h5--body-text">{{ section.settings.contact_title }}</p>
-    {% endif %}
-    <p rv-if="store.phone">T. <a rv-href="store.phone | format_tel | prepend 'tel:'" rv-html="store.phone"  target="_blank" class="store-locator__link"></a></p>
-    <p rv-if="store.fax">F. <a rv-href="store.fax | format_tel | prepend 'tel:'" rv-html="store.phone"  target="_blank" class="store-locator__link"></a></p>
-    {% comment %}
-      <p rv-if="store.email">e. <a rv-href="store.email | prepend 'mailto:'" rv-html="store.email"  target="_blank"></a></p>
-    {% endcomment %}
-  </div>
-
-  <div class="store-locator-hours" rv-if="store.opening_hours">
-    <span class="store-locator-store__icon" data-loads>
-      {%- render 'icon' with 'info-clock' -%}
-    </span>
-    {% if section.settings.hours_title != blank %}
-      <p class="store-locator-hours__title h5 h5--body-text">{{ section.settings.hours_title }}</p>
-    {% endif %}
-    <p class="store-locator-hours__periods"
-      rv-each-hours="store.opening_hours">
-      {% comment %}<span class="store-locator-hours__period">{ hours }</span>{% endcomment %}
-      <span class="store-locator-hours__period-title">{ hours | array_element 0 }:</span>
-      <span class="store-locator-hours__period-times">{ hours | array_element 1 }</span></p>
-  </div>
-
-{% endcapture -%}
-
-
-<div data-section-id="{{ section.id }}"
-  data-section-type="store-locator"
-  class="store-locator"
-  rv-class-is-ready="data.is_ready"
-  >
-
-  <div class="store-locator__head">
-
-    <div class="store-locator__titles">
-
-      <h1 class="store-locator__title">{{ section.settings.title }}</h1>
-      {%- if section.settings.subtitle -%}
-        <p>{{ section.settings.subtitle }}</p>
-      {%- endif -%}
-
-    </div>
-
-    <div
-      class="store-locator__filters"
-      rv-if="data.filters | size | gt 0">
-
-      <p class="store-locator__filters-title h5 h5--body-text">{{ section.settings.filter_title }}</p>
-
-      <div class="store-locator__filters-list">
-        <div class="store-locator-filter"
-          rv-each-filter="data.filters"
-          rv-data-filter="filter.string"
-          rv-data-filter-id="filter.id"
-          rv-on-click="methods.selectFilter"
-          rv-class-is-active="filter.active"
-          >
-
-            <div class="store-locator-filter__checkbox"></div>
-            <div class="store-locator-filter__icon" rv-html="filter.icon"></div>
-            <div class="store-locator-filter__title" rv-html="filter.title"></div>
-
-          </div>
-      </div>
-
-    </div>
-
-    <div class="store-locator__search" rv-if="data.searchEnabled">
-
-      <p class="store-locator__search-title h5 h5--body-text">{{ section.settings.search_title }}</p>
-
-      <input type="search"
-             id="store-locator-search"
-             class="store-locator-search__input"
-             placeholder="Suburb or postcode">
-
-    </div>
-
-    <div class="store-locator__group">
-
-      {% comment %}<p class="store-locator__group-title h5 h5--body-text">{{ section.settings.group_title }}</p>{% endcomment %}
-
-      <div class="store-locator__group-select-wrapper">
-
-        {% comment %}<select
-          class="store-locator__group-select"
-          rv-on-change="methods.selectGroup"
-          rv-data-active-group="data.activeGroup.title">
-
-          <option value="none" rv-selected="data.activeGroup | not">
-            Suburb or postcode
-          </option>
-
-          <option
-            rv-each-group="data.groups"
-            rv-value="group.id"
-            rv-html="group.title"
-            rv-selected="group.active">
-          </option>
-        </select>{% endcomment %}
-
-        <div class="store-locator__group-find-me" rv-if="data.geolocationEnabled">
-          <span rv-on-click="methods.findUser"
-            rv-class-loading="data.geolocationLoading"
-            >{{ section.settings.find_me_title }}</span>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="store-locator__map-view">
-    <div class="store-locator__map" id="Map-{{ section.id }}">
-    </div>
-  </div>
-
-  <div
-    class="store-locator__stores-list-container"
-    rv-data-stores-count="data.stores | length"
-    rv-data-stores-in-view-count="data.storesInView | length"
-    >
-    <div
-      class="store-locator__stores-list js-call-scrollbar scrollbar-outer"
-      {% comment %}rv-if="data.storesInView | size | lt 100"{% endcomment %}
-      rv-class-hidden="data.storesInView | size | eq 0"
-      rv-class-filters-active="data.storesAreFiltered"
-      >
-
-      <div class="store-locator-store"
-        rv-each-store="data.storesInView"
-        rv-data-store-id="store.id"
-        rv-class-in-view="store.in_view"
-        rv-class-in-filter="store.in_filter"
-        rv-class-is-loading="store.is_loading"
-        rv-class-loading="store.is_loading"
-        rv-class-is-active="store.active"
-        rv-class-in-active-group="store.in_active_group"
-        rv-on-click="methods.focusStore"
-        rv-scroll-to="store.is_loading | not | and store.active"
-        >
-
-        <div class="store-locator-store__details">
-          <div class="store-locator-store__contact-details">
-            <p rv-class-active="store.active" class="store-locator-store__title color-accent" rv-html="store.title"></p>
-            <p class="store-locator-store__street-address store-locator__hide-full">
-              <a rv-href="store.google_url" target="_blank" class="store-locator__link">
-                <span rv-html="store.street"></span><br>
-                <span rv-html="store.city"></span>, <span rv-html="store.province"></span> <span rv-html="store.zip"></span>
-              </a>
-            </p>
-            <p class="store-locator__hide-full">
-              <span class="store-locator__link-base color-accent">View store</span>
-            </p>
-          </div>
-        </div>
-
-        <div class="store-locator-store__additional-details">
-          {{ store_additional_details }}
-        </div>
-
-      </div>
-
-      <button class="btn btn-primary-o back-to-stores" rv-on-click="methods.clearActiveStore">Back to all stores</button>
-
-    </div>
-    <div class="store-locator__stores-list-messages">
-
-      <div class="store-locator__no-stores-found"
-        rv-if="data.filterNoResults">
-
-        <p>{{ section.settings.no_stores_found_text }}</p>
-        <button class="btn btn--text btn-text-u"
-          rv-on-click="methods.clearFilter"
-          >
-          Clear filters
-        </button>
-      </div>
-
-      <div
-        class="store-locator__no-stores-in-view"
-        rv-if="data.storesInView | size | eq 0">
-
-        <p>{{ section.settings.no_stores_in_view_text }}</p>
-
-      </div>
-
-      {% comment %}<div
-        class="store-locator__no-stores-zoom-in"
-        rv-if="data.storesInView | size | gte 100">
-
-        <p>{{ section.settings.no_stores_zoom_in_text }}</p>
-
-      </div>{% endcomment %}
-
-
-    </div>
-  </div>
-
-
-
-</div>
-
-{% comment %}
-CAPTURE STORE DATA WHEN USING MULTIPLE METAFIELDS
-
-{%- assign store_locations = null -%}
-{%- for i in (0..999) -%}
-  {%- assign metafield_name = 'stores_' | append: i -%}
-  {%- assign metafield = shop.metafields.stores[metafield_name] -%}
-
-  {%- if metafield == blank -%}
-    {%- break -%}
-  {%- endif -%}
-
-  {%- assign store_locations = store_locations | concat: metafield -%}
-{%- endfor -%}{% endcomment %}
-
-{%- capture store_locations %}
-  {{ page.content }}
-{% endcapture -%}
-
-  {% comment %}{{- shop.metafields.stores.stores | json -}}{% endcomment %}
-<script id="store-locations" type="text/csv">
-  {{- store_locations | strip -}}
-</script>
-
-<script id="store-locator-skin">
-  {{- shop.metafields.store_locator.skin | default: blank | json -}}
-</script>
-
-<script>
-    // Call scrollbar plugin
-    document.addEventListener("DOMContentLoaded", function() {
-        $('.js-call-scrollbar').scrollbar();
-    });
-</script>
-
-{%- capture store_location_filters %}
-  {%- for block in section.blocks -%}
-    {%- if block.type != 'filter' -%}
-      {%- continue -%}
-    {%- endif -%}
-
-    {%- capture icon %}
-      {%- render 'icon' with block.settings.icon_title -%}
-    {% endcapture -%}
-
-    {%- assign icon_class = 'class="icon' -%}
-    {%- assign icon_class_replace = icon_class | append: ' icon' | append: '-' | append: section.id | append: '-' | append: block.id -%}
-
-    {%- assign icon = icon | replace: icon_class, icon_class_replace -%}
-
-    {
-      "title": {{ block.settings.title | json }},
-      "tag": {{ block.settings.tag | handle | json }},
-      "icon": {{ icon | json }}
-    },
-
-  {%- endfor -%}
-{% endcapture -%}
-
-
-{%- if section.blocks.size > 0 -%}
-  {%- style -%}
-    {%- for block in section.blocks -%}
-      {%- if block.type != 'filter' -%}
-        {%- continue -%}
-      {%- endif -%}
-
-      .icon-{{ section.id }}-{{ block.id }} {
-        color: {%- include 'color-var' with block.settings.color_icon -%}
-      }
-
-    {%- endfor -%}
-  {%- endstyle -%}
-{%- endif -%}
-
-{%- assign store_location_filters = store_location_filters | strip | split: "" | reverse | join: "" | remove_first: ',' | split: "" | reverse | join: "" -%}
-
-<script id="store-location-filters" type="application/json">
-
-  [
-    {{- store_location_filters -}}
-  ]
-
-</script>
-
-<template class="js-template" data-template-for="store-location-marker-icon" tabindex="-1" aria-hidden="true">
-  {%- render 'icon' with section.settings.marker_icon_title -%}
-</template>
-
-<template class="js-template" data-template-for="store-location-cluster-marker-icon" tabindex="-1" aria-hidden="true">
-  {%- render 'icon' with section.settings.cluster_icon_title -%}
-</template>
-
-<template class="js-template" data-template-for="user-location-marker-icon" tabindex="-1" aria-hidden="true">
-  {%- render 'icon' with section.settings.user_icon_title -%}
-</template>
-
-<template class="js-template" data-template-for="search-location-marker-icon" tabindex="-1" aria-hidden="true">
-  {%- render 'icon' with section.settings.search_icon_title -%}
-</template>
-
-<template class="js-template" data-template-for="store-location-info-popup" tabindex="-1" aria-hidden="true">
-
-  <div class="store-info-window">
-
-    <p class="store-info-window__title h4" rv-html="store.title"></p>
-
-    <div class="store-info-window__additional-details">
-      {{ store_additional_details }}
-    </div>
-
-  </div>
-</template>
-
-{% schema %}
-  {
-    "name": "Store Locator",
-    "class": "store-locator-section",
-    "settings": [
-      {
-        "type": "header",
-        "content": "Display Settings"
-      },
-      {
-        "type": "checkbox",
-        "id": "enable_filters",
-        "default": false,
-        "label": "Enable Map Filters"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_search_icon",
-        "default": true,
-        "label": "Show Search Icon"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_stores_list",
-        "default": false,
-        "label": "Show stores list"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_search_button",
-        "default": true,
-        "label": "Show search button"
-      },
-      {
-        "type": "header",
-        "content": "Default Text Values"
-      },
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Title",
-        "default": "Store Locator"
-      },
-      {
-        "type": "text",
-        "id": "subtitle",
-        "label": "Subtitle",
-        "default": "Please select a region to view store information."
-      },
-      {
-        "type": "text",
-        "id": "filter_title",
-        "label": "Filter title",
-        "default": "Filter by services:"
-      },
-      {
-        "type": "text",
-        "id": "search_title",
-        "label": "Search title",
-        "default": "Search:"
-      },
-      {
-        "type": "text",
-        "id": "search_placeholder",
-        "label": "Search Placeholder",
-        "default": "Enter a location"
-      },
-      {
-        "type": "text",
-        "id": "group_title",
-        "label": "Group title",
-        "default": "Filter by region:"
-      },
-      {
-        "type": "text",
-        "id": "find_me_title",
-        "label": "Find me title",
-        "default": "Or find a store nearest you"
-      },
-      {
-        "type": "text",
-        "id": "contact_title",
-        "label": "Contact title",
-        "default": "Contact information:"
-      },
-      {
-        "type": "text",
-        "id": "hours_title",
-        "label": "Hours title",
-        "default": "Shop hours:"
-      },
-      {
-        "type": "text",
-        "id": "no_stores_found_text",
-        "label": "No stores found text",
-        "default": "No stores found matching your selected filters."
-      },
-      {
-        "type": "text",
-        "id": "no_stores_in_view_text",
-        "label": "No stores found in view text",
-        "default": "No stores found here. Zoom out to see more stores."
-      },
-      {
-        "type": "text",
-        "id": "no_stores_zoom_in_text",
-        "label": "Zoom in to see stores details text",
-        "default": "Zoom in to see store details."
-      },
-      {
-        "type": "text",
-        "id": "marker_icon_title",
-        "label": "Marker icon title",
-        "default": "location-pin"
-      },
-      {
-        "type": "text",
-        "id": "cluster_icon_title",
-        "label": "Cluster icon title",
-        "default": "location-pin"
-      },
-      {
-        "type": "text",
-        "id": "user_icon_title",
-        "label": "User location icon title",
-        "default": "user-location"
-      },
-      {
-        "type": "text",
-        "id": "search_icon_title",
-        "label": "Search location icon title",
-        "default": "search-location"
-      },
-      {
-        "type": "text",
-        "id": "submit_btn_title",
-        "label": "Search submit button title",
-        "default": "Search"
-      },
-      {
-        "type": "text",
-        "id": "filter_all_title",
-        "label": "Filter All Title",
-        "default": "Selling cups and bags of coffee"
-      }
-    ],
-    "blocks": [
-      {
-        "name": "Filter",
-        "type": "filter",
-        "settings": [
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Title"
-          },
-          {
-            "type": "text",
-            "id": "tag",
-            "label": "Tag"
-          },
-          {
-            "type": "text",
-            "id": "icon_title",
-            "label": "Icon title"
-          }
-        ]
-      }
-    ]
-  }
-{% endschema %}
+{%- capture store_additional_details %}
+  <div class="store-locator__description"
+     rv-if="store.notes">
+    <p rv-html="store.notes"></p>
+  </div>
+  <p class="store-locator-store__street-address">
+    <span class="store-locator-store__icon" data-loads>
+      {%- render 'icon' with 'location-pin-sm' -%}
+    </span>
+    <a rv-href="store.google_url" target="_blank" class="store-locator__link">
+      <span rv-html="store.street"></span>
+      <span rv-html="store.city"></span>, <span rv-html="store.province"></span> <span rv-html="store.zip"></span>
+    </a>
+    <a rv-href="store.google_url | replace 'search' 'dir/'" target="_blank" class="store-locator__link-dir store-locator__link-base">
+      Get Directions
+    </a>
+  </p>
+
+  <div class="store-locator-contact" rv-if="store.phone | store.fax">
+    <span class="store-locator-store__icon" data-loads>
+      {%- render 'icon' with 'info-phone' -%}
+    </span>
+    {% if section.settings.contact_title != blank %}
+      <p class="store-locator-contact__title h5 h5--body-text">{{ section.settings.contact_title }}</p>
+    {% endif %}
+    <p rv-if="store.phone">T. <a rv-href="store.phone | format_tel | prepend 'tel:'" rv-html="store.phone"  target="_blank" class="store-locator__link"></a></p>
+    <p rv-if="store.fax">F. <a rv-href="store.fax | format_tel | prepend 'tel:'" rv-html="store.phone"  target="_blank" class="store-locator__link"></a></p>
+    {% comment %}
+      <p rv-if="store.email">e. <a rv-href="store.email | prepend 'mailto:'" rv-html="store.email"  target="_blank"></a></p>
+    {% endcomment %}
+  </div>
+
+  <div class="store-locator-hours" rv-if="store.opening_hours">
+    <span class="store-locator-store__icon" data-loads>
+      {%- render 'icon' with 'info-clock' -%}
+    </span>
+    {% if section.settings.hours_title != blank %}
+      <p class="store-locator-hours__title h5 h5--body-text">{{ section.settings.hours_title }}</p>
+    {% endif %}
+    <p class="store-locator-hours__periods"
+      rv-each-hours="store.opening_hours">
+      {% comment %}<span class="store-locator-hours__period">{ hours }</span>{% endcomment %}
+      <span class="store-locator-hours__period-title">{ hours | array_element 0 }:</span>
+      <span class="store-locator-hours__period-times">{ hours | array_element 1 }</span></p>
+  </div>
+
+{% endcapture -%}
+
+
+<div data-section-id="{{ section.id }}"
+  data-section-type="store-locator"
+  class="store-locator"
+  rv-class-is-ready="data.is_ready"
+  >
+
+  <div class="store-locator__head">
+
+    <div class="store-locator__titles">
+
+      <h1 class="store-locator__title">{{ section.settings.title }}</h1>
+      {%- if section.settings.subtitle -%}
+        <p>{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+    </div>
+
+    <div
+      class="store-locator__filters"
+      rv-if="data.filters | size | gt 0">
+
+      <p class="store-locator__filters-title h5 h5--body-text">{{ section.settings.filter_title }}</p>
+
+      <div class="store-locator__filters-list">
+        <div class="store-locator-filter"
+          rv-each-filter="data.filters"
+          rv-data-filter="filter.string"
+          rv-data-filter-id="filter.id"
+          rv-on-click="methods.selectFilter"
+          rv-class-is-active="filter.active"
+          >
+
+            <div class="store-locator-filter__checkbox"></div>
+            <div class="store-locator-filter__icon" rv-html="filter.icon"></div>
+            <div class="store-locator-filter__title" rv-html="filter.title"></div>
+
+          </div>
+      </div>
+
+    </div>
+
+    <div class="store-locator__search" rv-if="data.searchEnabled">
+
+      <p class="store-locator__search-title h5 h5--body-text">{{ section.settings.search_title }}</p>
+
+      <input type="search"
+             id="store-locator-search"
+             class="store-locator-search__input"
+             placeholder="Suburb or postcode">
+
+    </div>
+
+    <div class="store-locator__group">
+
+      {% comment %}<p class="store-locator__group-title h5 h5--body-text">{{ section.settings.group_title }}</p>{% endcomment %}
+
+      <div class="store-locator__group-select-wrapper">
+
+        {% comment %}<select
+          class="store-locator__group-select"
+          rv-on-change="methods.selectGroup"
+          rv-data-active-group="data.activeGroup.title">
+
+          <option value="none" rv-selected="data.activeGroup | not">
+            Suburb or postcode
+          </option>
+
+          <option
+            rv-each-group="data.groups"
+            rv-value="group.id"
+            rv-html="group.title"
+            rv-selected="group.active">
+          </option>
+        </select>{% endcomment %}
+
+        <div class="store-locator__group-find-me" rv-if="data.geolocationEnabled">
+          <span rv-on-click="methods.findUser"
+            rv-class-loading="data.geolocationLoading"
+            >{{ section.settings.find_me_title }}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="store-locator__map-view">
+    <div class="store-locator__map" id="Map-{{ section.id }}">
+    </div>
+  </div>
+
+  <div
+    class="store-locator__stores-list-container"
+    rv-data-stores-count="data.stores | length"
+    rv-data-stores-in-view-count="data.storesInView | length"
+    >
+    <div
+      class="store-locator__stores-list js-call-scrollbar scrollbar-outer"
+      {% comment %}rv-if="data.storesInView | size | lt 100"{% endcomment %}
+      rv-class-hidden="data.storesInView | size | eq 0"
+      rv-class-filters-active="data.storesAreFiltered"
+      >
+
+      <div class="store-locator-store"
+        rv-each-store="data.storesInView"
+        rv-data-store-id="store.id"
+        rv-class-in-view="store.in_view"
+        rv-class-in-filter="store.in_filter"
+        rv-class-is-loading="store.is_loading"
+        rv-class-loading="store.is_loading"
+        rv-class-is-active="store.active"
+        rv-class-in-active-group="store.in_active_group"
+        rv-on-click="methods.focusStore"
+        rv-scroll-to="store.is_loading | not | and store.active"
+        >
+
+        <div class="store-locator-store__details">
+          <div class="store-locator-store__contact-details">
+            <p rv-class-active="store.active" class="store-locator-store__title color-accent" rv-html="store.title"></p>
+            <p class="store-locator-store__street-address store-locator__hide-full">
+              <a rv-href="store.google_url" target="_blank" class="store-locator__link">
+                <span rv-html="store.street"></span><br>
+                <span rv-html="store.city"></span>, <span rv-html="store.province"></span> <span rv-html="store.zip"></span>
+              </a>
+            </p>
+            <p class="store-locator__hide-full">
+              <span class="store-locator__link-base color-accent">View store</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="store-locator-store__additional-details">
+          {{ store_additional_details }}
+        </div>
+
+      </div>
+
+      <button class="btn btn-primary-o back-to-stores" rv-on-click="methods.clearActiveStore">Back to all stores</button>
+
+    </div>
+    <div class="store-locator__stores-list-messages">
+
+      <div class="store-locator__no-stores-found"
+        rv-if="data.filterNoResults">
+
+        <p>{{ section.settings.no_stores_found_text }}</p>
+        <button class="btn btn--text btn-text-u"
+          rv-on-click="methods.clearFilter"
+          >
+          Clear filters
+        </button>
+      </div>
+
+      <div
+        class="store-locator__no-stores-in-view"
+        rv-if="data.storesInView | size | eq 0">
+
+        <p>{{ section.settings.no_stores_in_view_text }}</p>
+
+      </div>
+
+      {% comment %}<div
+        class="store-locator__no-stores-zoom-in"
+        rv-if="data.storesInView | size | gte 100">
+
+        <p>{{ section.settings.no_stores_zoom_in_text }}</p>
+
+      </div>{% endcomment %}
+
+
+    </div>
+  </div>
+
+
+
+</div>
+
+{% comment %}
+CAPTURE STORE DATA WHEN USING MULTIPLE METAFIELDS
+
+{%- assign store_locations = null -%}
+{%- for i in (0..999) -%}
+  {%- assign metafield_name = 'stores_' | append: i -%}
+  {%- assign metafield = shop.metafields.stores[metafield_name] -%}
+
+  {%- if metafield == blank -%}
+    {%- break -%}
+  {%- endif -%}
+
+  {%- assign store_locations = store_locations | concat: metafield -%}
+{%- endfor -%}{% endcomment %}
+
+{%- capture store_locations %}
+  {{ page.content }}
+{% endcapture -%}
+
+  {% comment %}{{- shop.metafields.stores.stores | json -}}{% endcomment %}
+<script id="store-locations" type="text/csv">
+  {{- store_locations | strip -}}
+</script>
+
+<script id="store-locator-skin">
+  {{- shop.metafields.store_locator.skin | default: blank | json -}}
+</script>
+
+<script>
+    // Call scrollbar plugin
+    document.addEventListener("DOMContentLoaded", function() {
+        $('.js-call-scrollbar').scrollbar();
+    });
+</script>
+
+{%- capture store_location_filters %}
+  {%- for block in section.blocks -%}
+    {%- if block.type != 'filter' -%}
+      {%- continue -%}
+    {%- endif -%}
+
+    {%- capture icon %}
+      {%- render 'icon' with block.settings.icon_title -%}
+    {% endcapture -%}
+
+    {%- assign icon_class = 'class="icon' -%}
+    {%- assign icon_class_replace = icon_class | append: ' icon' | append: '-' | append: section.id | append: '-' | append: block.id -%}
+
+    {%- assign icon = icon | replace: icon_class, icon_class_replace -%}
+
+    {
+      "title": {{ block.settings.title | json }},
+      "tag": {{ block.settings.tag | handle | json }},
+      "icon": {{ icon | json }}
+    },
+
+  {%- endfor -%}
+{% endcapture -%}
+
+
+{%- if section.blocks.size > 0 -%}
+  {%- style -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type != 'filter' -%}
+        {%- continue -%}
+      {%- endif -%}
+
+      .icon-{{ section.id }}-{{ block.id }} {
+        color: {%- include 'color-var' with block.settings.color_icon -%}
+      }
+
+    {%- endfor -%}
+  {%- endstyle -%}
+{%- endif -%}
+
+{%- assign store_location_filters = store_location_filters | strip | split: "" | reverse | join: "" | remove_first: ',' | split: "" | reverse | join: "" -%}
+
+<script id="store-location-filters" type="application/json">
+
+  [
+    {{- store_location_filters -}}
+  ]
+
+</script>
+
+<template class="js-template" data-template-for="store-location-marker-icon" tabindex="-1" aria-hidden="true">
+  {%- render 'icon' with section.settings.marker_icon_title -%}
+</template>
+
+<template class="js-template" data-template-for="store-location-cluster-marker-icon" tabindex="-1" aria-hidden="true">
+  {%- render 'icon' with section.settings.cluster_icon_title -%}
+</template>
+
+<template class="js-template" data-template-for="user-location-marker-icon" tabindex="-1" aria-hidden="true">
+  {%- render 'icon' with section.settings.user_icon_title -%}
+</template>
+
+<template class="js-template" data-template-for="search-location-marker-icon" tabindex="-1" aria-hidden="true">
+  {%- render 'icon' with section.settings.search_icon_title -%}
+</template>
+
+<template class="js-template" data-template-for="store-location-info-popup" tabindex="-1" aria-hidden="true">
+
+  <div class="store-info-window">
+
+    <p class="store-info-window__title h4" rv-html="store.title"></p>
+
+    <div class="store-info-window__additional-details">
+      {{ store_additional_details }}
+    </div>
+
+  </div>
+</template>
+
+{% schema %}
+  {
+    "name": "Store Locator",
+    "class": "store-locator-section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Display Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_filters",
+        "default": false,
+        "label": "Enable Map Filters"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_search_icon",
+        "default": true,
+        "label": "Show Search Icon"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_stores_list",
+        "default": false,
+        "label": "Show stores list"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_search_button",
+        "default": true,
+        "label": "Show search button"
+      },
+      {
+        "type": "header",
+        "content": "Default Text Values"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Store Locator"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "Please select a region to view store information."
+      },
+      {
+        "type": "text",
+        "id": "filter_title",
+        "label": "Filter title",
+        "default": "Filter by services:"
+      },
+      {
+        "type": "text",
+        "id": "search_title",
+        "label": "Search title",
+        "default": "Search:"
+      },
+      {
+        "type": "text",
+        "id": "search_placeholder",
+        "label": "Search Placeholder",
+        "default": "Enter a location"
+      },
+      {
+        "type": "text",
+        "id": "group_title",
+        "label": "Group title",
+        "default": "Filter by region:"
+      },
+      {
+        "type": "text",
+        "id": "find_me_title",
+        "label": "Find me title",
+        "default": "Or find a store nearest you"
+      },
+      {
+        "type": "text",
+        "id": "contact_title",
+        "label": "Contact title",
+        "default": "Contact information:"
+      },
+      {
+        "type": "text",
+        "id": "hours_title",
+        "label": "Hours title",
+        "default": "Shop hours:"
+      },
+      {
+        "type": "text",
+        "id": "no_stores_found_text",
+        "label": "No stores found text",
+        "default": "No stores found matching your selected filters."
+      },
+      {
+        "type": "text",
+        "id": "no_stores_in_view_text",
+        "label": "No stores found in view text",
+        "default": "No stores found here. Zoom out to see more stores."
+      },
+      {
+        "type": "text",
+        "id": "no_stores_zoom_in_text",
+        "label": "Zoom in to see stores details text",
+        "default": "Zoom in to see store details."
+      },
+      {
+        "type": "text",
+        "id": "marker_icon_title",
+        "label": "Marker icon title",
+        "default": "location-pin"
+      },
+      {
+        "type": "text",
+        "id": "cluster_icon_title",
+        "label": "Cluster icon title",
+        "default": "location-pin"
+      },
+      {
+        "type": "text",
+        "id": "user_icon_title",
+        "label": "User location icon title",
+        "default": "user-location"
+      },
+      {
+        "type": "text",
+        "id": "search_icon_title",
+        "label": "Search location icon title",
+        "default": "search-location"
+      },
+      {
+        "type": "text",
+        "id": "submit_btn_title",
+        "label": "Search submit button title",
+        "default": "Search"
+      },
+      {
+        "type": "text",
+        "id": "filter_all_title",
+        "label": "Filter All Title",
+        "default": "Selling cups and bags of coffee"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Filter",
+        "type": "filter",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "tag",
+            "label": "Tag"
+          },
+          {
+            "type": "text",
+            "id": "icon_title",
+            "label": "Icon title"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

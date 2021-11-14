@@ -1,120 +1,120 @@
-<div data-section-id="{{ section.id }}" data-section-type="quotes">
-  {%- if section.blocks.size > 0 -%}
-    <div class="quotes">
-
-      {%- if section.settings.title != blank -%}
-        <div class="section-header text-center">
-          <h2 class="section-header__title">
-            <span>{{ section.settings.title | escape }}</span>
-          </h2>
-        </div>
-      {%- endif -%}
-      
-      <div class="page-width slideshow-wrapper">
-        <div class="quotes__slider" id="Quotes-{{ section.id }}" data-count="{{ section.blocks.size }}">
-          {%- for block in section.blocks -%}
-            <div class="quotes-slide--{{ block.id }}" {{ block.shopify_attributes }}>
-              
-              {%- if block.settings.image != blank -%}
-                <div class="quote__image">
-                  {%- include 'img' with block.settings.image -%}
-                </div>
-              {%- endif -%}
-
-              <div class="quote__stars">
-                {%- render 'icon' with 'stars' -%}
-              </div>
-
-              <blockquote class="quotes-slider__text text-center">
-
-                {%- if show_quotation_marks -%}
-                  <span class="quote-icon quote-icon--left">
-                    {%- render 'icon' with 'quote_dbl_left' -%}
-                  </span>
-                  <span class="quote-icon quote-icon--right">
-                    {%- render 'icon' with 'quote_dbl_right' -%}
-                  </span>
-                {%- endif -%}
-
-                {%- if block.settings.title != blank -%}
-                  <h4 class="quotes-slider__title underline--pattern-flipped">
-                    {{ block.settings.title }}
-                  </h4>
-                {%- endif -%}
-
-                {%- if block.settings.quote != blank -%}
-                  <div class="rte">
-                    {%- include 'text' with block.settings.quote -%}
-                  </div>
-                {%- endif -%}
-
-                {%- if block.settings.author != blank -%}
-                  <cite>{{ block.settings.author | escape }}</cite>
-                {%- endif -%}
-
-              </blockquote>
-
-            </div>
-          {%- endfor -%}
-        </div>
-        <button type="button" class="slideshow__prev featured-collections__prev">
-          {%- render 'icon' with 'chevron-left' -%}
-        </button>
-        <button type="button" class="slideshow__next featured-collections__next">
-          {%- render 'icon' with 'chevron-right' -%}
-        </button>
-      </div>
-
-    </div>
-  {%- endif -%}
-
-  {%- if section.blocks.size == 0 -%}
-    {%- include 'no-blocks' -%}
-  {%- endif -%}
-</div>
-
-{% schema %}
-  {
-    "name": "Testimonials",
-    "class": "index-section",
-    "max_blocks": 9,
-    "settings": [
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Heading",
-        "default": "Testimonials"
-      }
-    ],
-    "blocks": [
-      {
-        "type": "quote",
-        "name": "Testimonial",
-        "settings": [
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Title"
-          },
-          {
-            "type": "richtext",
-            "id": "quote",
-            "label": "Text",
-            "default": "<p>Add customer reviews and testimonials to showcase your storeâs happy customers.</p>"
-          },
-          {
-            "type": "image_picker",
-            "id": "image",
-            "label": "Image"
-          },
-          {
-            "type": "text",
-            "id": "author",
-            "label": "Author",
-            "default": "Author's name"
-          }
-        ]
-      }
-    ]
-  }
-{% endschema %}
+<div data-section-id="{{ section.id }}" data-section-type="quotes">
+  {%- if section.blocks.size > 0 -%}
+    <div class="quotes">
+
+      {%- if section.settings.title != blank -%}
+        <div class="section-header text-center">
+          <h2 class="section-header__title">
+            <span>{{ section.settings.title | escape }}</span>
+          </h2>
+        </div>
+      {%- endif -%}
+      
+      <div class="page-width slideshow-wrapper">
+        <div class="quotes__slider" id="Quotes-{{ section.id }}" data-count="{{ section.blocks.size }}">
+          {%- for block in section.blocks -%}
+            <div class="quotes-slide--{{ block.id }}" {{ block.shopify_attributes }}>
+              
+              {%- if block.settings.image != blank -%}
+                <div class="quote__image">
+                  {%- include 'img' with block.settings.image -%}
+                </div>
+              {%- endif -%}
+
+              <div class="quote__stars">
+                {%- render 'icon' with 'stars' -%}
+              </div>
+
+              <blockquote class="quotes-slider__text text-center">
+
+                {%- if show_quotation_marks -%}
+                  <span class="quote-icon quote-icon--left">
+                    {%- render 'icon' with 'quote_dbl_left' -%}
+                  </span>
+                  <span class="quote-icon quote-icon--right">
+                    {%- render 'icon' with 'quote_dbl_right' -%}
+                  </span>
+                {%- endif -%}
+
+                {%- if block.settings.title != blank -%}
+                  <h4 class="quotes-slider__title underline--pattern-flipped">
+                    {{ block.settings.title }}
+                  </h4>
+                {%- endif -%}
+
+                {%- if block.settings.quote != blank -%}
+                  <div class="rte">
+                    {%- include 'text' with block.settings.quote -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.author != blank -%}
+                  <cite>{{ block.settings.author | escape }}</cite>
+                {%- endif -%}
+
+              </blockquote>
+
+            </div>
+          {%- endfor -%}
+        </div>
+        <button type="button" class="slideshow__prev featured-collections__prev">
+          {%- render 'icon' with 'chevron-left' -%}
+        </button>
+        <button type="button" class="slideshow__next featured-collections__next">
+          {%- render 'icon' with 'chevron-right' -%}
+        </button>
+      </div>
+
+    </div>
+  {%- endif -%}
+
+  {%- if section.blocks.size == 0 -%}
+    {%- include 'no-blocks' -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+  {
+    "name": "Testimonials",
+    "class": "index-section",
+    "max_blocks": 9,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Testimonials"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "quote",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "quote",
+            "label": "Text",
+            "default": "<p>Add customer reviews and testimonials to showcase your storeâs happy customers.</p>"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "author",
+            "label": "Author",
+            "default": "Author's name"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

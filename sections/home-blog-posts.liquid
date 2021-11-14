@@ -1,154 +1,154 @@
-<div data-section-id="{{ section.id }}" data-section-type="latest-blog-posts">
-  <div class="latest-blog-posts-wrap">
-    <div class="container">
-
-      {%- if section.settings.title != blank -%}
-        <div class="section-header text-center">
-          <h2 class="section-header__title">
-            <span>{{ section.settings.title | escape }}</span>
-          </h2>
-        </div>
-      {%- endif -%}
-
-      <div class="article-grid-list"
-             id="Slideshow-{{ section.id }}"
-             data-autoplay="{{ section.settings.autoplay }}"
-             data-speed="{{ section.settings.autoplay_speed }}"
-             data-arrows="false"
-             data-dots-mobile="true"
-             data-dots-tablet="true"
-             data-slides-show="3"
-             data-slides-scroll="3"
-             data-slides-show-tablet="2"
-             data-slides-scroll-tablet="2"
-             data-slides-show-mobile="1"
-             data-slides-scroll-mobile="1"
-             data-center-mode-mobile="true"
-             data-center-padding-mobile="30px"
-             data-dots="{% if section.blocks.size > 1 %}true{% else %}false{% endif %}">
-
-        {%- assign limit = section.settings.items_to_show -%}
-        {%- assign article_count = blogs[section.settings.blog].articles_count -%}
-
-
-        {% if section.blocks.size > 0 %}
-          {%- for block in section.blocks -%}
-            {% assign article = articles[block.settings.post] %}
-            {% if block.settings.title != blank %}
-              {% assign title = block.settings.title %}
-            {% else %}
-              {% assign title = article.title %}
-            {% endif %}
-
-            {% include 'article-grid-item' with article, layout: section.settings.layout, show_byline: false, blog_title: title %}
-          {% endfor %}
-        {% else %}
-          {%- for article in blogs[section.settings.blog].articles limit: limit -%}
-            {% include 'article-grid-item' with article, layout: section.settings.layout, show_byline: false, blog_title: blogs[section.settings.blog].title %}
-          {%- endfor -%}
-        {% endif %}
-
-      </div>
-
-      {%- assign article_count = article_count | plus: 0 -%}
-      {%- assign limit = limit | plus: 0 -%}
-      {% if product.metafields.accentuate.related_blog != blank %}
-        <div class="row center-xs middle-xs">
-          <a class="btn btn-primary-o" href="{{ blogs[product.metafields.accentuate.related_blog].url }}">
-            <span>{{ section.settings.button_show_more_text }}</span>
-          </a>
-        </div>
-      {% else %}
-        {%- if article_count > limit and section.settings.button_show_more_enabled -%}
-          <div class="row center-xs middle-xs">
-            <a class="btn btn-primary-o" href="{{ blogs[section.settings.blog].url }}">
-              <span>{{ section.settings.button_show_more_text }}</span>
-            </a>
-          </div>
-        {%- endif -%}
-      {% endif %}
-
-    </div>
-  </div>
-</div>
-
-{% schema %}
-{
-  "name": "Home Blog Posts",
-  "class": "home-blog-posts",
-  "settings": [
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Title"
-    },
-    {
-      "type": "blog",
-      "id": "blog",
-      "label": "Blog"
-    },
-    {
-      "type": "range",
-      "id": "items_to_show",
-      "label": "Items to show",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "default": 3
-    },
-    {
-      "type": "checkbox",
-      "id": "button_show_more_enabled",
-      "label": "Show More Button",
-      "default": false,
-      "info": "Will add a 'View More' button if more posts are available."
-    },
-    {
-      "type": "text",
-      "id": "button_show_more_text",
-      "label": "'View More' Button Text",
-      "default": "view all articles"
-    },
-    {
-      "type": "select",
-      "id": "layout",
-      "label": "Layout",
-      "default": "default",
-      "options": [
-        {
-          "value": "default",
-          "label": "Image then text, vertical"
-        },
-        {
-          "value": "square",
-          "label": "Title over image"
-        }
-      ]
-    }
-  ],
-  "blocks": [
-    {
-      "type": "list",
-      "name": "Article",
-      "settings": [
-        {
-          "type": "article",
-          "id": "post",
-          "label": "Select article"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Blog name"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Home Blog Posts",
-      "category": "Blogs / Articles"
-    }
-  ]
-}
-{% endschema %}
+<div data-section-id="{{ section.id }}" data-section-type="latest-blog-posts">
+  <div class="latest-blog-posts-wrap">
+    <div class="container">
+
+      {%- if section.settings.title != blank -%}
+        <div class="section-header text-center">
+          <h2 class="section-header__title">
+            <span>{{ section.settings.title | escape }}</span>
+          </h2>
+        </div>
+      {%- endif -%}
+
+      <div class="article-grid-list"
+             id="Slideshow-{{ section.id }}"
+             data-autoplay="{{ section.settings.autoplay }}"
+             data-speed="{{ section.settings.autoplay_speed }}"
+             data-arrows="false"
+             data-dots-mobile="true"
+             data-dots-tablet="true"
+             data-slides-show="3"
+             data-slides-scroll="3"
+             data-slides-show-tablet="2"
+             data-slides-scroll-tablet="2"
+             data-slides-show-mobile="1"
+             data-slides-scroll-mobile="1"
+             data-center-mode-mobile="true"
+             data-center-padding-mobile="30px"
+             data-dots="{% if section.blocks.size > 1 %}true{% else %}false{% endif %}">
+
+        {%- assign limit = section.settings.items_to_show -%}
+        {%- assign article_count = blogs[section.settings.blog].articles_count -%}
+
+
+        {% if section.blocks.size > 0 %}
+          {%- for block in section.blocks -%}
+            {% assign article = articles[block.settings.post] %}
+            {% if block.settings.title != blank %}
+              {% assign title = block.settings.title %}
+            {% else %}
+              {% assign title = article.title %}
+            {% endif %}
+
+            {% include 'article-grid-item' with article, layout: section.settings.layout, show_byline: false, blog_title: title %}
+          {% endfor %}
+        {% else %}
+          {%- for article in blogs[section.settings.blog].articles limit: limit -%}
+            {% include 'article-grid-item' with article, layout: section.settings.layout, show_byline: false, blog_title: blogs[section.settings.blog].title %}
+          {%- endfor -%}
+        {% endif %}
+
+      </div>
+
+      {%- assign article_count = article_count | plus: 0 -%}
+      {%- assign limit = limit | plus: 0 -%}
+      {% if product.metafields.accentuate.related_blog != blank %}
+        <div class="row center-xs middle-xs">
+          <a class="btn btn-primary-o" href="{{ blogs[product.metafields.accentuate.related_blog].url }}">
+            <span>{{ section.settings.button_show_more_text }}</span>
+          </a>
+        </div>
+      {% else %}
+        {%- if article_count > limit and section.settings.button_show_more_enabled -%}
+          <div class="row center-xs middle-xs">
+            <a class="btn btn-primary-o" href="{{ blogs[section.settings.blog].url }}">
+              <span>{{ section.settings.button_show_more_text }}</span>
+            </a>
+          </div>
+        {%- endif -%}
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Home Blog Posts",
+  "class": "home-blog-posts",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "items_to_show",
+      "label": "Items to show",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "button_show_more_enabled",
+      "label": "Show More Button",
+      "default": false,
+      "info": "Will add a 'View More' button if more posts are available."
+    },
+    {
+      "type": "text",
+      "id": "button_show_more_text",
+      "label": "'View More' Button Text",
+      "default": "view all articles"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Image then text, vertical"
+        },
+        {
+          "value": "square",
+          "label": "Title over image"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "list",
+      "name": "Article",
+      "settings": [
+        {
+          "type": "article",
+          "id": "post",
+          "label": "Select article"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Blog name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Blog Posts",
+      "category": "Blogs / Articles"
+    }
+  ]
+}
+{% endschema %}

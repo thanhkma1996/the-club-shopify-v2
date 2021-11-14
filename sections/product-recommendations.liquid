@@ -1,70 +1,70 @@
-{%- assign number_of_recommendations = 3 -%}
-{%- assign heading = section.settings.title -%}
-{% assign selected_handles = product.metafields.products.you_may_also_like | split: '|' %}
-
-
-
-
-{%- if selected_handles == blank -%}
-
-    {% assign class = 'product-recommendations' %}
-
-    {% capture output %}
-        {%- for product in recommendations.products -%}
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                {%- render 'product-grid-item', product: product -%}
-            </div>
-        {%- endfor -%}
-    {% endcapture %}
-
-{% else %}
-
-    {% assign class = 'product-recommendations-metafields' %}
-
-    {% capture output %}
-        {% for selected_handle in selected_handles limit: number_of_recommendations %}
-            {% if all_products[selected_handle].id != blank %}
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                    {%- render 'product-grid-item', product: all_products[selected_handle] -%}
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endcapture %}
-{% endif %}
-
-
-<div data-section-type="product-recommendations" data-section-id="{{ section.id }}">
-    <div class="product-recommendations__container">
-        <div class="{{ class }}" data-base-url="{{ routes.product_recommendations_url }}"
-             data-product-id="{{ product.id }}" data-limit="{{ number_of_recommendations }}">
-            {%- if recommendations.products_count > 0 or selected_handles != blank -%}
-                <div class="container">
-                    <div class="row">
-                        <div class="product-recommendations__title">
-                            <h2>{{ heading }}</h2>
-                        </div>
-                    </div>
-                    <div class="row product-recommendations__row" id="Slideshow-{{ section.id }}">
-                        {{ output }}
-                    </div>
-                </div>
-            {%- endif -%}
-        </div>
-    </div>
-</div>
-
-
-{% schema %}
-    {
-    "name": "Product recommendation",
-    "class": "product-recommendation",
-    "settings": [
-    {
-    "type": "text",
-    "id": "title",
-    "label": "Title",
-    "default": "You May Also Like"
-    }
-    ]
-    }
+{%- assign number_of_recommendations = 3 -%}
+{%- assign heading = section.settings.title -%}
+{% assign selected_handles = product.metafields.products.you_may_also_like | split: '|' %}
+
+
+
+
+{%- if selected_handles == blank -%}
+
+    {% assign class = 'product-recommendations' %}
+
+    {% capture output %}
+        {%- for product in recommendations.products -%}
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                {%- render 'product-grid-item', product: product -%}
+            </div>
+        {%- endfor -%}
+    {% endcapture %}
+
+{% else %}
+
+    {% assign class = 'product-recommendations-metafields' %}
+
+    {% capture output %}
+        {% for selected_handle in selected_handles limit: number_of_recommendations %}
+            {% if all_products[selected_handle].id != blank %}
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    {%- render 'product-grid-item', product: all_products[selected_handle] -%}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endcapture %}
+{% endif %}
+
+
+<div data-section-type="product-recommendations" data-section-id="{{ section.id }}">
+    <div class="product-recommendations__container">
+        <div class="{{ class }}" data-base-url="{{ routes.product_recommendations_url }}"
+             data-product-id="{{ product.id }}" data-limit="{{ number_of_recommendations }}">
+            {%- if recommendations.products_count > 0 or selected_handles != blank -%}
+                <div class="container">
+                    <div class="row">
+                        <div class="product-recommendations__title">
+                            <h2>{{ heading }}</h2>
+                        </div>
+                    </div>
+                    <div class="row product-recommendations__row" id="Slideshow-{{ section.id }}">
+                        {{ output }}
+                    </div>
+                </div>
+            {%- endif -%}
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+    {
+    "name": "Product recommendation",
+    "class": "product-recommendation",
+    "settings": [
+    {
+    "type": "text",
+    "id": "title",
+    "label": "Title",
+    "default": "You May Also Like"
+    }
+    ]
+    }
 {% endschema %}

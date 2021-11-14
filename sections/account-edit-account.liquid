@@ -1,186 +1,186 @@
-{% assign s_sett = section.settings %}
-
-{%- capture edit_account_card %}
-
-  <form class="account-card" data-async-submit='data-async-submit'>
-
-    {%- capture edit_account_form_fields %}
-
-      <div class="form-vertical">
-        <input type="hidden" name="customer[id]" value="{{ customer.id }}" />
-        {% comment %} FIRST NAME {% endcomment %}
-        <div class="input-wrapper">
-          <label
-              class="{% if hide_labels %}label-hidden{% endif %}"
-            for="FirstName"
-            >
-            {{ 'customer.addresses.first_name' | t }}
-          </label>
-
-          {%- assign first_name = customer.first_name -%}
-
-          {%- if form.first_name -%}
-            {%- assign first_name = form.first_name -%}
-          {%- endif -%}
-
-          <input
-              class="input-base"
-            type="text"
-            name="customer[first_name]"
-            id="FirstName"
-            {% if first_name %}value="{{ first_name }}"{% endif %}
-            >
-        </div>
-
-        {% comment %} LAST NAME {% endcomment %}
-        <div class="input-wrapper">
-          <label
-            for="LastName"
-            class="{% if hide_labels %}label-hidden{% endif %}"
-            >
-            {{ 'customer.addresses.last_name' | t }}
-          </label>
-
-          {%- assign last_name = customer.last_name -%}
-
-          {%- if form.last_name -%}
-            {%- assign last_name = form.last_name -%}
-          {%- endif -%}
-
-          <input
-              class="input-base"
-            type="text"
-            name="customer[last_name]"
-            id="FirstName"
-            {% if last_name %}value="{{ last_name }}"{% endif %}
-            >
-        </div>
-
-
-        {% comment %} EMAIL {% endcomment %}
-        <div class="input-wrapper">
-            <label
-              for="Email"
-              {% if hide_labels %}class="label-hidden"{% endif %}
-              >
-              {{ 'customer.addresses.email' | t }}
-            </label>
-
-            {%- assign email = customer.email -%}
-
-            {%- if form.email -%}
-              {%- assign email = form.email -%}
-            {%- endif -%}
-
-            <input
-                class="input-base"
-              type="text"
-              name="customer[email]"
-              id="Email"
-              {% if email %}value="{{ email }}"{% endif %}
-              >
-          </div>
-      </div>
-
-    {% endcapture -%}
-
-    <h4 class="account-card__title">
-      {% if s_sett.title %}
-        {{ s_sett.title }}
-      {% else %}
-        {{ 'customer.account.personal_information' | t }}
-      {% endif %}
-    </h4>
-
-    <div class="account-card__content">
-      {{ edit_account_form_fields }}
-    </div>
-    <div class="account-card__footer">
-      <button type="submit" class="btn ">{{ 'customer.account.save_changes' | t }}</button>
-    </div>
-
-  </form>
-
-{% endcapture -%}
-
-{%- capture reset_password_card %}
-
-  {% form 'recover_customer_password', class: 'account-card' %}
-
-      <h4 class="account-card__title">
-        {{ 'customer.recover_password.title' | t }}
-      </h4>
-
-      <div class="account-card__content form-vertical">
-
-        {{ form.errors | default_errors }}
-
-        {% if form.posted_successfully? %}
-          <span class="hide reset-password-success"></span>
-        {% endif %}
-
-        <div class="input-wrapper">
-          <label for="RecoverEmail"{% if hide_labels %} class="label-hidden"{% endif %}>
-              {{ 'customer.recover_password.email' | t }}
-          </label>
-          <input type="email"
-                 name="email"
-                 id="RecoverEmail"
-                 class="input-base"
-                 spellcheck="false"
-                 autocomplete="off"
-                 autocapitalize="off"
-                 value="{{ customer.email }}">
-        </div>
-      </div>
-
-      <div class="account-card__footer text-right">
-        <button type="submit" class="btn btn-primary-o btn-large">{{ 'customer.recover_password.submit' | t }}</button>
-      </div>
-
-    </div>
-  {% endform %}
-
-{% endcapture -%}
-
-<div class="edit-account">
-
-  <div class="account-cards">
-
-    <section class="account-cards__section">
-      <h1 class="account-cards__title h3">{{ 'customer.account.my_details' | t }}</h1>
-      {% if s_sett.description %}
-        <p class="account-cards__description">{{ s_sett.description }}</p>
-      {% endif %}
-    </section>
-
-    <div class="row">
-      <div class="col-xs-12 col-md-6">
-        {{ edit_account_card }}
-      </div>
-
-      <div class="col-xs-12 col-md-6">
-        {{ reset_password_card }}
-      </div>
-    </div>
-
-  </div>
-</div>
-{% schema %}
-  {
-    "name": "Edit Details Page",
-    "settings": [
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Heading",
-        "default": "Personal information"
-      },
-      {
-        "type": "textarea",
-        "id": "description",
-        "label": "Description"
-      }
-    ]
-  }
-{% endschema %}
+{% assign s_sett = section.settings %}
+
+{%- capture edit_account_card %}
+
+  <form class="account-card" data-async-submit='data-async-submit'>
+
+    {%- capture edit_account_form_fields %}
+
+      <div class="form-vertical">
+        <input type="hidden" name="customer[id]" value="{{ customer.id }}" />
+        {% comment %} FIRST NAME {% endcomment %}
+        <div class="input-wrapper">
+          <label
+              class="{% if hide_labels %}label-hidden{% endif %}"
+            for="FirstName"
+            >
+            {{ 'customer.addresses.first_name' | t }}
+          </label>
+
+          {%- assign first_name = customer.first_name -%}
+
+          {%- if form.first_name -%}
+            {%- assign first_name = form.first_name -%}
+          {%- endif -%}
+
+          <input
+              class="input-base"
+            type="text"
+            name="customer[first_name]"
+            id="FirstName"
+            {% if first_name %}value="{{ first_name }}"{% endif %}
+            >
+        </div>
+
+        {% comment %} LAST NAME {% endcomment %}
+        <div class="input-wrapper">
+          <label
+            for="LastName"
+            class="{% if hide_labels %}label-hidden{% endif %}"
+            >
+            {{ 'customer.addresses.last_name' | t }}
+          </label>
+
+          {%- assign last_name = customer.last_name -%}
+
+          {%- if form.last_name -%}
+            {%- assign last_name = form.last_name -%}
+          {%- endif -%}
+
+          <input
+              class="input-base"
+            type="text"
+            name="customer[last_name]"
+            id="FirstName"
+            {% if last_name %}value="{{ last_name }}"{% endif %}
+            >
+        </div>
+
+
+        {% comment %} EMAIL {% endcomment %}
+        <div class="input-wrapper">
+            <label
+              for="Email"
+              {% if hide_labels %}class="label-hidden"{% endif %}
+              >
+              {{ 'customer.addresses.email' | t }}
+            </label>
+
+            {%- assign email = customer.email -%}
+
+            {%- if form.email -%}
+              {%- assign email = form.email -%}
+            {%- endif -%}
+
+            <input
+                class="input-base"
+              type="text"
+              name="customer[email]"
+              id="Email"
+              {% if email %}value="{{ email }}"{% endif %}
+              >
+          </div>
+      </div>
+
+    {% endcapture -%}
+
+    <h4 class="account-card__title">
+      {% if s_sett.title %}
+        {{ s_sett.title }}
+      {% else %}
+        {{ 'customer.account.personal_information' | t }}
+      {% endif %}
+    </h4>
+
+    <div class="account-card__content">
+      {{ edit_account_form_fields }}
+    </div>
+    <div class="account-card__footer">
+      <button type="submit" class="btn ">{{ 'customer.account.save_changes' | t }}</button>
+    </div>
+
+  </form>
+
+{% endcapture -%}
+
+{%- capture reset_password_card %}
+
+  {% form 'recover_customer_password', class: 'account-card' %}
+
+      <h4 class="account-card__title">
+        {{ 'customer.recover_password.title' | t }}
+      </h4>
+
+      <div class="account-card__content form-vertical">
+
+        {{ form.errors | default_errors }}
+
+        {% if form.posted_successfully? %}
+          <span class="hide reset-password-success"></span>
+        {% endif %}
+
+        <div class="input-wrapper">
+          <label for="RecoverEmail"{% if hide_labels %} class="label-hidden"{% endif %}>
+              {{ 'customer.recover_password.email' | t }}
+          </label>
+          <input type="email"
+                 name="email"
+                 id="RecoverEmail"
+                 class="input-base"
+                 spellcheck="false"
+                 autocomplete="off"
+                 autocapitalize="off"
+                 value="{{ customer.email }}">
+        </div>
+      </div>
+
+      <div class="account-card__footer text-right">
+        <button type="submit" class="btn btn-primary-o btn-large">{{ 'customer.recover_password.submit' | t }}</button>
+      </div>
+
+    </div>
+  {% endform %}
+
+{% endcapture -%}
+
+<div class="edit-account">
+
+  <div class="account-cards">
+
+    <section class="account-cards__section">
+      <h1 class="account-cards__title h3">{{ 'customer.account.my_details' | t }}</h1>
+      {% if s_sett.description %}
+        <p class="account-cards__description">{{ s_sett.description }}</p>
+      {% endif %}
+    </section>
+
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+        {{ edit_account_card }}
+      </div>
+
+      <div class="col-xs-12 col-md-6">
+        {{ reset_password_card }}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Edit Details Page",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Personal information"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description"
+      }
+    ]
+  }
+{% endschema %}

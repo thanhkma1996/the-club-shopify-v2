@@ -1,152 +1,152 @@
-{%- if settings.newsletter_popup_enable -%}
-  
-  {%- assign hide_labels = true -%}
-  {%- assign label_class = '' -%}
-  {%- if hide_labels -%}
-    {%- assign label_class = 'label-hidden' -%}
-  {%- endif -%}
-
-  {%- capture contact_full_name -%}
-    <label for="ContactFormName" class="{{ label_class }}">{{ 'general.newsletter.name_placeholder' | t }}</label>
-    <input type="text" id="ContactFormName" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required {% if hide_labels %} placeholder="{{ 'general.newsletter.name_placeholder' | t }}"{% endif %}>
-  {%- endcapture -%}
-
-  {%- capture contact_email -%}
-    <label for="ContactFormEmail" class="{{ label_class }} {% if form.errors contains 'email' %}label--error{% endif %}">{{ 'general.newsletter.email_placeholder' | t }}</label>
-    <input type="email" id="ContactFormEmail" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}" {% if hide_labels %} placeholder="{{ 'general.newsletter.email_placeholder' | t }}"{% endif %}>
-  {%- endcapture -%}
-
-  {%- assign delay = settings.newsletter_popup_delay | times: 1000 | default: 5000 -%}
-  {%- assign expiry = settings.newsletter_popup_expiry | times: 7 | default: 7  -%}
-  {%- assign developer_mode = settings.newsletter_popup_developer_mode | default: false  -%}
-
-  {% comment %} Type can be 'bar' or 'modal' {% endcomment %}
-  {%- assign popup_type = 'modal' -%}
-  {%- assign capture_name = false -%}
-  {%- assign display_submit_button_text = true -%}
-
-  <div class="hidden">
-    <div
-      id="newsletter-popup"
-      class="newsletter-popup newsletter-popup--{{ popup_type }}"
-      data-popup-type="{{ popup_type }}"
-      {%- if popup_type == 'bar' -%}
-        data-popup-position="top"
-      {% else %}
-        data-popup-position-x="{{ settings.newsletter_popup_position_x }}"
-        data-popup-position-y="{{ settings.newsletter_popup_position_y }}"
-      {%- endif -%}
-      data-developer-mode="{{ developer_mode }}"
-      data-delay="{{ delay }}"
-      data-expiry="{{ expiry }}">
-      <div class="newsletter-popup__inner">
-        <div class="row">
-
-          {%- if settings.newsletter_popup_image and popup_type == 'modal' -%}
-            <div class="col-xs-12 col-md-12">
-              <div class="newsletter-popup__image">
-                {%- include 'img' with settings.newsletter_popup_image, placeholder: false -%}
-              </div>
-            </div>
-          {%- endif -%}
-
-          <div class="col-xs-12 {% if settings.newsletter_popup_image and popup_type == 'modal' %}col-md-12{% endif %}">
-            <div class="newsletter-popup__content">
-
-              {%- if settings.newsletter_popup_image and popup_type == 'bar' -%}
-                <div class="newsletter-popup__image">
-                  {%- include 'img' with settings.newsletter_popup_image, placeholder: false -%}
-                </div>
-              {%- endif -%}
-
-              <div class="newsletter-popup__text">
-                <h2 class="newsletter-popup__title">
-                  {{ settings.newsletter_popup_title }}
-                </h2>
-                <div class="newsletter-popup__description">
-                   {{ settings.newsletter_popup_subheading  }}
-                </div>
-              </div>
-
-              <div class="newsletter-popup__form {% if popup_type == 'modal' %}form-vertical{% endif %}">
-
-                {%- form 'customer' -%}
-                  {%- if settings.newsletter_popup_redirect_url != blank -%}
-                    <input type="hidden" name="return_to" value="{{ settings.newsletter_popup_redirect_url }}" />
-                  {%- endif -%}
-                  <input type="hidden" name="contact[tags]" value="newsletter">
-
-                  {%- if form.posted_successfully? -%}
-                    <p class="note form-success">
-                      {{ 'general.newsletter.confirmation' | t }}
-                    </p>
-                  {%- endif -%}
-
-                  {%- unless form.posted_successfully? -%}
-                    
-                    {{ form.errors | default_errors }}
-                    
-                    {%- if capture_name == true -%}
-                      {{ contact_full_name }}
-                    {%- endif -%}
-
-                    {%- if capture_name == false -%}
-                      <div class="input-group input-group--horizontal">
-                    {%- endif -%}
-                    
-                      {{ contact_email }}
-                      
-                      {%- if capture_name == true -%}
-                        <div class="form-vertical__actions">
-                      {%- endif -%}
-
-                        <button type="submit" class="btn {% if capture_name %}btn--large btn-primary btn--wide{% else %}form-submit-btn btn-primary{% endif %}">
-                          {%- if display_submit_button_text -%}
-                            {{ 'general.newsletter.submit' | t }}
-                          {%- else -%}
-                            <span class="visually-hidden">{{ 'general.newsletter.submit' | t }}</span>
-                            {%- render 'icon' with 'arrow-right' -%}
-                          {%- endif -%}
-
-                        </button>
-
-                      {%- if capture_name == true -%}
-                        </div>
-                      {%- endif -%}
-
-                    {%- if capture_name == false -%}
-                      </div>
-                    {%- endif -%}
-
-                  {%- endunless -%}
-                {%- endform -%}
-
-              </div>
-
-
-
-              {%- if popup_type == 'modal' -%}
-                <div class="newsletter-popup__close-modal">
-                  <div class="newsletter-popup-close-modal">
-                    {{ 'general.accessibility.close_modal' | t }}
-                  </div>
-
-                </div>
-              {%- endif -%}
-
-              {%- if popup_type == 'bar' -%}
-                <div class="newsletter-popup__close">
-                  <div class="btn btn--text newsletter-popup-close">
-                    {%- render 'icon' with 'close' -%} {{ 'general.accessibility.close_modal' | t }}
-                  </div>
-
-                </div>
-              {%- endif -%}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-{%- endif -%}
+{%- if settings.newsletter_popup_enable -%}
+  
+  {%- assign hide_labels = true -%}
+  {%- assign label_class = '' -%}
+  {%- if hide_labels -%}
+    {%- assign label_class = 'label-hidden' -%}
+  {%- endif -%}
+
+  {%- capture contact_full_name -%}
+    <label for="ContactFormName" class="{{ label_class }}">{{ 'general.newsletter.name_placeholder' | t }}</label>
+    <input type="text" id="ContactFormName" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required {% if hide_labels %} placeholder="{{ 'general.newsletter.name_placeholder' | t }}"{% endif %}>
+  {%- endcapture -%}
+
+  {%- capture contact_email -%}
+    <label for="ContactFormEmail" class="{{ label_class }} {% if form.errors contains 'email' %}label--error{% endif %}">{{ 'general.newsletter.email_placeholder' | t }}</label>
+    <input type="email" id="ContactFormEmail" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}" {% if hide_labels %} placeholder="{{ 'general.newsletter.email_placeholder' | t }}"{% endif %}>
+  {%- endcapture -%}
+
+  {%- assign delay = settings.newsletter_popup_delay | times: 1000 | default: 5000 -%}
+  {%- assign expiry = settings.newsletter_popup_expiry | times: 7 | default: 7  -%}
+  {%- assign developer_mode = settings.newsletter_popup_developer_mode | default: false  -%}
+
+  {% comment %} Type can be 'bar' or 'modal' {% endcomment %}
+  {%- assign popup_type = 'modal' -%}
+  {%- assign capture_name = false -%}
+  {%- assign display_submit_button_text = true -%}
+
+  <div class="hidden">
+    <div
+      id="newsletter-popup"
+      class="newsletter-popup newsletter-popup--{{ popup_type }}"
+      data-popup-type="{{ popup_type }}"
+      {%- if popup_type == 'bar' -%}
+        data-popup-position="top"
+      {% else %}
+        data-popup-position-x="{{ settings.newsletter_popup_position_x }}"
+        data-popup-position-y="{{ settings.newsletter_popup_position_y }}"
+      {%- endif -%}
+      data-developer-mode="{{ developer_mode }}"
+      data-delay="{{ delay }}"
+      data-expiry="{{ expiry }}">
+      <div class="newsletter-popup__inner">
+        <div class="row">
+
+          {%- if settings.newsletter_popup_image and popup_type == 'modal' -%}
+            <div class="col-xs-12 col-md-12">
+              <div class="newsletter-popup__image">
+                {%- include 'img' with settings.newsletter_popup_image, placeholder: false -%}
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="col-xs-12 {% if settings.newsletter_popup_image and popup_type == 'modal' %}col-md-12{% endif %}">
+            <div class="newsletter-popup__content">
+
+              {%- if settings.newsletter_popup_image and popup_type == 'bar' -%}
+                <div class="newsletter-popup__image">
+                  {%- include 'img' with settings.newsletter_popup_image, placeholder: false -%}
+                </div>
+              {%- endif -%}
+
+              <div class="newsletter-popup__text">
+                <h2 class="newsletter-popup__title">
+                  {{ settings.newsletter_popup_title }}
+                </h2>
+                <div class="newsletter-popup__description">
+                   {{ settings.newsletter_popup_subheading  }}
+                </div>
+              </div>
+
+              <div class="newsletter-popup__form {% if popup_type == 'modal' %}form-vertical{% endif %}">
+
+                {%- form 'customer' -%}
+                  {%- if settings.newsletter_popup_redirect_url != blank -%}
+                    <input type="hidden" name="return_to" value="{{ settings.newsletter_popup_redirect_url }}" />
+                  {%- endif -%}
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+
+                  {%- if form.posted_successfully? -%}
+                    <p class="note form-success">
+                      {{ 'general.newsletter.confirmation' | t }}
+                    </p>
+                  {%- endif -%}
+
+                  {%- unless form.posted_successfully? -%}
+                    
+                    {{ form.errors | default_errors }}
+                    
+                    {%- if capture_name == true -%}
+                      {{ contact_full_name }}
+                    {%- endif -%}
+
+                    {%- if capture_name == false -%}
+                      <div class="input-group input-group--horizontal">
+                    {%- endif -%}
+                    
+                      {{ contact_email }}
+                      
+                      {%- if capture_name == true -%}
+                        <div class="form-vertical__actions">
+                      {%- endif -%}
+
+                        <button type="submit" class="btn {% if capture_name %}btn--large btn-primary btn--wide{% else %}form-submit-btn btn-primary{% endif %}">
+                          {%- if display_submit_button_text -%}
+                            {{ 'general.newsletter.submit' | t }}
+                          {%- else -%}
+                            <span class="visually-hidden">{{ 'general.newsletter.submit' | t }}</span>
+                            {%- render 'icon' with 'arrow-right' -%}
+                          {%- endif -%}
+
+                        </button>
+
+                      {%- if capture_name == true -%}
+                        </div>
+                      {%- endif -%}
+
+                    {%- if capture_name == false -%}
+                      </div>
+                    {%- endif -%}
+
+                  {%- endunless -%}
+                {%- endform -%}
+
+              </div>
+
+
+
+              {%- if popup_type == 'modal' -%}
+                <div class="newsletter-popup__close-modal">
+                  <div class="newsletter-popup-close-modal">
+                    {{ 'general.accessibility.close_modal' | t }}
+                  </div>
+
+                </div>
+              {%- endif -%}
+
+              {%- if popup_type == 'bar' -%}
+                <div class="newsletter-popup__close">
+                  <div class="btn btn--text newsletter-popup-close">
+                    {%- render 'icon' with 'close' -%} {{ 'general.accessibility.close_modal' | t }}
+                  </div>
+
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{%- endif -%}

@@ -1,74 +1,74 @@
-{% assign s_sett = section.settings %}
-
-<div data-section-type="home-related-product" data-section-id="{{ section.id }}">
-  {% if section.blocks.size > 0 %}
-    <div class="home-related-product-wrap">
-      <div class="container">
-        {% if s_sett.title != blank %}
-          <h2 class="h1 home-related-product__title text-center">{{ s_sett.title }}</h2>
-        {% endif %}
-
-        {% if section.blocks.size > 0 %}
-          <div class="home-related-product__slider row"
-               id="Slideshow-{{ section.id }}"
-               data-autoplay="{{ section.settings.autoplay }}"
-               data-speed="{{ section.settings.autoplay_speed }}"
-               data-arrows="false"
-               data-dots-mobile="true"
-               data-dots-tablet="true"
-               data-slides-show="4"
-               data-slides-scroll="1"
-               data-slides-show-tablet="3"
-               data-slides-scroll-tablet="1"
-               data-slides-show-mobile="2"
-               data-slides-scroll-mobile="1"
-               data-center-mode-mobile="false"
-               data-center-padding-mobile="30px"
-               data-dots="{% if section.blocks.size > 1 %}true{% else %}false{% endif %}"
-          >
-            {%- for block in section.blocks -%}
-              {% assign product_item = all_products[block.settings.prod] %}
-              <div>
-                {%- render 'product-grid-item', product: product_item -%}
-              </div>
-            {%- endfor -%}
-          </div>
-        {% endif %}
-      </div>
-    </div>
-  {% endif %}
-</div>
-
-{% schema %}
-    {
-      "name": "Gift related product",
-      "class": "gift-related-product",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title",
-          "default": "Other gift ideas"
-        }
-      ],
-      "blocks": [
-        {
-          "name": "Product",
-          "type": "product_item",
-          "settings": [
-            {
-              "type": "product",
-              "id": "prod",
-              "label": "Product"
-            }
-          ]
-        }
-      ],
-      "presets": [
-        {
-          "name": "Gift Grid",
-          "category": "Content"
-        }
-      ]
-    }
-{% endschema %}
+{% assign s_sett = section.settings %}
+
+<div data-section-type="home-related-product" data-section-id="{{ section.id }}">
+  {% if section.blocks.size > 0 %}
+    <div class="home-related-product-wrap">
+      <div class="container">
+        {% if s_sett.title != blank %}
+          <h2 class="h1 home-related-product__title text-center">{{ s_sett.title }}</h2>
+        {% endif %}
+
+        {% if section.blocks.size > 0 %}
+          <div class="home-related-product__slider row"
+               id="Slideshow-{{ section.id }}"
+               data-autoplay="{{ section.settings.autoplay }}"
+               data-speed="{{ section.settings.autoplay_speed }}"
+               data-arrows="false"
+               data-dots-mobile="true"
+               data-dots-tablet="true"
+               data-slides-show="4"
+               data-slides-scroll="1"
+               data-slides-show-tablet="3"
+               data-slides-scroll-tablet="1"
+               data-slides-show-mobile="2"
+               data-slides-scroll-mobile="1"
+               data-center-mode-mobile="false"
+               data-center-padding-mobile="30px"
+               data-dots="{% if section.blocks.size > 1 %}true{% else %}false{% endif %}"
+          >
+            {%- for block in section.blocks -%}
+              {% assign product_item = all_products[block.settings.prod] %}
+              <div>
+                {%- render 'product-grid-item', product: product_item -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+    {
+      "name": "Gift related product",
+      "class": "gift-related-product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Other gift ideas"
+        }
+      ],
+      "blocks": [
+        {
+          "name": "Product",
+          "type": "product_item",
+          "settings": [
+            {
+              "type": "product",
+              "id": "prod",
+              "label": "Product"
+            }
+          ]
+        }
+      ],
+      "presets": [
+        {
+          "name": "Gift Grid",
+          "category": "Content"
+        }
+      ]
+    }
+{% endschema %}

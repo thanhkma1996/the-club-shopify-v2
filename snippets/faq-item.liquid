@@ -1,28 +1,28 @@
-{%- assign faq = faq | default: false -%}
-{%- assign faq_hidden = faq_hidden | default: false -%}
-{%- assign id = id | default: false -%}
-{%- capture active_class %}
-{% if faq and block.settings.show_first_accordion and first_faq == true %} active {% endif %}
-{% endcapture -%}
-
-<div class="faq-item {% if faq_hidden and forloop.index0 > 3 %}faq-to-hide{% endif %}">
-  <div class="simple-accordion__title {{active_class}} faq-item__title">
-    <span class="faq-item__question">
-      {%- if faq -%}
-        {{question}}
-      {% else %}
-        {question}
-      {%- endif -%}
-    </span>
-  </div>
-  <div class="faq-item__content {{active_class}}">
-    <div class="faq-item__answer rte">
-      {%- if faq -%}
-        {{answer}}
-      {% else %}
-        {answer}
-      {%- endif -%}
-    </div>
-  </div>
-  {% comment %}{% include 'icon' with 'faq_plus' %}{% endcomment %}
+{%- assign faq = faq | default: false -%}
+{%- assign faq_hidden = faq_hidden | default: false -%}
+{%- assign id = id | default: false -%}
+{%- capture active_class %}
+{% if faq and block.settings.show_first_accordion and first_faq == true %} active {% endif %}
+{% endcapture -%}
+
+<div class="faq-item {% if faq_hidden and forloop.index0 > 3 %}faq-to-hide{% endif %}">
+  <div class="simple-accordion__title {{active_class}} faq-item__title">
+    <span class="faq-item__question">
+      {%- if faq -%}
+        {{question}}
+      {% else %}
+        {question}
+      {%- endif -%}
+    </span>
+  </div>
+  <div class="faq-item__content {{active_class}}">
+    <div class="faq-item__answer rte">
+      {%- if faq -%}
+        {{answer}}
+      {% else %}
+        {answer}
+      {%- endif -%}
+    </div>
+  </div>
+  {% comment %}{% include 'icon' with 'faq_plus' %}{% endcomment %}
 </div>

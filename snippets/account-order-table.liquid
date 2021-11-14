@@ -1,140 +1,140 @@
-{%- assign payment_method = 'unknown' -%}
-{%- if order.payment_details.credit_card_company != blank -%}
-  {%- assign payment_method = 'Credit Card' -%}
-{%- endif -%}
-
-{%- assign delivery_address = '' -%}
-{%- if order.shipping_address.address1 != blank -%}
-  {%- assign delivery_address = delivery_address | append: order.shipping_address.address1 -%}
-{%- endif -%}
-{%- if order.shipping_address.address2 != blank -%}
-  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.address2 -%}
-{%- endif -%}
-{%- if order.shipping_address.city != blank -%}
-  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.city -%}
-{%- endif -%}
-{%- if order.shipping_address.province != blank -%}
-  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.province -%}
-{%- endif -%}
-{%- if order.shipping_address.zip != blank -%}
-  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.zip -%}
-{%- endif -%}
-
-
-<div class="order">
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="order__line-items account__table">
-
-        <table class="">
-          <thead class="hidden-xs hidden-sm">
-            <tr>
-              <th>{{ 'customer.order.product' | t }}</th>
-              <th class="hidden-xs hidden-sm text-center">{{ 'customer.order.quantity' | t }}</th>
-              <th class="hidden-xs hidden-sm text-center">{{ 'customer.order.subtotal' | t }}</th>
-              <th class="hidden-xs hidden-sm">{{ 'customer.order.reorder' | t }}</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for line_item in order.line_items %}
-
-            <tr id="{{ line_item.key }}" class="responsive-table__row" >
-              <td data-label="{{ 'customer.order.product' | t }}">
-
-                <div class="order-line-item">
-                  <div class="order-line-item__image">
-                    {%- if line_item.image -%}
-                      {%- include 'img' with line_item.image -%}
-                    {%- endif -%}
-                  </div>
-                  <div class="order-line-item__details">
-
-                    <p class="order-line-item__title">{{ line_item.product.title | default: line_item.title | link_to: line_item.product.url }}</p>
-
-                    {%- if line_item.variant -%}
-                      <p class="order-line-item__variant">{{ line_item.variant.title }}</p>
-                      <p class="order-line-item__price">{{ line_item.variant.price | money }}</p>
-                      <p class="order-line-item__add-to-cart text-right visible-xs visible-sm">
-                        <a data-cart-add="{{ line_item.variant.id }}"
-                           class="order__reorder"
-                           data-opens-cart-drawer data-progress-element>{{ 'customer.orders.reorder' | t }}</a>
-                      </p>
-                    {%- endif -%}
-
-                  </div>
-                </div>
-
-              </td>
-              <td class="hidden-xs hidden-sm text-center" data-label="{{ 'customer.order.quantity' | t }}">
-                {{ line_item.quantity }}
-              </td>
-              <td class="hidden-xs hidden-sm text-center" data-label="{{ 'customer.order.subtotal' | t }}">{{ line_item.quantity | times: line_item.price | money }}</td>
-              <td class="hidden-xs hidden-sm" data-label="{{ 'customer.order.reorder' | t }}">
-                {%- if line_item.variant -%}
-                  <a data-cart-add="{{ line_item.variant.id }}"
-                      data-cart-quantity="{% if line_item.quantity > line_item.variant.inventory_quantity %}1{% else %}{{line_item.quantity}}{% endif %}"
-                      class="order__reorder-item" data-opens-cart-drawer
-                      data-progress-element>{{ 'customer.order.reorder' | t }}</a>
-                {%- endif -%}
-              </td>
-            </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="order__summary account__table">
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                {{ 'customer.order.subtotal' | t }}:
-              </td>
-              <td>
-                {{ order.subtotal_price | money }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {{ 'customer.order.shipping' | t }}:
-              </td>
-              <td>
-                {%- if order.shipping_price < 1 -%}
-                  FREE
-                {%- else -%}
-                  {{ order.shipping_price | money }}
-                {%- endif -%}
-              </td>
-            </tr>
-            {% if order.tax_price > 0 %}
-              <tr>
-                <td>
-                  {{ 'customer.order.tax' | t }}:
-                </td>
-                <td>
-                  {{ order.tax_price | money }}
-                </td>
-              </tr>
-            {% endif %}
-            <tr>
-              {% comment %}
-                <td>
-                  {{ 'customer.order.order_total' | t }}: <span>{% if shop.taxes_included == true %}{{ 'customer.order.including_tax' | t }}{% else %}{{ 'customer.order.excluding_tax' | t }}{%- endif -%}
-                </td>
-              {% endcomment %}
-              <td>{{ 'customer.order.order_total' | t }}: </td>
-              <td>
-                {{ order.total_price | money }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+{%- assign payment_method = 'unknown' -%}
+{%- if order.payment_details.credit_card_company != blank -%}
+  {%- assign payment_method = 'Credit Card' -%}
+{%- endif -%}
+
+{%- assign delivery_address = '' -%}
+{%- if order.shipping_address.address1 != blank -%}
+  {%- assign delivery_address = delivery_address | append: order.shipping_address.address1 -%}
+{%- endif -%}
+{%- if order.shipping_address.address2 != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.address2 -%}
+{%- endif -%}
+{%- if order.shipping_address.city != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.city -%}
+{%- endif -%}
+{%- if order.shipping_address.province != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.province -%}
+{%- endif -%}
+{%- if order.shipping_address.zip != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.zip -%}
+{%- endif -%}
+
+
+<div class="order">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="order__line-items account__table">
+
+        <table class="">
+          <thead class="hidden-xs hidden-sm">
+            <tr>
+              <th>{{ 'customer.order.product' | t }}</th>
+              <th class="hidden-xs hidden-sm text-center">{{ 'customer.order.quantity' | t }}</th>
+              <th class="hidden-xs hidden-sm text-center">{{ 'customer.order.subtotal' | t }}</th>
+              <th class="hidden-xs hidden-sm">{{ 'customer.order.reorder' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for line_item in order.line_items %}
+
+            <tr id="{{ line_item.key }}" class="responsive-table__row" >
+              <td data-label="{{ 'customer.order.product' | t }}">
+
+                <div class="order-line-item">
+                  <div class="order-line-item__image">
+                    {%- if line_item.image -%}
+                      {%- include 'img' with line_item.image -%}
+                    {%- endif -%}
+                  </div>
+                  <div class="order-line-item__details">
+
+                    <p class="order-line-item__title">{{ line_item.product.title | default: line_item.title | link_to: line_item.product.url }}</p>
+
+                    {%- if line_item.variant -%}
+                      <p class="order-line-item__variant">{{ line_item.variant.title }}</p>
+                      <p class="order-line-item__price">{{ line_item.variant.price | money }}</p>
+                      <p class="order-line-item__add-to-cart text-right visible-xs visible-sm">
+                        <a data-cart-add="{{ line_item.variant.id }}"
+                           class="order__reorder"
+                           data-opens-cart-drawer data-progress-element>{{ 'customer.orders.reorder' | t }}</a>
+                      </p>
+                    {%- endif -%}
+
+                  </div>
+                </div>
+
+              </td>
+              <td class="hidden-xs hidden-sm text-center" data-label="{{ 'customer.order.quantity' | t }}">
+                {{ line_item.quantity }}
+              </td>
+              <td class="hidden-xs hidden-sm text-center" data-label="{{ 'customer.order.subtotal' | t }}">{{ line_item.quantity | times: line_item.price | money }}</td>
+              <td class="hidden-xs hidden-sm" data-label="{{ 'customer.order.reorder' | t }}">
+                {%- if line_item.variant -%}
+                  <a data-cart-add="{{ line_item.variant.id }}"
+                      data-cart-quantity="{% if line_item.quantity > line_item.variant.inventory_quantity %}1{% else %}{{line_item.quantity}}{% endif %}"
+                      class="order__reorder-item" data-opens-cart-drawer
+                      data-progress-element>{{ 'customer.order.reorder' | t }}</a>
+                {%- endif -%}
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="order__summary account__table">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                {{ 'customer.order.subtotal' | t }}:
+              </td>
+              <td>
+                {{ order.subtotal_price | money }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                {{ 'customer.order.shipping' | t }}:
+              </td>
+              <td>
+                {%- if order.shipping_price < 1 -%}
+                  FREE
+                {%- else -%}
+                  {{ order.shipping_price | money }}
+                {%- endif -%}
+              </td>
+            </tr>
+            {% if order.tax_price > 0 %}
+              <tr>
+                <td>
+                  {{ 'customer.order.tax' | t }}:
+                </td>
+                <td>
+                  {{ order.tax_price | money }}
+                </td>
+              </tr>
+            {% endif %}
+            <tr>
+              {% comment %}
+                <td>
+                  {{ 'customer.order.order_total' | t }}: <span>{% if shop.taxes_included == true %}{{ 'customer.order.including_tax' | t }}{% else %}{{ 'customer.order.excluding_tax' | t }}{%- endif -%}
+                </td>
+              {% endcomment %}
+              <td>{{ 'customer.order.order_total' | t }}: </td>
+              <td>
+                {{ order.total_price | money }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

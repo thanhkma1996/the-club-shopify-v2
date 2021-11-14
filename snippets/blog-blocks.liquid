@@ -1,273 +1,273 @@
-
-{%- comment -%}
-==================================
-OVERDOSE Blog Blocks
-==================================
-NOTE: ALL Blog pages RUN THROUGH THIS PAGE
-
-  hero-banner
-  filter
-  articles
-  spacer
-  header
-  header-search
-  feature-article
-
-{%- endcomment -%}
-
-{%- case block.type -%}
-
-{%- when 'hero-banner' -%}
-
-  {%- assign slideshow_image = block.settings.image -%}
-  {%- assign slideshow_image_mobile = block.settings.image_mobile -%}
-  {%- assign slideshow_image_alignment = block.settings.image_alignment -%}
-
-  {%- assign slideshow_title = block.settings.title  -%}
-  {%- assign slideshow_subtitle = block.settings.subtitle -%}
-  {%- assign slideshow_text = block.settings.text -%}
-
-  {%- assign slideshow_text_alignment = block.settings.text_alignment -%}
-  {%- assign slideshow_text_position = block.settings.text_position -%}
-
-  {%- assign slideshow_button_label = block.settings.button_label -%}
-  {%- assign slideshow_button_link = block.settings.button_link -%}
-
-  {%- assign slideshow_theme = block.settings.theme -%}
-
-  {%- assign enable_breadrcrumb = block.settings.enable_breadrcrumb -%}
-
-  <div class="full-width {{ page_type }}__hero {{ page_type }}__hero--{{ block.id }}">
-
-    {%- include 'blog-hero-image' with 
-      block: block,
-      slideshow_image: slideshow_image,
-      slideshow_image_mobile: slideshow_image_mobile,
-      slideshow_image_alignment: slideshow_image_alignment,
-      slideshow_title: slideshow_title,
-      slideshow_subtitle: slideshow_subtitle,
-      slideshow_text: slideshow_text,
-      slideshow_text_alignment: slideshow_text_alignment,
-      slideshow_text_position: slideshow_text_position,
-      slideshow_button_label: slideshow_button_label,
-      slideshow_button_link: slideshow_button_link,
-      slideshow_theme: slideshow_theme,
-      breadcrumb: enable_breadrcrumb
-      -%}
-
-  </div>
-
-{%- when 'header' -%}
-  
-  {%- assign blog_title = block.settings.title | default: blog.title -%}
-  {%- assign blog_description = block.settings.text | default: '' -%}
-
-  <div class="text-{{ block.settings.text_alignment }} blog__header">    
-    {%- if blog_title != blank  -%}
-      <div class="section-header">
-        <h1 class="blog__title h2">{{ blog_title }}</h1>
-      </div>
-    {%- endif -%}
-    
-    {%- if blog_description != blank -%}
-      <p class="blog__description">{{ blog_description }}</p>
-    {%- endif -%}
-  </div>
-
-{%- when 'filter' -%}
-
-  <div class="blog__filter full-width">
-    <div class="container">
-      <div class="row">
-        
-        {%- if block.settings.title != blank -%}
-          <h2 class="blog-filter__title h2">{{ block.settings.title }}</h2>
-        {%- endif -%}
-
-        {%- assign blog_search_enabled = false -%}
-        {%- assign search_block = section.blocks | where: "type", 'search' -%}
-        {%- assign search_block_2 = section.blocks | where: "type", 'header-search' -%}
-        {%- if search_block.size > 0 or search_block_2.size > 0-%}
-          {%- assign blog_search_enabled = true -%}
-        {%- endif -%}
-  
-        {%- if blog_search_enabled -%}
-        <h2 class="blog-search__title">Search Results</h2>
-        {%- endif -%}
-
-        {%- include 'blog-filter' with block -%}
-
-        {%- if block.settings.btn_text != blank and block.settings.btn_link != blank -%}
-          <a href="{{ block.settings.btn_link }}" class="btn btn-primary-o btn--mega blog-filter__btn">{{ block.settings.btn_text }}</a>
-        {%- endif -%}
-
-      </div>
-    </div>
-  </div>
-
-{%- when 'header-search' -%}
-
-    {%- assign slideshow_image = block.settings.image -%}
-    {%- assign slideshow_image_mobile = block.settings.image_mobile -%}
-    {%- assign slideshow_subtitle = subtitle -%}
-    {%- assign slideshow_title = block.settings.title  -%}
-    {%- assign slideshow_text = block.settings.text -%}
-    {%- assign slideshow_button_label = block.settings.btn_label -%}
-    {%- assign slideshow_button_link = block.settings.btn_link -%}
-    {%- assign slideshow_alignment = block.settings.text_align -%}
-    {%- assign slideshow_text_alignment = block.settings.text_align -%}
-    {%- assign slideshow_width = block.settings.page_width -%}
-    {%- assign slideshow_image_type = '' -%}
-    {%- assign slideshow_theme = block.settings.theme -%}
-    {%- assign slideshow_text_position = block.settings.text_position -%}
-
-    {%- capture search_content %}
-
-      {%- assign blog_title = block.settings.title | default: blog.title -%}
-      {%- assign blog_description = block.settings.text | default: '' -%}
-
-      <div class="hero-inner-content hero-inner-content--search">
-        <div class="blog__search">
-          
-          <h2 class="blog-search__title h2">{{ block.settings.title_search }}</h2>
-
-          <div class="blog-search-field">
-            
-            <input type="search" class="input-group__field" placeholder="{{ block.settings.placeholder }}" aria-label="Search">
-            <button class="input-group__btn btn btn--text" title="Search">
-              {%- render 'icon' with 'search' -%}
-              <span class="icon-fallback-text">Search</span>
-            </button>
-
-          </div>
-
-        </div>  
-      </div>
-
-    {% endcapture -%}
-
-    <div class="blog__hero full-width blog__hero--{{ block.id }}">
-
-      {%- include 'hero' with 
-        block: block,
-        slideshow_search: search_content,
-        slideshow_image: slideshow_image,
-        slideshow_image_mobile: slideshow_image_mobile,
-        slideshow_title: slideshow_title,
-        slideshow_text: slideshow_text,
-        slideshow_subtitle: slideshow_subtitle,
-        slideshow_button_label: slideshow_button_label,
-        slideshow_button_link: slideshow_button_link,
-        slideshow_alignment: slideshow_alignment,
-        slideshow_text_alignment: slideshow_alignment,
-        slideshow_width: slideshow_width,
-        slideshow_image_type: slideshow_image_type,
-        slideshow_theme: slideshow_theme,
-        slideshow_text_position: slideshow_text_position,
-        breadcrumb: true
-        -%}
-
-    </div>
-
-{%- when 'articles' -%}
-  
-  {%- assign blog_search_enabled = false -%}
-  {%- assign search_block = section.blocks | where: "type", 'search' -%}
-  {%- assign search_block_2 = section.blocks | where: "type", 'header-search' -%}
-  {%- if search_block.size > 0 or search_block_2.size > 0-%}
-    {%- assign blog_search_enabled = true -%}
-  {%- endif -%}
-
-  {%- if blog_search_enabled -%}
-    <div class="blog__search-results hide">
-      <p class="blog__search-results-list row"></p>
-    </div>
-  {%- endif -%}
-
-  {%- assign pagination_type = block.settings.pagination_type -%}
-
-  {%- paginate blog.articles by 12 -%}
-  
-    <div class="row blog__articles">
-
-      {%- assign article_grid_class = 'col-xs-{mobile} col-sm-{tablet} col-md-{desktop} ' | replace: '{desktop}', block.settings.width_desktop | replace: '{tablet}', block.settings.width_tablet | replace: '{mobile}', block.settings.width_mobile -%}
-
-      {%- for article in blog.articles -%}
-        {%- if current_tags != blank -%}
-
-          {% comment %}show all blogs that match even if its the feature article{% endcomment %}
-          <div class="{{ article_grid_class }} article-grid-item-wrapper">
-            {%- include 'article-grid-item' with article: article, class: '', layout: block.settings.layout  -%}
-          </div>
-
-        {%- else -%}
-        
-        {% comment %}only hide feature article if filter isnt enabled{% endcomment %}
-          {%- unless featured_articles contains article.handle -%}
-            <div class="{{ article_grid_class }} article-grid-item-wrapper">
-              {%- include 'article-grid-item' with article: article, class: '', layout: block.settings.layout-%}
-            </div>
-          {%- endunless -%}
-        {%- endif -%}
-
-      {%- endfor -%}
-    </div>
-
-  {%- if paginate.pages > 1 -%}
-    <ul class="blog-pagination">
-    {%- if paginate.previous-%}
-        <li class="paginate-arrow"><a href="{{ paginate.previous.url }}">{% render 'icon' with 'arrow-left', class: '' %}</a></li>
-    {%- else -%}
-        <li class="paginate-arrow disabled"><span aria-hidden="true">{% render 'icon' with 'arrow-left', class: '' %}</span></li>
-    {%- endif -%}
-
-    {%- for part in paginate.parts -%}
-        {%- if part.is_link -%}
-            <li><a href="{{ part.url }}">{{ part.title }}</a></li>
-        {%- else -%}
-            {%- if part.title == paginate.current_page -%}
-                <li class="active" aria-current="page"><span>{{ part.title }}</span></li>
-            {%- else -%}
-                <li>{{ part.title }}</li>
-            {%- endif -%}
-        {%- endif -%}
-    {%- endfor -%}
-
-    {%- if paginate.next -%}
-        <li class="paginate-arrow"><a href="{{ paginate.next.url }}">{% render 'icon' with 'arrow-right', class: '' %}</a></li>
-    {%- else -%}
-        <li class="paginate-arrow disabled"><span aria-hidden="true">{% render 'icon' with 'arrow-right', class: '' %}</span></li>
-    {%- endif -%}
-    </ul>
-  {%- endif -%}
-
-  {%- endpaginate -%}
-
-  {%- if blog.articles.size <= 0 -%}
-    <p class="blog-filter-results-message text-center">{{ 'general.search.no_results' | t }}</p>
-  {%- endif -%}
-
-{%- when 'spacer' -%}
-
-  <div class="blog__spacer {% if block.settings.display_on_mobile %} visible-xs {% else %} hidden-xs{% endif %}"></div>
-
-{%- when 'feature-article' -%}
-
-  {%- if block.settings.featured_article != blank -%}
-    {%- assign featured_article = articles[block.settings.featured_article] -%}
-  {%- endif -%}
-
-  {% comment %}don't show featured article if filter is active{% endcomment %}
-  {%- unless current_tags.size > 0 -%}
-
-    <div class="featured-article-grid-item-wrapper">
-
-      {%- include 'article-grid-item' with article: article, class: '', layout: 'featured' -%}
-
-    </div>
-
-  {%- endunless-%}
-
-{%- else -%}
-    
-{%- endcase -%}
+
+{%- comment -%}
+==================================
+OVERDOSE Blog Blocks
+==================================
+NOTE: ALL Blog pages RUN THROUGH THIS PAGE
+
+  hero-banner
+  filter
+  articles
+  spacer
+  header
+  header-search
+  feature-article
+
+{%- endcomment -%}
+
+{%- case block.type -%}
+
+{%- when 'hero-banner' -%}
+
+  {%- assign slideshow_image = block.settings.image -%}
+  {%- assign slideshow_image_mobile = block.settings.image_mobile -%}
+  {%- assign slideshow_image_alignment = block.settings.image_alignment -%}
+
+  {%- assign slideshow_title = block.settings.title  -%}
+  {%- assign slideshow_subtitle = block.settings.subtitle -%}
+  {%- assign slideshow_text = block.settings.text -%}
+
+  {%- assign slideshow_text_alignment = block.settings.text_alignment -%}
+  {%- assign slideshow_text_position = block.settings.text_position -%}
+
+  {%- assign slideshow_button_label = block.settings.button_label -%}
+  {%- assign slideshow_button_link = block.settings.button_link -%}
+
+  {%- assign slideshow_theme = block.settings.theme -%}
+
+  {%- assign enable_breadrcrumb = block.settings.enable_breadrcrumb -%}
+
+  <div class="full-width {{ page_type }}__hero {{ page_type }}__hero--{{ block.id }}">
+
+    {%- include 'blog-hero-image' with 
+      block: block,
+      slideshow_image: slideshow_image,
+      slideshow_image_mobile: slideshow_image_mobile,
+      slideshow_image_alignment: slideshow_image_alignment,
+      slideshow_title: slideshow_title,
+      slideshow_subtitle: slideshow_subtitle,
+      slideshow_text: slideshow_text,
+      slideshow_text_alignment: slideshow_text_alignment,
+      slideshow_text_position: slideshow_text_position,
+      slideshow_button_label: slideshow_button_label,
+      slideshow_button_link: slideshow_button_link,
+      slideshow_theme: slideshow_theme,
+      breadcrumb: enable_breadrcrumb
+      -%}
+
+  </div>
+
+{%- when 'header' -%}
+  
+  {%- assign blog_title = block.settings.title | default: blog.title -%}
+  {%- assign blog_description = block.settings.text | default: '' -%}
+
+  <div class="text-{{ block.settings.text_alignment }} blog__header">    
+    {%- if blog_title != blank  -%}
+      <div class="section-header">
+        <h1 class="blog__title h2">{{ blog_title }}</h1>
+      </div>
+    {%- endif -%}
+    
+    {%- if blog_description != blank -%}
+      <p class="blog__description">{{ blog_description }}</p>
+    {%- endif -%}
+  </div>
+
+{%- when 'filter' -%}
+
+  <div class="blog__filter full-width">
+    <div class="container">
+      <div class="row">
+        
+        {%- if block.settings.title != blank -%}
+          <h2 class="blog-filter__title h2">{{ block.settings.title }}</h2>
+        {%- endif -%}
+
+        {%- assign blog_search_enabled = false -%}
+        {%- assign search_block = section.blocks | where: "type", 'search' -%}
+        {%- assign search_block_2 = section.blocks | where: "type", 'header-search' -%}
+        {%- if search_block.size > 0 or search_block_2.size > 0-%}
+          {%- assign blog_search_enabled = true -%}
+        {%- endif -%}
+  
+        {%- if blog_search_enabled -%}
+        <h2 class="blog-search__title">Search Results</h2>
+        {%- endif -%}
+
+        {%- include 'blog-filter' with block -%}
+
+        {%- if block.settings.btn_text != blank and block.settings.btn_link != blank -%}
+          <a href="{{ block.settings.btn_link }}" class="btn btn-primary-o btn--mega blog-filter__btn">{{ block.settings.btn_text }}</a>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+
+{%- when 'header-search' -%}
+
+    {%- assign slideshow_image = block.settings.image -%}
+    {%- assign slideshow_image_mobile = block.settings.image_mobile -%}
+    {%- assign slideshow_subtitle = subtitle -%}
+    {%- assign slideshow_title = block.settings.title  -%}
+    {%- assign slideshow_text = block.settings.text -%}
+    {%- assign slideshow_button_label = block.settings.btn_label -%}
+    {%- assign slideshow_button_link = block.settings.btn_link -%}
+    {%- assign slideshow_alignment = block.settings.text_align -%}
+    {%- assign slideshow_text_alignment = block.settings.text_align -%}
+    {%- assign slideshow_width = block.settings.page_width -%}
+    {%- assign slideshow_image_type = '' -%}
+    {%- assign slideshow_theme = block.settings.theme -%}
+    {%- assign slideshow_text_position = block.settings.text_position -%}
+
+    {%- capture search_content %}
+
+      {%- assign blog_title = block.settings.title | default: blog.title -%}
+      {%- assign blog_description = block.settings.text | default: '' -%}
+
+      <div class="hero-inner-content hero-inner-content--search">
+        <div class="blog__search">
+          
+          <h2 class="blog-search__title h2">{{ block.settings.title_search }}</h2>
+
+          <div class="blog-search-field">
+            
+            <input type="search" class="input-group__field" placeholder="{{ block.settings.placeholder }}" aria-label="Search">
+            <button class="input-group__btn btn btn--text" title="Search">
+              {%- render 'icon' with 'search' -%}
+              <span class="icon-fallback-text">Search</span>
+            </button>
+
+          </div>
+
+        </div>  
+      </div>
+
+    {% endcapture -%}
+
+    <div class="blog__hero full-width blog__hero--{{ block.id }}">
+
+      {%- include 'hero' with 
+        block: block,
+        slideshow_search: search_content,
+        slideshow_image: slideshow_image,
+        slideshow_image_mobile: slideshow_image_mobile,
+        slideshow_title: slideshow_title,
+        slideshow_text: slideshow_text,
+        slideshow_subtitle: slideshow_subtitle,
+        slideshow_button_label: slideshow_button_label,
+        slideshow_button_link: slideshow_button_link,
+        slideshow_alignment: slideshow_alignment,
+        slideshow_text_alignment: slideshow_alignment,
+        slideshow_width: slideshow_width,
+        slideshow_image_type: slideshow_image_type,
+        slideshow_theme: slideshow_theme,
+        slideshow_text_position: slideshow_text_position,
+        breadcrumb: true
+        -%}
+
+    </div>
+
+{%- when 'articles' -%}
+  
+  {%- assign blog_search_enabled = false -%}
+  {%- assign search_block = section.blocks | where: "type", 'search' -%}
+  {%- assign search_block_2 = section.blocks | where: "type", 'header-search' -%}
+  {%- if search_block.size > 0 or search_block_2.size > 0-%}
+    {%- assign blog_search_enabled = true -%}
+  {%- endif -%}
+
+  {%- if blog_search_enabled -%}
+    <div class="blog__search-results hide">
+      <p class="blog__search-results-list row"></p>
+    </div>
+  {%- endif -%}
+
+  {%- assign pagination_type = block.settings.pagination_type -%}
+
+  {%- paginate blog.articles by 12 -%}
+  
+    <div class="row blog__articles">
+
+      {%- assign article_grid_class = 'col-xs-{mobile} col-sm-{tablet} col-md-{desktop} ' | replace: '{desktop}', block.settings.width_desktop | replace: '{tablet}', block.settings.width_tablet | replace: '{mobile}', block.settings.width_mobile -%}
+
+      {%- for article in blog.articles -%}
+        {%- if current_tags != blank -%}
+
+          {% comment %}show all blogs that match even if its the feature article{% endcomment %}
+          <div class="{{ article_grid_class }} article-grid-item-wrapper">
+            {%- include 'article-grid-item' with article: article, class: '', layout: block.settings.layout  -%}
+          </div>
+
+        {%- else -%}
+        
+        {% comment %}only hide feature article if filter isnt enabled{% endcomment %}
+          {%- unless featured_articles contains article.handle -%}
+            <div class="{{ article_grid_class }} article-grid-item-wrapper">
+              {%- include 'article-grid-item' with article: article, class: '', layout: block.settings.layout-%}
+            </div>
+          {%- endunless -%}
+        {%- endif -%}
+
+      {%- endfor -%}
+    </div>
+
+  {%- if paginate.pages > 1 -%}
+    <ul class="blog-pagination">
+    {%- if paginate.previous-%}
+        <li class="paginate-arrow"><a href="{{ paginate.previous.url }}">{% render 'icon' with 'arrow-left', class: '' %}</a></li>
+    {%- else -%}
+        <li class="paginate-arrow disabled"><span aria-hidden="true">{% render 'icon' with 'arrow-left', class: '' %}</span></li>
+    {%- endif -%}
+
+    {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+            <li><a href="{{ part.url }}">{{ part.title }}</a></li>
+        {%- else -%}
+            {%- if part.title == paginate.current_page -%}
+                <li class="active" aria-current="page"><span>{{ part.title }}</span></li>
+            {%- else -%}
+                <li>{{ part.title }}</li>
+            {%- endif -%}
+        {%- endif -%}
+    {%- endfor -%}
+
+    {%- if paginate.next -%}
+        <li class="paginate-arrow"><a href="{{ paginate.next.url }}">{% render 'icon' with 'arrow-right', class: '' %}</a></li>
+    {%- else -%}
+        <li class="paginate-arrow disabled"><span aria-hidden="true">{% render 'icon' with 'arrow-right', class: '' %}</span></li>
+    {%- endif -%}
+    </ul>
+  {%- endif -%}
+
+  {%- endpaginate -%}
+
+  {%- if blog.articles.size <= 0 -%}
+    <p class="blog-filter-results-message text-center">{{ 'general.search.no_results' | t }}</p>
+  {%- endif -%}
+
+{%- when 'spacer' -%}
+
+  <div class="blog__spacer {% if block.settings.display_on_mobile %} visible-xs {% else %} hidden-xs{% endif %}"></div>
+
+{%- when 'feature-article' -%}
+
+  {%- if block.settings.featured_article != blank -%}
+    {%- assign featured_article = articles[block.settings.featured_article] -%}
+  {%- endif -%}
+
+  {% comment %}don't show featured article if filter is active{% endcomment %}
+  {%- unless current_tags.size > 0 -%}
+
+    <div class="featured-article-grid-item-wrapper">
+
+      {%- include 'article-grid-item' with article: article, class: '', layout: 'featured' -%}
+
+    </div>
+
+  {%- endunless-%}
+
+{%- else -%}
+    
+{%- endcase -%}

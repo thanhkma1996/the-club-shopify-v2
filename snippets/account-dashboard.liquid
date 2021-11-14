@@ -1,67 +1,67 @@
-{% comment %} {%- section 'account-dashboard-dynamic-welcome' -%} {% endcomment %}
-
-{% comment %}
-{%- assign show_reports_when_no_orders = true -%}
-{%- capture dashboard_reports %}
-  {%- if customer.orders.size > 0 or show_reports_when_no_orders -%}
-    {%- section 'account-dashboard-reports' -%}
-  {%- endif -%}
-{% endcapture -%}
-
-{%- if dashboard_reports != blank -%}
-  <div class="account-section">
-    <div class="account-section__body">
-      {{ dashboard_reports }}
-    </div>
-  </div>
-{%- endif -%}
-{% endcomment %}
-
-{% comment %}
-{%- capture dashboard_notices %}
-  {%- section 'account-dashboard-notices' -%}
-{% endcapture -%}
-
-{%- unless dashboard_notices contains 'data-notice-count="0"' -%}
-  <div class="account-section">
-    <div class="account-section__title">
-      <h2 class="h5">{{ 'customer.account.notices' | t }}</h2>
-    </div>
-    <div class="account-section__body">
-      {{ dashboard_notices }}
-    </div>
-  </div>
-{%- endunless -%}
-{% endcomment %}
-
-{% comment %} ORDER HISTORY {% endcomment %}
-<div class="account-section">
-
-  <div class="account-section__title">
-    <h2 class="h4">{{ 'customer.orders.title' | t }}</h2>
-    {% comment %} <a href="/account?view=order-history">{{ 'customer.account.view_all' | t }}</a> {% endcomment %}
-  </div>
-  <div class="account__view-description">
-    <p>{{ 'customer.orders.description' | t }}</p>
-  </div>
-
-  <hr class="account-section__divider">
-
-  <div class="account-section__body">
-    {%- include 'account-order-history-table' with simple: false -%}
-  </div>
-</div>
-
-
-{% comment %} NEWS BLOG {% endcomment %}
-{% comment %}
-<div class="account-section">
-  <div class="account-section__title">
-    <h2 class="h5">{{ 'customer.news.title' | t }}</h2>
-    <a href="/account?view=news">{{ 'customer.account.view_all' | t }}</a>
-  </div>
-  <div class="account-section__body">
-    {%- section 'account-news-grid' -%}
-  </div>
-</div>
-{% endcomment %}
+{% comment %} {%- section 'account-dashboard-dynamic-welcome' -%} {% endcomment %}
+
+{% comment %}
+{%- assign show_reports_when_no_orders = true -%}
+{%- capture dashboard_reports %}
+  {%- if customer.orders.size > 0 or show_reports_when_no_orders -%}
+    {%- section 'account-dashboard-reports' -%}
+  {%- endif -%}
+{% endcapture -%}
+
+{%- if dashboard_reports != blank -%}
+  <div class="account-section">
+    <div class="account-section__body">
+      {{ dashboard_reports }}
+    </div>
+  </div>
+{%- endif -%}
+{% endcomment %}
+
+{% comment %}
+{%- capture dashboard_notices %}
+  {%- section 'account-dashboard-notices' -%}
+{% endcapture -%}
+
+{%- unless dashboard_notices contains 'data-notice-count="0"' -%}
+  <div class="account-section">
+    <div class="account-section__title">
+      <h2 class="h5">{{ 'customer.account.notices' | t }}</h2>
+    </div>
+    <div class="account-section__body">
+      {{ dashboard_notices }}
+    </div>
+  </div>
+{%- endunless -%}
+{% endcomment %}
+
+{% comment %} ORDER HISTORY {% endcomment %}
+<div class="account-section">
+
+  <div class="account-section__title">
+    <h2 class="h4">{{ 'customer.orders.title' | t }}</h2>
+    {% comment %} <a href="/account?view=order-history">{{ 'customer.account.view_all' | t }}</a> {% endcomment %}
+  </div>
+  <div class="account__view-description">
+    <p>{{ 'customer.orders.description' | t }}</p>
+  </div>
+
+  <hr class="account-section__divider">
+
+  <div class="account-section__body">
+    {%- include 'account-order-history-table' with simple: false -%}
+  </div>
+</div>
+
+
+{% comment %} NEWS BLOG {% endcomment %}
+{% comment %}
+<div class="account-section">
+  <div class="account-section__title">
+    <h2 class="h5">{{ 'customer.news.title' | t }}</h2>
+    <a href="/account?view=news">{{ 'customer.account.view_all' | t }}</a>
+  </div>
+  <div class="account-section__body">
+    {%- section 'account-news-grid' -%}
+  </div>
+</div>
+{% endcomment %}

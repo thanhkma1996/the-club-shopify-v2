@@ -1,67 +1,67 @@
-{%- case site-nav-parts -%}
-
-
-  {%- comment -%} SITE NAV LINKS {%- endcomment -%}
-  {%- when 'link' -%}
-
-    {%- assign nav_link_url = nav_link.url -%}
-    {%- assign nav_link_title = nav_link_title | default: nav_link.title -%}
-
-    {%- if customer and nav_link.url contains '/account/register' or nav_link.url contains '/account/login' -%}
-      {%- assign nav_link_url = settings.default_page_account | default: '/account' -%}
-      {%- assign nav_link_title = 'customer.account.account_link' | t -%}
-    {%- endif -%}
-
-    {%- if nav_link_url == '#' or nav_link_url == blank -%}
-      <button class="site-nav__link {{ class }} {% if link.title contains '*' %}site-nav__link--featured{% endif %}" {% if type == 'mobile-nav' %}data-target="{{ nav_link.handle }}" rv-on-click="methods.goToList"{% endif %}>
-    {%- else -%}
-      <a itemprop="url" href="{{ nav_link_url }}"
-        class="site-nav__link {{ class }} {% if link.title contains '*' %}site-nav__link--featured{% endif %}"
-        {% if type == 'mobile-nav' %}data-target="{{ nav_link.handle }}" rv-on-click="methods.goToList"{% endif %}>
-    {%- endif -%}
-      {% comment %}
-      <span>{{ nav_link_title }}</span>
-      {% endcomment %}
-      {%- assign new_nav_link_title = nav_link_title | split: '-' | last -%}
-      <span>{{ new_nav_link_title }}</span>
-      {%- if arrows -%}
-        {%- render 'icon' with 'caret-down' -%}
-        <span class="visually-hidden">{{ 'layout.navigation.expand' | t }}</span>
-      {%- endif -%}
-
-    {%- if nav_link_url == '#' or nav_link_url == blank -%}
-      </button>
-    {%- else -%}
-      </a>
-    {%- endif -%}
-
-    {%- assign nav_link = null -%}
-    {%- assign nav_link_url = null -%}
-
-    {%- assign nav_link_title = blank -%}
-
-
-  {%- comment -%} MOBILE NAV HEADER {%- endcomment -%}
-  {%- when 'mobile-header' -%}
-
-    <div class="mobile-nav__list-header">
-      <button data-target="{{ nav_link_parent.handle }}" rv-on-click="methods.goToList">
-        {%- render 'icon' with 'arrow-left-alt' -%}
-      </button>
-      {%- assign mobile_title = title | split: '-' | last -%}
-      <a href="{{ nav_link.url }}" class="h3">{{ mobile_title }}</a>
-    </div>
-
-  {%- comment %} MOBILE NAV FOOTER {%- endcomment -%}
-  {%- when 'mobile-footer' -%}
-
-  {%- include 'nav-drawer-footer' -%}
-  {%- comment %}
-    <a itemprop="url" href="{{ nav_link.url }}" class="mobile-nav__list-footer">
-      {{ nav_link.title }}
-      {%- render 'icon' with 'arrow-right' -%}
-    </a>
-  {%- endcomment -%}
-
-
-{%- endcase -%}
+{%- case site-nav-parts -%}
+
+
+  {%- comment -%} SITE NAV LINKS {%- endcomment -%}
+  {%- when 'link' -%}
+
+    {%- assign nav_link_url = nav_link.url -%}
+    {%- assign nav_link_title = nav_link_title | default: nav_link.title -%}
+
+    {%- if customer and nav_link.url contains '/account/register' or nav_link.url contains '/account/login' -%}
+      {%- assign nav_link_url = settings.default_page_account | default: '/account' -%}
+      {%- assign nav_link_title = 'customer.account.account_link' | t -%}
+    {%- endif -%}
+
+    {%- if nav_link_url == '#' or nav_link_url == blank -%}
+      <button class="site-nav__link {{ class }} {% if link.title contains '*' %}site-nav__link--featured{% endif %}" {% if type == 'mobile-nav' %}data-target="{{ nav_link.handle }}" rv-on-click="methods.goToList"{% endif %}>
+    {%- else -%}
+      <a itemprop="url" href="{{ nav_link_url }}"
+        class="site-nav__link {{ class }} {% if link.title contains '*' %}site-nav__link--featured{% endif %}"
+        {% if type == 'mobile-nav' %}data-target="{{ nav_link.handle }}" rv-on-click="methods.goToList"{% endif %}>
+    {%- endif -%}
+      {% comment %}
+      <span>{{ nav_link_title }}</span>
+      {% endcomment %}
+      {%- assign new_nav_link_title = nav_link_title | split: '-' | last -%}
+      <span>{{ new_nav_link_title }}</span>
+      {%- if arrows -%}
+        {%- render 'icon' with 'caret-down' -%}
+        <span class="visually-hidden">{{ 'layout.navigation.expand' | t }}</span>
+      {%- endif -%}
+
+    {%- if nav_link_url == '#' or nav_link_url == blank -%}
+      </button>
+    {%- else -%}
+      </a>
+    {%- endif -%}
+
+    {%- assign nav_link = null -%}
+    {%- assign nav_link_url = null -%}
+
+    {%- assign nav_link_title = blank -%}
+
+
+  {%- comment -%} MOBILE NAV HEADER {%- endcomment -%}
+  {%- when 'mobile-header' -%}
+
+    <div class="mobile-nav__list-header">
+      <button data-target="{{ nav_link_parent.handle }}" rv-on-click="methods.goToList">
+        {%- render 'icon' with 'arrow-left-alt' -%}
+      </button>
+      {%- assign mobile_title = title | split: '-' | last -%}
+      <a href="{{ nav_link.url }}" class="h3">{{ mobile_title }}</a>
+    </div>
+
+  {%- comment %} MOBILE NAV FOOTER {%- endcomment -%}
+  {%- when 'mobile-footer' -%}
+
+  {%- include 'nav-drawer-footer' -%}
+  {%- comment %}
+    <a itemprop="url" href="{{ nav_link.url }}" class="mobile-nav__list-footer">
+      {{ nav_link.title }}
+      {%- render 'icon' with 'arrow-right' -%}
+    </a>
+  {%- endcomment -%}
+
+
+{%- endcase -%}

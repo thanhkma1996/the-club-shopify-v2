@@ -1,143 +1,143 @@
-{%- comment -%}
-==================================
-OVERDOSE VIDEO SNIPPET
-==================================
-
-OPTIONS:
-  video: Shopify video object or video id string
-  video_type: Video source (eg. YouTube, Vimeo) - required if not passing a Shopify video object
-  placeholder: Placeholder image - passed to Image snippet img value - See snippets/img.liquid
-  placeholder_image_type: Placeholder image type - passed to Image snippet img_type value - See snippets/img.liquid
-
-USAGE:
-
-{%- include 'video' with
-                            : [Shopify video object]
-  video_id                  : 'UQ2pVeIU3Ec',
-  video_type                : 'youtube',
-  placeholder_image         : 'https://....',
-  placeholder_image_type    : 'accentuate'
-  video_placeholder_overlay : '.video-overlay'
-  auto_play                 : true
--%}
-
-{%- endcomment -%}
-
-{%- if video.id != blank -%}
-  {%- assign video_id = video.id -%}
-  {%- assign video_type = video.type -%}
-{%- else -%}
-  {%- assign video_id = video -%}
-  {%- assign video_type = type | default: 'html5' -%}
-{%- endif -%}
-
-{%- assign auto_play_default = settings.video_auto_play -%}
-{%- assign auto_play_muted_default = settings.video_auto_play_muted -%}
-{%- assign auto_play_loop_default = settings.video_auto_play_loop -%}
-
-{%- if video_id != blank -%}
-
-  {%- if video_type == 'html5' -%}
-    {%- assign video_url = video_id -%}
-    {%- assign video_id = video_id | split: '/' | last | handle -%}
-  {%- endif -%}
-
-  {%- assign placeholder_image = placeholder -%}
-
-  {%- assign video_show_on_load = true -%}
-
-  {%- if placeholder_image != blank -%}
-    {%- assign video_show_on_load = false -%}
-  {%- endif -%}
-
-  {%- assign auto_play = auto_play | default: auto_play_default -%}
-
-  {%- if video_show_on_load == true -%}
-    {%- assign auto_play_muted = muted | default: auto_play_muted_default -%}
-    {%- assign auto_play_loop = loop | default: auto_play_loop_default -%}
-  {%- endif -%}
-
-  {%- assign padding_bottom = '56.25' -%}
-  {%- if placeholder_image.aspect_ratio -%}
-    {%- assign padding_bottom = 1 | divided_by: placeholder_image.aspect_ratio | times: 100 | round: 4 -%}
-  {%- endif -%}
-  <div class="video"
-    data-video-type="{{ video_type }}"
-    data-video-id="{{ video_id }}"
-    data-video-visible="{{ video_show_on_load }}"
-    data-video-autoplay="{{ auto_play }}"
-    style="padding-bottom: {{ padding_bottom }}%;"
-    {% if video_placeholder_overlay %}data-placeholder-overlay="{{ video_placeholder_overlay }}"{% endif %}
-    >
-
-    {%- if placeholder_image != blank -%}
-      {%- include 'img' with placeholder_image
-        img_class: 'video__placeholder'
-        placeholder: false
-        type: placeholder_image_type
-      -%}
-
-      <span class="video__play">
-        {%- render 'icon' with 'play' -%}
-      </span>
-    {%- endif -%}
-
-    {%- if video_type == 'vimeo' -%}
-
-      {%- if auto_play_muted -%}
-        {%- assign muted_param = '&muted=1' -%}
-      {%- endif -%}
-
-      {%- if auto_play_loop -%}
-        {%- assign loop_param = '&loop=1' -%}
-      {%- endif -%}
-
-      <div id="video-{{ video_id }}" class="video__video-container"></div>
-
-    {%- elsif video_type == 'youtube' -%}
-
-      {%- if auto_play_muted -%}
-        {%- assign muted_param = '&muted=1' -%}
-      {%- endif -%}
-
-      {%- if auto_play_loop -%}
-        {%- assign loop_param = '&loop=1' -%}
-      {%- endif -%}
-
-      <div id="video-{{ video_id }}" class="video__video-container"></div>
-
-    {%- else -%}
-
-      {%- if auto_play_muted -%}
-        {%- assign muted_param = 'muted' -%}
-      {%- endif -%}
-
-      {%- if auto_play_loop -%}
-        {%- assign loop_param = 'loop' -%}
-      {%- endif -%}
-
-      <video id="video-{{ video_id }}" 
-             class="video__video-container" 
-             autoplay {{ loop_param }} {{ muted_param }} playsinline
-             {% if poster != blank %}poster="{{ poster }}"{% endif %}>
-        <source src="{{ video_url }}">
-        {%- if poster != blank -%}
-          {%- include 'img' with poster -%}
-        {%- endif -%}
-      </video>
-    {%- endif -%}
-
-  </div>
-
-{%- endif -%}
-
-
-{%- assign video = nul -%}
-{%- assign video_id = nul -%}
-{%- assign video_url = nul -%}
-{%- assign video_type = nul -%}
-{%- assign placeholder = nul -%}
-{%- assign placeholder_image = nul -%}
-{%- assign muted_param = nul -%}
-{%- assign loop_param = nul -%}
-
+{%- comment -%}
+==================================
+OVERDOSE VIDEO SNIPPET
+==================================
+
+OPTIONS:
+  video: Shopify video object or video id string
+  video_type: Video source (eg. YouTube, Vimeo) - required if not passing a Shopify video object
+  placeholder: Placeholder image - passed to Image snippet img value - See snippets/img.liquid
+  placeholder_image_type: Placeholder image type - passed to Image snippet img_type value - See snippets/img.liquid
+
+USAGE:
+
+{%- include 'video' with
+                            : [Shopify video object]
+  video_id                  : 'UQ2pVeIU3Ec',
+  video_type                : 'youtube',
+  placeholder_image         : 'https://....',
+  placeholder_image_type    : 'accentuate'
+  video_placeholder_overlay : '.video-overlay'
+  auto_play                 : true
+-%}
+
+{%- endcomment -%}
+
+{%- if video.id != blank -%}
+  {%- assign video_id = video.id -%}
+  {%- assign video_type = video.type -%}
+{%- else -%}
+  {%- assign video_id = video -%}
+  {%- assign video_type = type | default: 'html5' -%}
+{%- endif -%}
+
+{%- assign auto_play_default = settings.video_auto_play -%}
+{%- assign auto_play_muted_default = settings.video_auto_play_muted -%}
+{%- assign auto_play_loop_default = settings.video_auto_play_loop -%}
+
+{%- if video_id != blank -%}
+
+  {%- if video_type == 'html5' -%}
+    {%- assign video_url = video_id -%}
+    {%- assign video_id = video_id | split: '/' | last | handle -%}
+  {%- endif -%}
+
+  {%- assign placeholder_image = placeholder -%}
+
+  {%- assign video_show_on_load = true -%}
+
+  {%- if placeholder_image != blank -%}
+    {%- assign video_show_on_load = false -%}
+  {%- endif -%}
+
+  {%- assign auto_play = auto_play | default: auto_play_default -%}
+
+  {%- if video_show_on_load == true -%}
+    {%- assign auto_play_muted = muted | default: auto_play_muted_default -%}
+    {%- assign auto_play_loop = loop | default: auto_play_loop_default -%}
+  {%- endif -%}
+
+  {%- assign padding_bottom = '56.25' -%}
+  {%- if placeholder_image.aspect_ratio -%}
+    {%- assign padding_bottom = 1 | divided_by: placeholder_image.aspect_ratio | times: 100 | round: 4 -%}
+  {%- endif -%}
+  <div class="video"
+    data-video-type="{{ video_type }}"
+    data-video-id="{{ video_id }}"
+    data-video-visible="{{ video_show_on_load }}"
+    data-video-autoplay="{{ auto_play }}"
+    style="padding-bottom: {{ padding_bottom }}%;"
+    {% if video_placeholder_overlay %}data-placeholder-overlay="{{ video_placeholder_overlay }}"{% endif %}
+    >
+
+    {%- if placeholder_image != blank -%}
+      {%- include 'img' with placeholder_image
+        img_class: 'video__placeholder'
+        placeholder: false
+        type: placeholder_image_type
+      -%}
+
+      <span class="video__play">
+        {%- render 'icon' with 'play' -%}
+      </span>
+    {%- endif -%}
+
+    {%- if video_type == 'vimeo' -%}
+
+      {%- if auto_play_muted -%}
+        {%- assign muted_param = '&muted=1' -%}
+      {%- endif -%}
+
+      {%- if auto_play_loop -%}
+        {%- assign loop_param = '&loop=1' -%}
+      {%- endif -%}
+
+      <div id="video-{{ video_id }}" class="video__video-container"></div>
+
+    {%- elsif video_type == 'youtube' -%}
+
+      {%- if auto_play_muted -%}
+        {%- assign muted_param = '&muted=1' -%}
+      {%- endif -%}
+
+      {%- if auto_play_loop -%}
+        {%- assign loop_param = '&loop=1' -%}
+      {%- endif -%}
+
+      <div id="video-{{ video_id }}" class="video__video-container"></div>
+
+    {%- else -%}
+
+      {%- if auto_play_muted -%}
+        {%- assign muted_param = 'muted' -%}
+      {%- endif -%}
+
+      {%- if auto_play_loop -%}
+        {%- assign loop_param = 'loop' -%}
+      {%- endif -%}
+
+      <video id="video-{{ video_id }}" 
+             class="video__video-container" 
+             autoplay {{ loop_param }} {{ muted_param }} playsinline
+             {% if poster != blank %}poster="{{ poster }}"{% endif %}>
+        <source src="{{ video_url }}">
+        {%- if poster != blank -%}
+          {%- include 'img' with poster -%}
+        {%- endif -%}
+      </video>
+    {%- endif -%}
+
+  </div>
+
+{%- endif -%}
+
+
+{%- assign video = nul -%}
+{%- assign video_id = nul -%}
+{%- assign video_url = nul -%}
+{%- assign video_type = nul -%}
+{%- assign placeholder = nul -%}
+{%- assign placeholder_image = nul -%}
+{%- assign muted_param = nul -%}
+{%- assign loop_param = nul -%}
+

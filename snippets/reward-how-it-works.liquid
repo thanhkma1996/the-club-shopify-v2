@@ -1,29 +1,29 @@
-{%- assign b_set = block.settings -%}
-
-{%- assign image = b_set.block_image -%}
-
-{%- assign title = b_set.title -%}
-{%- assign sub_title = b_set.sub_title -%}
-
-{%- assign text_1 = b_set.text_1 | newline_to_br | split: '<br>' -%}
-
-<div class="reward-aplication-form reverce-mobile">
-	{% if image != blank %}
-		<div class="aplication-form-image">
-			{%- include 'img' with image -%}
-		</div>
-	{% endif %}
-	<div class="aplication-form-text">
-		{%- if title != blank -%}
-			<h2>{{ title }}</h2>
-		{%- endif -%}
-
-		{%- if sub_title != blank -%}
-			<p class="sub_title">{{ sub_title }}</p>
-		{%- endif -%}
-
-		<div class="ordered-list">
-			{{ text_1 }}
-		</div>
-	</div>
+{%- assign b_set = block.settings -%}
+
+{%- assign image = b_set.block_image -%}
+
+{%- assign title = b_set.title -%}
+{%- assign sub_title = b_set.sub_title -%}
+
+{%- assign text_1 = b_set.text_1 | newline_to_br | split: '<br>' -%}
+
+<div class="reward-aplication-form reverce-mobile">
+	{% if image != blank %}
+		<div class="aplication-form-image">
+			{%- include 'img' with image -%}
+		</div>
+	{% endif %}
+	<div class="aplication-form-text">
+		{%- if title != blank -%}
+			<h2>{{ title }}</h2>
+		{%- endif -%}
+
+		{%- if sub_title != blank -%}
+			<p class="sub_title">{{ sub_title }}</p>
+		{%- endif -%}
+
+		<div class="ordered-list">
+			{{ text_1 }}
+		</div>
+	</div>
 </div>

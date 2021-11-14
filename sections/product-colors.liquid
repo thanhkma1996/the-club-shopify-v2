@@ -1,77 +1,77 @@
-{% comment %}
-options for output:
-
-  Color:
-  background: {{ block.settings.colour }};
-
-  Gradient:
-  linear-gradient(to right,  {{ block.settings.colour_first }}  , {{ block.settings.colour_last }});
-  
-  Image:
-  background: url({{ block.settings.colour }});
-
-options for color value:
-
-  Tag:
-  color-white
-
-  Variant:
-  white
-
-  //see collection.json to assign color via variant
-{% endcomment %}
-
-<script id="product-colour-data" type="application/json">
-[
-  {%- for block in section.blocks -%}
-  {%- unless forloop.first -%},{%- endunless -%}
-  {
-    "title": {{ block.settings.title | json }},
-    "tag": {{ block.settings.tag | json }},
-    "color": {{ block.settings.colour | json }}
-  }
-  {%- endfor -%}
-]
-</script>
-<style>
-  {%- for block in section.blocks -%}
-    [data-color="{{ block.settings.tag | remove: 'color-'}}"] .product-color-item {
-      background: {{ block.settings.colour }};
-    }
-  {%- endfor -%}
-</style>
-{% schema %}
-  {
-    "name": "Product colours",
-    "class": "index-section index-section--flush",
-    "settings": [
-
-    ],
-    "blocks": [
-      {
-        "type": "colour",
-        "name": "Product colour",
-        "settings": [
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Colour Name",
-            "info":"This is the name of the colour that will appear next to the swatch"
-          },
-          {
-            "type": "text",
-            "id": "tag",
-            "label": "Colour Tag",
-            "info":"Include the prefix of the tag. i.e color-blue"
-          },
-          {
-             "type": "color",
-             "id": "colour",
-             "label": "Colour",
-             "default": "#ffffff"
-          }
-        ]
-      }
-    ]
-  }
+{% comment %}
+options for output:
+
+  Color:
+  background: {{ block.settings.colour }};
+
+  Gradient:
+  linear-gradient(to right,  {{ block.settings.colour_first }}  , {{ block.settings.colour_last }});
+  
+  Image:
+  background: url({{ block.settings.colour }});
+
+options for color value:
+
+  Tag:
+  color-white
+
+  Variant:
+  white
+
+  //see collection.json to assign color via variant
+{% endcomment %}
+
+<script id="product-colour-data" type="application/json">
+[
+  {%- for block in section.blocks -%}
+  {%- unless forloop.first -%},{%- endunless -%}
+  {
+    "title": {{ block.settings.title | json }},
+    "tag": {{ block.settings.tag | json }},
+    "color": {{ block.settings.colour | json }}
+  }
+  {%- endfor -%}
+]
+</script>
+<style>
+  {%- for block in section.blocks -%}
+    [data-color="{{ block.settings.tag | remove: 'color-'}}"] .product-color-item {
+      background: {{ block.settings.colour }};
+    }
+  {%- endfor -%}
+</style>
+{% schema %}
+  {
+    "name": "Product colours",
+    "class": "index-section index-section--flush",
+    "settings": [
+
+    ],
+    "blocks": [
+      {
+        "type": "colour",
+        "name": "Product colour",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Colour Name",
+            "info":"This is the name of the colour that will appear next to the swatch"
+          },
+          {
+            "type": "text",
+            "id": "tag",
+            "label": "Colour Tag",
+            "info":"Include the prefix of the tag. i.e color-blue"
+          },
+          {
+             "type": "color",
+             "id": "colour",
+             "label": "Colour",
+             "default": "#ffffff"
+          }
+        ]
+      }
+    ]
+  }
 {% endschema %}

@@ -1,23 +1,23 @@
-<div class="site-nav__item site-nav__item--footer">
-	<div class="site-header__link site-header__search-toggle site-header__search-toggle--mobile">
-	  <button type="button" class="site-nav__link mobile-search--open">
-	    {%- render 'icon' with 'search' -%}{{ 'layout.navigation.search' | t }}
-	    {%- comment -%}{%- render 'icon' with 'close' -%}{%- endcomment -%}
-	    <span class="icon-fallback-text">{{ 'layout.navigation.search' | t }}</span>
-	  </button>
-	</div>
-    {% comment %}<a itemprop="url" href="/search" class="site-nav__link">{%- render 'icon' with 'search' -%}<span>{{ 'layout.navigation.search' | t }}</span></a>{% endcomment %}
-</div>
-<div  class="site-nav__item site-nav__item--footer">
-    <a itemprop="url" href="/pages/wishlist" class="site-nav__link">{%- render 'icon' with 'wishlist' -%}<span>{{ 'layout.navigation.wishlist' | t }}</span></a>
-</div>
-{%- if shop.customer_accounts_enabled -%}
-<div  class="site-nav__item site-nav__item--footer">
-    {%- if customer -%}
-        <a itemprop="url" href="/search" class="site-nav__link">{%- render 'icon' with 'user' -%}<span>{{ 'layout.customer.account' | t  }}</span></a>
-    {%- else -%}
-        <a itemprop="url" href="/account/register" class="site-nav__link">{%- render 'icon' with 'user' -%}<span>{{ 'layout.customer.account' | t  }}</span></a>
-    {%- endif -%}
-</div>
-{%- endif -%}
-
+<div class="site-nav__item site-nav__item--footer">
+	<div class="site-header__link site-header__search-toggle site-header__search-toggle--mobile">
+	  <button type="button" class="site-nav__link mobile-search--open">
+	    {%- render 'icon' with 'search' -%}{{ 'layout.navigation.search' | t }}
+	    {%- comment -%}{%- render 'icon' with 'close' -%}{%- endcomment -%}
+	    <span class="icon-fallback-text">{{ 'layout.navigation.search' | t }}</span>
+	  </button>
+	</div>
+    {% comment %}<a itemprop="url" href="/search" class="site-nav__link">{%- render 'icon' with 'search' -%}<span>{{ 'layout.navigation.search' | t }}</span></a>{% endcomment %}
+</div>
+<div  class="site-nav__item site-nav__item--footer">
+    <a itemprop="url" href="/pages/wishlist" class="site-nav__link">{%- render 'icon' with 'wishlist' -%}<span>{{ 'layout.navigation.wishlist' | t }}</span></a>
+</div>
+{%- if shop.customer_accounts_enabled -%}
+<div  class="site-nav__item site-nav__item--footer">
+    {%- if customer -%}
+        <a itemprop="url" href="/search" class="site-nav__link">{%- render 'icon' with 'user' -%}<span>{{ 'layout.customer.account' | t  }}</span></a>
+    {%- else -%}
+        <a itemprop="url" href="/account/register" class="site-nav__link">{%- render 'icon' with 'user' -%}<span>{{ 'layout.customer.account' | t  }}</span></a>
+    {%- endif -%}
+</div>
+{%- endif -%}
+

@@ -1,26 +1,26 @@
-{%- assign image = product.metafields.feeding.feeding_image -%}
-{%- assign rtl = product.metafields.feeding.feeding_direction_rtl -%}
-{%- assign small_title = product.metafields.feeding.feeding_small_title -%}
-{%- assign title = product.metafields.accentuate.feeding_title -%}
-{%- assign description = product.metafields.feeding.feeding_description -%}
-{%- assign link_title = product.metafields.feeding.feeding_link_title -%}
-{%- assign link_url = product.metafields.feeding.feeding_link -%}
-<div class="feeding-section">
-	<div class="container">
-		<div class="feeding">
-			<div class="feeding-image">
-				<img class="lazyload" data-sizes="auto" data-srcset="{{ image }}"/>
-			</div>
-			<div class="feeding-text">
-				<p class="title__small">{{ small_title }}</p>
-				<p class="title">{{ title }}</p>
-				<div class="rte feeding-description">
-					{{ description }}
-				</div>
-				{% if link_title != blank and link_url != blank %}
-					<a href="{{ link_url }}" class="feeding-link">{{ link_title }}</a>
-				{% endif %}
-			</div>
-		</div>
-	</div>
+{%- assign image = product.metafields.feeding.feeding_image -%}
+{%- assign rtl = product.metafields.feeding.feeding_direction_rtl -%}
+{%- assign small_title = product.metafields.feeding.feeding_small_title -%}
+{%- assign title = product.metafields.accentuate.feeding_title -%}
+{%- assign description = product.metafields.feeding.feeding_description -%}
+{%- assign link_title = product.metafields.feeding.feeding_link_title -%}
+{%- assign link_url = product.metafields.feeding.feeding_link -%}
+<div class="feeding-section">
+	<div class="container">
+		<div class="feeding">
+			<div class="feeding-image">
+				<img class="lazyload" data-sizes="auto" data-srcset="{{ image }}"/>
+			</div>
+			<div class="feeding-text">
+				<p class="title__small">{{ small_title }}</p>
+				<p class="title">{{ title }}</p>
+				<div class="rte feeding-description">
+					{{ description }}
+				</div>
+				{% if link_title != blank and link_url != blank %}
+					<a href="{{ link_url }}" class="feeding-link">{{ link_title }}</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
 </div>

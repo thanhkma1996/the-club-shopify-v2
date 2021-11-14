@@ -1,193 +1,193 @@
-{%- comment -%}
-==================================
-OVERDOSE RESPONSIVE IMAGE SNIPPET
-==================================
-
-Outputs an image ready for Lazysizes to work its responsive magic with.
-
-OPTIONS:
-  type: Sets image type if not a Shopify image object. 
-    'asset', 'file', 'url'
-  placeholder: Enables an invisible or low resolution image placeholder. 
-    true, 'image'
-  fit: Adds object-fit/position classes. Can be used with 'position' option.
-    'cover', 'contain'
-  position: Sets gravity for object-fit/position classes. Used with 'fit' option.
-    'top', 'center', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right'
-  blur: Setting this option to true enables a blur-up animation on load.
-    true
-  fade: Setting this option to true enables a fade animation on load.
-    true
-  spinner: Setting this option to true enables a spinner animation on load.
-    true
-  attributes: Any custom attributes you need included.
-    'data-custom="true"'
-  class: Adds a class to the placeholder element.
-  img_class: Adds a class to the image element.
-  alt: Adds alt text to the image element.
-  width: Image width, if required.
-  height: Image height, if required.
-  max_width: Image max-width, if required. Defaults to Shopify image object width, if available.
-  max_height: Image max-height, if required. Defaults to Shopify image object height, if available.
-
-USAGE: 
-{%- include 'img' with block.settings.image, class: 'image-row-item__image' -%}
-
-{%- endcomment -%}
-
-{%- assign width_template = '{width}x' | escape -%}
-
-{%- if img.src != blank -%}
-  {%- assign img_template_url = img | img_url: '123x' | replace: '123x', width_template -%}
-  {%- assign img_placeholder_url = img | img_url: '180x' -%}
-{%- else -%}
-  {%- if type == 'asset' -%}
-    {%- assign img_template_url = img | asset_img_url: '123x' | replace: '123x', width_template -%}
-    {%- assign img_placeholder_url = img | asset_img_url: '180x' -%}
-  {%- elsif type == 'file' -%}
-    {%- assign img_template_url = img | file_img_url: '123x' | replace: '123x', width_template -%}
-    {%- assign img_placeholder_url = img | file_img_url: '180x' -%}
-  {%- elsif type == 'url' -%}
-    {%- if img_template_url contains 'cdn.shopify.com' -%}
-      {%- assign img_template_url = img | replace: '.png', '_123x.png' | replace: '.jpg', '_123x.jpg' | replace: '123x', width_template -%}
-    {%- else -%}
-      {%- assign img_template_url = img -%}
-    {%- endif -%}
-    {%- assign img_placeholder_url = img -%}
-  {%- elsif type == 'accentuate' -%}
-    {%- assign img_url = img | split: '?' | first -%}
-    {%- assign width_template = 'w_{width}' | escape -%}
-    {%- assign base_url = '//images.accentuate.io' -%}
-    {%- assign param_options = 'c_options=w_123' | replace: 'w_123', width_template -%}
-    {%- assign param_shop = 'shop=' | append: shop.permanent_domain -%}
-    {%- assign param_image = 'image=' | append: img_url -%}
-    {%- assign img_template_url = base_url | append: '?' | append: param_options | append: '&' | append: param_shop | append: '&' | append: param_image -%}
-    {%- assign img_placeholder_url = img_template_url | replace: width_template, 'w_180' -%}
-  {%- else -%}
-    {%- assign img_template_url = img | file_img_url: '123x' | replace: '123x', width_template -%}
-    {%- assign img_placeholder_url = img | file_img_url: '180x' -%}
-  {%- endif -%}
-{%- endif -%}
-
-{%- assign is_placeholder_image = false -%}
-{%- if img_template_url contains 'no-image' -%}
-  {%- assign is_placeholder_image = true -%}
-  {%- if settings.fallback_placeholder_image != blank -%}
-    {%- assign img_template_url = settings.fallback_placeholder_image | img_url: '123x' | replace: '123x', width_template -%}
-    {%- assign img_placeholder_url = settings.fallback_placeholder_image | img_url: '180x' -%}
-  {%- endif -%}
-{%- endif -%}
-
-{%- if class == blank -%}
-  {%- assign class = '' -%}
-{%- endif -%}
-
-{%- assign output_img_class = img_class | default: '' -%}
-
-{%- if max_width != blank -%}
-  {%- capture max_width_output -%}{{ max_width }}px{%- endcapture -%}
-  {%- assign max_width_test = true -%}
-{%- elsif img.width != blank and is_placeholder_image == false -%}
-  {%- assign max_width = img.width | default: 'none' -%}
-  {%- assign max_width_output = img.width | append: 'px' -%}
-{%- endif -%}
-
-{%- if max_height != blank -%}
-  {%- capture max_height_output -%}{{ max_height }}px{%- endcapture -%}
-  {%- assign max_height_test = true -%}
-{%- elsif img.height != blank and is_placeholder_image == false -%}
-  {%- assign max_height = img.height | default: 'none' -%}
-  {%- assign max_height_output = img.height | append: 'px' -%}
-{%- endif -%}
-
-{%- if max_width_test and img.src != blank -%}
-  {%- assign max_width_test = max_height | times: img.aspect_ratio | floor -%}
-  {%- if max_width_test < max_width -%}
-    {%- capture max_width_output -%}{{ max_width_test }}px{%- endcapture -%}
-  {%- endif -%}
-{%- endif -%}
-
-{%- if max_height_test and img.src != blank -%}
-  {%- assign max_height_test = max_width | divided_by: img.aspect_ratio | floor -%}
-  {%- if max_height_test < max_height -%}
-    {%- capture max_height_output %}{{ max_height_test }}px{% endcapture -%}
-  {%- endif -%}
-{%- endif -%}
-
-{%- if alt == blank and img.alt != blank -%}
-  {%- assign alt = img.alt -%}
-{%- endif -%}
-
-{%- if blur == true and placeholder == 'image' -%}
-  {%- assign output_img_class = output_img_class | prepend: 'blur-up ' -%}
-{%- endif -%}
-
-{%- unless fade == false or placeholder == 'image' -%}
-  {%- assign output_img_class = output_img_class | prepend: 'fade-in ' -%}
-{%- endunless -%}
-
-{%- if fit != blank -%}
-  {%- assign object_position = position | replace: ' ', '-' | default: 'center' -%}
-  {%- assign object_fit = ' object-fit--' | append: fit  | append: '-' | append: object_position -%}
-  {%- assign output_img_class = output_img_class | append: object_fit -%}
-{%- endif -%}
-
-{%- if placeholder != blank -%}
-<span class="lazyload-image {% if placeholder == 'image' %}lazyload--image-placeholder{% else %}lazyload--empty-placeholder{% endif %} {{ class }}" style="max-width: {{ max_width_output | default: 'none' }}; max-height: {{ max_height_output | default: 'none' }};">
-{%- endif -%}
-
-  <img class="lazyload {{ output_img_class }}"
-    {% if id != blank %} id="{{ id }}" {% endif -%}
-    {% if width != blank %} width="{{ width }}" {% endif -%}
-    {% if height != blank %} height="{{ height }}" {% endif -%}
-    {% if placeholder == 'image' %} src="{{ img_placeholder_url }}" {% else %} src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" {% endif -%}
-    data-srcset="{{ img_template_url }}"
-    {% if widths %} data-widths="[{{ widths }}]" {% endif -%}
-    data-sizes="auto"
-    data-optimumx="1.5"
-    data-parent-fit="cover"
-    {% if img.aspect_ratio != blank %} data-aspectratio="{{ img.aspect_ratio }}" {% endif %}
-    {% if max_width_test or max_height_test %} style="max-width: {{ max_width_output | default: 'none' }}; max-height: {{ max_height_output | default: 'none' }};" {% endif %}
-    alt="{{ alt | escape }}" {{ attributes }}>
-  
-  {%- if placeholder -%}
-  <span class="lazyload-placeholder" style="padding-bottom: {{ 1 | divided_by: img.aspect_ratio | times: 100.0 | round: 3 }}%">
-    {%- if placeholder == 'image' -%}
-      <img src="{{ img_placeholder_url }}">
-    {%- endif -%}
-  </span>
-  {%- endif -%}
-  
-  {%- if spinner -%}
-  <span class="lazyload-spinner"></span>
-  {%- endif -%}
-
-{%- if placeholder != blank -%}
-</span>
-{%- endif -%}
-
-<noscript>
-  <img class="{{ output_img_class | remove: 'blur-up' | remove: 'fade-in' }}"
-    {% if id != blank %} id="{{ id }}" {% endif -%}
-    {% if width != blank %} width="{{ width }}" {% endif -%}
-    {% if height != blank %} height="{{ height }}" {% endif -%}
-    src="{{ img_template_url | replace: width_template, '640x' }}"
-    alt="{{ alt | escape }}" {{ attributes }}>
-</noscript>
-
-{%- assign class = null -%}
-{%- assign img_class = null -%}
-{%- assign output_img_class = null -%}
-{%- assign max_width = null -%}
-{%- assign max_width_test = null -%}
-{%- assign max_width_output = null -%}
-{%- assign max_height = null -%}
-{%- assign max_height_test = null -%}
-{%- assign max_height_output = null -%}
-{%- assign alt = null -%}
-{%- assign placeholder = null -%}
-{%- assign spinner = null -%}
-{%- assign img = null -%}
-{%- assign fit = null -%}
-{%- assign position = null -%}
-{%- assign type = null -%}
+{%- comment -%}
+==================================
+OVERDOSE RESPONSIVE IMAGE SNIPPET
+==================================
+
+Outputs an image ready for Lazysizes to work its responsive magic with.
+
+OPTIONS:
+  type: Sets image type if not a Shopify image object. 
+    'asset', 'file', 'url'
+  placeholder: Enables an invisible or low resolution image placeholder. 
+    true, 'image'
+  fit: Adds object-fit/position classes. Can be used with 'position' option.
+    'cover', 'contain'
+  position: Sets gravity for object-fit/position classes. Used with 'fit' option.
+    'top', 'center', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right'
+  blur: Setting this option to true enables a blur-up animation on load.
+    true
+  fade: Setting this option to true enables a fade animation on load.
+    true
+  spinner: Setting this option to true enables a spinner animation on load.
+    true
+  attributes: Any custom attributes you need included.
+    'data-custom="true"'
+  class: Adds a class to the placeholder element.
+  img_class: Adds a class to the image element.
+  alt: Adds alt text to the image element.
+  width: Image width, if required.
+  height: Image height, if required.
+  max_width: Image max-width, if required. Defaults to Shopify image object width, if available.
+  max_height: Image max-height, if required. Defaults to Shopify image object height, if available.
+
+USAGE: 
+{%- include 'img' with block.settings.image, class: 'image-row-item__image' -%}
+
+{%- endcomment -%}
+
+{%- assign width_template = '{width}x' | escape -%}
+
+{%- if img.src != blank -%}
+  {%- assign img_template_url = img | img_url: '123x' | replace: '123x', width_template -%}
+  {%- assign img_placeholder_url = img | img_url: '180x' -%}
+{%- else -%}
+  {%- if type == 'asset' -%}
+    {%- assign img_template_url = img | asset_img_url: '123x' | replace: '123x', width_template -%}
+    {%- assign img_placeholder_url = img | asset_img_url: '180x' -%}
+  {%- elsif type == 'file' -%}
+    {%- assign img_template_url = img | file_img_url: '123x' | replace: '123x', width_template -%}
+    {%- assign img_placeholder_url = img | file_img_url: '180x' -%}
+  {%- elsif type == 'url' -%}
+    {%- if img_template_url contains 'cdn.shopify.com' -%}
+      {%- assign img_template_url = img | replace: '.png', '_123x.png' | replace: '.jpg', '_123x.jpg' | replace: '123x', width_template -%}
+    {%- else -%}
+      {%- assign img_template_url = img -%}
+    {%- endif -%}
+    {%- assign img_placeholder_url = img -%}
+  {%- elsif type == 'accentuate' -%}
+    {%- assign img_url = img | split: '?' | first -%}
+    {%- assign width_template = 'w_{width}' | escape -%}
+    {%- assign base_url = '//images.accentuate.io' -%}
+    {%- assign param_options = 'c_options=w_123' | replace: 'w_123', width_template -%}
+    {%- assign param_shop = 'shop=' | append: shop.permanent_domain -%}
+    {%- assign param_image = 'image=' | append: img_url -%}
+    {%- assign img_template_url = base_url | append: '?' | append: param_options | append: '&' | append: param_shop | append: '&' | append: param_image -%}
+    {%- assign img_placeholder_url = img_template_url | replace: width_template, 'w_180' -%}
+  {%- else -%}
+    {%- assign img_template_url = img | file_img_url: '123x' | replace: '123x', width_template -%}
+    {%- assign img_placeholder_url = img | file_img_url: '180x' -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign is_placeholder_image = false -%}
+{%- if img_template_url contains 'no-image' -%}
+  {%- assign is_placeholder_image = true -%}
+  {%- if settings.fallback_placeholder_image != blank -%}
+    {%- assign img_template_url = settings.fallback_placeholder_image | img_url: '123x' | replace: '123x', width_template -%}
+    {%- assign img_placeholder_url = settings.fallback_placeholder_image | img_url: '180x' -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if class == blank -%}
+  {%- assign class = '' -%}
+{%- endif -%}
+
+{%- assign output_img_class = img_class | default: '' -%}
+
+{%- if max_width != blank -%}
+  {%- capture max_width_output -%}{{ max_width }}px{%- endcapture -%}
+  {%- assign max_width_test = true -%}
+{%- elsif img.width != blank and is_placeholder_image == false -%}
+  {%- assign max_width = img.width | default: 'none' -%}
+  {%- assign max_width_output = img.width | append: 'px' -%}
+{%- endif -%}
+
+{%- if max_height != blank -%}
+  {%- capture max_height_output -%}{{ max_height }}px{%- endcapture -%}
+  {%- assign max_height_test = true -%}
+{%- elsif img.height != blank and is_placeholder_image == false -%}
+  {%- assign max_height = img.height | default: 'none' -%}
+  {%- assign max_height_output = img.height | append: 'px' -%}
+{%- endif -%}
+
+{%- if max_width_test and img.src != blank -%}
+  {%- assign max_width_test = max_height | times: img.aspect_ratio | floor -%}
+  {%- if max_width_test < max_width -%}
+    {%- capture max_width_output -%}{{ max_width_test }}px{%- endcapture -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if max_height_test and img.src != blank -%}
+  {%- assign max_height_test = max_width | divided_by: img.aspect_ratio | floor -%}
+  {%- if max_height_test < max_height -%}
+    {%- capture max_height_output %}{{ max_height_test }}px{% endcapture -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if alt == blank and img.alt != blank -%}
+  {%- assign alt = img.alt -%}
+{%- endif -%}
+
+{%- if blur == true and placeholder == 'image' -%}
+  {%- assign output_img_class = output_img_class | prepend: 'blur-up ' -%}
+{%- endif -%}
+
+{%- unless fade == false or placeholder == 'image' -%}
+  {%- assign output_img_class = output_img_class | prepend: 'fade-in ' -%}
+{%- endunless -%}
+
+{%- if fit != blank -%}
+  {%- assign object_position = position | replace: ' ', '-' | default: 'center' -%}
+  {%- assign object_fit = ' object-fit--' | append: fit  | append: '-' | append: object_position -%}
+  {%- assign output_img_class = output_img_class | append: object_fit -%}
+{%- endif -%}
+
+{%- if placeholder != blank -%}
+<span class="lazyload-image {% if placeholder == 'image' %}lazyload--image-placeholder{% else %}lazyload--empty-placeholder{% endif %} {{ class }}" style="max-width: {{ max_width_output | default: 'none' }}; max-height: {{ max_height_output | default: 'none' }};">
+{%- endif -%}
+
+  <img class="lazyload {{ output_img_class }}"
+    {% if id != blank %} id="{{ id }}" {% endif -%}
+    {% if width != blank %} width="{{ width }}" {% endif -%}
+    {% if height != blank %} height="{{ height }}" {% endif -%}
+    {% if placeholder == 'image' %} src="{{ img_placeholder_url }}" {% else %} src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" {% endif -%}
+    data-srcset="{{ img_template_url }}"
+    {% if widths %} data-widths="[{{ widths }}]" {% endif -%}
+    data-sizes="auto"
+    data-optimumx="1.5"
+    data-parent-fit="cover"
+    {% if img.aspect_ratio != blank %} data-aspectratio="{{ img.aspect_ratio }}" {% endif %}
+    {% if max_width_test or max_height_test %} style="max-width: {{ max_width_output | default: 'none' }}; max-height: {{ max_height_output | default: 'none' }};" {% endif %}
+    alt="{{ alt | escape }}" {{ attributes }}>
+  
+  {%- if placeholder -%}
+  <span class="lazyload-placeholder" style="padding-bottom: {{ 1 | divided_by: img.aspect_ratio | times: 100.0 | round: 3 }}%">
+    {%- if placeholder == 'image' -%}
+      <img src="{{ img_placeholder_url }}">
+    {%- endif -%}
+  </span>
+  {%- endif -%}
+  
+  {%- if spinner -%}
+  <span class="lazyload-spinner"></span>
+  {%- endif -%}
+
+{%- if placeholder != blank -%}
+</span>
+{%- endif -%}
+
+<noscript>
+  <img class="{{ output_img_class | remove: 'blur-up' | remove: 'fade-in' }}"
+    {% if id != blank %} id="{{ id }}" {% endif -%}
+    {% if width != blank %} width="{{ width }}" {% endif -%}
+    {% if height != blank %} height="{{ height }}" {% endif -%}
+    src="{{ img_template_url | replace: width_template, '640x' }}"
+    alt="{{ alt | escape }}" {{ attributes }}>
+</noscript>
+
+{%- assign class = null -%}
+{%- assign img_class = null -%}
+{%- assign output_img_class = null -%}
+{%- assign max_width = null -%}
+{%- assign max_width_test = null -%}
+{%- assign max_width_output = null -%}
+{%- assign max_height = null -%}
+{%- assign max_height_test = null -%}
+{%- assign max_height_output = null -%}
+{%- assign alt = null -%}
+{%- assign placeholder = null -%}
+{%- assign spinner = null -%}
+{%- assign img = null -%}
+{%- assign fit = null -%}
+{%- assign position = null -%}
+{%- assign type = null -%}

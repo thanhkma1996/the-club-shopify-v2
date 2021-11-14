@@ -1,71 +1,71 @@
-<div data-section-id="{{ section.id }}" data-section-type="image-gallery-slider">
-  <div class="image-gallery container-width">
-
-    {%- if section.settings.title != blank -%}
-      <div class="section-header section-header--static text-center">
-        <h2 class="section-header__title">
-          <span>{{ section.settings.title | escape }}</span>
-        </h2>
-      </div>
-    {%- endif -%}
-
-    <div class="image-gallery-items-wrap slideshow-wrapper">
-      <div class="image-gallery-items" 
-           id="Slideshow-{{ section.id }}" 
-           data-autoplay="false" 
-           data-arrows="true" 
-           data-prev-arrow="#slideshow-prev-{{ section.id }}"
-           data-next-arrow="#slideshow-next-{{ section.id }}"
-           data-slides-show-mobile="1" 
-           data-slides-show-tablet="2" 
-           data-slides-show-desktop="3">
-        {%- for block in section.blocks -%}
-          {%- if block.settings.image != blank -%}
-            <div class="image-gallery-item" {{ block.shopify_attributes }}>
-              <a href="{{ block.settings.image | img_url: 'x1200' }}" class="image-gallery-item__anchor" data-index="{{ forloop.index0 }}" data-width="{{ block.settings.image.width | at_least: 1200 }}" data-aspect-ratio="{{ block.settings.image.aspect_ratio }}">
-                <span class="image-gallery-item__image">
-                  {%- include 'img' with block.settings.image, fit: 'cover' -%}
-                </span>
-              </a>
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-    </div>
-    
-    <button type="button" id="slideshow-prev-{{ section.id }}" class="slideshow__prev slideshow__prev--styled">
-      {%- render 'icon' with 'arrow-left' -%}
-    </button>
-    <button type="button" id="slideshow-next-{{ section.id }}" class="slideshow__next slideshow__next--styled">
-      {%- render 'icon' with 'arrow-right' -%}
-    </button>
-
-  </div>
-</div>
-
-{% schema %}
-  {
-    "name": "Image Gallery Slider",
-    "class": "image-gallery-slider-section",
-    "settings": [
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Heading"
-      }
-    ],
-    "blocks": [
-      {
-        "type": "image",
-        "name": "Image",
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "image",
-            "label": "Image"
-          }
-        ]
-      }
-    ]
-  }
-{% endschema %}
+<div data-section-id="{{ section.id }}" data-section-type="image-gallery-slider">
+  <div class="image-gallery container-width">
+
+    {%- if section.settings.title != blank -%}
+      <div class="section-header section-header--static text-center">
+        <h2 class="section-header__title">
+          <span>{{ section.settings.title | escape }}</span>
+        </h2>
+      </div>
+    {%- endif -%}
+
+    <div class="image-gallery-items-wrap slideshow-wrapper">
+      <div class="image-gallery-items" 
+           id="Slideshow-{{ section.id }}" 
+           data-autoplay="false" 
+           data-arrows="true" 
+           data-prev-arrow="#slideshow-prev-{{ section.id }}"
+           data-next-arrow="#slideshow-next-{{ section.id }}"
+           data-slides-show-mobile="1" 
+           data-slides-show-tablet="2" 
+           data-slides-show-desktop="3">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.image != blank -%}
+            <div class="image-gallery-item" {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.image | img_url: 'x1200' }}" class="image-gallery-item__anchor" data-index="{{ forloop.index0 }}" data-width="{{ block.settings.image.width | at_least: 1200 }}" data-aspect-ratio="{{ block.settings.image.aspect_ratio }}">
+                <span class="image-gallery-item__image">
+                  {%- include 'img' with block.settings.image, fit: 'cover' -%}
+                </span>
+              </a>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+    
+    <button type="button" id="slideshow-prev-{{ section.id }}" class="slideshow__prev slideshow__prev--styled">
+      {%- render 'icon' with 'arrow-left' -%}
+    </button>
+    <button type="button" id="slideshow-next-{{ section.id }}" class="slideshow__next slideshow__next--styled">
+      {%- render 'icon' with 'arrow-right' -%}
+    </button>
+
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Image Gallery Slider",
+    "class": "image-gallery-slider-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

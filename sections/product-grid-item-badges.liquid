@@ -1,33 +1,33 @@
-<script type="text/javascript">
-  theme.settings.productGridItemBadges = {{ section.blocks | where: 'type', 'badge' | map: 'settings' | json }}
-</script>
-
-{% schema %}
-  {
-    "name": "Product thumbnail badges",
-    "class": "product-badges-section",
-    "blocks": [
-      {
-        "name": "Badge",
-        "type": "badge",
-        "settings": [
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Tag"
-          },
-          {
-            "type": "text",
-            "id": "name",
-            "label": "Name"
-          },
-          {
-            "type": "color",
-            "id": "background_color",
-            "label": "Background colour"
-          }
-        ]
-      }
-    ]
-  }
-{% endschema %}
+<script type="text/javascript">
+  theme.settings.productGridItemBadges = {{ section.blocks | where: 'type', 'badge' | map: 'settings' | json }}
+</script>
+
+{% schema %}
+  {
+    "name": "Product thumbnail badges",
+    "class": "product-badges-section",
+    "blocks": [
+      {
+        "name": "Badge",
+        "type": "badge",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Tag"
+          },
+          {
+            "type": "text",
+            "id": "name",
+            "label": "Name"
+          },
+          {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background colour"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

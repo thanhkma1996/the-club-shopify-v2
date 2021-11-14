@@ -1,135 +1,135 @@
-<div data-section-id="{{ section.id }}" data-section-type="content-slider">
-  <div class="container">
-    {% if section.blocks.size > 0  %}
-      {% for block in section.blocks %}
-        {%- case block.type -%}
-          {% when 'text-block' %}
-            {% include 'reward-text' with block %}
-          {% when 'aplication-form' %}
-            {% include 'reward-aplication-form' with block %}
-          {% when 'how-it-works' %}
-            {% include 'reward-how-it-works' with block %}
-          {% when 'seo-text' %}
-            {% include 'reward-seo-text' with block %}
-        {%- endcase -%}
-      {% endfor %}
-    {% endif %}
-  </div>
-</div>
-{% schema %}
-  {
-    "name": "Rewards",
-    "settings": [
-      
-    ],
-    "blocks": [
-      {
-        "type": "text-block",
-        "name": "Text Block",
-        "settings": [
-          {
-            "type": "richtext",
-            "id": "text",
-            "label": "Text"
-          }
-        ]
-      },
-      {
-        "type": "aplication-form",
-        "name": "Aplication Form",
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "aplication_image",
-            "label": "Aplication image"
-          },
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Title",
-            "default": "Rewards Application Form"
-          },
-          {
-            "type": "text",
-            "id": "sub_title",
-            "label": "Sub title",
-            "default": "To become a member download the application form below and mail it to the address provided with your 10 tokens.*"
-          },
-          {
-            "type": "text",
-            "id": "link_title_1",
-            "label": "First button title",
-            "default": "AU CHAMPIONS CLUB MEMBERSHIP FORM"
-          },
-          {
-            "type": "url",
-            "id": "link_url_1",
-            "label": "First button url"
-          },
-          {
-            "type": "text",
-            "id": "link_title_2",
-            "label": "Second button title",
-            "default": "NZ CHAMPIONS CLUB MEMBERSHIP FORM"
-          },
-          {
-            "type": "url",
-            "id": "link_url_2",
-            "label": "Second button url"
-          },
-          {
-            "type": "richtext",
-            "id": "text",
-            "label": "Text"
-          }
-        ]
-      },
-      {
-        "type": "how-it-works",
-        "name": "How it works",
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "block_image",
-            "label": "Image"
-          },
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Title",
-            "default": "How it works?"
-          },
-          {
-            "type": "text",
-            "id": "sub_title",
-            "label": "Sub title",
-            "default": "Follow the steps below and start collecting the HYGAIN merchandise and supplements today."
-          },
-          {
-            "type": "richtext",
-            "id": "text_1",
-            "label": "List Text 1"
-          }
-        ]
-      },
-      {
-        "type": "seo-text",
-        "name": "Seo Text",
-        "settings": [
-          {
-            "type": "text",
-            "id": "sub_title",
-            "label": "Sub title",
-            "default": "Enjoy our wide range of rewards items for you and your horses, starting from only 7 tokens!! <br> Collect your first 10 tokens to join the program and fill out the below form to become part of the exclusive HYGAIN Champions Club!!"
-          },
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Title",
-            "default": "We look forward to welcoming you soon!!"
-          }
-        ]
-      }
-    ]
-  }
-{% endschema %}
+<div data-section-id="{{ section.id }}" data-section-type="content-slider">
+  <div class="container">
+    {% if section.blocks.size > 0  %}
+      {% for block in section.blocks %}
+        {%- case block.type -%}
+          {% when 'text-block' %}
+            {% include 'reward-text' with block %}
+          {% when 'aplication-form' %}
+            {% include 'reward-aplication-form' with block %}
+          {% when 'how-it-works' %}
+            {% include 'reward-how-it-works' with block %}
+          {% when 'seo-text' %}
+            {% include 'reward-seo-text' with block %}
+        {%- endcase -%}
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Rewards",
+    "settings": [
+      
+    ],
+    "blocks": [
+      {
+        "type": "text-block",
+        "name": "Text Block",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          }
+        ]
+      },
+      {
+        "type": "aplication-form",
+        "name": "Aplication Form",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "aplication_image",
+            "label": "Aplication image"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Rewards Application Form"
+          },
+          {
+            "type": "text",
+            "id": "sub_title",
+            "label": "Sub title",
+            "default": "To become a member download the application form below and mail it to the address provided with your 10 tokens.*"
+          },
+          {
+            "type": "text",
+            "id": "link_title_1",
+            "label": "First button title",
+            "default": "AU CHAMPIONS CLUB MEMBERSHIP FORM"
+          },
+          {
+            "type": "url",
+            "id": "link_url_1",
+            "label": "First button url"
+          },
+          {
+            "type": "text",
+            "id": "link_title_2",
+            "label": "Second button title",
+            "default": "NZ CHAMPIONS CLUB MEMBERSHIP FORM"
+          },
+          {
+            "type": "url",
+            "id": "link_url_2",
+            "label": "Second button url"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          }
+        ]
+      },
+      {
+        "type": "how-it-works",
+        "name": "How it works",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "block_image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "How it works?"
+          },
+          {
+            "type": "text",
+            "id": "sub_title",
+            "label": "Sub title",
+            "default": "Follow the steps below and start collecting the HYGAIN merchandise and supplements today."
+          },
+          {
+            "type": "richtext",
+            "id": "text_1",
+            "label": "List Text 1"
+          }
+        ]
+      },
+      {
+        "type": "seo-text",
+        "name": "Seo Text",
+        "settings": [
+          {
+            "type": "text",
+            "id": "sub_title",
+            "label": "Sub title",
+            "default": "Enjoy our wide range of rewards items for you and your horses, starting from only 7 tokens!! <br> Collect your first 10 tokens to join the program and fill out the below form to become part of the exclusive HYGAIN Champions Club!!"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "We look forward to welcoming you soon!!"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

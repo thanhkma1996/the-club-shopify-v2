@@ -1,49 +1,49 @@
-{% assign s_sett = section.settings %}
-{% if s_sett.hide_mobile != blank %}
-  {% assign hidden_mobile = "home-seo-text--hide-mob" %}
-{% endif %}
-
-
-{% if s_sett.title != blank %}
-  <div class="container">
-    <div class="home-seo-text {{ hidden_mobile }}">
-      <h2 class="home-seo-text__title">{{ s_sett.title }}</h2>
-      {% if s_sett.richtext != blank %}
-        <div class="home-seo-text__content">
-          {{ s_sett.richtext }}
-        </div>
-      {% endif %}
-    </div>
-  </div>
-{% endif %}
-
-{% schema %}
-  {
-    "name": "Home Seo text",
-    "settings": [
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Heading",
-        "default": "Title"
-      },
-      {
-        "type": "richtext",
-        "id": "richtext",
-        "label": "richtext"
-      },
-      {
-        "type": "checkbox",
-        "id": "hide_mobile",
-        "label": "Hide on Mobile"
-      }
-    ],
-    "presets": [
-      {
-        "category": "Content",
-        "name": "Home Seo Text"
-      }
-    ]
-  }
-{% endschema %}
-
+{% assign s_sett = section.settings %}
+{% if s_sett.hide_mobile != blank %}
+  {% assign hidden_mobile = "home-seo-text--hide-mob" %}
+{% endif %}
+
+
+{% if s_sett.title != blank %}
+  <div class="container">
+    <div class="home-seo-text {{ hidden_mobile }}">
+      <h2 class="home-seo-text__title">{{ s_sett.title }}</h2>
+      {% if s_sett.richtext != blank %}
+        <div class="home-seo-text__content">
+          {{ s_sett.richtext }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Home Seo text",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Title"
+      },
+      {
+        "type": "richtext",
+        "id": "richtext",
+        "label": "richtext"
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_mobile",
+        "label": "Hide on Mobile"
+      }
+    ],
+    "presets": [
+      {
+        "category": "Content",
+        "name": "Home Seo Text"
+      }
+    ]
+  }
+{% endschema %}
+

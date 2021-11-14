@@ -1,275 +1,275 @@
-{%- assign default_product_layout = 'image|product|remove' | split: '|'-%}
-
-{%- assign product_layout = product_layout | default: default_product_layout -%}
-{%- assign iteration = iteration | default: false -%}
-{%- assign layout = layout | default: 'both' -%}
-{%- assign product_item = product_item | default: '' -%}
-
-{%- assign remove_icon = block.settings.remove_icon | default: 'basket'-%}
-{%- assign quantity_picker_type = block.settings.quantity_picker_type | default: 'dropdown' -%}
-
-{%- capture product_image %}
-  <div class="cart-item-image">
-    <a class="cart-item-image__inner" rv-href="item.url">
-      <img class="cart-item-image__image" rv-src="item.image | productImageSize '180x'" rv-alt="item.product_title">
-    </a>
-  </div>
-{% endcapture -%}
-
-{%- capture product_title %}
- <span class="cart-item-title" rv-text="item.product_title"></span>
-{% endcapture -%}
-
-{%- capture product_sku %}
- <div rv-if="item.sku" class="cart-item__sku" rv-text="item.sku"></div>
-{% endcapture -%}
-
-{%- capture product_quantity %}
-  <div class="cart-item-quantity">
-  {%- if quantity_picker_type contains 'buttons' -%}
-    <div class="cart-item-quantity--buttons">
-      <a class="cart-item-quantity__minus" href="#" rv-data-cart-update="$index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" rv-data-progress-element="'.cart-drawer__total-price, #cart-drawer-item-' | append item.id'">
-        {% render 'icon' with 'minus' %}
-        <span class="icon-fallback-text">{{ 'cart.general.minus' | t }}</span>
-      </a>
-
-      <p class="cart-item-quantity__quantity" rv-text="item.quantity" data-loads></p>
-
-      <a class="cart-item-quantity__plus" href="#" rv-data-cart-update="$index | plus 1" rv-data-cart-quantity="item.quantity | plus 1" rv-data-progress-element="'.cart-drawer__total-price, #cart-drawer-item-' | append item.id'">
-        {% render 'icon' with 'plus' %}
-        <span class="icon-fallback-text">{{ 'cart.general.plus' | t }}</span>
-      </a>
-    </div>
-  {%- elsif quantity_picker_type contains 'dropdown' -%}
-    <div class="cart-item-quantity--dropdown">
-      <select rv-on-change="methods.updateQuantityFromSelect" rv-data-line-index="$index | plus 1" class="product-quantity__select select-base cart-item-quantity__quantity">
-        {%- for i in (1..20) -%}
-          <option rv-selected="item.quantity | eq {{ i }}" value="{{ i }}">{{ i }}</option>
-        {%- endfor -%}
-      </select>
-    </div>
-  {%- endif -%}
-  </div>
-{% endcapture -%}
-
-{%- capture product_remove %}
-  <a href="#" class="cart-item-remove" rv-data-cart-remove="$index | plus 1" rv-data-progress-element="'.cart-drawer__total-price, #cart-drawer-item-' | append item.id'" data-tippy-content="Remove">
-    <span class="cart-item-remove__inner">
-      {%- if remove_icon contains 'text' -%}
-        <span class="cart-item-remove__text">{{ 'Remove' }}</span>
-      {%- else -%}
-        {% render 'icon' with remove_icon %}
-        <span class="icon-fallback-text">{{ 'cart.general.remove' | t }}</span>
-      {%- endif -%}
-    </span>
-  </a>
-{% endcapture -%}
-
-{%- capture product_price %}
-  <div class="cart-item-price">
-    <div class="cart-item-price__label">
-    </div>
-    <div class="cart-item-price__content">
-      <div class="cart-item-price__price" rv-html="item.line_price | money shop.currency"></div>
-    </div>
-  </div>
-{% endcapture -%}
-
-{%- capture product_options %}
-  <ul class="cart-item__options">
-    <li rv-each-option="item.options_with_values" rv-class="option.name | handle | prepend 'cart-drawer-item__option cart-drawer-item__option--'">
-      <span rv-if="option.name | startsWith '_' | not" rv-hide="option.value | eq ''">
-        { option.name }: <span>{ option.value }</span>
-      </span>
-    </li>
-  </ul>
-{% endcapture -%}
-
-{%- capture product_properties %}
-
-  <ul class="cart-item-properties">
-    {% comment %}
-    <li rv-if="item.variant_title" rv-html="item.variant_title | prepend '<span>' | replace ' / ' '</span><span>' | append '</span>'"></li>
-    <li rv-each-property="item.propertyArray" rv-class="property.name | handle | prepend 'cart-drawer-item__property cart-drawer-item__property--'">
-      <span rv-if="property.name | startsWith '_' | not" rv-hide="property.value | eq ''">
-        { property.name }:
-        <span rv-if="property.value | includes 'https://cdn.shopify.com/s' | not">
-          { property.value }
-        </span>
-        <span rv-if="property.value | includes 'https://cdn.shopify.com/s'">
-          <a rv-if="property.value | endsWith '.jpg'" data-featherlight rv-href="property.value" target="_blank" rel="noopener noreferrer">View</a>
-          <span rv-if="property.value | endsWith '.jpg' | not">Attached</span>
-        </span>
-      </span>
-    </li>
-  {% endcomment %}
-    <li
-            rv-each-option="item.options_with_values"
-            rv-data-name="option.name" class="cart-drawer-item__property cart-drawer-item__property--option-value" rv-html="': ' | prepend option.name | append option.value"
-            rv-class-hidden="option.value | eq 'default'"
-    >
-    </li>
-  </ul>
-
-
-{% endcapture -%}
-
-{%- capture product_subtotal %}
-  <div class="cart-item-subtotal">
-    <div class="cart-item-subtotal__label">
-    </div>
-    <div class="cart-item-subtotal__content">
-      <div class="cart-item-subtotal__price" rv-html="item | price_with_addons | money shop.currency"></div>
-    </div>
-  </div>
-{% endcapture -%}
-
-{%- capture add_btn %}
-<div class="btn btn-link">Add to cart</div>
-{% endcapture -%}
-
-{%- capture desktop %}
- <div class="cart-item--desktop">
-  {%- if columns == blank -%}
-  {%- assign columns = 'Product | product # Quantity | quantity # Subtotal | subtotal # Remove | remove' | split: '#'-%}
-  {%- endif -%}
-
-  {%- for column in columns -%}
-
-      {%- if column contains '|' -%}
-        {%- assign column_value = column | split: '|' | last | strip | handle -%}
-      {%- else -%}
-        {%- assign column_value = column | handle | strip -%}
-      {%- endif -%}
-      <div class="cart-item__column cart-item__column--{{ column_value }}">
-        {%- if column_value contains 'product' -%}
-          {{ product_image }}
-          <div class="cart-item__inner">
-            {{ product_title }}
-            {{ product_properties }}
-
-          </div>
-        {%- elsif column_value contains 'image' -%}
-          {{ product_image }}
-
-        {% elsif column_value contains 'title' %}
-          {{ product_title }}
-
-        {% elsif column_value contains 'properties' %}
-          {{ product_properties }}
-
-        {% elsif column_value contains 'quantity' %}
-          {{ product_quantity }}
-
-        {% elsif column_value contains 'price' %}
-          {{ product_price }}
-
-        {% elsif column_value contains 'subtotal' %}
-          {{ product_subtotal }}
-
-        {% elsif column_value contains 'remove' %}
-          {{ product_remove }}
-
-        {%- endif -%}
-      </div>
-
-  {%- endfor -%}
-
-  </div>
-{% endcapture -%}
-
-{%- capture mobile %}
-  {% comment %}
-
-  {%- if block.settings.table_columns_mobile != blank -%}
-    {%- assign table_rows_mobile = block.settings.table_columns_mobile | newline_to_br -%}
-    {%- assign rows_mobile = table_rows_mobile | split: '<br />' -%}
-
-  {% else %}
-    {%- assign rows_mobile = product_layout -%}
-
-  {%- endif -%}
-{% endcomment %}
-
-{%- assign rows_mobile = product_layout -%}
-
-  <div class="cart-item--mobile">
-    {%- if rows_mobile != blank -%}
-      {%- for row in rows_mobile -%}
-        {%- if row contains '|' -%}
-          {%- assign row_value = row | split: '|' | last | strip | handle -%}
-        {%- else -%}
-          {%- assign row_value = row | handle | strip -%}
-        {%- endif -%}
-
-        <div class="cart-item__row cart-item__row--{{ row_value }}">
-
-          {%- if row_value contains 'product' -%}
-            <div class="cart-item__inner">
-              {{ product_title }}
-              {{ product_properties }}
-
-              <div class="cart-item__inner--quantity-price">
-                {{ product_quantity }}
-                {{ product_price }}
-              </div>
-
-            </div>
-          {%- elsif row_value contains 'image' -%}
-            {{ product_image }}
-
-          {% elsif row_value contains 'title' %}
-            {{ product_title }}
-
-          {% elsif row_value contains 'properties' %}
-            {{ product_properties }}
-
-          {% elsif row_value contains 'quantity' %}
-            {{ product_quantity }}
-
-          {% elsif row_value contains 'subtotal' %}
-            {{ product_subtotal }}
-
-          {% elsif row_value contains 'price' %}
-            {{ product_price }}
-
-          {% elsif row_value contains 'remove' %}
-            {{ product_remove }}
-
-          {% elsif row_value contains 'add' %}
-            {{ add_btn }}
-          {%- endif -%}
-        </div>
-
-      {%- endfor -%}
-
-    {%- else -%}
-      <div class="cart-item__row cart-item__row--{{ row_value }}">
-        {{ product_image }}
-        <div class="cart-item__inner">
-          {{ product_title }}
-          {{ product_properties }}
-          {{ product_quantity }}
-        </div>
-      </div>
-    {%- endif -%}
-  </div>
-{% endcapture -%}
-
-<div {% if iteration %}rv-each-item="cart.items" rv-id="'cart-drawer-item-' | append item.id"{% endif %} class="cart-item" rv-hide="item.properties._hidden">
-
-  {%- if layout == 'desktop' -%}
-    {{ desktop }}
-  {%- elsif layout == 'mobile' -%}
-    {{ mobile }}
-  {%- elsif layout == 'both' -%}
-    {{ desktop }}
-    {{ mobile }}
-  {%- endif -%}
-
-</div>
-
-{%- assign product_layout = null -%}
-{%- assign iteration = null -%}
-{%- assign layout = null -%}
+{%- assign default_product_layout = 'image|product|remove' | split: '|'-%}
+
+{%- assign product_layout = product_layout | default: default_product_layout -%}
+{%- assign iteration = iteration | default: false -%}
+{%- assign layout = layout | default: 'both' -%}
+{%- assign product_item = product_item | default: '' -%}
+
+{%- assign remove_icon = block.settings.remove_icon | default: 'basket'-%}
+{%- assign quantity_picker_type = block.settings.quantity_picker_type | default: 'dropdown' -%}
+
+{%- capture product_image %}
+  <div class="cart-item-image">
+    <a class="cart-item-image__inner" rv-href="item.url">
+      <img class="cart-item-image__image" rv-src="item.image | productImageSize '180x'" rv-alt="item.product_title">
+    </a>
+  </div>
+{% endcapture -%}
+
+{%- capture product_title %}
+ <span class="cart-item-title" rv-text="item.product_title"></span>
+{% endcapture -%}
+
+{%- capture product_sku %}
+ <div rv-if="item.sku" class="cart-item__sku" rv-text="item.sku"></div>
+{% endcapture -%}
+
+{%- capture product_quantity %}
+  <div class="cart-item-quantity">
+  {%- if quantity_picker_type contains 'buttons' -%}
+    <div class="cart-item-quantity--buttons">
+      <a class="cart-item-quantity__minus" href="#" rv-data-cart-update="$index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" rv-data-progress-element="'.cart-drawer__total-price, #cart-drawer-item-' | append item.id'">
+        {% render 'icon' with 'minus' %}
+        <span class="icon-fallback-text">{{ 'cart.general.minus' | t }}</span>
+      </a>
+
+      <p class="cart-item-quantity__quantity" rv-text="item.quantity" data-loads></p>
+
+      <a class="cart-item-quantity__plus" href="#" rv-data-cart-update="$index | plus 1" rv-data-cart-quantity="item.quantity | plus 1" rv-data-progress-element="'.cart-drawer__total-price, #cart-drawer-item-' | append item.id'">
+        {% render 'icon' with 'plus' %}
+        <span class="icon-fallback-text">{{ 'cart.general.plus' | t }}</span>
+      </a>
+    </div>
+  {%- elsif quantity_picker_type contains 'dropdown' -%}
+    <div class="cart-item-quantity--dropdown">
+      <select rv-on-change="methods.updateQuantityFromSelect" rv-data-line-index="$index | plus 1" class="product-quantity__select select-base cart-item-quantity__quantity">
+        {%- for i in (1..20) -%}
+          <option rv-selected="item.quantity | eq {{ i }}" value="{{ i }}">{{ i }}</option>
+        {%- endfor -%}
+      </select>
+    </div>
+  {%- endif -%}
+  </div>
+{% endcapture -%}
+
+{%- capture product_remove %}
+  <a href="#" class="cart-item-remove" rv-data-cart-remove="$index | plus 1" rv-data-progress-element="'.cart-drawer__total-price, #cart-drawer-item-' | append item.id'" data-tippy-content="Remove">
+    <span class="cart-item-remove__inner">
+      {%- if remove_icon contains 'text' -%}
+        <span class="cart-item-remove__text">{{ 'Remove' }}</span>
+      {%- else -%}
+        {% render 'icon' with remove_icon %}
+        <span class="icon-fallback-text">{{ 'cart.general.remove' | t }}</span>
+      {%- endif -%}
+    </span>
+  </a>
+{% endcapture -%}
+
+{%- capture product_price %}
+  <div class="cart-item-price">
+    <div class="cart-item-price__label">
+    </div>
+    <div class="cart-item-price__content">
+      <div class="cart-item-price__price" rv-html="item.line_price | money shop.currency"></div>
+    </div>
+  </div>
+{% endcapture -%}
+
+{%- capture product_options %}
+  <ul class="cart-item__options">
+    <li rv-each-option="item.options_with_values" rv-class="option.name | handle | prepend 'cart-drawer-item__option cart-drawer-item__option--'">
+      <span rv-if="option.name | startsWith '_' | not" rv-hide="option.value | eq ''">
+        { option.name }: <span>{ option.value }</span>
+      </span>
+    </li>
+  </ul>
+{% endcapture -%}
+
+{%- capture product_properties %}
+
+  <ul class="cart-item-properties">
+    {% comment %}
+    <li rv-if="item.variant_title" rv-html="item.variant_title | prepend '<span>' | replace ' / ' '</span><span>' | append '</span>'"></li>
+    <li rv-each-property="item.propertyArray" rv-class="property.name | handle | prepend 'cart-drawer-item__property cart-drawer-item__property--'">
+      <span rv-if="property.name | startsWith '_' | not" rv-hide="property.value | eq ''">
+        { property.name }:
+        <span rv-if="property.value | includes 'https://cdn.shopify.com/s' | not">
+          { property.value }
+        </span>
+        <span rv-if="property.value | includes 'https://cdn.shopify.com/s'">
+          <a rv-if="property.value | endsWith '.jpg'" data-featherlight rv-href="property.value" target="_blank" rel="noopener noreferrer">View</a>
+          <span rv-if="property.value | endsWith '.jpg' | not">Attached</span>
+        </span>
+      </span>
+    </li>
+  {% endcomment %}
+    <li
+            rv-each-option="item.options_with_values"
+            rv-data-name="option.name" class="cart-drawer-item__property cart-drawer-item__property--option-value" rv-html="': ' | prepend option.name | append option.value"
+            rv-class-hidden="option.value | eq 'default'"
+    >
+    </li>
+  </ul>
+
+
+{% endcapture -%}
+
+{%- capture product_subtotal %}
+  <div class="cart-item-subtotal">
+    <div class="cart-item-subtotal__label">
+    </div>
+    <div class="cart-item-subtotal__content">
+      <div class="cart-item-subtotal__price" rv-html="item | price_with_addons | money shop.currency"></div>
+    </div>
+  </div>
+{% endcapture -%}
+
+{%- capture add_btn %}
+<div class="btn btn-link">Add to cart</div>
+{% endcapture -%}
+
+{%- capture desktop %}
+ <div class="cart-item--desktop">
+  {%- if columns == blank -%}
+  {%- assign columns = 'Product | product # Quantity | quantity # Subtotal | subtotal # Remove | remove' | split: '#'-%}
+  {%- endif -%}
+
+  {%- for column in columns -%}
+
+      {%- if column contains '|' -%}
+        {%- assign column_value = column | split: '|' | last | strip | handle -%}
+      {%- else -%}
+        {%- assign column_value = column | handle | strip -%}
+      {%- endif -%}
+      <div class="cart-item__column cart-item__column--{{ column_value }}">
+        {%- if column_value contains 'product' -%}
+          {{ product_image }}
+          <div class="cart-item__inner">
+            {{ product_title }}
+            {{ product_properties }}
+
+          </div>
+        {%- elsif column_value contains 'image' -%}
+          {{ product_image }}
+
+        {% elsif column_value contains 'title' %}
+          {{ product_title }}
+
+        {% elsif column_value contains 'properties' %}
+          {{ product_properties }}
+
+        {% elsif column_value contains 'quantity' %}
+          {{ product_quantity }}
+
+        {% elsif column_value contains 'price' %}
+          {{ product_price }}
+
+        {% elsif column_value contains 'subtotal' %}
+          {{ product_subtotal }}
+
+        {% elsif column_value contains 'remove' %}
+          {{ product_remove }}
+
+        {%- endif -%}
+      </div>
+
+  {%- endfor -%}
+
+  </div>
+{% endcapture -%}
+
+{%- capture mobile %}
+  {% comment %}
+
+  {%- if block.settings.table_columns_mobile != blank -%}
+    {%- assign table_rows_mobile = block.settings.table_columns_mobile | newline_to_br -%}
+    {%- assign rows_mobile = table_rows_mobile | split: '<br />' -%}
+
+  {% else %}
+    {%- assign rows_mobile = product_layout -%}
+
+  {%- endif -%}
+{% endcomment %}
+
+{%- assign rows_mobile = product_layout -%}
+
+  <div class="cart-item--mobile">
+    {%- if rows_mobile != blank -%}
+      {%- for row in rows_mobile -%}
+        {%- if row contains '|' -%}
+          {%- assign row_value = row | split: '|' | last | strip | handle -%}
+        {%- else -%}
+          {%- assign row_value = row | handle | strip -%}
+        {%- endif -%}
+
+        <div class="cart-item__row cart-item__row--{{ row_value }}">
+
+          {%- if row_value contains 'product' -%}
+            <div class="cart-item__inner">
+              {{ product_title }}
+              {{ product_properties }}
+
+              <div class="cart-item__inner--quantity-price">
+                {{ product_quantity }}
+                {{ product_price }}
+              </div>
+
+            </div>
+          {%- elsif row_value contains 'image' -%}
+            {{ product_image }}
+
+          {% elsif row_value contains 'title' %}
+            {{ product_title }}
+
+          {% elsif row_value contains 'properties' %}
+            {{ product_properties }}
+
+          {% elsif row_value contains 'quantity' %}
+            {{ product_quantity }}
+
+          {% elsif row_value contains 'subtotal' %}
+            {{ product_subtotal }}
+
+          {% elsif row_value contains 'price' %}
+            {{ product_price }}
+
+          {% elsif row_value contains 'remove' %}
+            {{ product_remove }}
+
+          {% elsif row_value contains 'add' %}
+            {{ add_btn }}
+          {%- endif -%}
+        </div>
+
+      {%- endfor -%}
+
+    {%- else -%}
+      <div class="cart-item__row cart-item__row--{{ row_value }}">
+        {{ product_image }}
+        <div class="cart-item__inner">
+          {{ product_title }}
+          {{ product_properties }}
+          {{ product_quantity }}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+{% endcapture -%}
+
+<div {% if iteration %}rv-each-item="cart.items" rv-id="'cart-drawer-item-' | append item.id"{% endif %} class="cart-item" rv-hide="item.properties._hidden">
+
+  {%- if layout == 'desktop' -%}
+    {{ desktop }}
+  {%- elsif layout == 'mobile' -%}
+    {{ mobile }}
+  {%- elsif layout == 'both' -%}
+    {{ desktop }}
+    {{ mobile }}
+  {%- endif -%}
+
+</div>
+
+{%- assign product_layout = null -%}
+{%- assign iteration = null -%}
+{%- assign layout = null -%}
 {%- assign rows_mobile = null -%}

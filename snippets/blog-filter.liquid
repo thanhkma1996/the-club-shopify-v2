@@ -1,231 +1,231 @@
-{%- assign filter_type = block.settings.filter_type -%}
-{%- assign filter_navigation = block.settings.filter -%}
-{%- assign filter_placeholder = 'All' -%}
-
-{%- unless filter_navigation == blank -%}
-  
-  {%- capture clear_filter_btn %}
-    {%- if current_tags.size > 0 -%}
-      <div class="blog-list__link blog__categories-clear">
-        <a href="{{ blog.url }}" class="btn btn-link btn-tertiary blog__categories-clear-btn">
-          {%- if block.settings.remove_icon == 'text' -%}
-              Clear
-          {%- else -%}
-              {%- render 'icon' with block.settings.remove_icon -%}
-          {%- endif -%}
-        </a>
-      </div>
-    {%- endif -%}
-  {% endcapture -%}
-
-  {%- if filter_type == 'dropdown' -%}
-    
-    <div class="blog-filter__filter">
-      {%- for filter_option in linklists[filter_navigation].links  -%}
-        
-        {%- assign filter_label = filter_option.title -%}
-        {%- assign filter_values = filter_option.links -%}
-
-        <div class="blog-select-wrapper blog-filter--{{ filter_type }}">
-        {%- if block.settings.show_label -%}
-          <label for="blog-select--{{ forloop.index }}" class="blog-select-label h5">
-               {{ filter_label }}
-          </label>
-        {%- endif -%}
-
-        {%- if filter_label contains 'Month' -%}
-          {%- assign filter_values = 'January,February,March,April,May,June,July,August,September,October,November,December' | split: ','-%}
-          {% comment %} the below code is for when the filter is month only {% endcomment %}
-            {%- capture options %}
-              <option value="" selected disabled>
-                  {%- if filter_placeholder != blank -%}
-                    {{ filter_placeholder }}
-                    {% elsif block.settings.show_label == false %}
-                    {{ filter_placeholder }}
-                  {%- endif -%}
-              </option>
-
-              {%- for filter_value in filter_values -%}
-                
-                {%- assign filter_tag = filter_value | handleize -%}
-
-                {%- assign tag_exists = false -%}
-                {%- for tag in blog.all_tags -%}
-                  {%- assign tag_handle = tag | handleize -%}
-                  {%- if tag_handle == filter_tag -%}
-                    {%- assign tag_exists = true -%}
-                    {%- break -%}
-                  {%- endif -%}
-                {%- endfor -%}
-
-                {%- if tag_exists -%}
-                  {%- assign filter_tag_raw = filter_tag | replace: '-', ' ' -%}
-                  <option value="{{ filter_tag }}" 
-                          {% if current_tags contains filter_tag_raw %} selected{% endif %}>
-                        {{ filter_value | replace: '-', ' ' | capitalize }}
-                  </option>
-
-                {%- else -%}
-                    {%- continue -%}
-                {%- endif -%}
-
-              {%- endfor -%}
-            {% endcapture -%}
-              {% comment %} the above code is for when the filter is month only ^^ {% endcomment %}
-
-          {%- else -%}
-
-            {%- capture options %}
-              <option value="" selected disabled>
-                  {%- if filter_placeholder != blank -%}
-                    {{ filter_placeholder }}
-                    {% elsif block.settings.show_label == false %}
-                    {{ filter_placeholder }}
-                  {%- endif -%}
-              </option>
-
-              {%- for filter_value in filter_values -%}
-                
-                {%- assign filter_tag = filter_value.title | handleize -%}
-                {%- assign tag_exists = false -%}
-
-                {%- for tag in blog.all_tags -%}
-                  {%- assign tag_handle = tag | handleize -%}
-                  {%- if tag_handle == filter_tag -%}
-                    {%- assign tag_exists = true -%}
-                    {%- break -%}
-                  {%- endif -%}
-                {%- endfor -%}
-
-                {%- if tag_exists -%}
-                  {%- assign filter_tag_raw = filter_tag | replace: '-', ' ' -%}
-                  <option value="{{ filter_tag }}" 
-                          {% if current_tags contains filter_tag_raw %} selected{% endif %}>
-                        {{ filter_value.title }}
-                  </option>
-
-                {%- else -%}
-                    {%- continue -%}
-                {%- endif -%}
-
-              {%- endfor -%}
-            {% endcapture -%}
-
-        {%- endif -%}
-          <select class="blog-select js-blog-filter"
-            id="blog-select--{{ forloop.index }}" 
-            {%- if filter_type == 'blog_type' -%}data-singular{%- endif -%}>
-            {{ options }}
-          </select>
-        </div>
-
-      {%- endfor -%}
-    </div>  
-
-
-    {{ clear_filter_btn }}
-
-
-
-  {%- else -%}
-
-
-
-
-    <div class="blog-filter__filter">
-
-      {%- for filter_option in linklists[filter_navigation].links  -%}
-          
-        {%- assign filter_label = filter_option.title -%}
-        {%- assign filter_values = filter_option.links -%}
-
-        {%- capture filter_items %}
-          <li class="slide blog__categories-btn">
-              <a href="{{ blog.url }}">
-                <span class="checkbox-wrapper">
-                  {{ 'blogs.general.filter_all' | t }}
-                </span>
-              </a>
-          </li>
-            {%- for filter_value in filter_values -%}
-
-              {%- assign filter_tag = filter_value.title | handleize | strip -%}
-              {%- assign filter_tag_capitalised = filter_tag | capitalize -%}
-
-              {%- for tag in blog.all_tags -%}
-                {%- assign tag_handled = tag | handleize -%}
-                {%- if tag_handled == filter_tag or tag_handled == filter_tag_capitalised or tag_handled == 'all' -%}
-                  {%- assign tag_exists = true -%}
-                  {%- assign real_tag_formatting = tag -%}
-                  {%- break -%}
-                {%- endif -%}
-              {%- endfor -%}
-
-              {%- if tag_exists -%}
-
-                {%- assign activeTag = false -%}
-
-                {%- if current_tags contains real_tag_formatting -%}
-
-                  {% capture link_content -%}
-                    <span class="checkbox-wrapper active">
-                      {{ filter_value.title | capitalize }}
-                    </span>
-                  {%- endcapture %}
-
-                  <li class="slide blog__categories-btn blog__categories-remove">
-                      {{ link_content | link_to_remove_tag: real_tag_formatting }}
-                      {% assign choosen_var = link_content %}
-                  </li>
-
-                {% else %}
-
-                  {% capture link_content -%}
-                    <span class="checkbox-wrapper">
-                      {{ filter_value.title | capitalize }}
-                    </span>
-                  {%- endcapture %}
-
-                    <li class="slide blog__categories-btn blog__categories-add">
-                        {{ link_content | link_to_add_tag: real_tag_formatting }}
-                    </li>
-
-                {%- endif -%}
-
-
-              {%- else -%}
-                  {%- continue -%}
-                  {%- assign real_tag_formatting = null -%}
-              {%- endif -%}
-
-            {%- endfor -%}
-        {% endcapture %}
-
-        <div class="blog-select-wrapper blog-filter--{{ filter_type }}" data-simple-accordion="mediumDown">
-          {%- if block.settings.show_label -%}
-            <div class="blog-filter__header simple-accordion__title">
-                {% if choosen_var != blank %}
-                  <span class="blog-select-label">{{ filter_label }} <span class="chosen-tag">{{choosen_var}}</span></span>
-                {% else %}
-                  <span class="blog-select-label">{{ filter_label }}</span>
-                {% endif %}
-            </div>
-          {%- endif -%}
-            
-            <ul class="blog__categories-list blog__categories-list--accordion">
-                {{ filter_items }}
-            </ul>
-
-        </div>
-      {%- endfor -%}
-
-      {% comment %}{{ clear_filter_btn }}{% endcomment %}
-
-
-    </div>
-
-  {%- endif -%}
-
-  
-
+{%- assign filter_type = block.settings.filter_type -%}
+{%- assign filter_navigation = block.settings.filter -%}
+{%- assign filter_placeholder = 'All' -%}
+
+{%- unless filter_navigation == blank -%}
+  
+  {%- capture clear_filter_btn %}
+    {%- if current_tags.size > 0 -%}
+      <div class="blog-list__link blog__categories-clear">
+        <a href="{{ blog.url }}" class="btn btn-link btn-tertiary blog__categories-clear-btn">
+          {%- if block.settings.remove_icon == 'text' -%}
+              Clear
+          {%- else -%}
+              {%- render 'icon' with block.settings.remove_icon -%}
+          {%- endif -%}
+        </a>
+      </div>
+    {%- endif -%}
+  {% endcapture -%}
+
+  {%- if filter_type == 'dropdown' -%}
+    
+    <div class="blog-filter__filter">
+      {%- for filter_option in linklists[filter_navigation].links  -%}
+        
+        {%- assign filter_label = filter_option.title -%}
+        {%- assign filter_values = filter_option.links -%}
+
+        <div class="blog-select-wrapper blog-filter--{{ filter_type }}">
+        {%- if block.settings.show_label -%}
+          <label for="blog-select--{{ forloop.index }}" class="blog-select-label h5">
+               {{ filter_label }}
+          </label>
+        {%- endif -%}
+
+        {%- if filter_label contains 'Month' -%}
+          {%- assign filter_values = 'January,February,March,April,May,June,July,August,September,October,November,December' | split: ','-%}
+          {% comment %} the below code is for when the filter is month only {% endcomment %}
+            {%- capture options %}
+              <option value="" selected disabled>
+                  {%- if filter_placeholder != blank -%}
+                    {{ filter_placeholder }}
+                    {% elsif block.settings.show_label == false %}
+                    {{ filter_placeholder }}
+                  {%- endif -%}
+              </option>
+
+              {%- for filter_value in filter_values -%}
+                
+                {%- assign filter_tag = filter_value | handleize -%}
+
+                {%- assign tag_exists = false -%}
+                {%- for tag in blog.all_tags -%}
+                  {%- assign tag_handle = tag | handleize -%}
+                  {%- if tag_handle == filter_tag -%}
+                    {%- assign tag_exists = true -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- if tag_exists -%}
+                  {%- assign filter_tag_raw = filter_tag | replace: '-', ' ' -%}
+                  <option value="{{ filter_tag }}" 
+                          {% if current_tags contains filter_tag_raw %} selected{% endif %}>
+                        {{ filter_value | replace: '-', ' ' | capitalize }}
+                  </option>
+
+                {%- else -%}
+                    {%- continue -%}
+                {%- endif -%}
+
+              {%- endfor -%}
+            {% endcapture -%}
+              {% comment %} the above code is for when the filter is month only ^^ {% endcomment %}
+
+          {%- else -%}
+
+            {%- capture options %}
+              <option value="" selected disabled>
+                  {%- if filter_placeholder != blank -%}
+                    {{ filter_placeholder }}
+                    {% elsif block.settings.show_label == false %}
+                    {{ filter_placeholder }}
+                  {%- endif -%}
+              </option>
+
+              {%- for filter_value in filter_values -%}
+                
+                {%- assign filter_tag = filter_value.title | handleize -%}
+                {%- assign tag_exists = false -%}
+
+                {%- for tag in blog.all_tags -%}
+                  {%- assign tag_handle = tag | handleize -%}
+                  {%- if tag_handle == filter_tag -%}
+                    {%- assign tag_exists = true -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- if tag_exists -%}
+                  {%- assign filter_tag_raw = filter_tag | replace: '-', ' ' -%}
+                  <option value="{{ filter_tag }}" 
+                          {% if current_tags contains filter_tag_raw %} selected{% endif %}>
+                        {{ filter_value.title }}
+                  </option>
+
+                {%- else -%}
+                    {%- continue -%}
+                {%- endif -%}
+
+              {%- endfor -%}
+            {% endcapture -%}
+
+        {%- endif -%}
+          <select class="blog-select js-blog-filter"
+            id="blog-select--{{ forloop.index }}" 
+            {%- if filter_type == 'blog_type' -%}data-singular{%- endif -%}>
+            {{ options }}
+          </select>
+        </div>
+
+      {%- endfor -%}
+    </div>  
+
+
+    {{ clear_filter_btn }}
+
+
+
+  {%- else -%}
+
+
+
+
+    <div class="blog-filter__filter">
+
+      {%- for filter_option in linklists[filter_navigation].links  -%}
+          
+        {%- assign filter_label = filter_option.title -%}
+        {%- assign filter_values = filter_option.links -%}
+
+        {%- capture filter_items %}
+          <li class="slide blog__categories-btn">
+              <a href="{{ blog.url }}">
+                <span class="checkbox-wrapper">
+                  {{ 'blogs.general.filter_all' | t }}
+                </span>
+              </a>
+          </li>
+            {%- for filter_value in filter_values -%}
+
+              {%- assign filter_tag = filter_value.title | handleize | strip -%}
+              {%- assign filter_tag_capitalised = filter_tag | capitalize -%}
+
+              {%- for tag in blog.all_tags -%}
+                {%- assign tag_handled = tag | handleize -%}
+                {%- if tag_handled == filter_tag or tag_handled == filter_tag_capitalised or tag_handled == 'all' -%}
+                  {%- assign tag_exists = true -%}
+                  {%- assign real_tag_formatting = tag -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- if tag_exists -%}
+
+                {%- assign activeTag = false -%}
+
+                {%- if current_tags contains real_tag_formatting -%}
+
+                  {% capture link_content -%}
+                    <span class="checkbox-wrapper active">
+                      {{ filter_value.title | capitalize }}
+                    </span>
+                  {%- endcapture %}
+
+                  <li class="slide blog__categories-btn blog__categories-remove">
+                      {{ link_content | link_to_remove_tag: real_tag_formatting }}
+                      {% assign choosen_var = link_content %}
+                  </li>
+
+                {% else %}
+
+                  {% capture link_content -%}
+                    <span class="checkbox-wrapper">
+                      {{ filter_value.title | capitalize }}
+                    </span>
+                  {%- endcapture %}
+
+                    <li class="slide blog__categories-btn blog__categories-add">
+                        {{ link_content | link_to_add_tag: real_tag_formatting }}
+                    </li>
+
+                {%- endif -%}
+
+
+              {%- else -%}
+                  {%- continue -%}
+                  {%- assign real_tag_formatting = null -%}
+              {%- endif -%}
+
+            {%- endfor -%}
+        {% endcapture %}
+
+        <div class="blog-select-wrapper blog-filter--{{ filter_type }}" data-simple-accordion="mediumDown">
+          {%- if block.settings.show_label -%}
+            <div class="blog-filter__header simple-accordion__title">
+                {% if choosen_var != blank %}
+                  <span class="blog-select-label">{{ filter_label }} <span class="chosen-tag">{{choosen_var}}</span></span>
+                {% else %}
+                  <span class="blog-select-label">{{ filter_label }}</span>
+                {% endif %}
+            </div>
+          {%- endif -%}
+            
+            <ul class="blog__categories-list blog__categories-list--accordion">
+                {{ filter_items }}
+            </ul>
+
+        </div>
+      {%- endfor -%}
+
+      {% comment %}{{ clear_filter_btn }}{% endcomment %}
+
+
+    </div>
+
+  {%- endif -%}
+
+  
+
 {%- endunless -%}

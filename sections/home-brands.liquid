@@ -1,76 +1,76 @@
-{% assign s_sett = section.settings %}
-{% if section.blocks.size %}
-  <div data-section-id="{{ section.id }}">
-    <div class="container brands-list">
-      {% if section.blocks.size > 0 %}
-        <ul class="row brands-list__list">
-          {%- for block in section.blocks -%}
-            {% assign b_sett = block.settings %}
-            <li class="brands-list__li">
-              <section class="brands-list__item">
-                {% if  b_sett.icon != blank %}
-                  <picture class="brands-list__img">
-                    {% include 'img' with b_sett.icon, class: '' %}
-                  </picture>
-                {% endif %}
-                {% if  b_sett.title != blank %}
-                  <h4 class="brands-list__title">{{ b_sett.title }}</h4>
-                {% endif %}
-                {% if  b_sett.text != blank %}
-                  <p class="brands-list__desc">{{ b_sett.text }}</p>
-                {% endif %}
-                {% if  b_sett.link != blank %}
-                  <a href="{{ b_sett.link }}" class="brands-list__link">{{ b_sett.link_text }}</a>
-                {% endif %}
-              </section>
-            </li>
-          {%- endfor -%}
-        </ul>
-      {% endif %}
-    </div>
-  </div>
-{% endif %}
-{% schema %}
-  {
-    "name": "Brand list",
-    "blocks": [
-      {
-        "type": "list",
-        "name": "item",
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "icon",
-            "label": "Icon"
-          },
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Title"
-          },
-          {
-            "type": "text",
-            "id": "text",
-            "label": "Text"
-          },
-          {
-            "type": "url",
-            "id": "link",
-            "label": "Link"
-          },
-          {
-            "type": "text",
-            "id": "link_text",
-            "label": "Link text"
-          }
-        ]
-      }
-    ],
-    "presets": [
-      {
-        "name": "Brand list",
-        "category": "Image"
-      }
-    ]
-  }
-{% endschema %}
+{% assign s_sett = section.settings %}
+{% if section.blocks.size %}
+  <div data-section-id="{{ section.id }}">
+    <div class="container brands-list">
+      {% if section.blocks.size > 0 %}
+        <ul class="row brands-list__list">
+          {%- for block in section.blocks -%}
+            {% assign b_sett = block.settings %}
+            <li class="brands-list__li">
+              <section class="brands-list__item">
+                {% if  b_sett.icon != blank %}
+                  <picture class="brands-list__img">
+                    {% include 'img' with b_sett.icon, class: '' %}
+                  </picture>
+                {% endif %}
+                {% if  b_sett.title != blank %}
+                  <h4 class="brands-list__title">{{ b_sett.title }}</h4>
+                {% endif %}
+                {% if  b_sett.text != blank %}
+                  <p class="brands-list__desc">{{ b_sett.text }}</p>
+                {% endif %}
+                {% if  b_sett.link != blank %}
+                  <a href="{{ b_sett.link }}" class="brands-list__link">{{ b_sett.link_text }}</a>
+                {% endif %}
+              </section>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+{% schema %}
+  {
+    "name": "Brand list",
+    "blocks": [
+      {
+        "type": "list",
+        "name": "item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          },
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link text"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Brand list",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

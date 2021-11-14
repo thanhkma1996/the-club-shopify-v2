@@ -1,168 +1,168 @@
-<div data-section-id="{{ section.id }}" data-section-type="contact">
-  <div class="row">
-    {%- if section.settings.enable_assistance_bar or section.settings.page_menu != blank -%}
-      {%- assign is_sidebar = true -%}
-    {%- endif -%}
-    {%- if is_sidebar -%}
-      <div class="col-12 col-md-4 col-lg-3 order-md-2">
-        {% if section.settings.page_menu != blank %}
-          {% assign custom_class = 'page' %}
-          {%- include 'site-nav' with section.settings.page_menu, id: 'page_nav', dropdown: false, inline: true, type: 'page-nav-blocks' -%}
-        {% endif %}
-
-        {% if section.settings.enable_assistance_bar %}
-          {% include 'assistance-bar' %}
-        {% endif %}
-      </div>
-    {%- endif -%}
-    <div class="{% if is_sidebar %}col-12 col-md-8 col-lg-9 {% else %} col-lg-12{% endif %} order-md-1">
-      <!--[Contact form]--> 
-    </div>
-  </div>
-</div>
-
-{% schema %}
-  {
-    "name": "Contact",
-    "class": "contact-section",
-    "settings": [
-      {
-        "type": "link_list",
-        "id": "page_menu",
-        "label": "Page menu"
-      },
-      {
-        "type": "checkbox",
-        "id": "enable_assistance_bar",
-        "default": true,
-        "label": "Enable Assistance Bar"
-      }
-    ],
-    "blocks": [
-      {
-        "name": "Contact Header",
-        "type": "header",
-        "settings": [
-          {
-            "type": "text",
-            "id": "title",
-            "label": "Title"
-          },
-          {
-            "type": "textarea",
-            "id": "text",
-            "label": "Blog Description"
-          },
-          {
-            "type": "select",
-            "id": "text_alignment",
-            "label": "Text Alignment",
-            "options": [
-              {
-                "value": "left",
-                "label": "Left"
-              },
-              {
-                "value": "center",
-                "label": "Center"
-              },
-              {
-                "value": "right",
-                "label": "Right"
-              }
-              
-            ],
-            "default": "left"
-          },
-          {
-            "type": "range",
-            "id": "width",
-            "min": 0,
-            "max": 12,
-            "step": 1,
-            "unit": "col",
-            "label": "Width on page",
-            "default": 12
-          },
-          {
-             "type": "radio",
-             "id": "position",
-             "label": "Page Position",
-             "options": [
-                { "value": "header", "label": "Header" },
-                { "value": "body", "label": "Body" },
-                { "value": "sidebar", "label": "Sidebar" },
-                { "value": "footer", "label": "Footer" }
-             ],
-             "default":"header",
-             "info":"Choose where the block will appear"
-          }
-        ]
-      },
-      {
-        "name": "Contact Form",
-        "type": "form",
-        "settings": [
-          {
-            "type": "range",
-            "id": "width",
-            "min": 0,
-            "max": 12,
-            "step": 1,
-            "unit": "col",
-            "label": "Width on page",
-            "default": 12
-          },
-          {
-             "type": "radio",
-             "id": "position",
-             "label": "Page Position",
-             "options": [
-                { "value": "header", "label": "Header" },
-                { "value": "body", "label": "Body" },
-                { "value": "sidebar", "label": "Sidebar" },
-                { "value": "footer", "label": "Footer" }
-             ],
-             "default":"header",
-             "info":"Choose where the block will appear"
-          }
-        ]
-      },
-      {
-        "name": "Spacer",
-        "type": "spacer",
-        "settings": [
-          {
-            "type": "checkbox",
-            "id": "display_on_mobile",
-            "default": false,
-            "label": "Display on Mobile"
-          },
-          {
-            "type": "range",
-            "id": "width",
-            "min": 0,
-            "max": 12,
-            "step": 1,
-            "unit": "col",
-            "label": "Width on page",
-            "default": 12
-          },
-          {
-             "type": "radio",
-             "id": "position",
-             "label": "Page Position",
-             "options": [
-                { "value": "header", "label": "Header" },
-                { "value": "body", "label": "Body" },
-                { "value": "sidebar", "label": "Sidebar" },
-                { "value": "footer", "label": "Footer" }
-             ],
-             "default":"header",
-             "info":"Choose where the block will appear"
-          }
-        ]
-      }
-    ]
-  }
-{% endschema %}
+<div data-section-id="{{ section.id }}" data-section-type="contact">
+  <div class="row">
+    {%- if section.settings.enable_assistance_bar or section.settings.page_menu != blank -%}
+      {%- assign is_sidebar = true -%}
+    {%- endif -%}
+    {%- if is_sidebar -%}
+      <div class="col-12 col-md-4 col-lg-3 order-md-2">
+        {% if section.settings.page_menu != blank %}
+          {% assign custom_class = 'page' %}
+          {%- include 'site-nav' with section.settings.page_menu, id: 'page_nav', dropdown: false, inline: true, type: 'page-nav-blocks' -%}
+        {% endif %}
+
+        {% if section.settings.enable_assistance_bar %}
+          {% include 'assistance-bar' %}
+        {% endif %}
+      </div>
+    {%- endif -%}
+    <div class="{% if is_sidebar %}col-12 col-md-8 col-lg-9 {% else %} col-lg-12{% endif %} order-md-1">
+      <!--[Contact form]--> 
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Contact",
+    "class": "contact-section",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "page_menu",
+        "label": "Page menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_assistance_bar",
+        "default": true,
+        "label": "Enable Assistance Bar"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Contact Header",
+        "type": "header",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Blog Description"
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+              
+            ],
+            "default": "left"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" }
+             ],
+             "default":"header",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Contact Form",
+        "type": "form",
+        "settings": [
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" }
+             ],
+             "default":"header",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      },
+      {
+        "name": "Spacer",
+        "type": "spacer",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "display_on_mobile",
+            "default": false,
+            "label": "Display on Mobile"
+          },
+          {
+            "type": "range",
+            "id": "width",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "unit": "col",
+            "label": "Width on page",
+            "default": 12
+          },
+          {
+             "type": "radio",
+             "id": "position",
+             "label": "Page Position",
+             "options": [
+                { "value": "header", "label": "Header" },
+                { "value": "body", "label": "Body" },
+                { "value": "sidebar", "label": "Sidebar" },
+                { "value": "footer", "label": "Footer" }
+             ],
+             "default":"header",
+             "info":"Choose where the block will appear"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

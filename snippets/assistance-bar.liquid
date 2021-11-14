@@ -1,58 +1,58 @@
-{% if settings.assistance_title != blank %}
-  <div class="assistance-bar">
-    <h6 class="assistance-bar__title">{{settings.assistance_title}}</h6>
-    {%- if settings.assistance_text != blank -%}
-      <div class="assistance-bar__text">{{settings.assistance_text}}</div>
-    {%- endif -%}
-    {% if settings.assistance_title_1 != blank and settings.assistance_link_1 != blank %}
-      <a href="{{settings.assistance_link_1}}" class="assistance-bar__link">
-
-        {%- if settings.assistance_icon_1 != blank and settings.assistance_icon_1 != 'none' -%}
-          {% assign icon1 = settings.assistance_icon_1 | handleize %}
-          {% case icon1 %}
-            {% when 'phone' %}
-              {% include 'icon' with 'phone' %}
-            {% when 'email' %}
-              {% include 'icon' with 'email' %}
-            {% when 'chat' %}
-              {% include 'icon' with 'chat' %}
-          {% endcase %}
-        {%- endif -%}
-
-        {{settings.assistance_title_1}}
-      </a>
-    {% endif %}
-    {% if settings.assistance_title_2 != blank and settings.assistance_link_2 != blank %}
-      <a href="{{settings.assistance_link_2}}" class="assistance-bar__link">
-        {%- if settings.assistance_icon_2 != blank and settings.assistance_icon_2 != 'none' -%}
-          {% assign icon2 = settings.assistance_icon_2 | handleize %}
-          {% case icon2 %}
-            {% when 'phone' %}
-              {% include 'icon' with 'phone' %}
-            {% when 'email' %}
-              {% include 'icon' with 'email' %}
-            {% when 'chat' %}
-              {% include 'icon' with 'chat' %}
-          {% endcase %}
-        {%- endif -%}
-        {{settings.assistance_title_2}}
-      </a>
-    {% endif %}
-    {% if settings.assistance_title_3 != blank and settings.assistance_link_3 != blank %}
-      <a href="{{settings.assistance_link_3}}" class="assistance-bar__link">
-        {%- if settings.assistance_icon_3 != blank and settings.assistance_icon_3 != 'none' -%}
-          {% assign icon3 = settings.assistance_icon_3 | handleize %}
-          {% case icon3 %}
-            {% when 'phone' %}
-              {% include 'icon' with 'phone' %}
-            {% when 'email' %}
-              {% include 'icon' with 'email' %}
-            {% when 'chat' %}
-              {% include 'icon' with 'chat' %}
-          {% endcase %}
-        {%- endif -%}
-        {{settings.assistance_title_3}}
-      </a>
-    {% endif %}
-  </div>
+{% if settings.assistance_title != blank %}
+  <div class="assistance-bar">
+    <h6 class="assistance-bar__title">{{settings.assistance_title}}</h6>
+    {%- if settings.assistance_text != blank -%}
+      <div class="assistance-bar__text">{{settings.assistance_text}}</div>
+    {%- endif -%}
+    {% if settings.assistance_title_1 != blank and settings.assistance_link_1 != blank %}
+      <a href="{{settings.assistance_link_1}}" class="assistance-bar__link">
+
+        {%- if settings.assistance_icon_1 != blank and settings.assistance_icon_1 != 'none' -%}
+          {% assign icon1 = settings.assistance_icon_1 | handleize %}
+          {% case icon1 %}
+            {% when 'phone' %}
+              {% include 'icon' with 'phone' %}
+            {% when 'email' %}
+              {% include 'icon' with 'email' %}
+            {% when 'chat' %}
+              {% include 'icon' with 'chat' %}
+          {% endcase %}
+        {%- endif -%}
+
+        {{settings.assistance_title_1}}
+      </a>
+    {% endif %}
+    {% if settings.assistance_title_2 != blank and settings.assistance_link_2 != blank %}
+      <a href="{{settings.assistance_link_2}}" class="assistance-bar__link">
+        {%- if settings.assistance_icon_2 != blank and settings.assistance_icon_2 != 'none' -%}
+          {% assign icon2 = settings.assistance_icon_2 | handleize %}
+          {% case icon2 %}
+            {% when 'phone' %}
+              {% include 'icon' with 'phone' %}
+            {% when 'email' %}
+              {% include 'icon' with 'email' %}
+            {% when 'chat' %}
+              {% include 'icon' with 'chat' %}
+          {% endcase %}
+        {%- endif -%}
+        {{settings.assistance_title_2}}
+      </a>
+    {% endif %}
+    {% if settings.assistance_title_3 != blank and settings.assistance_link_3 != blank %}
+      <a href="{{settings.assistance_link_3}}" class="assistance-bar__link">
+        {%- if settings.assistance_icon_3 != blank and settings.assistance_icon_3 != 'none' -%}
+          {% assign icon3 = settings.assistance_icon_3 | handleize %}
+          {% case icon3 %}
+            {% when 'phone' %}
+              {% include 'icon' with 'phone' %}
+            {% when 'email' %}
+              {% include 'icon' with 'email' %}
+            {% when 'chat' %}
+              {% include 'icon' with 'chat' %}
+          {% endcase %}
+        {%- endif -%}
+        {{settings.assistance_title_3}}
+      </a>
+    {% endif %}
+  </div>
 {% endif %}

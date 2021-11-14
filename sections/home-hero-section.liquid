@@ -1,306 +1,306 @@
-{% assign s_sett = section.settings %}
-<div data-section-id="{{ section.id }}" data-section-type="hero-section">
-
-  {% if s_sett.enable_gradient %}
-    {% assign gradient_class = 'hero-section--gradient' %}
-  {% endif %}
-    <div class="hero-section {{ gradient_class }}">
-      {%- if section.blocks.size > 0 -%}
-      {%- for block in section.blocks %}
-        {% assign b_sett = block.settings %}
-
-          {%- if block.type == 'video' -%}
-            {%- if b_sett.file_url != blank -%}
-              {% if b_sett.file_url_mob != blank %}
-                {% assign has_mob_video = 'has-mobile-video' %}
-              {% endif %}
-            <div class="hero-section__video {{ has_mob_video }}">
-              <div class="hero-section__video-desktop">
-                {%- include 'video' with b_sett.file_url , placeholder_image: b_sett.image_picker -%}
-              </div>
-
-              {%- if b_sett.file_url_mob != blank -%}
-                <div class="hero-section__video-mob">
-                  {%- include 'video' with b_sett.file_url_mob , placeholder_image: b_sett.image_picker -%}
-                </div>
-              {%- endif -%}
-            </div>
-            {%- endif -%}
-          {%- else -%}
-            {% if b_sett.image != blank %}
-              {% if b_sett.image_small != blank %}
-                {% assign has_mob_img = 'has-mobile-img' %}
-              {% endif %}
-              <div class="hero-section__img-wrap {{ has_mob_img }}">
-                {%-
-                  include 'img'
-                  with b_sett.image,
-                  fit: 'cover',
-                  position: 'bottom',
-                  img_class: 'hero-section__img hero-section__img--desktop'
-                -%}
-                {% if b_sett.image_small != blank %}
-                  {%-
-                    include 'img'
-                    with b_sett.image_small,
-                    fit: 'cover',
-                    position: 'center',
-                    img_class: 'hero-section__img hero-section__img--mob'
-                  -%}
-                {% endif %}
-              </div>
-            {% endif %}
-          {%- endif -%}
-      {%- endfor -%}
-
-      {% if s_sett.title != blank or s_sett.description != blank or s_sett.button_link != blank %}
-        <style>
-          {% if s_sett.text_color_desktop != blank %}
-          .hero-section__title,
-          .hero-section__desc {
-            color: {{ s_sett.text_color_desktop }};
-          }
-          {% endif %}
-
-
-          {%- if s_sett.btn_text_color_desktop != blank -%}
-          .hero-section__btn {
-            color: {{ s_sett.btn_text_color_desktop }} !important;
-          }
-          {% endif -%}
-
-          {%- if s_sett.btn_color_desktop != blank -%}
-          .hero-section__btn {
-            background-color: {{ s_sett.btn_color_desktop }} !important;
-            border-color: {{ s_sett.btn_color_desktop }} !important;
-          }
-          {%- endif -%}
-
-          {%- if s_sett.btn_hover_color_desktop != blank -%}
-          .hero-section__btn:hover, .hero-section__btn:active, .hero-section__btn:focus {
-            background-color: {{ s_sett.btn_hover_color_desktop }} !important;
-            border-color: {{ s_sett.btn_hover_color_desktop }} !important;
-          }
-          {%- endif -%}
-
-          @media only screen and (max-width: 600px) {
-          {% if s_sett.text_color_mobile != blank %}
-            .hero-section__title,
-            .hero-section__desc {
-              color: {{ s_sett.text_color_mobile }};
-            }
-          {% endif %}
-
-          {%- if s_sett.btn_text_color_mobile != blank -%}
-            .hero-section__btn {
-              color: {{ s_sett.btn_text_color_mobile }} !important;
-            }
-          {% endif -%}
-
-          {%- if s_sett.btn_color_mobile != blank -%}
-            .hero-section__btn {
-              background-color: {{ s_sett.btn_color_mobile }} !important;
-              border-color: {{ s_sett.btn_color_mobile }} !important;
-            }
-          {%- endif -%}
-
-          {%- if s_sett.btn_hover_color_mobile != blank -%}
-            .hero-section__btn:hover, .hero-section__btn:active, .hero-section__btn:focus {
-              background-color: {{ s_sett.btn_hover_color_desktop }} !important;
-              border-color: {{ s_sett.btn_hover_color_desktop }} !important;
-            }
-          {%- endif -%}
-          }
-
-        </style>
-
-        <section class="hero-section__content hero-section__content--{{ s_sett.block_alignment }} text-{{ s_sett.text_alignment }}{% if s_sett.enable_overlay %} hero-section__content--overlay{% endif %}">
-          {% if s_sett.title != blank %}
-            <h2 class="hero-section__title">{{ s_sett.title }}</h2>
-          {% endif %}
-          {% if s_sett.description != blank %}
-            <p class="hero-section__desc">{{ s_sett.description }}</p>
-          {% endif %}
-          {% if s_sett.button_link != blank %}
-            <a href="{{ s_sett.button_link }}" class="btn btn-primary hero-section__btn">{{ s_sett.button_text }}</a>
-          {% endif %}
-        </section>
-
-      {% endif %}
-    </div>
-
-  {%- endif -%}
-</div>
-
-{% schema %}
-  {
-    "name": "Home hero section",
-    "class": "index-section index-section--flush",
-    "max_blocks": 1,
-    "settings": [
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Title"
-      },
-      {
-        "type": "textarea",
-        "id": "description",
-        "label": "Description"
-      },
-      {
-        "type": "text",
-        "id": "button_text",
-        "label": "Button text",
-        "default": "View products"
-      },
-      {
-        "type": "url",
-        "id": "button_link",
-        "label": "Button link"
-      },
-      {
-        "type": "checkbox",
-        "id": "enable_overlay",
-        "default": false,
-        "label": "Enable overlay for readability"
-      },
-      {
-        "type": "checkbox",
-        "id": "enable_gradient",
-        "default": false,
-        "label": "Enable top gradient for section"
-      },
-      {
-        "type": "color",
-        "id": "text_color_desktop",
-        "default": "#ffffff",
-        "label": "Select desktop text color"
-      },
-      {
-        "type": "color",
-        "id": "text_color_mobile",
-        "default": "#1E4396",
-        "label": "Select mobile text color"
-      },
-      {
-        "type": "color",
-        "id": "btn_text_color_desktop",
-        "label": "Desktop Button text color"
-      },
-      {
-        "type": "color",
-        "id": "btn_text_color_mobile",
-        "label": "Mobile Button text color"
-      },
-      {
-        "type": "color",
-        "id": "btn_color_desktop",
-        "label": "Desktop Button color"
-      },
-      {
-        "type": "color",
-        "id": "btn_color_mobile",
-        "label": "Mobile Button color"
-      },
-      {
-        "type": "color",
-        "id": "btn_hover_color_desktop",
-        "label": "Desktop Button hover color"
-      },
-      {
-        "type": "color",
-        "id": "btn_hover_color_mobile",
-        "label": "Mobile Button hover color"
-      },
-      {
-        "type": "select",
-        "id": "text_alignment",
-        "label": "Text alignment",
-        "default": "left",
-        "options": [
-          {
-            "value": "left",
-            "label": "Left"
-          },
-          {
-            "value": "center",
-            "label": "Centre"
-          },
-          {
-            "value": "right",
-            "label": "Right"
-          }
-        ]
-      },
-      {
-        "type": "select",
-        "id": "block_alignment",
-        "label": "Block alignment",
-        "default": "left",
-        "options": [
-          {
-            "value": "left",
-            "label": "Left"
-          },
-          {
-            "value": "center",
-            "label": "Centre"
-          },
-          {
-            "value": "right",
-            "label": "Right"
-          }
-        ]
-      }
-    ],
-    "blocks": [
-      {
-        "type": "image",
-        "name": "Hero Image",
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "image",
-            "label": "Image for large devices",
-            "info": "Images should be a minimum of 1600px wide x 900px tall. Larger images will be sized to fit automatically."
-          },
-          {
-            "type": "image_picker",
-            "id": "image_small",
-            "label": "Image for small devices",
-            "info": "Images should be a minimum of 1000px wide x 1000px tall. Larger images will be sized to fit automatically."
-          }
-        ]
-      },
-      {
-        "type": "video",
-        "name": "Hero Video",
-        "settings": [
-          {
-            "type": "text",
-            "id": "file_url",
-            "label": "File URL",
-            "info": "For MP4 videos uploaded to Settings/Files within Shopify"
-          },
-          {
-            "type": "text",
-            "id": "file_url_mob",
-            "label": "File URL Mobile",
-            "info": "For MP4 videos uploaded to Settings/Files within Shopify"
-          },
-          {
-            "type": "image_picker",
-            "id": "image",
-            "label": "Image",
-            "info": "Fallback when autoplaying video is not supported on mobile devices"
-          }
-        ]
-      }
-    ],
-    "presets": [{
-      "name": "Home Hero Image / Video",
-      "category": "Image"
-    }]
-  }
-{% endschema %}
+{% assign s_sett = section.settings %}
+<div data-section-id="{{ section.id }}" data-section-type="hero-section">
+
+  {% if s_sett.enable_gradient %}
+    {% assign gradient_class = 'hero-section--gradient' %}
+  {% endif %}
+    <div class="hero-section {{ gradient_class }}">
+      {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks %}
+        {% assign b_sett = block.settings %}
+
+          {%- if block.type == 'video' -%}
+            {%- if b_sett.file_url != blank -%}
+              {% if b_sett.file_url_mob != blank %}
+                {% assign has_mob_video = 'has-mobile-video' %}
+              {% endif %}
+            <div class="hero-section__video {{ has_mob_video }}">
+              <div class="hero-section__video-desktop">
+                {%- include 'video' with b_sett.file_url , placeholder_image: b_sett.image_picker -%}
+              </div>
+
+              {%- if b_sett.file_url_mob != blank -%}
+                <div class="hero-section__video-mob">
+                  {%- include 'video' with b_sett.file_url_mob , placeholder_image: b_sett.image_picker -%}
+                </div>
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+          {%- else -%}
+            {% if b_sett.image != blank %}
+              {% if b_sett.image_small != blank %}
+                {% assign has_mob_img = 'has-mobile-img' %}
+              {% endif %}
+              <div class="hero-section__img-wrap {{ has_mob_img }}">
+                {%-
+                  include 'img'
+                  with b_sett.image,
+                  fit: 'cover',
+                  position: 'bottom',
+                  img_class: 'hero-section__img hero-section__img--desktop'
+                -%}
+                {% if b_sett.image_small != blank %}
+                  {%-
+                    include 'img'
+                    with b_sett.image_small,
+                    fit: 'cover',
+                    position: 'center',
+                    img_class: 'hero-section__img hero-section__img--mob'
+                  -%}
+                {% endif %}
+              </div>
+            {% endif %}
+          {%- endif -%}
+      {%- endfor -%}
+
+      {% if s_sett.title != blank or s_sett.description != blank or s_sett.button_link != blank %}
+        <style>
+          {% if s_sett.text_color_desktop != blank %}
+          .hero-section__title,
+          .hero-section__desc {
+            color: {{ s_sett.text_color_desktop }};
+          }
+          {% endif %}
+
+
+          {%- if s_sett.btn_text_color_desktop != blank -%}
+          .hero-section__btn {
+            color: {{ s_sett.btn_text_color_desktop }} !important;
+          }
+          {% endif -%}
+
+          {%- if s_sett.btn_color_desktop != blank -%}
+          .hero-section__btn {
+            background-color: {{ s_sett.btn_color_desktop }} !important;
+            border-color: {{ s_sett.btn_color_desktop }} !important;
+          }
+          {%- endif -%}
+
+          {%- if s_sett.btn_hover_color_desktop != blank -%}
+          .hero-section__btn:hover, .hero-section__btn:active, .hero-section__btn:focus {
+            background-color: {{ s_sett.btn_hover_color_desktop }} !important;
+            border-color: {{ s_sett.btn_hover_color_desktop }} !important;
+          }
+          {%- endif -%}
+
+          @media only screen and (max-width: 600px) {
+          {% if s_sett.text_color_mobile != blank %}
+            .hero-section__title,
+            .hero-section__desc {
+              color: {{ s_sett.text_color_mobile }};
+            }
+          {% endif %}
+
+          {%- if s_sett.btn_text_color_mobile != blank -%}
+            .hero-section__btn {
+              color: {{ s_sett.btn_text_color_mobile }} !important;
+            }
+          {% endif -%}
+
+          {%- if s_sett.btn_color_mobile != blank -%}
+            .hero-section__btn {
+              background-color: {{ s_sett.btn_color_mobile }} !important;
+              border-color: {{ s_sett.btn_color_mobile }} !important;
+            }
+          {%- endif -%}
+
+          {%- if s_sett.btn_hover_color_mobile != blank -%}
+            .hero-section__btn:hover, .hero-section__btn:active, .hero-section__btn:focus {
+              background-color: {{ s_sett.btn_hover_color_desktop }} !important;
+              border-color: {{ s_sett.btn_hover_color_desktop }} !important;
+            }
+          {%- endif -%}
+          }
+
+        </style>
+
+        <section class="hero-section__content hero-section__content--{{ s_sett.block_alignment }} text-{{ s_sett.text_alignment }}{% if s_sett.enable_overlay %} hero-section__content--overlay{% endif %}">
+          {% if s_sett.title != blank %}
+            <h2 class="hero-section__title">{{ s_sett.title }}</h2>
+          {% endif %}
+          {% if s_sett.description != blank %}
+            <p class="hero-section__desc">{{ s_sett.description }}</p>
+          {% endif %}
+          {% if s_sett.button_link != blank %}
+            <a href="{{ s_sett.button_link }}" class="btn btn-primary hero-section__btn">{{ s_sett.button_text }}</a>
+          {% endif %}
+        </section>
+
+      {% endif %}
+    </div>
+
+  {%- endif -%}
+</div>
+
+{% schema %}
+  {
+    "name": "Home hero section",
+    "class": "index-section index-section--flush",
+    "max_blocks": 1,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button text",
+        "default": "View products"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_overlay",
+        "default": false,
+        "label": "Enable overlay for readability"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_gradient",
+        "default": false,
+        "label": "Enable top gradient for section"
+      },
+      {
+        "type": "color",
+        "id": "text_color_desktop",
+        "default": "#ffffff",
+        "label": "Select desktop text color"
+      },
+      {
+        "type": "color",
+        "id": "text_color_mobile",
+        "default": "#1E4396",
+        "label": "Select mobile text color"
+      },
+      {
+        "type": "color",
+        "id": "btn_text_color_desktop",
+        "label": "Desktop Button text color"
+      },
+      {
+        "type": "color",
+        "id": "btn_text_color_mobile",
+        "label": "Mobile Button text color"
+      },
+      {
+        "type": "color",
+        "id": "btn_color_desktop",
+        "label": "Desktop Button color"
+      },
+      {
+        "type": "color",
+        "id": "btn_color_mobile",
+        "label": "Mobile Button color"
+      },
+      {
+        "type": "color",
+        "id": "btn_hover_color_desktop",
+        "label": "Desktop Button hover color"
+      },
+      {
+        "type": "color",
+        "id": "btn_hover_color_mobile",
+        "label": "Mobile Button hover color"
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "Text alignment",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Centre"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "block_alignment",
+        "label": "Block alignment",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Centre"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Hero Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image for large devices",
+            "info": "Images should be a minimum of 1600px wide x 900px tall. Larger images will be sized to fit automatically."
+          },
+          {
+            "type": "image_picker",
+            "id": "image_small",
+            "label": "Image for small devices",
+            "info": "Images should be a minimum of 1000px wide x 1000px tall. Larger images will be sized to fit automatically."
+          }
+        ]
+      },
+      {
+        "type": "video",
+        "name": "Hero Video",
+        "settings": [
+          {
+            "type": "text",
+            "id": "file_url",
+            "label": "File URL",
+            "info": "For MP4 videos uploaded to Settings/Files within Shopify"
+          },
+          {
+            "type": "text",
+            "id": "file_url_mob",
+            "label": "File URL Mobile",
+            "info": "For MP4 videos uploaded to Settings/Files within Shopify"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "Fallback when autoplaying video is not supported on mobile devices"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Home Hero Image / Video",
+      "category": "Image"
+    }]
+  }
+{% endschema %}

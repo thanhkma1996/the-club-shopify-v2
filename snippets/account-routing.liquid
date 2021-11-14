@@ -1,58 +1,58 @@
-{%- assign error_string = 'Liquid error: Could not find asset' -%}
-
-{%- assign account_required_templates = 'customers/addresses.edit,customers/addresses.new,customers/addresses,customers/order' | split: ',' -%}
-
-{%- assign account_optional_templates = 'page.wishlist' | split: ',' -%}
-
-{%- assign account_page = false -%}
-{%- if template.name == 'account' or account_required_templates contains template -%}
-  {%- assign account_page = true -%}
-{%- endif -%}
-
-{%- if template.name.first == '_' -%}
-
-  {%- section '404' -%}
-
-{%- elsif customer and account_page == true or customer and account_optional_templates contains template -%}
-  {% comment %} Visitor is signed in and is accessing an account page {% endcomment %}
-
-  <script type="text/javascript">console.info('Customer is signed in and viewing an account page')</script>
-
-  <div class="account container narrow">
-    <div class="account__side-bar">
-      {% comment %} <div class="account__user-details">
-        {%- include 'user-details' with address: true, type: false, edit_link: true -%}
-      </div> {% endcomment %}
-      <div class="account__nav">
-        {%- include 'account-nav' with swipeable: false -%}
-      </div>
-    </div>
-    <div class="account__view">
-     {{ content_for_layout }}
-    </div>
-  </div>
-
-{% elsif customer and account_page != true %}
-  {% comment %} Visitor is signed in and is not accessing an account page {% endcomment %}
-
-  <script type="text/javascript">console.info('Customer is signed in and not viewing an account page')</script>
-
-  {{ content_for_layout }}
-
-{% elsif account_page != true %}
-  {% comment %} Visitor is not signed in and is not accessing an account page {% endcomment %}
-
-  <script type="text/javascript">console.info('Customer is not signed in and not viewing an account page')</script>
-
-  {{ content_for_layout }}
-
-{%- else -%}
-  {% comment %} Visitor is not signed in and is accessing an account page {% endcomment %}
-
-  <script type="text/javascript">console.info('Customer is not signed in and viewing an account page')</script>
-
-  {%- section '404' -%}
-
-{%- endif -%}
-
-
+{%- assign error_string = 'Liquid error: Could not find asset' -%}
+
+{%- assign account_required_templates = 'customers/addresses.edit,customers/addresses.new,customers/addresses,customers/order' | split: ',' -%}
+
+{%- assign account_optional_templates = 'page.wishlist' | split: ',' -%}
+
+{%- assign account_page = false -%}
+{%- if template.name == 'account' or account_required_templates contains template -%}
+  {%- assign account_page = true -%}
+{%- endif -%}
+
+{%- if template.name.first == '_' -%}
+
+  {%- section '404' -%}
+
+{%- elsif customer and account_page == true or customer and account_optional_templates contains template -%}
+  {% comment %} Visitor is signed in and is accessing an account page {% endcomment %}
+
+  <script type="text/javascript">console.info('Customer is signed in and viewing an account page')</script>
+
+  <div class="account container narrow">
+    <div class="account__side-bar">
+      {% comment %} <div class="account__user-details">
+        {%- include 'user-details' with address: true, type: false, edit_link: true -%}
+      </div> {% endcomment %}
+      <div class="account__nav">
+        {%- include 'account-nav' with swipeable: false -%}
+      </div>
+    </div>
+    <div class="account__view">
+     {{ content_for_layout }}
+    </div>
+  </div>
+
+{% elsif customer and account_page != true %}
+  {% comment %} Visitor is signed in and is not accessing an account page {% endcomment %}
+
+  <script type="text/javascript">console.info('Customer is signed in and not viewing an account page')</script>
+
+  {{ content_for_layout }}
+
+{% elsif account_page != true %}
+  {% comment %} Visitor is not signed in and is not accessing an account page {% endcomment %}
+
+  <script type="text/javascript">console.info('Customer is not signed in and not viewing an account page')</script>
+
+  {{ content_for_layout }}
+
+{%- else -%}
+  {% comment %} Visitor is not signed in and is accessing an account page {% endcomment %}
+
+  <script type="text/javascript">console.info('Customer is not signed in and viewing an account page')</script>
+
+  {%- section '404' -%}
+
+{%- endif -%}
+
+

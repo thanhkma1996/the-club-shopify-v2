@@ -1,15 +1,15 @@
-{%- assign form_success = false -%}
-{%- capture form %}
-  {% form 'recover_customer_password' %}
-    {% if form.posted_successfully? %}
-      {%- assign form_success = true -%}
-    {% endif %}
-  {%- endform -%}
-{% endcapture -%}
-
-{%- if customer and form_success != true -%}
-  <script type="text/javascript">window.location.href="/account";</script>
-  {%- section '404' -%}
-{% else %}
-  {%- section 'login' -%}
-{%- endif -%}
+{%- assign form_success = false -%}
+{%- capture form %}
+  {% form 'recover_customer_password' %}
+    {% if form.posted_successfully? %}
+      {%- assign form_success = true -%}
+    {% endif %}
+  {%- endform -%}
+{% endcapture -%}
+
+{%- if customer and form_success != true -%}
+  <script type="text/javascript">window.location.href="/account";</script>
+  {%- section '404' -%}
+{% else %}
+  {%- section 'login' -%}
+{%- endif -%}

@@ -1,50 +1,50 @@
-{%- assign style = style | default: 'default' -%}
-{%- assign header = header | default: true -%}
-{%- assign button = button | default: 'primary' -%}
-{%- assign section_title = title | default: 'general.newsletter.title' | t -%}
-{%- assign section_description = description | default: 'general.newsletter.description' | t -%}
-
-<div class="newsletter-section newsletter-section--{{ style }}">
-  {%- if header -%}
-    <div class="section-header">
-      {%- if section_title != blank -%}
-        <label for="Email" class="section-header__title h4">
-          <span>{{ section_title }}</span>
-        </label>
-      {%- endif -%}
-      {%- if section_description != blank -%}
-        <p>{{ section_description }}</p>
-      {%- endif -%}
-    </div>
-  {%- endif -%}
-  {%- form 'customer' -%}
-
-    {% comment %} DON'T TOUCH MY FORM FIELDS! {% endcomment %}
-    {% comment %} FORM FIELDS ARE INTETIONALLY NAMED "contact" {% endcomment %}
-
-    {{ form.errors | default_errors }}
-    {%- if form.posted_successfully? -%}
-      <p class="form--success">{{ 'general.newsletter.confirmation' | t }}</p>
-    {%- else -%}
-      <div id="itscustomer"><p class="form--success">{{ 'general.newsletter.itscustomer' | t }}</p></div>
-      <div class="input-group input-group--{{ style }}" id="newsletterfield">
-        <input type="hidden" name="contact[tags]" value="newsletter" class="input-group__field">
-        <input type="email"
-          name="contact[email]"
-          id="Email"
-          class="input-group__field newsletter__input"
-          value="{% if customer %}{{ customer.email }}{% endif %}"
-          placeholder="{{ 'general.newsletter.email_placeholder' | t }}"
-          autocorrect="off"
-          autocapitalize="off">
-        <button type="submit" class="btn btn-{{ button }} input-group__btn newsletter__submit" name="commit" id="Subscribe">
-          <span class="newsletter__submit-text">{{ 'general.newsletter.submit' | t }}</span>
-        </button>
-      </div>
-    {%- endif -%}
-  {%- endform -%}
-
-  {%- if show_social and social_links_output != blank -%}
-    {{ social_links_output }}
-  {%- endif -%}
-</div>
+{%- assign style = style | default: 'default' -%}
+{%- assign header = header | default: true -%}
+{%- assign button = button | default: 'primary' -%}
+{%- assign section_title = title | default: 'general.newsletter.title' | t -%}
+{%- assign section_description = description | default: 'general.newsletter.description' | t -%}
+
+<div class="newsletter-section newsletter-section--{{ style }}">
+  {%- if header -%}
+    <div class="section-header">
+      {%- if section_title != blank -%}
+        <label for="Email" class="section-header__title h4">
+          <span>{{ section_title }}</span>
+        </label>
+      {%- endif -%}
+      {%- if section_description != blank -%}
+        <p>{{ section_description }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+  {%- form 'customer' -%}
+
+    {% comment %} DON'T TOUCH MY FORM FIELDS! {% endcomment %}
+    {% comment %} FORM FIELDS ARE INTETIONALLY NAMED "contact" {% endcomment %}
+
+    {{ form.errors | default_errors }}
+    {%- if form.posted_successfully? -%}
+      <p class="form--success">{{ 'general.newsletter.confirmation' | t }}</p>
+    {%- else -%}
+      <div id="itscustomer"><p class="form--success">{{ 'general.newsletter.itscustomer' | t }}</p></div>
+      <div class="input-group input-group--{{ style }}" id="newsletterfield">
+        <input type="hidden" name="contact[tags]" value="newsletter" class="input-group__field">
+        <input type="email"
+          name="contact[email]"
+          id="Email"
+          class="input-group__field newsletter__input"
+          value="{% if customer %}{{ customer.email }}{% endif %}"
+          placeholder="{{ 'general.newsletter.email_placeholder' | t }}"
+          autocorrect="off"
+          autocapitalize="off">
+        <button type="submit" class="btn btn-{{ button }} input-group__btn newsletter__submit" name="commit" id="Subscribe">
+          <span class="newsletter__submit-text">{{ 'general.newsletter.submit' | t }}</span>
+        </button>
+      </div>
+    {%- endif -%}
+  {%- endform -%}
+
+  {%- if show_social and social_links_output != blank -%}
+    {{ social_links_output }}
+  {%- endif -%}
+</div>

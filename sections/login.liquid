@@ -1,139 +1,139 @@
-{%- capture customer_login_form %}
-  <div id="CustomerLoginForm" class="account-entry">
-    <div class="account-entry__column container narrow">
-      <div class="account-entry__column-content">
-        <div class="form-vertical auth-form">
-          {% form 'customer_login' %}
-            <h1 class="h3">{{ 'customer.login.title' | t }}</h1>
-
-            {{ form.errors | default_errors }}
-            <div class="input-wrapper">
-              <label for="CustomerEmail" class="label-hidden">
-                {{ 'customer.login.email' | t }}
-              </label>
-              <input type="email"
-                     name="customer[email]"
-                     id="CustomerEmail"
-                     class="input-base {% if form.errors contains 'email' %}input-error{% endif %}"
-                     placeholder="{{ 'customer.login.email' | t }}"
-                     spellcheck="false"
-                     autocapitalize="off"
-                     autofocus
-                     required
-              >
-            </div>
-            {% if form.password_needed %}
-              <div class="input-wrapper">
-                <label for="CustomerPassword" class="label-hidden">
-                  {{ 'customer.login.password' | t }}
-                </label>
-                <input id="CustomerPassword" type="password" placeholder="{{ 'customer.login.password' | t }}"
-                       name="customer[password]" required
-                       class="input-base {% if form.errors contains 'password' %}input-error{% endif %}">
-                <a href="#recover" id="RecoverPassword" class="forgot-link">{{ 'customer.login.forgot_password' | t }}</a>
-              </div>
-            {% endif %}
-
-            <div class="form-vertical__actions">
-              <input type="submit" class="btn" value="{{ 'customer.login.sign_in' | t }}">
-            </div>
-
-            <p class="form-vertical__text text-center">
-              {{ 'customer.login.account_doesnt_exist' | t }}
-              <a class="" href="/account/register">{{ 'customer.login.sign_up' | t }}</a>
-            </p>
-
-          {% endform %}
-        </div>
-      </div>
-    </div>
-
-    {%- if section.settings.image != blank -%}
-      <div class="account-entry__column container narrow account-entry__column--image hidden-xs hidden-sm">
-        <div class="account-entry__column-content">
-          <div class="account-entry__media">
-          {%- include 'img' with section.settings.image -%}
-          </div>
-        </div>
-      </div>
-    {%- endif -%}
-  </div>
-
-{% endcapture -%}
-
-{%- capture recover_password_form %}
-  <div id="RecoverPasswordForm" class="hide account-entry">
-    <div class="account-entry__column container narrow">
-      <div class="account-entry__column-content">
-        <div class=" form-vertical auth-form">
-          <p class="h3">{{ 'customer.recover_password.title' | t }}</p>
-          <p class="auth-form__subtext">{{ 'customer.recover_password.subtext' | t }}</p>
-
-          {% form 'recover_customer_password' %}
-            {{ form.errors | default_errors }}
-
-            {% if form.posted_successfully? %}
-              <span class="hide reset-password-success"></span>
-            {% endif %}
-            <div class="input-wrapper">
-              <label for="RecoverEmail" class="label-hidden">
-                {{ 'customer.recover_password.email' | t }}
-              </label>
-              <input type="email"
-                     name="email"
-                     id="RecoverEmail"
-                     class="input-base"
-                     placeholder="{{ 'customer.recover_password.placeholder' | t }}"
-                     spellcheck="false"
-                     required
-                     autocapitalize="off">
-            </div>
-            <div class="form-vertical__actions auth-form__btn-group text-center">
-
-              <input type="submit" class="btn" value="{{ 'customer.recover_password.submit' | t }}">
-
-              <button type="button" class="btn btn-link btn-text-u" id="HideRecoverPasswordLink">
-                {{ 'customer.recover_password.cancel' | t }}
-              </button>
-
-            </div>
-          {% endform %}
-        </div>
-      </div>
-    </div>
-
-    {%- if section.settings.image_forgot != blank  -%}
-      <div class="account-entry__column container narrow account-entry__column--image hidden-xs hidden-sm">
-        <div class="account-entry__column-content">
-          <div class="account-entry__media">
-          {%- include 'img' with section.settings.image_forgot -%}
-          </div>
-        </div>
-      </div>
-    {%- endif -%}
-  </div>
-{% endcapture -%}
-
-
-{{ customer_login_form }}
-{{ recover_password_form }}
-
-
-{%- schema %}
-  {
-    "name": "Login",
-    "class": "login-section shopify-section--full-height",
-    "settings": [
-      {
-        "type": "image_picker",
-        "id": "image",
-        "label": "Image login"
-      },
-      {
-        "type": "image_picker",
-        "id": "image_forgot",
-        "label": "Image Forgot"
-      }
-    ]
-  }
-{% endschema -%}
+{%- capture customer_login_form %}
+  <div id="CustomerLoginForm" class="account-entry">
+    <div class="account-entry__column container narrow">
+      <div class="account-entry__column-content">
+        <div class="form-vertical auth-form">
+          {% form 'customer_login' %}
+            <h1 class="h3">{{ 'customer.login.title' | t }}</h1>
+
+            {{ form.errors | default_errors }}
+            <div class="input-wrapper">
+              <label for="CustomerEmail" class="label-hidden">
+                {{ 'customer.login.email' | t }}
+              </label>
+              <input type="email"
+                     name="customer[email]"
+                     id="CustomerEmail"
+                     class="input-base {% if form.errors contains 'email' %}input-error{% endif %}"
+                     placeholder="{{ 'customer.login.email' | t }}"
+                     spellcheck="false"
+                     autocapitalize="off"
+                     autofocus
+                     required
+              >
+            </div>
+            {% if form.password_needed %}
+              <div class="input-wrapper">
+                <label for="CustomerPassword" class="label-hidden">
+                  {{ 'customer.login.password' | t }}
+                </label>
+                <input id="CustomerPassword" type="password" placeholder="{{ 'customer.login.password' | t }}"
+                       name="customer[password]" required
+                       class="input-base {% if form.errors contains 'password' %}input-error{% endif %}">
+                <a href="#recover" id="RecoverPassword" class="forgot-link">{{ 'customer.login.forgot_password' | t }}</a>
+              </div>
+            {% endif %}
+
+            <div class="form-vertical__actions">
+              <input type="submit" class="btn" value="{{ 'customer.login.sign_in' | t }}">
+            </div>
+
+            <p class="form-vertical__text text-center">
+              {{ 'customer.login.account_doesnt_exist' | t }}
+              <a class="" href="/account/register">{{ 'customer.login.sign_up' | t }}</a>
+            </p>
+
+          {% endform %}
+        </div>
+      </div>
+    </div>
+
+    {%- if section.settings.image != blank -%}
+      <div class="account-entry__column container narrow account-entry__column--image hidden-xs hidden-sm">
+        <div class="account-entry__column-content">
+          <div class="account-entry__media">
+          {%- include 'img' with section.settings.image -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+
+{% endcapture -%}
+
+{%- capture recover_password_form %}
+  <div id="RecoverPasswordForm" class="hide account-entry">
+    <div class="account-entry__column container narrow">
+      <div class="account-entry__column-content">
+        <div class=" form-vertical auth-form">
+          <p class="h3">{{ 'customer.recover_password.title' | t }}</p>
+          <p class="auth-form__subtext">{{ 'customer.recover_password.subtext' | t }}</p>
+
+          {% form 'recover_customer_password' %}
+            {{ form.errors | default_errors }}
+
+            {% if form.posted_successfully? %}
+              <span class="hide reset-password-success"></span>
+            {% endif %}
+            <div class="input-wrapper">
+              <label for="RecoverEmail" class="label-hidden">
+                {{ 'customer.recover_password.email' | t }}
+              </label>
+              <input type="email"
+                     name="email"
+                     id="RecoverEmail"
+                     class="input-base"
+                     placeholder="{{ 'customer.recover_password.placeholder' | t }}"
+                     spellcheck="false"
+                     required
+                     autocapitalize="off">
+            </div>
+            <div class="form-vertical__actions auth-form__btn-group text-center">
+
+              <input type="submit" class="btn" value="{{ 'customer.recover_password.submit' | t }}">
+
+              <button type="button" class="btn btn-link btn-text-u" id="HideRecoverPasswordLink">
+                {{ 'customer.recover_password.cancel' | t }}
+              </button>
+
+            </div>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+
+    {%- if section.settings.image_forgot != blank  -%}
+      <div class="account-entry__column container narrow account-entry__column--image hidden-xs hidden-sm">
+        <div class="account-entry__column-content">
+          <div class="account-entry__media">
+          {%- include 'img' with section.settings.image_forgot -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+{% endcapture -%}
+
+
+{{ customer_login_form }}
+{{ recover_password_form }}
+
+
+{%- schema %}
+  {
+    "name": "Login",
+    "class": "login-section shopify-section--full-height",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image login"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_forgot",
+        "label": "Image Forgot"
+      }
+    ]
+  }
+{% endschema -%}

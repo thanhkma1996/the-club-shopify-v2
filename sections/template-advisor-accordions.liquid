@@ -1,87 +1,87 @@
-<div class="container">
-    <div class="row inner__content">
-      <div class="col-xs-12">
-        {% if section.settings.section_title != blank %}
-            <h1 class="section__title" >{{ section.settings.section_title }}</h1>
-        {% endif %}
-        <div class="inner__content--wrap">
-            <div class="inner__content--block accordion--block">
-                <div class="simple-accordion" data-simple-accordion>
-                {%- for block in section.blocks -%}
-                    <div class="faq-item">
-                        <div class="simple-accordion__title faq-item__title">
-                            {% if block.settings.title != blank %}
-                                <h3 class="accordion__title">{{ block.settings.title }}</h3>
-                            {% endif %}
-                        </div>
-
-                        <div class="faq-item__content">
-                            {{ block.settings.text }}
-                        </div>
-                    </div>
-                {%- endfor -%}
-                </div>
-            </div>
-
-            <div class="inner__content--block images--block">
-                {%- if section.settings.top_image != blank -%}
-                    <div class="feature-row__image-wrapper top--image">
-                        {%- include 'img' with section.settings.top_image, id: img_id, img_class: 'feature-row__image' -%}
-                    </div>
-                {%- else -%}
-                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg top--image' }}
-                {%- endif -%}
-                {%- if section.settings.bottom_image != blank -%}
-                    <div class="feature-row__image-wrapper bottom--image">
-                        {%- include 'img' with section.settings.bottom_image, id: img_id, img_class: 'feature-row__image' -%}
-                    </div>
-                {%- else -%}
-                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg bottom--image' }}
-                {%- endif -%}
-            </div>
-        </div>
-      </div>
-    </div>
-</div>
-
-{% schema %}
-{
-  "name": "Advisor accordions",
-  "class": "page-section-avdisor-accordions",
-  "settings": [
-    {
-      "type": "text",
-      "id": "section_title",
-      "label": "Section title"
-    },
-    {
-      "type": "image_picker",
-      "id": "top_image",
-      "label": "Top block image"
-    },
-    {
-      "type": "image_picker",
-      "id": "bottom_image",
-      "label": "Bottom block image"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "block",
-      "name": "Question block",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Question title"
-        },
-        {
-          "type": "richtext",
-          "id": "text",
-          "label": "Question text"
-        }
-      ]
-    }
-  ]
-}
+<div class="container">
+    <div class="row inner__content">
+      <div class="col-xs-12">
+        {% if section.settings.section_title != blank %}
+            <h1 class="section__title" >{{ section.settings.section_title }}</h1>
+        {% endif %}
+        <div class="inner__content--wrap">
+            <div class="inner__content--block accordion--block">
+                <div class="simple-accordion" data-simple-accordion>
+                {%- for block in section.blocks -%}
+                    <div class="faq-item">
+                        <div class="simple-accordion__title faq-item__title">
+                            {% if block.settings.title != blank %}
+                                <h3 class="accordion__title">{{ block.settings.title }}</h3>
+                            {% endif %}
+                        </div>
+
+                        <div class="faq-item__content">
+                            {{ block.settings.text }}
+                        </div>
+                    </div>
+                {%- endfor -%}
+                </div>
+            </div>
+
+            <div class="inner__content--block images--block">
+                {%- if section.settings.top_image != blank -%}
+                    <div class="feature-row__image-wrapper top--image">
+                        {%- include 'img' with section.settings.top_image, id: img_id, img_class: 'feature-row__image' -%}
+                    </div>
+                {%- else -%}
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg top--image' }}
+                {%- endif -%}
+                {%- if section.settings.bottom_image != blank -%}
+                    <div class="feature-row__image-wrapper bottom--image">
+                        {%- include 'img' with section.settings.bottom_image, id: img_id, img_class: 'feature-row__image' -%}
+                    </div>
+                {%- else -%}
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg bottom--image' }}
+                {%- endif -%}
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "Advisor accordions",
+  "class": "page-section-avdisor-accordions",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section title"
+    },
+    {
+      "type": "image_picker",
+      "id": "top_image",
+      "label": "Top block image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_image",
+      "label": "Bottom block image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "block",
+      "name": "Question block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Question text"
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}

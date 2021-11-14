@@ -1,19 +1,19 @@
-<span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" {% if crumb_current_link == true %}class="active"{% endif %}>
-  <a itemprop="item" itemscope itemtype="http://schema.org/WebPage" href="{{ crumb_url }}" id="breadcrumb-{{ crumb_url | handle }}">
-    <span itemprop="name">
-      {{- crumb_title | replace: '_', ' ' | strip -}}
-    </span>
-  </a>
-  <meta itemprop="position" content="{{ crumb_position }}" />
-  <meta itemprop="url" content="{{ crumb_url }}" />
-
-  {%- if crumb_title != crumb_link.object.title -%}
-    <meta itemprop="alternateName" content="{{ crumb_link.object.title }}" />
-  {%- endif -%}
-</span>
-
-{%- assign crumb_title = null -%}
-{%- assign crumb_position = null -%}
-{%- assign crumb_url = null -%}
-{%- assign crumb_link = null -%}
-{%- assign crumb_current_link = null -%}
+<span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" {% if crumb_current_link == true %}class="active"{% endif %}>
+  <a itemprop="item" itemscope itemtype="http://schema.org/WebPage" href="{{ crumb_url }}" id="breadcrumb-{{ crumb_url | handle }}">
+    <span itemprop="name">
+      {{- crumb_title | replace: '_', ' ' | strip -}}
+    </span>
+  </a>
+  <meta itemprop="position" content="{{ crumb_position }}" />
+  <meta itemprop="url" content="{{ crumb_url }}" />
+
+  {%- if crumb_title != crumb_link.object.title -%}
+    <meta itemprop="alternateName" content="{{ crumb_link.object.title }}" />
+  {%- endif -%}
+</span>
+
+{%- assign crumb_title = null -%}
+{%- assign crumb_position = null -%}
+{%- assign crumb_url = null -%}
+{%- assign crumb_link = null -%}
+{%- assign crumb_current_link = null -%}

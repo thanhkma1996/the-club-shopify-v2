@@ -1,147 +1,147 @@
-<div data-section-id="{{ section.id }}" data-section-type="cart-upsell-products"
-     class="cart-upsell  {% unless section.settings.enabled_desktop %}hidden-md hidden-lg hidden-xl{% endunless %} {% unless section.settings.enabled_mobile %}hidden-xs hidden-sm{% endunless %}">
-    <div id="Slideshow-{{ section.id }}"
-         data-autoplay="false"
-         data-arrows="true"
-         data-dots-mobile="true"
-         data-dots-tablet="true"
-         data-slides-show="1"
-         data-slides-scroll="1"
-         data-slides-show-tablet="1"
-         data-slides-scroll-tablet="1"
-         data-slides-show-mobile="1"
-         data-slides-scroll-mobile="1"
-         data-center-mode-mobile="true"
-         data-dots="{% if section.blocks.size > 1 %}true{% else %}false{% endif %}">
-
-        {%- for block in section.blocks -%}
-
-            {%- assign related_product = all_products[block.settings.product] -%}
-            {%- assign product_type_alternative = related_product.metafields.alternative.type -%}
-            {%- assign current_variant = related_product.selected_or_first_available_variant -%}
-
-
-            {% unless related_product.tags contains 'stockists-only' %}
-                {% if related_product.available %}
-                    <div class="cart-item">
-                        <div class="cart-item--mobile">
-
-                            <div class="cart-item__row cart-item__row--image">
-                                <div class="cart-item-image">
-                                    <a class="cart-item-image__inner" href="{{ related_product.url }}">
-                                        {%- render 'img' with related_product.featured_image, img_class: 'cart-item-image__image' -%}
-                                    </a>
-                                </div>
-                            </div>
-
-
-                            <div class="cart-item__row cart-item__row--title">
-
-                                <div class="cart-item-title">
-                     <span class="product-grid-item__type">
-                          {% if product_type_alternative != blank %}
-                              {{ product_type_alternative }}
-                          {% else %}
-                              {{ related_product.type }}
-                          {%- endif -%}
-                </span>
-                                    <span class="cart-item-title__title">{{ related_product.title }}</span>
-                                </div>
-
-                                <div class="cart-item-price">
-                                    <div class="cart-item-price__content">
-                                        <div class="cart-item-price__price">
-                                            {%- if current_variant.price > 0 -%}
-                                               {{ current_variant.price | money }}
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="cart-item__row cart-item__row--add">
-                                {% form 'product', related_product, class: 'product-form', data-cart-submit: '' %}
-                                    <input type="hidden" name="id" value="{{ current_variant.id }}">
-                                    <button
-                                            type="submit"
-                                            name="add"
-                                            data-add-to-cart
-                                            data-progress-element
-                                            data-opens-cart-drawer
-                                            id="AddToCart-{{ section.id }}"
-                                            class="btn btn-primary-o product-form__submit{% comment %}{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__submit--small{% endif %}{% endcomment %}"
-                                            {% unless current_variant.available %}disabled="disabled"{% endunless %}>
-                                        {% comment %}{% render 'icon' with 'cart' %}{% endcomment %}
-                                        <span data-add-to-cart-text>
-                                        <span>Add</span>
-                                </span>
-                                    </button>
-
-                                {% endform %}
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endunless %}
-        {%- endfor -%}
-    </div>
-    <button type="button" class="slideshow__prev cart-upsell__prev">
-        {%- render 'icon' with 'arrow-n-left' -%}
-    </button>
-    <button type="button" class="slideshow__next cart-upsell__next">
-        {%- render 'icon' with 'arrow-n-right' -%}
-    </button>
-</div>
-
-{% schema %}
-{
-  "name": "Cart Upsell Products",
-  "class": "cart-upsell-section",
-  "max_blocks": 6,
-  "settings": [
-    {
-      "type": "checkbox",
-      "id": "enabled_desktop",
-      "label": "Enabled on desktop",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "enabled_mobile",
-      "label": "Enabled on mobile",
-      "default": false
-    },
-    {
-      "type": "header",
-      "content": "Rules for products"
-    },
-    {
-      "type": "paragraph",
-      "content": "Please note, product tags must not include the 'stockists-only' tag and the product must be available."
-    }
-  ],
-  "blocks": [
-    {
-      "name": "Upsell Product",
-      "type": "upsell-product",
-      "settings": [
-
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Product"
-        },
-        {
-          "type": "checkbox",
-          "id": "enabled",
-          "label": "Enabled?",
-          "default": true
-        }
-      ]
-    }
-  ]
-}
-{% endschema %}
-
+<div data-section-id="{{ section.id }}" data-section-type="cart-upsell-products"
+     class="cart-upsell  {% unless section.settings.enabled_desktop %}hidden-md hidden-lg hidden-xl{% endunless %} {% unless section.settings.enabled_mobile %}hidden-xs hidden-sm{% endunless %}">
+    <div id="Slideshow-{{ section.id }}"
+         data-autoplay="false"
+         data-arrows="true"
+         data-dots-mobile="true"
+         data-dots-tablet="true"
+         data-slides-show="1"
+         data-slides-scroll="1"
+         data-slides-show-tablet="1"
+         data-slides-scroll-tablet="1"
+         data-slides-show-mobile="1"
+         data-slides-scroll-mobile="1"
+         data-center-mode-mobile="true"
+         data-dots="{% if section.blocks.size > 1 %}true{% else %}false{% endif %}">
+
+        {%- for block in section.blocks -%}
+
+            {%- assign related_product = all_products[block.settings.product] -%}
+            {%- assign product_type_alternative = related_product.metafields.alternative.type -%}
+            {%- assign current_variant = related_product.selected_or_first_available_variant -%}
+
+
+            {% unless related_product.tags contains 'stockists-only' %}
+                {% if related_product.available %}
+                    <div class="cart-item">
+                        <div class="cart-item--mobile">
+
+                            <div class="cart-item__row cart-item__row--image">
+                                <div class="cart-item-image">
+                                    <a class="cart-item-image__inner" href="{{ related_product.url }}">
+                                        {%- render 'img' with related_product.featured_image, img_class: 'cart-item-image__image' -%}
+                                    </a>
+                                </div>
+                            </div>
+
+
+                            <div class="cart-item__row cart-item__row--title">
+
+                                <div class="cart-item-title">
+                     <span class="product-grid-item__type">
+                          {% if product_type_alternative != blank %}
+                              {{ product_type_alternative }}
+                          {% else %}
+                              {{ related_product.type }}
+                          {%- endif -%}
+                </span>
+                                    <span class="cart-item-title__title">{{ related_product.title }}</span>
+                                </div>
+
+                                <div class="cart-item-price">
+                                    <div class="cart-item-price__content">
+                                        <div class="cart-item-price__price">
+                                            {%- if current_variant.price > 0 -%}
+                                               {{ current_variant.price | money }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="cart-item__row cart-item__row--add">
+                                {% form 'product', related_product, class: 'product-form', data-cart-submit: '' %}
+                                    <input type="hidden" name="id" value="{{ current_variant.id }}">
+                                    <button
+                                            type="submit"
+                                            name="add"
+                                            data-add-to-cart
+                                            data-progress-element
+                                            data-opens-cart-drawer
+                                            id="AddToCart-{{ section.id }}"
+                                            class="btn btn-primary-o product-form__submit{% comment %}{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__submit--small{% endif %}{% endcomment %}"
+                                            {% unless current_variant.available %}disabled="disabled"{% endunless %}>
+                                        {% comment %}{% render 'icon' with 'cart' %}{% endcomment %}
+                                        <span data-add-to-cart-text>
+                                        <span>Add</span>
+                                </span>
+                                    </button>
+
+                                {% endform %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endunless %}
+        {%- endfor -%}
+    </div>
+    <button type="button" class="slideshow__prev cart-upsell__prev">
+        {%- render 'icon' with 'arrow-n-left' -%}
+    </button>
+    <button type="button" class="slideshow__next cart-upsell__next">
+        {%- render 'icon' with 'arrow-n-right' -%}
+    </button>
+</div>
+
+{% schema %}
+{
+  "name": "Cart Upsell Products",
+  "class": "cart-upsell-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled_desktop",
+      "label": "Enabled on desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enabled_mobile",
+      "label": "Enabled on mobile",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Rules for products"
+    },
+    {
+      "type": "paragraph",
+      "content": "Please note, product tags must not include the 'stockists-only' tag and the product must be available."
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Upsell Product",
+      "type": "upsell-product",
+      "settings": [
+
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "checkbox",
+          "id": "enabled",
+          "label": "Enabled?",
+          "default": true
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

@@ -1,17 +1,17 @@
-{%- assign block_title = settings.title | handle | default: '' -%}
-<div class="accreditations-section">
-    <div class="section-header__title h4">
-        {{ block_title }}
-    </div>
-    <div class="accreditations-section-images">
-        {%- if settings.first_image -%}
-            {%- include 'img' with settings.first_image, placeholder: false -%}
-        {%- endif -%}
-        {%- if settings.second_image -%}
-            {%- include 'img' with settings.second_image, placeholder: false -%}
-        {%- endif -%}
-        {%- if settings.third_image -%}
-            {%- include 'img' with settings.third_image, placeholder: false -%}
-        {%- endif -%}
-    </div>
-</div>
+{%- assign block_title = settings.title | handle | default: '' -%}
+<div class="accreditations-section">
+    <div class="section-header__title h4">
+        {{ block_title }}
+    </div>
+    <div class="accreditations-section-images">
+        {%- if settings.first_image -%}
+            {%- include 'img' with settings.first_image, placeholder: false -%}
+        {%- endif -%}
+        {%- if settings.second_image -%}
+            {%- include 'img' with settings.second_image, placeholder: false -%}
+        {%- endif -%}
+        {%- if settings.third_image -%}
+            {%- include 'img' with settings.third_image, placeholder: false -%}
+        {%- endif -%}
+    </div>
+</div>

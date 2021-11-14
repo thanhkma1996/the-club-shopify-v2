@@ -1,76 +1,76 @@
-{% assign block = block | default: '' %}
-
-{%- assign slideshow_image = slideshow_image 
-  | default: section.settings.image 
-  | default: block.settings.image -%}
-  
-{%- assign slideshow_image_mobile = slideshow_image_mobile 
-  | default: section.settings.image_mobile 
-  | default: block.settings.image_mobile -%}
-
-{%- assign slideshow_image_alignment = slideshow_image_alignment 
-  | default: section.settings.image_alignment 
-  | default: block.settings.image_alignment -%}
-
-{%- assign slideshow_title = slideshow_title 
-  | default: section.settings.title 
-  | default: block.settings.title -%}
-
-{%- assign slideshow_subtitle = slideshow_subtitle 
-  | default: section.settings.subtitle 
-  | default: block.settings.subtitle -%}
-
-{%- assign slideshow_text = slideshow_text 
-  | default: section.settings.text 
-  | default: block.settings.text -%}
-
-{%- assign slideshow_text_alignment = slideshow_text_alignment 
-  | default: section.settings.text_alignment 
-  | default: block.settings.text_alignment -%}
-
-{%- assign slideshow_text_position = slideshow_text_position 
-  | default: section.settings.text_position 
-  | default: block.settings.text_position -%}
-
-{%- assign slideshow_button_label = slideshow_button_label 
-  | default: section.settings.button_label 
-  | default: block.settings.button_label -%}
-
-{%- assign slideshow_button_link = slideshow_button_link 
-  | default: section.settings.button_link 
-  | default: block.settings.button_link -%}
-
-{%- assign slideshow_theme = slideshow_theme 
-  | default: section.settings.theme
-  | default: block.settings.theme -%}
-
-{%- assign slideshow_image_type = slideshow_image_type 
-  | default: 'asset' -%}
-
-{%- assign slideshow_buttons = slideshow_buttons  -%}
-{%- assign slideshow_search = slideshow_search  -%}
-{%- assign breadcrumb = breadcrumb | default: false -%}
-
-<div class="blog-hero">
-  {%- include 'breadcrumbs' -%}
-  <div class="blog-hero-image">
-    {%- if slideshow_image_mobile != blank -%}
-      {%- assign header_image_class = 'hidden-xs' -%}
-      <span class="visible-xs">
-        {%- include 'img' with slideshow_image_mobile, class: 'visible-xs', blur: true -%}
-      </span>
-    {%- endif -%}
-    <span class="hidden-xs">
-      {%- include 'img' with slideshow_image, class: header_image_class, blur: true -%}
-    </span>
-  </div>
-  <div class="blog-hero-content">
-    <div class="blog-hero-content-wrapper">
-      <p class="blog-hero-title">{{ slideshow_title }}</p>
-      <p class="blog-hero-text">{{ slideshow_text | strip_html  }}</p>
-      {% if slideshow_button_link != blank and slideshow_button_label != blank %}
-        <a href="{{ slideshow_button_link }}" class="blog-hero-link">{{ slideshow_button_label }}</a>
-      {% endif %}
-    </div>
-  </div>
+{% assign block = block | default: '' %}
+
+{%- assign slideshow_image = slideshow_image 
+  | default: section.settings.image 
+  | default: block.settings.image -%}
+  
+{%- assign slideshow_image_mobile = slideshow_image_mobile 
+  | default: section.settings.image_mobile 
+  | default: block.settings.image_mobile -%}
+
+{%- assign slideshow_image_alignment = slideshow_image_alignment 
+  | default: section.settings.image_alignment 
+  | default: block.settings.image_alignment -%}
+
+{%- assign slideshow_title = slideshow_title 
+  | default: section.settings.title 
+  | default: block.settings.title -%}
+
+{%- assign slideshow_subtitle = slideshow_subtitle 
+  | default: section.settings.subtitle 
+  | default: block.settings.subtitle -%}
+
+{%- assign slideshow_text = slideshow_text 
+  | default: section.settings.text 
+  | default: block.settings.text -%}
+
+{%- assign slideshow_text_alignment = slideshow_text_alignment 
+  | default: section.settings.text_alignment 
+  | default: block.settings.text_alignment -%}
+
+{%- assign slideshow_text_position = slideshow_text_position 
+  | default: section.settings.text_position 
+  | default: block.settings.text_position -%}
+
+{%- assign slideshow_button_label = slideshow_button_label 
+  | default: section.settings.button_label 
+  | default: block.settings.button_label -%}
+
+{%- assign slideshow_button_link = slideshow_button_link 
+  | default: section.settings.button_link 
+  | default: block.settings.button_link -%}
+
+{%- assign slideshow_theme = slideshow_theme 
+  | default: section.settings.theme
+  | default: block.settings.theme -%}
+
+{%- assign slideshow_image_type = slideshow_image_type 
+  | default: 'asset' -%}
+
+{%- assign slideshow_buttons = slideshow_buttons  -%}
+{%- assign slideshow_search = slideshow_search  -%}
+{%- assign breadcrumb = breadcrumb | default: false -%}
+
+<div class="blog-hero">
+  {%- include 'breadcrumbs' -%}
+  <div class="blog-hero-image">
+    {%- if slideshow_image_mobile != blank -%}
+      {%- assign header_image_class = 'hidden-xs' -%}
+      <span class="visible-xs">
+        {%- include 'img' with slideshow_image_mobile, class: 'visible-xs', blur: true -%}
+      </span>
+    {%- endif -%}
+    <span class="hidden-xs">
+      {%- include 'img' with slideshow_image, class: header_image_class, blur: true -%}
+    </span>
+  </div>
+  <div class="blog-hero-content">
+    <div class="blog-hero-content-wrapper">
+      <p class="blog-hero-title">{{ slideshow_title }}</p>
+      <p class="blog-hero-text">{{ slideshow_text | strip_html  }}</p>
+      {% if slideshow_button_link != blank and slideshow_button_label != blank %}
+        <a href="{{ slideshow_button_link }}" class="blog-hero-link">{{ slideshow_button_label }}</a>
+      {% endif %}
+    </div>
+  </div>
 </div>

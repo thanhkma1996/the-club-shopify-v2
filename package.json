@@ -1,0 +1,28 @@
+{
+  "name": "the-club-v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thanhkma1996/the-club-shopify-v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thanhkma1996/the-club-shopify-v2/issues"
+  },
+  "homepage": "https://github.com/thanhkma1996/the-club-shopify-v2#readme",
+  "dependencies": {
+    "@shopify/themekit": "^1.1.9"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-sass": "^5.0.0",
+    "sass": "^1.43.4"
+  }
+}

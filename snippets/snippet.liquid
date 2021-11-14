@@ -1,7 +1,7 @@
-{%- capture snippet_output %}
-  {%- include snippet -%}
-{% endcapture -%}
-
-{%- unless snippet_output contains 'Liquid error:' -%}
-  {{ snippet_output }}
-{%- endunless -%}
+{%- capture snippet_output %}
+  {%- include snippet -%}
+{% endcapture -%}
+
+{%- unless snippet_output contains 'Liquid error:' -%}
+  {{ snippet_output }}
+{%- endunless -%}

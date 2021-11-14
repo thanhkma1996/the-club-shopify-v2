@@ -1,122 +1,122 @@
-{%- comment -%}
-==================================
-OVERDOSE TEMPLATING SYSTEM
-==================================
-NOTE: 
-
-  ALL PAGE BUILDS RUN THROUGH THIS PAGE
-
-
-OPTIONS:
-  page_type: blog, collection, contact, faq, account
-
-USAGE:
-
-{%- include 'template-blocks' with 
-page_type: article  -%}
-
-{%- endcomment -%}
-
-{%- assign page_type = page_type | default: 'page' -%}
-
-{%- assign layout = section.blocks | map: 'settings' | map: 'position' -%}
-
-{%- assign layout_sorted_blocks = null -%}
-{%- for position in layout -%}
-  {%- assign layout_sorted_blocks = layout_sorted_blocks | append: position | append: '|' | append: forloop.index0 | append: ','  -%}
-{%- endfor -%}
-
-{%- assign layout_sorted_blocks = layout_sorted_blocks | split: ',' -%}
-{%- assign layout_to_output = layout | uniq -%}
-
-{%- comment -%}
-
-    CART PAGE LAYOUT ADD BOOTSTRAP CLASS
-
-{%- endcomment -%}
-
-{% assign bootstrap_classes = 'col-xs' %}
-
-<div class="container theme--{{ page_type }}">
-  <div class="row {{ page_type }}-row">
-
-    {%- for position in layout_to_output -%}
-
-        {% if page_type == 'cart' %}
-
-            {%- case position -%}
-               {%- when 'header' -%}
-               {% assign bootstrap_classes = 'col-xs-12' %}
-               {%- when 'body' -%}
-               {% assign bootstrap_classes = 'col-xs-12 col-md-7' %}
-               {% when 'sidebar' %}
-               {% assign bootstrap_classes = 'col-xs-12 col-md-4' %}
-               {% when 'footer' %}
-               {% assign bootstrap_classes = 'col-xs-12' %}
-               {% when 'subfooter' %}
-               {% assign bootstrap_classes = 'col-xs-12' %}
-               {% else %}
-               {% assign bootstrap_classes = 'col-xs' %}
-            {% endcase %}
-
-        {% endif %}
-
-      <div class="{{ bootstrap_classes }} layout-container layout-container--{{ position }}" data-layout-{{ position }}>
-        <div class="row {{ position }}-row">
-          
-          {%- for group in layout_sorted_blocks -%}
-
-            {%- assign position_name = group | split: '|' | first -%}
-
-            {%- if position_name == position -%}
-
-              {%- assign block_index = group | split: '|' | last | plus: 0 -%}
-              {%- assign block = section.blocks[block_index] -%}
-              {% assign width = block.settings.width | default: '12' %}
-
-              <div class="col-xs-12 col-md-{{ width }} block-wrapper block-wrapper--{{ block.type }}">
-                <div class="{{ page_type }}-block {{ page_type }}-block--{{ block.type }}">
-
-                  {%- unless block == blank -%}
-                    
-                    {%- case page_type -%}
-                      {%- when 'faq' -%}
-
-                        {%- include 'faq-page-blocks' with block -%}
-
-                      {%- when 'cart' -%}
-
-                        {%- include 'cart-page-blocks' with block -%}
-
-                      {%- when 'blog' -%}
-
-                        {%- include 'blog-blocks' with block -%}
-
-                      {%- when 'collection' -%}
-
-                        {%- include 'collection-blocks' with block -%}
-
-                      {%- when 'account' -%}
-
-                        {%- include 'account-blocks' with block -%}
-
-                      {%- else -%}
-                    {%- endcase -%}
-
-                  {%- endunless -%}
-
-                </div>
-              </div>
-
-            {%- endif -%}
-
-          {%- endfor -%}
-          
-        </div>
-      </div>
-
-    {%- endfor -%}
-  
-  </div>
-</div>
-
+{%- comment -%}
+==================================
+OVERDOSE TEMPLATING SYSTEM
+==================================
+NOTE: 
+
+  ALL PAGE BUILDS RUN THROUGH THIS PAGE
+
+
+OPTIONS:
+  page_type: blog, collection, contact, faq, account
+
+USAGE:
+
+{%- include 'template-blocks' with 
+page_type: article  -%}
+
+{%- endcomment -%}
+
+{%- assign page_type = page_type | default: 'page' -%}
+
+{%- assign layout = section.blocks | map: 'settings' | map: 'position' -%}
+
+{%- assign layout_sorted_blocks = null -%}
+{%- for position in layout -%}
+  {%- assign layout_sorted_blocks = layout_sorted_blocks | append: position | append: '|' | append: forloop.index0 | append: ','  -%}
+{%- endfor -%}
+
+{%- assign layout_sorted_blocks = layout_sorted_blocks | split: ',' -%}
+{%- assign layout_to_output = layout | uniq -%}
+
+{%- comment -%}
+
+    CART PAGE LAYOUT ADD BOOTSTRAP CLASS
+
+{%- endcomment -%}
+
+{% assign bootstrap_classes = 'col-xs' %}
+
+<div class="container theme--{{ page_type }}">
+  <div class="row {{ page_type }}-row">
+
+    {%- for position in layout_to_output -%}
+
+        {% if page_type == 'cart' %}
+
+            {%- case position -%}
+               {%- when 'header' -%}
+               {% assign bootstrap_classes = 'col-xs-12' %}
+               {%- when 'body' -%}
+               {% assign bootstrap_classes = 'col-xs-12 col-md-7' %}
+               {% when 'sidebar' %}
+               {% assign bootstrap_classes = 'col-xs-12 col-md-4' %}
+               {% when 'footer' %}
+               {% assign bootstrap_classes = 'col-xs-12' %}
+               {% when 'subfooter' %}
+               {% assign bootstrap_classes = 'col-xs-12' %}
+               {% else %}
+               {% assign bootstrap_classes = 'col-xs' %}
+            {% endcase %}
+
+        {% endif %}
+
+      <div class="{{ bootstrap_classes }} layout-container layout-container--{{ position }}" data-layout-{{ position }}>
+        <div class="row {{ position }}-row">
+          
+          {%- for group in layout_sorted_blocks -%}
+
+            {%- assign position_name = group | split: '|' | first -%}
+
+            {%- if position_name == position -%}
+
+              {%- assign block_index = group | split: '|' | last | plus: 0 -%}
+              {%- assign block = section.blocks[block_index] -%}
+              {% assign width = block.settings.width | default: '12' %}
+
+              <div class="col-xs-12 col-md-{{ width }} block-wrapper block-wrapper--{{ block.type }}">
+                <div class="{{ page_type }}-block {{ page_type }}-block--{{ block.type }}">
+
+                  {%- unless block == blank -%}
+                    
+                    {%- case page_type -%}
+                      {%- when 'faq' -%}
+
+                        {%- include 'faq-page-blocks' with block -%}
+
+                      {%- when 'cart' -%}
+
+                        {%- include 'cart-page-blocks' with block -%}
+
+                      {%- when 'blog' -%}
+
+                        {%- include 'blog-blocks' with block -%}
+
+                      {%- when 'collection' -%}
+
+                        {%- include 'collection-blocks' with block -%}
+
+                      {%- when 'account' -%}
+
+                        {%- include 'account-blocks' with block -%}
+
+                      {%- else -%}
+                    {%- endcase -%}
+
+                  {%- endunless -%}
+
+                </div>
+              </div>
+
+            {%- endif -%}
+
+          {%- endfor -%}
+          
+        </div>
+      </div>
+
+    {%- endfor -%}
+  
+  </div>
+</div>
+

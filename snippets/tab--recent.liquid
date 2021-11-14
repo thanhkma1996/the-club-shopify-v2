@@ -1,48 +1,48 @@
-{%- assign cols = blank -%}
-{%- include 'collection-grid-items-cols' -%}
-
-{%- assign rendered_products_count = 0 -%}
-{%- assign product_handles_rendered = '' -%}
-
-{%- assign limit = 30 -%}
-
-<div class="row">
-
-  {%- for order in customer.orders -%}
-    {%- for line_item in order.line_items -%}
-
-      {%- assign product = line_item.product -%}
-
-      {%- unless product.handle -%}
-        {%- continue -%}
-      {%- endunless -%}
-
-      {%- if product_handles_rendered contains product.handle -%}
-        {%- continue -%}
-      {%- endif -%}
-
-      {%- include 'user-can-view-product' -%}
-
-      {%- if user_can_view_product -%}
-        <div class="{{ cols }}">
-          {%- render 'product-grid-item', product: product order_form: true -%}
-        </div>
-      {%- endif -%}
-
-      {%- assign product_handles_rendered = product_handles_rendered | append: '-line_item.product.handle' -%}
-      {%- assign rendered_products_count = rendered_products_count | plus: 1 -%}
-
-      {%- if rendered_products_count >= limit -%}
-        {%- break -%}
-      {%- endif -%}
-
-    {%- endfor -%}
-
-    {%- if rendered_products_count >= limit -%}
-      {%- break -%}
-    {%- endif -%}
-
-  {%- endfor -%}
-
-</div>
-
+{%- assign cols = blank -%}
+{%- include 'collection-grid-items-cols' -%}
+
+{%- assign rendered_products_count = 0 -%}
+{%- assign product_handles_rendered = '' -%}
+
+{%- assign limit = 30 -%}
+
+<div class="row">
+
+  {%- for order in customer.orders -%}
+    {%- for line_item in order.line_items -%}
+
+      {%- assign product = line_item.product -%}
+
+      {%- unless product.handle -%}
+        {%- continue -%}
+      {%- endunless -%}
+
+      {%- if product_handles_rendered contains product.handle -%}
+        {%- continue -%}
+      {%- endif -%}
+
+      {%- include 'user-can-view-product' -%}
+
+      {%- if user_can_view_product -%}
+        <div class="{{ cols }}">
+          {%- render 'product-grid-item', product: product order_form: true -%}
+        </div>
+      {%- endif -%}
+
+      {%- assign product_handles_rendered = product_handles_rendered | append: '-line_item.product.handle' -%}
+      {%- assign rendered_products_count = rendered_products_count | plus: 1 -%}
+
+      {%- if rendered_products_count >= limit -%}
+        {%- break -%}
+      {%- endif -%}
+
+    {%- endfor -%}
+
+    {%- if rendered_products_count >= limit -%}
+      {%- break -%}
+    {%- endif -%}
+
+  {%- endfor -%}
+
+</div>
+

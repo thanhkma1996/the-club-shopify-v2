@@ -1,24 +1,24 @@
-<div class="product-faq">
-  <div class="product-faq--container">
-    <p class="h1">{{ 'products.faq.title' | t }}</p>
-      <div class="faq-accordion-group" data-simple-accordion>
-      {% for element in product.metafields.faq.faq_question %}
-        {%- assign question = product.metafields.faq.faq_question[forloop.index0] -%}
-        {%- assign answer = product.metafields.faq.faq_answer[forloop.index0] -%}
-        {%- assign id = forloop.index0 | prepend: 'prod-faq-' -%}
-        {%- if forloop.length > 3 -%}
-          {%- assign faq_hidden = true -%}
-        {%- else -%}
-          {%- assign faq_hidden = false -%}
-        {%- endif -%}
-
-        {%- include 'faq-item' with faq: true, faq_hidden, id -%}
-      {% endfor %}
-      </div>
-    {% if faq_hidden %}
-      <div class="col-xs-12 text-center">
-        <button type="button" class="btn btn-link js-show-faq">{{ 'products.faq.show_more' | t }}</button>
-      </div>
-    {% endif %}
-  </div>
+<div class="product-faq">
+  <div class="product-faq--container">
+    <p class="h1">{{ 'products.faq.title' | t }}</p>
+      <div class="faq-accordion-group" data-simple-accordion>
+      {% for element in product.metafields.faq.faq_question %}
+        {%- assign question = product.metafields.faq.faq_question[forloop.index0] -%}
+        {%- assign answer = product.metafields.faq.faq_answer[forloop.index0] -%}
+        {%- assign id = forloop.index0 | prepend: 'prod-faq-' -%}
+        {%- if forloop.length > 3 -%}
+          {%- assign faq_hidden = true -%}
+        {%- else -%}
+          {%- assign faq_hidden = false -%}
+        {%- endif -%}
+
+        {%- include 'faq-item' with faq: true, faq_hidden, id -%}
+      {% endfor %}
+      </div>
+    {% if faq_hidden %}
+      <div class="col-xs-12 text-center">
+        <button type="button" class="btn btn-link js-show-faq">{{ 'products.faq.show_more' | t }}</button>
+      </div>
+    {% endif %}
+  </div>
 </div>

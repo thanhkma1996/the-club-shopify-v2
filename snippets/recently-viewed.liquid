@@ -1,25 +1,25 @@
-{%- capture slideshow_settings %}
-{%- assign slide_sizes = show_count | default: '2 | 2 | 1' -%}
-{%- assign sizes = slide_sizes | split: '|' -%}
-  data-slides-show-desktop="{{ sizes[0]| strip }}"
-  data-slides-show-tablet="{{ sizes[1] | strip }}"
-  data-slides-show-mobile="{{ sizes[2] | strip }}"
-  data-infinite="false"
-
-{% endcapture -%}
-
-
-<div id="recently-viewed-products" class="collection clearfix" rv-class-hide="data.products | size | eq 0" class="hide">
-  <header class="section-header">
-    <h2 class="section-header__title">
-      <span>{{ 'products.product.recently_viewed' | t }}</span>
-    </h2>
-  </header>
-
-  <div class="recently-viewed-products__list" data-slideshow="Slideshow-{{ section.id }}{{ type }}"
-          {{ slideshow_settings }}>
-    <div rv-each-product="data.products" class="recently-viewed-products__item col-xs-12">
-      <div rv-data-index="$index" rv-product-grid-item="product"></div>
-    </div>
-  </div>
-</div>
+{%- capture slideshow_settings %}
+{%- assign slide_sizes = show_count | default: '2 | 2 | 1' -%}
+{%- assign sizes = slide_sizes | split: '|' -%}
+  data-slides-show-desktop="{{ sizes[0]| strip }}"
+  data-slides-show-tablet="{{ sizes[1] | strip }}"
+  data-slides-show-mobile="{{ sizes[2] | strip }}"
+  data-infinite="false"
+
+{% endcapture -%}
+
+
+<div id="recently-viewed-products" class="collection clearfix" rv-class-hide="data.products | size | eq 0" class="hide">
+  <header class="section-header">
+    <h2 class="section-header__title">
+      <span>{{ 'products.product.recently_viewed' | t }}</span>
+    </h2>
+  </header>
+
+  <div class="recently-viewed-products__list" data-slideshow="Slideshow-{{ section.id }}{{ type }}"
+          {{ slideshow_settings }}>
+    <div rv-each-product="data.products" class="recently-viewed-products__item col-xs-12">
+      <div rv-data-index="$index" rv-product-grid-item="product"></div>
+    </div>
+  </div>
+</div>

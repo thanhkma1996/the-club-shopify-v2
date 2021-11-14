@@ -1,0 +1,6 @@
+development:
+  password: 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
+  theme_id: "127598231730"
+  store: the-club-digitaloutlook.myshopify.com
+  ignore_files:
+    -config/settings_data.json

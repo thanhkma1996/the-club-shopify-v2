@@ -172,6 +172,7 @@
 
   {{ 'vendor.scss.css' | asset_url | stylesheet_tag }}
   {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'custom-styles.css' | asset_url | stylesheet_tag }}
   {% comment %}{{ 'custom.scss.css' | asset_url | stylesheet_tag }}{% endcomment %}
 
   {%- include 'snippet' with 'bc-sf-filter-style' -%}
