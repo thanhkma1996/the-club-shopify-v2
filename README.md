@@ -11,6 +11,8 @@
 + seup gulp-sass: npm install sass gulp-sass --save-dev ( cd folder and run with powershell )
 - 6.Run gulp watch
 - 7.Clean scss run witch CMD "npm install gulp-clean-css --save-dev" => gulp sass or gulp watch follow config file gulpfile.js
+# Note install gem if has error cannot load such file -- wdm
+- gem install wdm
 
 
 💻 HAPPY CODING!!! ❤️
