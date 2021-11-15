@@ -6,6 +6,7 @@
 + theme configure --store=the-club-digitaloutlook.myshopify.com --themeid=127598231730 --password=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
 - 4.Create package.json and install themekit https://www.npmjs.com/package/@shopify/themekit
 - 5.Install Gulpjs https://gulpjs.com/docs/en/getting-started/quick-start
++ npm -g install gulp-cli
 + npm install --save-dev gulp
 + seup gulp-sass: npm install sass gulp-sass --save-dev ( cd folder and run with powershell )
 - 6.Run gulp watch
