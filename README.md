@@ -1,6 +1,6 @@
 # Cac buoc download theme bang shopify CLI
 - 1.Cai đặt shopify cli: gem install shopify-cli sau đó check version xem đã cài được hay chưa
-- 2.shopify theme pull và lựa chọn theme cần pull về
+- 2.shopify theme pull và lựa chọn theme cần pull về ( shopify login --store johns-apparel.myshopify.com - login store)
 - 3.configure theme để chạy theme kit
 + theme -v
 + theme configure --store=the-club-digitaloutlook.myshopify.com --themeid=127598231730 --password=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
