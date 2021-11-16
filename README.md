@@ -14,25 +14,23 @@
 # Note install gem if has error cannot load such file -- wdm
 - gem install wdm
 # Bug shopify env
-Step 1 install:
-https://rubyinstaller.org/downloads/
-https://git-scm.com/downloads
+- Step 1 install:
++ https://rubyinstaller.org/downloads/
++ https://git-scm.com/downloads
 
-Step 2:
+- Step 2:
 
-right click ‘My Computer’ or ‘This PC’ then select ‘Properties’
-left click ‘Advanced system settings’
-click/open ‘Advanced’ tab
-click ‘Environmental Variables’
-under ‘User variables for [username] click ‘New’
-then type ‘SHOPIFY_CLI_STACKTRACE’ in the ‘Variable Name’
-and type ‘1’ on the ‘Variable Value’
-under ‘System variables’ do the same as 6 & 7
-Step 3 using cmd type or copy+paste the text below: (source: https://shopify.dev/themes/tools/cli)
-gem install shopify-cli
-gem install wdm
++ right click ‘My Computer’ or ‘This PC’ then select ‘Properties’
++ left click ‘Advanced system settings’
++ click/open ‘Advanced’ tab
++ click ‘Environmental Variables’
++ under ‘User variables for [username] click ‘New’
++ then type ‘SHOPIFY_CLI_STACKTRACE’ in the ‘Variable Name’ and type ‘1’ on the ‘Variable Value’ under ‘System variables’ do the same as 6 & 7
+- Step 3 using cmd type or copy+paste the text below: (source: https://shopify.dev/themes/tools/cli)
++ gem install shopify-cli
++ gem install wdm
 
-Step 4
+- Step 4
 Congratulations you’re good to go!
 
 💻 HAPPY CODING!!! ❤️
