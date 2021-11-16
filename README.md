@@ -33,4 +33,6 @@
 - Step 4
 Congratulations you’re good to go!
 
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted
+
 💻 HAPPY CODING!!! ❤️
